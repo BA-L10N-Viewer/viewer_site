@@ -1,0 +1,130 @@
+@import './base.css';
+
+#app-main {
+    height: 100%;
+}
+
+#app-top-navi-logo {
+    height: 3.5em;
+}
+
+.home-bulletin-div {
+    /* Modified from https://hina.loves.midokuni.com/ */
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid var(--color-ba-logo);
+    border-radius: 10px;
+}
+
+/* Momotalk */
+/* (Partially borrowed from blue-archive.io) */
+.momotalk-div {
+    max-width: 44em;
+    overflow: hidden;
+
+    margin-left: calc(50vw - 22em);
+    margin-right: calc(50vw - 22em);
+}
+
+@media only screen and (max-width: 700px) {
+    .momotalk-div {
+        margin-left: revert;
+        margin-right: revert;
+        width: calc(100vw - 2em);
+        max-width: 100%;
+    }
+}
+
+.momotalk-table {
+    width: 100%;
+}
+
+.momotalk-table, .momotalk-table thead th, .momotalk-table td {
+    border: 1px solid black;
+}
+
+.momotalk-table > thead {
+    margin-bottom: 5px;
+}
+
+.momotalk-header {
+    background-color: var(--color-ba-mmt);
+    display: block;
+    width: 100%;
+
+    margin-bottom: 5px;
+}
+
+.momotalk-header-p {
+    padding: 5px 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.momotalk-speaker, .scenario-speaker {
+    width: 6em;
+    text-align: center;
+}
+
+.momotalk-text, .scenario-text {
+    max-width: 20em
+}
+
+.momotalk-dialogue, .scenario-dialogue {
+    padding: 3px;
+    word-break: break-word;
+}
+
+.momotalk-dialogue-tr {
+    display: table-row;
+}
+
+.view-h1 {
+    font-size: 2em;
+}
+
+/* DialogueStudentXxx */
+.momotalk-dialogue-bg-white {
+    background-color: white;
+}
+
+.momotalk-dialogue-bg-green {
+    background-color: rgba(34, 139, 34, 0.8);
+}
+
+.momotalk-dialogue-bg-blue {
+    background-color: rgba(18, 138, 250, 0.7);
+}
+
+.momotalk-dialogue-sensei {
+    text-align: right;
+    font-weight: bold;
+}
+
+.momotalk-dialogue-sensei-td {
+    border-width: 3px;
+}
+
+
+/**/
+.scenario-cmd-title {
+    font-size: 1.4em;
+}
+
+.scenario-cmd-title-sub {
+    font-size: 1.2em;
+}
+
+.scenario-cmd-next-episode {
+    font-size: 1.4em;
+}
+
+.scenario-cmd-next-episode-sub {
+    font-size: 1.2em;
+}
+
+/* Ruby */
+ruby {font-size: 1.0em}
+rt {font-size:0.8em}
+

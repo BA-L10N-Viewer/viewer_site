@@ -1,0 +1,24 @@
+@import 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&family=Noto+Sans+SC:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Noto+Sans+Thai:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap';
+
+/* Blue Archive Color (SchaleDB, etc.) */
+:root {
+  --color-ba-logo: #128AFA;
+  --color-ba-mmt: #F19EAA;
+
+  /* --color-bs-* are from Bootstrap, see more below */
+  --color-bs-primary: #0d6efd
+}
+
+/* Fonts */
+*:lang(zh_CN) {font-family: "Noto Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif !important}
+*:lang(zh_TW) {font-family: "Noto Sans TC", "Microsoft JhengHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif}
+*:lang(en) {font-family: "Noto Sans", "Roboto", sans-serif !important}
+*:lang(jp), *:lang(ja) {font-family: "Noto Sans JP", sans-serif !important}
+*:lang(kr), *:lang(ko) {font-family: "Noto Sans KR", sans-serif !important}
+*:lang(th) {font-family: "Noto Sans Thai", sans-serif !important}
+
+/* Bootstrap (partially adopted) */
+a {color: var(--color-bs-primary)}
+
+/* Command */
+cmd-char {display: none}

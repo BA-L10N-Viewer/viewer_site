@@ -1,0 +1,8 @@
+{
+  "test": "Test",
+  "home-h1-1": "Welcome!",
+
+  "comp-scenario-datasheet-name": "Scenario Metadata Overview",
+
+  "comp-search-scenario-bond-p": "For dedicated character search, go to <a href=\"/search/character\">this</RouterLink>."
+}
