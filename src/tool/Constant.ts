@@ -1,8 +1,8 @@
-import type { NexonI18nData } from '@/tool/Type'
+import type { NexonL10nData } from '@/types/OutsourcedData'
 
 export const MOBILE_WIDTH = 800
 export const MOBILE_WIDTH_WIDER = 1200
-export const SITE_VERSION = "20240727"
+export const SITE_VERSION = '20240727'
 
 export const searchCascaderModeOptions = [
   {
@@ -61,7 +61,7 @@ export const nexonDataLangSelect = [
   { value: 'c_cn_tw', label: 'i18n-nexon-c-cn-tw' }
 ]
 
-export const NexonLangMapReverse: Dictionary<String[]> = {
+export const NexonLangMapReverse: Dictionary<string[]> = {
   'en': ['g_en'],
   'zh_TW': ['g_tw', 'c_zh', 'c_cn_tw'],
   'zh_CN': ['c_zh', 'g_tw_cn', 'c_cn'],
@@ -86,13 +86,13 @@ export const SchaleDbLangMap: Dictionary<string> = {
 }
 
 export const siteUiLangSelect = [
-  {label: "Chinese Simp. / 中文(简体)", value: "zh_CN"},
-  {label: "Chinese Trad. / 中文(繁体)", value: "zh_TW"},
-  {label: "English", value: "en"}
+  { label: 'Chinese Simp. / 中文(简体)', value: 'zh_CN' },
+  { label: 'Chinese Trad. / 中文(繁体)', value: 'zh_TW' },
+  { label: 'English', value: 'en' }
 ]
 
-export function getNexonI18nDataDefault(text: string = '[NO DATA]'): NexonI18nData {
-  const temp: NexonI18nData = {
+export function getNexonI18nDataDefault(text: string = '[NO DATA]'): NexonL10nData {
+  const temp: NexonL10nData = {
     j_ja: text, j_ko: text,
     g_ja: text, g_ko: text, g_tw: text, g_tw_cn: text, g_th: text, g_en: text,
     c_cn: text, c_cn_tw: text

@@ -5,9 +5,6 @@ import { useSetting } from '@/stores/setting'
 import { ref } from 'vue'
 
 const activeIndex = ref(window.location.pathname)
-const handleSelect = (key: string, keyPath: string[]) => {
-  // console.log(key, keyPath)
-}
 
 const settingStore = useSetting()
 document.getElementsByTagName('body')[0].lang = settingStore.ui_lang
@@ -26,7 +23,6 @@ document.getElementsByTagName('body')[0].lang = settingStore.ui_lang
             class="el-menu-demo"
             mode="horizontal"
             :ellipsis="true"
-            @select="handleSelect"
             router="router"
             background-color="#fff"
           >

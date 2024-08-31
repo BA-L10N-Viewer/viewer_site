@@ -1,7 +1,14 @@
-import type { NexonI18nData } from '@/tool/Type'
 import { getNexonI18nDataDefault, NexonLangMap } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
 import { httpGetBlocking } from '@/tool/HttpRequest'
+import type {
+  I18nBondInfoData,
+  I18nStoryInfoIdToXxhash,
+  I18nStoryXxhashToL10nData, IndexScenarioInfoToI18nId,
+  NexonL10nData,
+  NexonL10nDataLang,
+  SchaleDbL10nData, SchaleDbL10nDataLang
+} from '@/types/OutsourcedData'
 
 export function checkDialogueSensei(text: string) {
   if (text === 'Answer') return true
@@ -27,7 +34,7 @@ export function convertNewlineToBr(text: string): string {
   return text.replace(/\[\\n\]/g, '<br />')
 }
 
-export function getLangData(entry: NexonI18nData, key: string): string {
+export function getLangData(entry: NexonL10nData, key: NexonL10nDataLang): string {
   if (key in entry) return entry[key]
   else return ''
 }
@@ -41,27 +48,17 @@ export function getLangCode(lang: string): string {
   } else return lang_
 }
 
-export function getLangDataFlattened(entry: NexonI18nData, langs, splitter: string = ''): string {
+export function getLangDataFlattened(entry: NexonL10nData, langs: string[],
+                                     splitter: string = ''): string {
+  // 尽管这里说是 NexonL10nData 但实际上也可以是 SchaleDbL10nData
+  type entryLangKeys = keyof NexonL10nData
+
   let temp = ''
-  temp += entry[langs[0]] ? entry[langs[0]] : ''
+  if (langs.length >= 1) {temp += entry[langs[0] as entryLangKeys]}
   if (langs.length > 1) {
-    for (const idx in langs) {
-      let lang = ''
-
-      if (typeof idx === 'number') {
-        // 例如 i18nToUiLangAll 这种
-        lang = langs[idx]
-      } else {
-        // 例如 i18nToUiLangAll 这种
-        try {
-          lang = langs[Number(idx)]
-        } catch (e) {
-          lang = idx
-        }
-      }
-
+    for (const lang of langs) {
       if (lang !== langs[0]) {
-        temp += ` ${splitter} ${entry[lang] ? entry[lang] : ''}`
+        temp += ` ${splitter} ${entry[lang as entryLangKeys] ? entry[lang as entryLangKeys] : ''}`
       }
     }
   }
@@ -69,11 +66,11 @@ export function getLangDataFlattened(entry: NexonI18nData, langs, splitter: stri
   return temp
 }
 
-export function gotoStory(router, storyId: String | Number) {
+export function gotoStory(router: any, storyId: String | Number) {
   router.push({ name: 'scenario', params: { storyId: Number(storyId) } })
 }
 
-export function gotoMomotalkCharacter(router, charId: String | Number) {
+export function gotoMomotalkCharacter(router: any, charId: String | Number) {
   router.push({ name: 'momotalk', params: { charId: Number(charId) } })
 }
 
@@ -92,17 +89,17 @@ export function getScenarioI18nContent(scenarioId: Number) {
 
   if (sId.length === 7) {
     // bond
-    const data = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_bond.json'))
-    const temp: NexonI18nData[] = data[sId]
+    const data : I18nBondInfoData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_bond.json'))
+    const temp: NexonL10nData[] = data[sId]
     return temp ? temp : [defaultData, defaultData]
   } else {
-    const i18nData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_story.json'))
-    let data, data2, i18nKey;
+    const i18nData : I18nStoryXxhashToL10nData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_story.json'))
+    let data : IndexScenarioInfoToI18nId, data2: I18nStoryInfoIdToXxhash, i18nKey: string[] | number[];
 
     // main (side, main, short (700xxxxx))
     data = JSON.parse(httpGetBlocking('/data/common/index_scenario_i18n_main.json'))
     data2 = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_main_index.json'))
-    i18nKey = data[scenarioId]
+    i18nKey = data[sId]
     if (i18nKey) {
       i18nKey = [data2[i18nKey[0]], data2[i18nKey[1]]]
       return [i18nData[i18nKey[0]], i18nData[i18nKey[1]]]
@@ -111,13 +108,13 @@ export function getScenarioI18nContent(scenarioId: Number) {
     // event
     data = JSON.parse(httpGetBlocking('/data/common/index_scenario_i18n_event.json'))
     data2 = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_event_index.json'))
-    i18nKey = data[scenarioId]
+    i18nKey = data[sId]
     if (i18nKey) {
       i18nKey = [data2[i18nKey[0]], data2[i18nKey[1]]]
       return [i18nData[i18nKey[0]], i18nData[i18nKey[1]]]
     }
   }
 
-  return [defaultData, defaultData]
+  return defaultData
 }
 

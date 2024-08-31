@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { MOBILE_WIDTH, autoTranslateService, autoTranslateLanguage, nexonDataLangSelect } from '@/tool/Constant'
-import { watch, ref } from 'vue'
+import { defineProps, watch, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 
 const screenWidth = useWindowSize().width
@@ -10,6 +10,13 @@ const elRow12Span = ref(0)
 const elRow8Span = ref(0)
 
 const AUTO_TRANSLATE = false
+
+const props = defineProps({
+  show_ml: {
+    type: Boolean,
+    default: true // Set default value
+  }
+})
 
 watch(screenWidth, () => {
   if (screenWidth.value <= MOBILE_WIDTH) {
@@ -20,23 +27,6 @@ watch(screenWidth, () => {
     elRow8Span.value = 8
   }
 }, { immediate: true })
-</script>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent(
-  {
-    props: {
-      show_ml: {
-        type: Boolean,
-        required: false,
-        default: true
-      }
-    }
-  }
-)
-
 </script>
 
 <template>

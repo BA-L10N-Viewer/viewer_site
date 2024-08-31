@@ -1,39 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
-import { gotoStory } from '@/tool/StoryTool'
-import { useRouter } from 'vue-router'
 
-const router = useRouter()
-</script>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent(
-  {
-    props: {
-      data: {
-        required: true
-      },
-      data_no: {
-        type: Number,
-        required: true
-      }
-    },
-    computed: {
-      storyId() {
-        return this.data.id
-      },
-      storyName() {
-        return this.data.name
-      },
-      storyDesc() {
-        return this.data.desc
-      }
-    }
+const props = defineProps({
+  data: {
+    required: true
+  },
+  data_no: {
+    type: Number,
+    required: true
   }
-)
+})
+const storyId = computed(() => props.data.id)
+const storyName = computed(() => props.data.name)
+const storyDesc = computed(() => props.data.desc)
 </script>
+
 
 <template>
   <h3>

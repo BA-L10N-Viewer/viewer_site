@@ -1,30 +1,56 @@
 <script setup lang="ts">
 import DialogueStudent from '@/components/momotalk/DialogueStudent.vue'
-import { type Ref, ref, watch } from 'vue'
+import { computed, type PropType, type Ref, ref, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { NexonLangMap } from '@/tool/Constant'
-import { useRouter, useRoute } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import DialogueStudentMobile from '@/components/momotalk/DialogueStudentMobile.vue'
 import { getLangData } from '@/tool/StoryTool'
+import type {
+  MomotalkStoryDataDialog,
+  NexonL10nDataLang,
+  SchaleDbL10nData,
+  SchaleDbL10nDataLang
+} from '@/types/OutsourcedData'
+
+// --------------------- 初始化 ---------------------
+const props = defineProps({
+  data_dialog: {
+    type: {} as PropType<MomotalkStoryDataDialog>,
+    required: true
+  },
+  data_char: {
+    type: String,
+    required: true
+  },
+  char_name: {
+    type: {} as PropType<SchaleDbL10nData>,
+    required: true
+  },
+  bond_story_id: {
+    type: Number,
+    required: true
+  }
+})
+const charName = computed(() => props.char_name)
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
-const i18nL1: Ref = ref(setting.i18n_lang1)
-const i18nL2: Ref = ref(setting.i18n_lang2)
-const i18nL3: Ref = ref(setting.i18n_lang3)
-const langL1: Ref = ref(NexonLangMap[i18nL1.value])
-const langL2: Ref = ref(NexonLangMap[i18nL2.value])
-const langL3: Ref = ref(NexonLangMap[i18nL3.value])
+const i18nL1: Ref<NexonL10nDataLang> = ref(setting.i18n_lang1) as Ref<NexonL10nDataLang>
+const i18nL2: Ref<NexonL10nDataLang> = ref(setting.i18n_lang2) as Ref<NexonL10nDataLang>
+const i18nL3: Ref<NexonL10nDataLang> = ref(setting.i18n_lang3) as Ref<NexonL10nDataLang>
+const langL1: Ref<string> = ref(NexonLangMap[i18nL1.value])
+const langL2: Ref<string> = ref(NexonLangMap[i18nL2.value])
+const langL3: Ref<string> = ref(NexonLangMap[i18nL3.value])
 watch(
   () => {
     return [setting.i18n_lang1, setting.i18n_lang2, setting.i18n_lang3]
   },
   () => {
-    i18nL1.value = setting.i18n_lang1
-    i18nL2.value = setting.i18n_lang2
-    i18nL3.value = setting.i18n_lang3
+    i18nL1.value = setting.i18n_lang1 as NexonL10nDataLang
+    i18nL2.value = setting.i18n_lang2 as NexonL10nDataLang
+    i18nL3.value = setting.i18n_lang3 as NexonL10nDataLang
     langL1.value = NexonLangMap[i18nL1.value]
     langL2.value = NexonLangMap[i18nL2.value]
     langL3.value = NexonLangMap[i18nL3.value]
@@ -34,33 +60,6 @@ watch(
 
 // ------------------------------------------------
 const screenWidth = useWindowSize().width
-</script>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    data_dialog: {
-      required: true
-    },
-    data_char: {
-      required: true
-    },
-    char_name: {
-      required: true
-    },
-    bond_story_id: {
-      type: Number,
-      required: true
-    }
-  },
-  computed: {
-    charName() {
-      return this.char_name
-    }
-  }
-})
 </script>
 
 <template>

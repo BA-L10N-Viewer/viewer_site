@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Ref, ref, watch } from 'vue'
+import { type PropType, type Ref, ref, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { NexonLangMap } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'
@@ -7,6 +7,27 @@ import { MOBILE_WIDTH_WIDER } from '@/tool/Constant'
 import { getLangData } from '@/tool/StoryTool'
 import DialogueAuto from '@/components/scenario/desktop/DialogueAuto.vue'
 import DialogueAutoMobile from '@/components/scenario/mobile/DialogueAutoMobile.vue'
+import type {
+  CommonStoryDataDialog,
+  CommonStoryDataDialogDataType,
+  IndexScenarioCharacterDataEntry
+} from '@/types/OutsourcedData'
+
+// --------------------- 初始化 ---------------------
+const props = defineProps({
+  data_dialog: {
+    type: {} as PropType<CommonStoryDataDialog>,
+    required: true
+  },
+  data_char: {
+    type: {} as PropType<IndexScenarioCharacterDataEntry>,
+    required: true
+  },
+  data_type: {
+    type: String as PropType<CommonStoryDataDialogDataType>,
+    required: true
+  }
+})
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -33,25 +54,6 @@ watch(
 
 // ------------------------------------------------
 const screenWidth = useWindowSize().width
-</script>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    data_dialog: {
-      required: true
-    },
-    data_char: {
-      required: true
-    },
-    data_type: {
-      type: String,
-      required: true
-    }
-  }
-})
 </script>
 
 <template>

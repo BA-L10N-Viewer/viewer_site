@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { searchCascaderModeOptions } from '@/tool/Constant'
-import type { ElementPlusTree } from '@/tool/Type'
 import MomotalkSearch from '@/components/search/MomotalkSearch.vue'
 import ScenarioSearch from '@/components/search/ScenarioSearch.vue'
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
@@ -11,11 +10,6 @@ const cascaderMode = ref([])
 const cascaderOptions = searchCascaderModeOptions
 const cascaderProps = {}
 const i18n = useI18n()
-
-const checkTreeLeaf = (data: ElementPlusTree) => {
-  // either to have children or not
-  return !data.children || data.children?.length === 0;
-}
 
 const storySelect = ref('null')
 

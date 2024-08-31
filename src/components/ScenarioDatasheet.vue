@@ -1,12 +1,29 @@
 <script setup lang="ts">
+import { defineProps, computed, ref, type PropType } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 import type { ComponentSize } from 'element-plus'
-import { computed, ref } from 'vue'
 import { Iphone, Location, OfficeBuilding, Tickets, User } from '@element-plus/icons-vue'
-import { getLangDataFlattened } from '../tool/StoryTool'
-import { i18nLangAll } from '../tool/ConstantComputed'
+import { getLangDataFlattened } from '@/tool/StoryTool'
+import { i18nLangAll } from '@/tool/ConstantComputed'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { MOBILE_WIDTH_WIDER } from '@/tool/Constant'
+import type { NexonL10nData } from '@/types/OutsourcedData'
+
+const props = defineProps({
+  storyId: {
+    type: Number,
+    required: true
+  },
+  storyName: {
+    type: Object as PropType<NexonL10nData>, // Using PropType for complex types
+    required: true
+  },
+  storyDesc: {
+    type: Object as PropType<NexonL10nData>, // Using PropType for complex types
+    required: true
+  }
+})
 
 const i18n = useI18n()
 const windowSize = useWindowSize()
@@ -20,7 +37,7 @@ const iconStyle = computed(() => {
     small: '4px'
   }
   return {
-    marginRight: marginMap[size.value] || marginMap.default
+    marginRight: marginMap[String(size.value)] as String || marginMap.default
   }
 })
 const descColumn = computed(() => {
@@ -43,28 +60,6 @@ function getStoryType() {
 }
 </script>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useWindowSize } from '@vueuse/core'
-
-export default defineComponent(
-  {
-    'props': {
-      storyId: {
-        type: Number,
-        required: true
-      },
-      storyName: {
-        required: true
-      },
-      storyDesc: {
-        required: true
-      }
-    }
-  }
-)
-</script>
-
 <template>
   <el-descriptions
     class="margin-top"
@@ -79,7 +74,7 @@ export default defineComponent(
           <el-icon :style="iconStyle">
             <Reading />
           </el-icon>
-          {{$t('comp-scenario-datasheet-item-1')}}
+          {{ $t('comp-scenario-datasheet-item-1') }}
         </div>
       </template>
       <div class="item-content">{{ storyId }}</div>
@@ -90,10 +85,10 @@ export default defineComponent(
           <el-icon :style="iconStyle">
             <iphone />
           </el-icon>
-          {{$t('comp-scenario-datasheet-item-2')}}
+          {{ $t('comp-scenario-datasheet-item-2') }}
         </div>
       </template>
-      <div class="item-content">{{getStoryType()}}</div>
+      <div class="item-content">{{ getStoryType() }}</div>
     </el-descriptions-item>
 
     <!-- Story Name/Desc -->
@@ -103,7 +98,7 @@ export default defineComponent(
           <el-icon :style="iconStyle">
             <tickets />
           </el-icon>
-          {{$t('comp-scenario-datasheet-item-3')}}
+          {{ $t('comp-scenario-datasheet-item-3') }}
         </div>
       </template>
       <div class="item-content"><span v-html="getLangDataFlattened(storyName, i18nLangAll, '<br />')"></span></div>
@@ -114,7 +109,7 @@ export default defineComponent(
           <el-icon :style="iconStyle">
             <tickets />
           </el-icon>
-          {{$t('comp-scenario-datasheet-item-4')}}
+          {{ $t('comp-scenario-datasheet-item-4') }}
         </div>
       </template>
       <div class="item-content"><span v-html="getLangDataFlattened(storyDesc, i18nLangAll, '<br />')"></span></div>

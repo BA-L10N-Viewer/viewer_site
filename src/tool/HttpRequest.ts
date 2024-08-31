@@ -5,7 +5,7 @@ const MAX_RETRY_DEPTH = 10
 
 export function httpGetBlocking(url: string, depth: number = 0) {
   if (depth > MAX_RETRY_DEPTH) {
-    throw new Error('failed to blocking get ' + url)
+    return ""
   }
 
   const xhr = new XMLHttpRequest()

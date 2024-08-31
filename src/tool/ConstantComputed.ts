@@ -1,10 +1,10 @@
 import { useSetting } from '@/stores/setting'
-import { computed, ref, type Ref } from 'vue'
+import { computed } from 'vue'
 import { NexonLangMap } from '@/tool/Constant'
 
 
 export const i18nLangAll = computed(
-  (): [String, String, String] => {
+  (): [string, string, string] => {
     const setting = useSetting()
     const i18nL1 = setting.i18n_lang1
     const i18nL2 = setting.i18n_lang2
@@ -14,7 +14,7 @@ export const i18nLangAll = computed(
 )
 
 export const i18nToUiLangAll = computed(
-  (): [String, String, String] => {
+  (): [string, string, string] => {
     const setting = useSetting()
     const langL1 = NexonLangMap[setting.i18n_lang1]
     const langL2 = NexonLangMap[setting.i18n_lang2]

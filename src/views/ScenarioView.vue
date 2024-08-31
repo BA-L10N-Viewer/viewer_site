@@ -12,7 +12,7 @@ const scenarioID = useRoute().params.storyId
 
 const scenarioNameDesc = getScenarioI18nContent(Number(scenarioID))
 
-defineProps({
+const props = defineProps({
   storyId: Number
 })
 </script>

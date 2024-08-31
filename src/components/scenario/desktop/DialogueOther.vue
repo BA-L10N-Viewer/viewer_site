@@ -1,37 +1,33 @@
 <script setup lang="ts">
 /* title place st stm nextEpisode na */
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
-</script>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+import { defineProps } from 'vue'
 
-export default defineComponent({
-  props: {
-    dialogueLang: {
-      type: String,
-      required: true
-    },
-    dialogueContent: {
-      type: String,
-      required: true
-    },
-    dialogueSelectionGroup: {
-      type: Number,
-      required: true
-    },
-    dialogueSelectionToGroup: {
-      type: Number,
-      required: true
-    },
-    dialogueDataType: {
-      type: String,
-      required: true
-    },
-    dialogueTextColor: {
-      type: String,
-      required: true
-    }
+const props = defineProps({
+  dialogueLang: {
+    type: String,
+    required: true
+  },
+  dialogueContent: {
+    type: String,
+    required: true
+  },
+  dialogueSelectionGroup: {
+    type: Number,
+    required: true
+  },
+  dialogueSelectionToGroup: {
+    type: Number,
+    required: true
+  },
+  dialogueDataType: {
+    type: String,
+    required: true
+  },
+  dialogueTextColor: {
+    type: String,
+    required: true
   }
 })
 </script>

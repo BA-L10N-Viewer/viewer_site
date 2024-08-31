@@ -1,14 +1,25 @@
 <script setup lang="ts">
-import DialogueStudent from '@/components/momotalk/DialogueStudent.vue'
 import { useSetting } from '@/stores/setting'
-import { type Ref, ref, watch } from 'vue'
+import { defineProps, type Ref, ref, watch } from 'vue'
 import { NexonLangMap } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
-import type { NexonI18nData, NexonMomotalkData } from '@/tool/Type'
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import MomotalkDialogue from '@/components/momotalk/MomotalkDialogue.vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
+import type { MomotalkStoryData, StudentInfoDataSimple } from '@/types/OutsourcedData'
+
+// --------------------- 初始化 ---------------------
+const props = defineProps({
+  data_charid: {
+    type: String,
+    required: true
+  },
+  data_mmtidx: {
+    type: Number,
+    required: true
+  }
+})
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -35,33 +46,11 @@ watch(
 // ------------------------------------------------
 const router = useRoute()
 
-let mmtData: [NexonMomotalkData] = JSON.parse(httpGetBlocking(`/data/story/momotalk/${router.params.charId}.json`))
-const charData = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
+let mmtData: MomotalkStoryData = JSON.parse(httpGetBlocking(`/data/story/momotalk/${router.params.charId}.json`))
+const charData : StudentInfoDataSimple = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
 const charName = charData[String(router.params.charId)]['Name']
 
-function getLangData(entry: NexonI18nData, key: string): string {
-  if (key in entry) return entry[key]
-  else return ''
-}
-
 const screenWidth = useWindowSize().width
-</script>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    data_charid: {
-      type: String,
-      required: true
-    },
-    data_mmtidx: {
-      type: Number,
-      required: true
-    }
-  }
-})
 </script>
 
 <template>

@@ -2,48 +2,41 @@
 import DialogueNormal from '@/components/scenario/desktop/DialogueNormal.vue'
 import DialogueOption from '@/components/scenario/desktop/DialogueOption.vue'
 import DialogueOther from '@/components/scenario/desktop/DialogueOther.vue'
-</script>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+import { computed } from 'vue'
 import { replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
-export default defineComponent( {
-  props: {
-    dialogueLang: {
-      type: String,
-      required: true
-    },
-    dialogueCharacter: {
-      required: true
-    },
-    dialogueContent: {
-      type: String,
-      required: true
-    },
-    dialogueSelectionGroup: {
-      type: Number,
-      required: true
-    },
-    dialogueSelectionToGroup: {
-      type: Number,
-      required: true
-    },
-    dialogueDataType: {
-      type: String,
-      required: true
-    },
-    dialogueTextColor: {
-      type: String,
-      required: true
-    }
+const props = defineProps({
+  dialogueLang: {
+    type: String,
+    required: true
   },
-  computed: {
-    dialogueContent2() {
-      return replaceStoryLineUsernameBlank(this.dialogueContent)
-    }
+  dialogueCharacter: {
+    required: true
+  },
+  dialogueContent: {
+    type: String,
+    required: true
+  },
+  dialogueSelectionGroup: {
+    type: Number,
+    required: true
+  },
+  dialogueSelectionToGroup: {
+    type: Number,
+    required: true
+  },
+  dialogueDataType: {
+    type: String,
+    required: true
+  },
+  dialogueTextColor: {
+    type: String,
+    required: true
   }
 })
+
+const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dialogueContent))
 </script>
 
 <template>

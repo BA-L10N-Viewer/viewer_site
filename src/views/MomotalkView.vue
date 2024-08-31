@@ -1,24 +1,22 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { type Ref, ref } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
-import type { NexonMomotalkData } from '@/tool/Type'
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
+import type { MomotalkStoryData } from '@/types/OutsourcedData'
 
-const { t } = useI18n()
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
 
-defineProps({
+const props = defineProps({
   charId: Number
 })
 
 // ---------------------------------------
-const mmtData: [NexonMomotalkData] = JSON.parse(httpGetBlocking(`/data/story/momotalk/${route.params.charId}.json`))
+const mmtData: MomotalkStoryData = JSON.parse(httpGetBlocking(`/data/story/momotalk/${route.params.charId}.json`))
 let mmtStatus: Ref<boolean[]> = ref([false, false, false, false, false, false])
 </script>
 

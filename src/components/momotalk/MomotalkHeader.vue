@@ -1,28 +1,39 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { NexonLangMap } from '@/tool/Constant'
-import type { NexonI18nData, NexonMomotalkData } from '@/tool/Type'
 import { httpGetBlocking } from '@/tool/HttpRequest'
-import { type Ref, ref, watch } from 'vue'
+import { defineProps, type Ref, ref, watch } from 'vue'
+import type { I18nBondInfoData, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+
+const props = defineProps({
+  data_no: {
+    type: Number,
+    required: true
+  },
+  data_mmtid: {
+    type: Number,
+    required: true
+  }
+})
 
 const setting = useSetting()
 
-const i18nL1: Ref = ref(setting.i18n_lang1)
-const i18nL2: Ref = ref(setting.i18n_lang2)
-const i18nL3: Ref = ref(setting.i18n_lang3)
+const i18nL1: Ref<NexonL10nDataLang> = ref(setting.i18n_lang1 as NexonL10nDataLang)
+const i18nL2: Ref<NexonL10nDataLang> = ref(setting.i18n_lang2 as NexonL10nDataLang)
+const i18nL3: Ref<NexonL10nDataLang> = ref(setting.i18n_lang3 as NexonL10nDataLang)
 
-const langL1: Ref = ref(NexonLangMap[i18nL1.value])
-const langL2: Ref = ref(NexonLangMap[i18nL2.value])
-const langL3: Ref = ref(NexonLangMap[i18nL3.value])
+const langL1: Ref<string> = ref(NexonLangMap[i18nL1.value])
+const langL2: Ref<string> = ref(NexonLangMap[i18nL2.value])
+const langL3: Ref<string> = ref(NexonLangMap[i18nL3.value])
 
 watch(
   () => {
     return [setting.i18n_lang1, setting.i18n_lang2, setting.i18n_lang3]
   },
   () => {
-    i18nL1.value = setting.i18n_lang1
-    i18nL2.value = setting.i18n_lang2
-    i18nL3.value = setting.i18n_lang3
+    i18nL1.value = setting.i18n_lang1 as NexonL10nDataLang
+    i18nL2.value = setting.i18n_lang2 as NexonL10nDataLang
+    i18nL3.value = setting.i18n_lang3 as NexonL10nDataLang
     langL1.value = NexonLangMap[i18nL1.value]
     langL2.value = NexonLangMap[i18nL2.value]
     langL3.value = NexonLangMap[i18nL3.value]
@@ -30,24 +41,7 @@ watch(
   {immediate: true}
 )
 
-const mmtI18nData: { number: [NexonI18nData] } = JSON.parse(httpGetBlocking(`/data/story/i18n/i18n_bond.json`))
-</script>
-
-<script lang="ts">
-import { defineComponent, type PropType } from 'vue'
-
-export default defineComponent({
-  props: {
-    'data_no': {
-      type: Number,
-      required: true
-    },
-    'data_mmtid': {
-      type: Number,
-      required: true
-    }
-  }
-})
+const mmtI18nData: I18nBondInfoData = JSON.parse(httpGetBlocking(`/data/story/i18n/i18n_bond.json`))
 </script>
 
 <template>

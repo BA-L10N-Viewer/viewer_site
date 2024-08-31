@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import MomotalkSearch from '@/components/search/MomotalkSearch.vue'
 </script>
 

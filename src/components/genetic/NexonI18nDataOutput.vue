@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { ref, type Ref, watch } from 'vue'
+import { defineProps, ref, type Ref, watch } from 'vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
+
+const props = defineProps({
+  data: {
+    required: true
+  },
+  htmlElementName: {
+    type: String,
+    default: 'span'
+  }
+})
 
 const setting = useSetting()
 
@@ -30,22 +40,6 @@ watch(
   },
   {immediate: true}
 )
-</script>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  props: {
-    data: {
-      required: true
-    },
-    htmlElementName: {
-      type: String,
-      default: "span"
-    }
-  }
-})
 </script>
 
 <template>

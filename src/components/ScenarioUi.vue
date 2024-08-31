@@ -3,11 +3,10 @@ import { useSetting } from '@/stores/setting'
 import { type Ref, ref, watch } from 'vue'
 import { MOBILE_WIDTH_WIDER, NexonLangMap } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
-import type { NexonI18nData, NexonMomotalkData } from '@/tool/Type'
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '@/tool/Constant'
 import ScenarioDialogue from '@/components/scenario/ScenarioDialogue.vue'
+import type { CommonStoryDataDialog, IndexScenarioCharacterData } from '@/types/OutsourcedData'
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -34,10 +33,10 @@ watch(
 // ------------------------------------------------
 const router = useRoute()
 
-let scenarioData: [] = JSON.parse(httpGetBlocking(`/data/story/normal/${router.params.storyId}.json`))
-let scenarioChar = JSON.parse(httpGetBlocking(`/data/common/index_scenario_char.json`))
+let scenarioData: CommonStoryDataDialog[] = JSON.parse(httpGetBlocking(`/data/story/normal/${router.params.storyId}.json`))
+let scenarioChar: IndexScenarioCharacterData = JSON.parse(httpGetBlocking(`/data/common/index_scenario_char.json`))
 
-function getCharName(entry) {
+function getCharName(entry: CommonStoryDataDialog) {
   const charId = String(entry.CharacterId)
   if (charId !== '-1') {
     const data = scenarioChar[charId]
@@ -49,15 +48,7 @@ function getCharName(entry) {
   }
 }
 
-function getLangData(entry: NexonI18nData, key: string): string {
-  if (key in entry) return entry[key]
-  else return ''
-}
-
 const screenWidth = useWindowSize().width
-</script>
-
-<script lang="ts">
 </script>
 
 <template>

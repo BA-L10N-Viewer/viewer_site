@@ -2,9 +2,9 @@
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { SchaleDbI18nData } from '@/tool/Type'
 import MomotalkSearchEntry from '@/components/search/MomotalkSearchEntry.vue'
 import { useSetting } from '@/stores/setting'
+import type { SchaleDbL10nData, StudentInfoDataSimple, StudentInfoDataSimpleEntry } from '@/types/OutsourcedData'
 
 const i18n = useI18n()
 const setting = useSetting()
@@ -12,24 +12,21 @@ const setting = useSetting()
 const inputQuery = ref('')
 const showContent = ref(false)
 
-const charDataRaw = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
-let charData = ref([])
+const charDataRaw : StudentInfoDataSimple = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
+let charData = ref<StudentInfoDataSimpleEntry[]>([])
 
 function updateCharData() {
-  const checkInput = (entry: SchaleDbI18nData) => {
-    for (const key in entry) {
-      if (entry[key].toLowerCase().includes(inputQuery.value.toLowerCase())) {
-        return true
-      }
-    }
-    return false
+  const checkInput = (entry: SchaleDbL10nData) => {
+    return Object.keys(entry).some((key) => {
+      const value = entry[key as keyof SchaleDbL10nData];
+      return value.toLowerCase().includes(inputQuery.value.toLowerCase());
+    });
   }
 
   let temp = []
-  for (const key in charDataRaw) {
-    const value = charDataRaw[String(key)]
-    if (checkInput(value['Name'])) {
-      temp.push(value)
+  for (const entry of charDataRaw) {
+    if (checkInput(entry['Name'])) {
+      temp.push(entry)
     }
   }
   charData.value = temp
