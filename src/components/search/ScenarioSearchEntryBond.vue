@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
+import type { I18nBondInfoDataEntry } from '@/types/OutsourcedData'
 
 const props = defineProps({
   data: {
+    type: {} as PropType<I18nBondInfoDataEntry>,
     required: true
   },
   data_no: {

@@ -3,7 +3,7 @@ import { useSetting } from '@/stores/setting'
 import { NexonLangMap } from '@/tool/Constant'
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import { defineProps, type Ref, ref, watch } from 'vue'
-import type { I18nBondInfoData, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { I18nBondInfoData, NexonL10nDataLang } from '@/types/OutsourcedData'
 
 const props = defineProps({
   data_no: {

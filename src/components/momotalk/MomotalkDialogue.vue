@@ -11,7 +11,6 @@ import type {
   MomotalkStoryDataDialog,
   NexonL10nDataLang,
   SchaleDbL10nData,
-  SchaleDbL10nDataLang
 } from '@/types/OutsourcedData'
 
 // --------------------- 初始化 ---------------------
