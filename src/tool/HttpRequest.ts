@@ -18,3 +18,16 @@ export function httpGetBlocking(url: string, depth: number = 0) {
     return httpGetBlocking(url, depth + 1)
   }
 }
+
+export async function httpGetAsync(url: string, depth: number = 0) {
+  if (depth > MAX_RETRY_DEPTH) {
+    return ""
+  }
+
+  const res = await fetch(url + `?v=${SITE_VERSION}`)
+  if (res.status === 200) {
+    return await res.text()
+  } else {
+    return await httpGetAsync(url, depth + 1)
+  }
+}

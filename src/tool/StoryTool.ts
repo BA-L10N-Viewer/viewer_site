@@ -1,6 +1,6 @@
 import { getNexonI18nDataDefault, NexonLangMap } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
-import { httpGetBlocking } from '@/tool/HttpRequest'
+import { httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
 import type {
   I18nBondInfoData,
   I18nStoryInfoIdToXxhash,
@@ -82,23 +82,23 @@ export function replaceStoryLineUsernameBlank(text: String) {
   return text.replaceAll('[USERNAME]', username)
 }
 
-export function getScenarioI18nContent(scenarioId: Number) {
+export async function getScenarioI18nContent(scenarioId: Number) {
   const sId = String(scenarioId)
   const defaultData = [getNexonI18nDataDefault(`[NO DATA for ${scenarioId}'s Name]`),
     getNexonI18nDataDefault(`[NO DATA for ${scenarioId}'s Desc]`)]
 
   if (sId.length === 7) {
     // bond
-    const data : I18nBondInfoData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_bond.json'))
+    const data : I18nBondInfoData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_bond.json'))
     const temp: NexonL10nData[] = data[sId]
     return temp ? temp : [defaultData, defaultData]
   } else {
-    const i18nData : I18nStoryXxhashToL10nData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_story.json'))
+    const i18nData : I18nStoryXxhashToL10nData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_story.json'))
     let data : IndexScenarioInfoToI18nId, data2: I18nStoryInfoIdToXxhash, i18nKey: string[] | number[];
 
     // main (side, main, short (700xxxxx))
-    data = JSON.parse(httpGetBlocking('/data/common/index_scenario_i18n_main.json'))
-    data2 = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_main_index.json'))
+    data = JSON.parse(await httpGetAsync('/data/common/index_scenario_i18n_main.json'))
+    data2 = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_main_index.json'))
     i18nKey = data[sId]
     if (i18nKey) {
       i18nKey = [data2[i18nKey[0]], data2[i18nKey[1]]]
@@ -106,8 +106,8 @@ export function getScenarioI18nContent(scenarioId: Number) {
     }
 
     // event
-    data = JSON.parse(httpGetBlocking('/data/common/index_scenario_i18n_event.json'))
-    data2 = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_event_index.json'))
+    data = JSON.parse(await httpGetAsync('/data/common/index_scenario_i18n_event.json'))
+    data2 = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_event_index.json'))
     i18nKey = data[sId]
     if (i18nKey) {
       i18nKey = [data2[i18nKey[0]], data2[i18nKey[1]]]
