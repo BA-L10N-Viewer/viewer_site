@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 
 const props = defineProps({
@@ -14,6 +15,8 @@ const props = defineProps({
 const storyId = computed(() => props.data.id)
 const storyName = computed(() => props.data.name)
 const storyDesc = computed(() => props.data.desc)
+
+const router = useRouter()
 </script>
 
 
@@ -24,8 +27,8 @@ const storyDesc = computed(() => props.data.desc)
     <span>{{ data_no }}.&nbsp;</span>
     <NexonI18nDataOutput :data="storyName" />
     <span>&nbsp;</span>
-    <el-button type="primary" class="btn-view-story"
-               tag="a" :href="`/scenario/` + storyId" target="_blank">{{$t('comp-search-result-btn-view')}}
+    <el-button type="primary" class="btn-view-story" tag="a"
+               @click="router.push({name: 'scenario', params: {storyId: storyId}})">{{$t('comp-search-result-btn-view')}}
     </el-button>
   </h3>
   <p>{{$t('comp-search-result-desc')}}</p>

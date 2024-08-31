@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
@@ -19,6 +19,7 @@ import type {
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'
 import type { HTMLOptionData } from '@/types/CommonType'
+import { useSearchVars } from '@/stores/search'
 
 const selectType = ref('')
 const i18n = useI18n()
@@ -52,6 +53,7 @@ const selectMainVolume = ref('')
 const selectMainChapter = ref('')
 
 const setting = useSetting()
+const searchCache = useSearchVars()
 const uiLang = ref(setting.ui_lang)
 
 
@@ -355,7 +357,21 @@ watch(
   }
 )
 
-
+/* 搜索内容缓存 (instance 级) */
+onMounted(() => {
+  selectType.value = searchCache.n_selectType
+  selectEventName.value = searchCache.n_selectEventName
+  selectBondChar.value = searchCache.n_selectBondChar
+  selectMainVolume.value = searchCache.n_selectMainVolume
+  selectMainChapter.value = searchCache.n_selectMainChapter
+})
+watch(
+  () => [selectType.value, selectEventName.value, selectBondChar.value, selectMainVolume.value, selectMainChapter.value],
+  () => {
+    searchCache.setNormalSearchVars(selectType.value, selectEventName.value, selectBondChar.value,
+      selectMainVolume.value, selectMainChapter.value)
+  }
+)
 </script>
 
 <template>

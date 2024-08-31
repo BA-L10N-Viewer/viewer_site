@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { httpGetBlocking } from '@/tool/HttpRequest'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import MomotalkSearchEntry from '@/components/search/MomotalkSearchEntry.vue'
 import { useSetting } from '@/stores/setting'
 import type { SchaleDbL10nData, StudentInfoDataSimple, StudentInfoDataSimpleEntry } from '@/types/OutsourcedData'
+import { useSearchVars } from '@/stores/search'
 
 const i18n = useI18n()
 const setting = useSetting()
+const searchCache = useSearchVars()
 
 const inputQuery = ref('')
 const showContent = ref(false)
@@ -24,7 +26,7 @@ function updateCharData() {
   }
 
   let temp = []
-  for (const entry of charDataRaw) {
+  for (const entry of Object.values(charDataRaw)) {
     if (checkInput(entry['Name'])) {
       temp.push(entry)
     }
@@ -47,6 +49,18 @@ watch(
   () => inputQuery.value,
   (newValue) => {
     showContent.value = newValue.length >= 2;
+  }
+)
+
+/* 搜索内容缓存 (instance 级) */
+onMounted(() => {
+  inputQuery.value = searchCache.m_inputQuery
+  updateCharData()
+})
+watch(
+  () => [inputQuery.value],
+  () => {
+    searchCache.setMomotalkSearchVars(inputQuery.value)
   }
 )
 </script>

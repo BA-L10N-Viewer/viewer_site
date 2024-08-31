@@ -1,16 +1,6 @@
-import { ref, computed, watch } from 'vue'
+import { watch } from 'vue'
 import { defineStore } from 'pinia'
 import { getUserLang, convertLangToNormal } from '../tool/BrowserTool'
-
-
-function getLocalStorage(key: string, default_: string) {
-  const result = localStorage.getItem(key)
-  if (result === null) {
-    localStorage.setItem(key, default_)
-    return default_
-  }
-  return result
-}
 
 
 export const useSetting = defineStore('setting', {

@@ -1,21 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { searchCascaderModeOptions } from '@/tool/Constant'
 import MomotalkSearch from '@/components/search/MomotalkSearch.vue'
 import ScenarioSearch from '@/components/search/ScenarioSearch.vue'
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { useI18n } from 'vue-i18n'
+import { useSearchVars } from '@/stores/search'
 
-const cascaderMode = ref([])
+const cascaderMode = ref<any[]>([])
 const cascaderOptions = searchCascaderModeOptions
 const cascaderProps = {}
+
 const i18n = useI18n()
+const searchCache = useSearchVars()
 
-const storySelect = ref('null')
-
-const resetFilter = () => {
-  storySelect.value = "null"
-}
+/* 搜索内容缓存 (instance 级) */
+onMounted(() => {
+  cascaderMode.value = searchCache.s_cascaderMode as any[]
+})
+watch(
+  () => cascaderMode.value,
+  () => {
+    searchCache.setSearchModeVars(cascaderMode.value as [])
+  }
+)
 </script>
 
 <template>
@@ -30,7 +38,6 @@ const resetFilter = () => {
       :props="cascaderProps"
       :size="'default'"
       :show-all-levels="true"
-      @change="resetFilter"
     >
       <template #default="{ node, data }">
         <span>{{ $t('search-cascader-' + data.value) }}</span>
@@ -39,22 +46,7 @@ const resetFilter = () => {
     </el-cascader>
   </client-only>
   <p v-show="cascaderMode.length != 0" v-html="i18n.t('search-step-2')"></p>
+
   <ScenarioSearch v-if="cascaderMode[0] === 'story'" />
-  <!--
-  <el-tree
-    style="max-width: 600px"
-    :data="searchCascaderStoryOptions"
-    accordion
-    v-if="cascaderMode[0] === 'story'"
-    filterable
-    @node-click="(data: ElementPlusTree) => {storySelect = checkTreeLeaf(data) ? data.label : 'null'}"
-    @node-contextmenu="(data: ElementPlusTree) => {storySelect = checkTreeLeaf(data) ? data.label : 'null'}"
-  >
-    <template #default="{ node, data }">
-      <span>{{ $t(data.label) }}</span>
-      <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
-    </template>
-  </el-tree>
-  -->
-  <MomotalkSearch v-if="cascaderMode[0] == 'mmt'" />
+  <MomotalkSearch v-if="cascaderMode[0] === 'mmt'" />
 </template>
