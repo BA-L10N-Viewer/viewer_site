@@ -8,10 +8,10 @@ import { MOBILE_WIDTH } from '@/tool/Constant'
 import DialogueStudentMobile from '@/components/momotalk/DialogueStudentMobile.vue'
 import { getLangData } from '@/tool/StoryTool'
 import type {
-  MomotalkStoryDataDialog,
+  MomotalkStoryDataDialog, NexonL10nData,
   NexonL10nDataLang,
-  SchaleDbL10nData,
 } from '@/types/OutsourcedData'
+import { useRouter } from 'vue-router'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -24,7 +24,7 @@ const props = defineProps({
     required: true
   },
   char_name: {
-    type: {} as PropType<SchaleDbL10nData>,
+    type: {} as PropType<NexonL10nData>,
     required: true
   },
   bond_story_id: {
@@ -59,6 +59,7 @@ watch(
 
 // ------------------------------------------------
 const screenWidth = useWindowSize().width
+const router = useRouter()
 </script>
 
 <template>
@@ -104,7 +105,8 @@ const screenWidth = useWindowSize().width
   <tr class="momotalk-dialogue-tr" v-if="data_dialog.FavorScheduleId !== 0">
     <td :colspan="screenWidth >= MOBILE_WIDTH ? 6 : 2"
         style="text-align: center; background-color: var(--color-ba-mmt); font-size: 1.2em;">
-      <b><a :href="'/scenario/' + bond_story_id" target="_blank">前往故事</a></b>
+      <b><a @click="router.push({name: 'scenario', params: {storyId: bond_story_id}})"
+            href="javascript: void 0">前往故事</a></b>
     </td>
   </tr>
 </template>

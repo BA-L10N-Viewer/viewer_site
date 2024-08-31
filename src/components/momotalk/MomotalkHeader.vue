@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { NexonLangMap } from '@/tool/Constant'
-import { httpGetBlocking } from '@/tool/HttpRequest'
-import { defineProps, type Ref, ref, watch } from 'vue'
-import type { I18nBondInfoData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import { defineProps, type PropType, type Ref, ref, watch } from 'vue'
+import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 
 const props = defineProps({
   data_no: {
@@ -12,6 +11,10 @@ const props = defineProps({
   },
   data_mmtid: {
     type: Number,
+    required: true
+  },
+  data_l10n: {
+    type: {} as PropType<NexonL10nData>,
     required: true
   }
 })
@@ -40,8 +43,6 @@ watch(
   },
   {immediate: true}
 )
-
-const mmtI18nData: I18nBondInfoData = JSON.parse(httpGetBlocking(`/data/story/i18n/i18n_bond.json`))
 </script>
 
 <template>
@@ -49,10 +50,10 @@ const mmtI18nData: I18nBondInfoData = JSON.parse(httpGetBlocking(`/data/story/i1
   <span>&nbsp;&nbsp;</span>
   <span>
     <span>{{ data_no + 1 }}.&nbsp;</span>
-    <span :lang="langL1">{{ mmtI18nData[data_mmtid][0][i18nL1] }}</span>
+    <span :lang="langL1">{{ data_l10n[i18nL1] }}</span>
     <span>&nbsp;/&nbsp;</span>
-    <span :lang="langL2">{{ mmtI18nData[data_mmtid][0][i18nL2] }}</span>
+    <span :lang="langL2">{{ data_l10n[i18nL2] }}</span>
     <span>&nbsp;/&nbsp;</span>
-    <span :lang="langL3">{{ mmtI18nData[data_mmtid][0][i18nL3] }}</span>
+    <span :lang="langL3">{{ data_l10n[i18nL3] }}</span>
   </span>
 </template>

@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { defineProps, type Ref, ref, watch } from 'vue'
+import { defineProps, type PropType, type Ref, ref, watch } from 'vue'
 import { NexonLangMap } from '@/tool/Constant'
-import { useRoute } from 'vue-router'
-import { httpGetBlocking } from '@/tool/HttpRequest'
 import MomotalkDialogue from '@/components/momotalk/MomotalkDialogue.vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
-import type { MomotalkStoryData, StudentInfoDataSimple } from '@/types/OutsourcedData'
+import type {
+  MomotalkStoryDataEntry,
+  NexonL10nData,
+} from '@/types/OutsourcedData'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
-  data_charid: {
-    type: String,
+  data_data: {
+    type: {} as PropType<MomotalkStoryDataEntry>,
     required: true
   },
-  data_mmtidx: {
-    type: Number,
+  data_charname: {
+    type: {} as PropType<NexonL10nData>,
     required: true
   }
 })
@@ -44,11 +45,8 @@ watch(
   { immediate: true }
 )
 // ------------------------------------------------
-const router = useRoute()
-
-let mmtData: MomotalkStoryData = JSON.parse(httpGetBlocking(`/data/story/momotalk/${router.params.charId}.json`))
-const charData : StudentInfoDataSimple = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
-const charName = charData[String(router.params.charId)]['Name']
+const mmtData = props.data_data
+const charName = props.data_charname
 
 const screenWidth = useWindowSize().width
 </script>
@@ -75,9 +73,9 @@ const screenWidth = useWindowSize().width
       <th scope="col">{{$t('comp-mmt-ui-table-th-l3')}}</th>
     </tr>
     </thead>
-    <MomotalkDialogue v-for="(entry, index) in mmtData[data_mmtidx]['Data']" :key="index"
+    <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
-                      :bond_story_id="mmtData[data_mmtidx]['BondScenarioId']"/>
+                      :bond_story_id="mmtData['BondScenarioId']"/>
   </table>
   <table class="momotalk-table" v-if="screenWidth < MOBILE_WIDTH">
     <thead>
@@ -86,9 +84,9 @@ const screenWidth = useWindowSize().width
       <th scope="col">{{$t('comp-mmt-ui-table-th-l4')}}</th>
     </tr>
     </thead>
-    <MomotalkDialogue v-for="(entry, index) in mmtData[data_mmtidx]['Data']" :key="index"
+    <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
-                      :bond_story_id="mmtData[data_mmtidx]['BondScenarioId']" />
+                      :bond_story_id="mmtData['BondScenarioId']" />
   </table>
 </template>
 

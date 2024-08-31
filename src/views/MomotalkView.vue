@@ -6,7 +6,7 @@ import { useRoute } from 'vue-router'
 import { httpGetBlocking } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
-import type { MomotalkStoryData } from '@/types/OutsourcedData'
+import type { I18nBondInfoData, MomotalkStoryData, StudentInfoDataSimple } from '@/types/OutsourcedData'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -17,7 +17,11 @@ const props = defineProps({
 
 // ---------------------------------------
 const mmtData: MomotalkStoryData = JSON.parse(httpGetBlocking(`/data/story/momotalk/${route.params.charId}.json`))
-let mmtStatus: Ref<boolean[]> = ref([false, false, false, false, false, false])
+const charData : StudentInfoDataSimple = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
+const mmtI18nData: I18nBondInfoData = JSON.parse(httpGetBlocking(`/data/story/i18n/i18n_bond.json`))
+
+const charName = charData[String(route.params.charId)]['Name']
+const mmtStatus: Ref<boolean[]> = ref([false, false, false, false, false, false])
 </script>
 
 
@@ -40,7 +44,7 @@ let mmtStatus: Ref<boolean[]> = ref([false, false, false, false, false, false])
 
   <div v-for="(data, index) in mmtData" :key="index" :id="'mmt-story-' + String(index)">
     <h2 style="background-color: white;">
-      <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId" />
+      <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId" :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
       <span>&nbsp;&nbsp;</span>
       <el-switch
         v-model="mmtStatus[index]"
@@ -49,7 +53,7 @@ let mmtStatus: Ref<boolean[]> = ref([false, false, false, false, false, false])
       />
     </h2>
     <div v-if="mmtStatus[index]">
-      <MomotalkUi :data_charid="String(charId)" :data_mmtidx="index"></MomotalkUi>
+      <MomotalkUi :data_charname="charName" :data_data="data"></MomotalkUi>
     </div>
   </div>
 </template>
