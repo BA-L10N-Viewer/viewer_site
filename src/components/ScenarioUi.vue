@@ -55,12 +55,12 @@ const screenWidth = useWindowSize().width
   <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH_WIDER">
     <thead>
     <tr>
-      <th scope="col">对话人</th>
-      <th scope="col">第一语言</th>
-      <th scope="col">对话人</th>
-      <th scope="col">第二语言</th>
-      <th scope="col">对话人</th>
-      <th scope="col">第三语言</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l1') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l2') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
     </tr>
     </thead>
     <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
@@ -69,8 +69,8 @@ const screenWidth = useWindowSize().width
   <table class="momotalk-table" v-else>
     <thead>
     <tr>
-      <th scope="col">对话人</th>
-      <th scope="col">内容</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
     </tr>
     </thead>
     <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
