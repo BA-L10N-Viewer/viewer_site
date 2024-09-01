@@ -203,8 +203,8 @@ function loadMainMainData1() {
   // get data
   const data = dataStoryMainIndex['main']
   let temp = []
-  for (const entry of data) {
-    const idx = entry['id']
+  for (const idx in data) {
+    const entry = data[idx]
     temp.push({
       'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStory[dataI18nMain[entry.name]],
         i18nLangAll.value, '/')}`,
