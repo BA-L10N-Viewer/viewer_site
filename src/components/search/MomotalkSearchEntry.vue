@@ -33,7 +33,7 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
   <li style="margin-bottom: 0.6rem">
     <el-tag type="success">{{ char_id }}</el-tag>
     <span>&nbsp;&nbsp;</span>
-    <img class="icon-stu lazyload" :data-src="`https://schale.gg/images/student/collection/${char_id}.webp`">
+    <img class="icon-stu lazyload" :data-src="`https://schaledb.com/images/student/collection/${char_id}.webp`">
     <span>&nbsp;</span>
     <span v-for="(lang, idx) in schaleDbLang" :key="idx">{{ name[lang as SchaleDbL10nDataLang] }}<span v-if="idx + 1 != schaleDbLang.length">&nbsp;/&nbsp;</span></span>
     <br />

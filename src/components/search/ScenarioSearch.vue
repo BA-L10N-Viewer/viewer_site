@@ -430,7 +430,7 @@ watch(
       </p>
       <el-divider></el-divider>
       <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-      <p v-if="selectBondChar"><img :src="`https://schale.gg/images/student/collection/${selectBondChar}.webp`"></p>
+      <p v-if="selectBondChar"><img :src="`https://schaledb.com/images/student/collection/${selectBondChar}.webp`"></p>
       <div :key="uiLang + '_' + selectBondChar">
         <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
                                  v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
