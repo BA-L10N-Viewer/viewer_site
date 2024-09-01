@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRouter } from 'vue-router'
 import { useSetting } from '@/stores/setting'
 
 import { ref } from 'vue'
@@ -7,6 +7,8 @@ import { ref } from 'vue'
 const activeIndex = ref(window.location.pathname)
 
 const settingStore = useSetting()
+const router = useRouter()
+
 document.getElementsByTagName('body')[0].lang = settingStore.ui_lang
 </script>
 
@@ -68,8 +70,9 @@ document.getElementsByTagName('body')[0].lang = settingStore.ui_lang
     <el-footer>
       <div style="text-align: right">
         <small>Copyright &copy; BALV 2024 All rights reserved.</small><br />
-        <small>All the data shall belong to their own copyright holders.</small><br />
-        <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with <a href="https://pages.cloudflare.com/">CloudFlare Pages</a> and <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small>
+        <small>We do not own any in-game data. See <a href="javascript: void 0" @click="router.push({name: 'about'})">here</a> for details.</small><br />
+        <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with CDN from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small>
+        <br /><br />
       </div>
     </el-footer>
   </el-container>

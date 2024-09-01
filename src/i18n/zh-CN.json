@@ -4,7 +4,7 @@
   "home-p-2": "当前，项目覆盖<b>一般故事</b>、<b>M</b>o<b>m</b>o<b>t</b>alk（<b>MMT</b>）及<b>部分游戏内人物信息</b>。部分数据来自<a href=\"https://schaledb.com/\">SchaleDB</a>，在此对数据提供者表示感谢。",
   "home-p-3": "本站的所有游戏内文本、游戏内人物图标均属于相关著作人。本站无任何商业盈利行为，且本站与Nexon、Yostar或《蔚蓝档案》游戏本身无任何关联。",
   "home-h1-2": "数据相关声明",
-  "home-p-4": "<b>更新时间</b>：本站数据中，<b>Momotalk</b>与<b>游戏内人物信息</b>两项为脚本自动处理，它们会最及时地同步日服与国际服的新数据；<b>一般故事</b>数据也由脚本更新，但具体的故事目录则需要人工介入更新，在此之前只能通过故事ID检索故事",
+  "home-p-4": "<b>更新时间</b>：人工更新，详见FAQ（常见问题）。",
 
   "navi-1": "搜索",
   "navi-1-1": "高级搜索",
@@ -79,7 +79,7 @@
   "comp-search-result-entry-bond-story": "详细故事页",
 
   "comp-search-result-btn-view": "查看故事",
-  "comp-search-result-desc": "简介",
+  "comp-search-result-desc": "简介：",
 
   "char-search-tip1": "进入",
   "char-search-tip2": "Momotalk详细页",
@@ -108,8 +108,5 @@
   "comp-scenario-sheet-type-other": "其他故事",
   "comp-scenario-sheet-type-event": "活动故事",
 
-  "btn-show-content": "显示内容",
-
-  "test": "测试",
-  "fallback": "fallback回zh_cn"
+  "btn-show-content": "显示内容"
 }

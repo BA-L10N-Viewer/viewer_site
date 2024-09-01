@@ -4,7 +4,7 @@ export function getUserLang() {
 
 export function convertLangToNormal(lang: string): string {
   if (lang.startsWith("en")) return "en"
-  else if (lang === "zh-HK") return "zh_TW"
+  else if (lang === "zh-HK" || lang === "zh-TW") return "zh_TW"
   else if (lang === "zh-CN") return "zh_CN"
-  else return lang
+  else return "en"
 }

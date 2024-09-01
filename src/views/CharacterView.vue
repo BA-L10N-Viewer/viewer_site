@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <h1>Not done</h1>
+  <h1>未完工 / Not done</h1>
 </template>
 
 <style scoped>
