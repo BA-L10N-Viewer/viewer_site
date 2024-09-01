@@ -56,6 +56,8 @@ jobs:
         with:
           # Upload entire repository
           path: './dist'
+      - name: 404 page handling
+        run: cp ./dist/index.html ./dist/404.html
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
