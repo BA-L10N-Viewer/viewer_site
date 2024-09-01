@@ -1,4 +1,0 @@
-[submodule "public/data"]
-	path = public/data
-	url = https://github.com/BA-L10N-Viewer/viewer_data.git
-	branch = master
