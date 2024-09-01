@@ -16,12 +16,9 @@ const showI18nSettingDialog = ref(false)
 const scenarioID = useRoute().params.storyId
 
 const isLoading = ref(true)
-let scenarioNameDesc : NexonL10nData[][] = [] as any
+let scenarioNameDesc : NexonL10nData[] = [] as any
 async function loadEverything() {
-  console.log("I'm called!")
-  console.log(isLoading.value)
-  scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID))
-  console.log("I'm done!")
+  scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID)) as NexonL10nData[]
   isLoading.value = false
 }
 

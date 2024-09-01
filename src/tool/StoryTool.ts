@@ -84,8 +84,10 @@ export function replaceStoryLineUsernameBlank(text: String) {
 
 export async function getScenarioI18nContent(scenarioId: Number) {
   const sId = String(scenarioId)
-  const defaultData = [getNexonI18nDataDefault(`[NO DATA for ${scenarioId}'s Name]`),
-    getNexonI18nDataDefault(`[NO DATA for ${scenarioId}'s Desc]`)]
+  const defaultData = [
+    getNexonI18nDataDefault(`[NO DATA for ${scenarioId}'s Name]`),
+    getNexonI18nDataDefault(`[NO DATA for ${scenarioId}'s Desc]`)
+  ]
 
   if (sId.length === 7) {
     // bond

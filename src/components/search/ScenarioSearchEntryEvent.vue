@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
+import type { NexonL10nData } from '@/types/OutsourcedData'
 
 const props = defineProps({
   data: {
+    type: {} as PropType<{id: string; name: NexonL10nData; desc: NexonL10nData}>,
     required: true
   },
   data_no: {

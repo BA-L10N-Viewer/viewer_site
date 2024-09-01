@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { defineProps, ref, type Ref, watch } from 'vue'
+import { defineProps, type PropType, ref, type Ref, watch } from 'vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
+import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 
 const props = defineProps({
   data: {
+    type: {} as PropType<NexonL10nData>,
     required: true
   },
   htmlElementName: {
@@ -15,13 +17,13 @@ const props = defineProps({
 
 const setting = useSetting()
 
-const i18nL1: Ref = ref('')
-const i18nL2: Ref = ref('')
-const i18nL3: Ref = ref('')
+const i18nL1: Ref<NexonL10nDataLang> = ref('' as NexonL10nDataLang)
+const i18nL2: Ref<NexonL10nDataLang> = ref('' as NexonL10nDataLang)
+const i18nL3: Ref<NexonL10nDataLang> = ref('' as NexonL10nDataLang)
 
-const langL1: Ref = ref('')
-const langL2: Ref = ref('')
-const langL3: Ref = ref('')
+const langL1: Ref<string> = ref('')
+const langL2: Ref<string> = ref('')
+const langL3: Ref<string> = ref('')
 
 watch(
   () => {
@@ -29,9 +31,9 @@ watch(
   },
   () => {
     const i18nAll = i18nLangAll.value
-    i18nL1.value = i18nAll[0]
-    i18nL2.value = i18nAll[1]
-    i18nL3.value = i18nAll[2]
+    i18nL1.value = i18nAll[0] as NexonL10nDataLang
+    i18nL2.value = i18nAll[1] as NexonL10nDataLang
+    i18nL3.value = i18nAll[2] as NexonL10nDataLang
 
     const langAll = i18nToUiLangAll.value
     langL1.value = langAll[0]

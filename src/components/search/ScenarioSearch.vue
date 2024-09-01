@@ -34,7 +34,7 @@ let dataI18nEvent: I18nStoryInfoIdToXxhash = null as unknown as I18nStoryInfoIdT
 let dataSelectEventLoaded = ref(false)
 // for bond
 let dataSelectCharIndex = ref<HTMLOptionData[]>([])
-let dataSelectMmt = new Map()
+let dataSelectMmt = new Map<string, { id: number; data: I18nBondInfoDataEntry }[]>()
 let dataSelectBondLoaded = ref(false)
 // for other
 let dataStoryMainIndex: IndexManifestScnearioData = {} as IndexManifestScnearioData      /* index_scenario_manifest_main.json */

@@ -6,7 +6,7 @@ import type { I18nBondInfoDataEntry } from '@/types/OutsourcedData'
 
 const props = defineProps({
   data: {
-    type: {} as PropType<I18nBondInfoDataEntry>,
+    type: {} as PropType<{id: number; data: I18nBondInfoDataEntry}>,
     required: true
   },
   data_no: {
@@ -25,7 +25,7 @@ const router = useRouter()
 
 <template>
   <h3>
-    <MomotalkHeader :data_mmtid="data.id" :data_no="data_no - 1" />
+    <MomotalkHeader :data_mmtid="data.id" :data_no="data_no - 1" :data_l10n="data.data[0]"/>
   </h3>
   <ul>
     <li>{{ $t('comp-search-result-entry-bond-preposition') }} <a

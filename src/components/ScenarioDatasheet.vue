@@ -36,8 +36,9 @@ const iconStyle = computed(() => {
     default: '6px',
     small: '4px'
   }
+  type marginMapType = 'large' | 'default' | 'small'
   return {
-    marginRight: marginMap[String(size.value)] as String || marginMap.default
+    marginRight: marginMap[String(size.value) as marginMapType] as String || marginMap.default
   }
 })
 const descColumn = computed(() => {
