@@ -33,7 +33,7 @@ jobs:
           eval `ssh-agent -s`
           ssh-add - <<< '${{ secrets.SSH_DATA_PULL }}'
           cd public
-          git clone --depth 1 https://github.com/BA-L10N-Viewer/viewer_data.git data_temp
+          git clone --depth 1 git@github.com:BA-L10N-Viewer/viewer_data.git data_temp
           cp -R data_temp/data data
           cd ..
 
