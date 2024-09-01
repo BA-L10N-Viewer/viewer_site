@@ -30,6 +30,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Get data
         run: |
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.SSH_DATA_PULL }}'
           cd public
           git clone --depth 1 https://github.com/BA-L10N-Viewer/viewer_data.git data_temp
           cp -R data_temp/data data
