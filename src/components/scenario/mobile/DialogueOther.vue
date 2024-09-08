@@ -38,21 +38,21 @@ const props = defineProps({
 <template>
   <td v-if="dialogueDataType === 'title' || dialogueDataType === 'nextEpisode'"
       colspan="2" class="story-dialogue-center">
-    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" />
-    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" />
+    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" /><br />
+    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" /><br />
     <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])" :lang="i18nToUiLangAll[2]" />
 
   </td>
   <td v-else-if="dialogueDataType === 'na'" colspan="2" class="story-dialogue-na">
-    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" />
-    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" />
+    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" /><br />
+    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" /><br />
     <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])" :lang="i18nToUiLangAll[2]" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup" />
   </td>
   <td v-else class="story-dialogue-other" colspan="2">
-    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" />
-    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" />
+    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" /><br />
+    <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" /><br />
     <span v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])" :lang="i18nToUiLangAll[2]" />
   </td>
 </template>
