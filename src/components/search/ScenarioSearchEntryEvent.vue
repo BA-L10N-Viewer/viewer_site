@@ -3,6 +3,8 @@ import { computed, type PropType } from 'vue'
 import { useRouter } from 'vue-router'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
+import { checkIfScenarioIdIsMain, getScenarioExtraDataById } from '@/tool/StoryTool'
+import ScenarioIsAfterBattleBadge from '@/components/genetic/ScenarioIsAfterBattleBadge.vue'
 
 const props = defineProps({
   data: {
@@ -18,6 +20,18 @@ const storyId = computed(() => props.data.id)
 const storyName = computed(() => props.data.name)
 const storyDesc = computed(() => props.data.desc)
 
+const isScenarioMain = checkIfScenarioIdIsMain(props.data.id)
+let scenarioIdExtraData : ReturnType<typeof getScenarioExtraDataById>,
+  scenarioIdIsAfterBattleFlag: "A" | "B";
+if (isScenarioMain) {
+  scenarioIdExtraData = getScenarioExtraDataById(props.data.id)
+  scenarioIdIsAfterBattleFlag = !scenarioIdExtraData.isAfterBattle ? "A" : "B"
+}
+else {
+  scenarioIdExtraData = {isAfterBattle: false, actualScenarioNo: props.data_no}
+  scenarioIdIsAfterBattleFlag = "A"
+}
+
 const router = useRouter()
 </script>
 
@@ -25,8 +39,9 @@ const router = useRouter()
 <template>
   <h3>
     <el-tag type="warning">{{ storyId }}</el-tag>
+    <span v-if="isScenarioMain">&nbsp;</span><ScenarioIsAfterBattleBadge :story-id="data.id" />
     <span>&nbsp;&nbsp;</span>
-    <span>{{ data_no }}.&nbsp;</span>
+    <span>{{ scenarioIdExtraData.actualScenarioNo }}<span v-if="isScenarioMain">{{ "-" + scenarioIdIsAfterBattleFlag }}</span>.&nbsp;</span>
     <NexonI18nDataOutput :data="storyName" />
     <span>&nbsp;</span>
     <el-button type="primary" class="btn-view-story" tag="a"

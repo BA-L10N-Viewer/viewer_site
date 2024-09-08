@@ -54,7 +54,9 @@ export function getLangDataFlattened(entry: NexonL10nData, langs: string[],
   type entryLangKeys = keyof NexonL10nData
 
   let temp = ''
-  if (langs.length >= 1) {temp += entry[langs[0] as entryLangKeys]}
+  if (langs.length >= 1) {
+    temp += entry[langs[0] as entryLangKeys]
+  }
   if (langs.length > 1) {
     for (const lang of langs) {
       if (lang !== langs[0]) {
@@ -78,7 +80,9 @@ export function replaceStoryLineUsernameBlank(text: String) {
   const setting = useSetting()
   const username = setting.username
 
-  if (text === null || text === undefined) {return ""}
+  if (text === null || text === undefined) {
+    return ''
+  }
   return text.replaceAll('[USERNAME]', username)
 }
 
@@ -91,12 +95,12 @@ export async function getScenarioI18nContent(scenarioId: Number) {
 
   if (sId.length === 7) {
     // bond
-    const data : I18nBondInfoData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_bond.json'))
+    const data: I18nBondInfoData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_bond.json'))
     const temp: NexonL10nData[] = data[sId]
     return temp ? temp : [defaultData, defaultData]
   } else {
-    const i18nData : I18nStoryXxhashToL10nData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_story.json'))
-    let data : IndexScenarioInfoToI18nId, data2: I18nStoryInfoIdToXxhash, i18nKey: string[] | number[];
+    const i18nData: I18nStoryXxhashToL10nData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_story.json'))
+    let data: IndexScenarioInfoToI18nId, data2: I18nStoryInfoIdToXxhash, i18nKey: string[] | number[]
 
     // main (side, main, short (700xxxxx))
     data = JSON.parse(await httpGetAsync('/data/common/index_scenario_i18n_main.json'))
@@ -118,5 +122,24 @@ export async function getScenarioI18nContent(scenarioId: Number) {
   }
 
   return defaultData
+}
+
+export function getScenarioExtraDataById(scenarioId: number | string) {
+  const temp = String(scenarioId)
+
+  const isAfterBattle = temp.slice(-1) === '5'
+  const actualScenarioNo = temp.length === 5 ? Number(temp.slice(2, 4)) : Number(temp.slice(3, 5))
+  return { isAfterBattle: isAfterBattle, actualScenarioNo: actualScenarioNo }
+}
+
+export function checkIfScenarioIdIsMain(scnearioId: number | string) {
+  const temp = String(scnearioId)
+
+  // normal
+  if (temp.length === 5) {return true}
+  // vol.f
+  else if (temp.startsWith("101") || temp.startsWith("102") || temp.startsWith("103") || temp.startsWith("104")) {return true}
+  // it's not
+  else return false
 }
 

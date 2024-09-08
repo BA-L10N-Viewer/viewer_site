@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { MOBILE_WIDTH_WIDER } from '@/tool/Constant'
 import type { NexonL10nData } from '@/types/OutsourcedData'
+import ScenarioIsAfterBattleBadge from '@/components/genetic/ScenarioIsAfterBattleBadge.vue'
 
 const props = defineProps({
   storyId: {
@@ -78,7 +79,7 @@ function getStoryType() {
           {{ $t('comp-scenario-datasheet-item-1') }}
         </div>
       </template>
-      <div class="item-content">{{ storyId }}</div>
+      <div class="item-content">{{ storyId }}<br /><ScenarioIsAfterBattleBadge :story-id="storyId" /></div>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
