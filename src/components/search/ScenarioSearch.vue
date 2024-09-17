@@ -27,6 +27,7 @@ const i18n = useI18n()
 /* DATA */
 // general
 const dataI18nStory: I18nStoryXxhashToL10nData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_story.json'))
+const cacheRecoveryMultiStage = ref<boolean>(false)
 // for event
 let dataSelectEventIndex = ref<HTMLOptionData[]>([])
 let dataSelectEventStory = new Map<string, { id: string; name: NexonL10nData; desc: NexonL10nData; }[]>()
@@ -198,8 +199,6 @@ function clearMainData() {
 }
 
 function loadMainMainData1() {
-  clearMainData()
-
   // get data
   const data = dataStoryMainIndex['main']
   let temp = []
@@ -297,6 +296,10 @@ watch(
       loadBondData()
     } else {
       initMainData()
+      if (!cacheRecoveryMultiStage.value) {
+        clearMainData()
+        dataSelectMainCurrLoaded.value = false
+      }
       if (newValue === 'main') {
         loadMainMainData1()
       } else {
@@ -335,7 +338,11 @@ watch(
   () => selectMainVolume.value,
   (newValue) => {
     dataSelectMainCurrLoaded.value = false
-    selectMainChapter.value = ''
+    if (!cacheRecoveryMultiStage.value) {
+      selectMainChapter.value = ''
+    }
+    cacheRecoveryMultiStage.value = false
+
     if (newValue !== '') loadMainMainData2()
     else {
       dataSelectMainCurrIndex2.value = []
@@ -359,6 +366,9 @@ watch(
 
 /* 搜索内容缓存 (instance 级) */
 onMounted(() => {
+  if (searchCache.n_selectType === 'main' && searchCache.n_selectMainVolume !== '') {
+    cacheRecoveryMultiStage.value = true
+  }
   selectType.value = searchCache.n_selectType
   selectEventName.value = searchCache.n_selectEventName
   selectBondChar.value = searchCache.n_selectBondChar
