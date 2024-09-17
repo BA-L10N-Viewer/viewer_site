@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { getStaticCdnBasepath, httpGetBlocking } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath, httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getLangDataFlattened } from '@/tool/StoryTool'
@@ -13,7 +13,7 @@ import type {
   I18nStoryInfoIdToXxhash, I18nStoryXxhashToL10nData,
   IndexManifestScenarioEntry, IndexManifestScenarioParentEntry,
   IndexManifestScnearioData,
-  IndexMomotalkData,
+  IndexMomotalkData, IndexScenarioCharacterDataEntry,
   IndexScenarioInfoToI18nId,
   NexonL10nData,
   StudentInfoDataSimple
@@ -26,21 +26,16 @@ const i18n = useI18n()
 
 /* DATA */
 // general
-const dataI18nStory: I18nStoryXxhashToL10nData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_story.json'))
 const cacheRecoveryMultiStage = ref<boolean>(false)
 // for event
 let dataSelectEventIndex = ref<HTMLOptionData[]>([])
 let dataSelectEventStory = new Map<string, { id: string; name: NexonL10nData; desc: NexonL10nData; }[]>()
-let dataI18nEvent: I18nStoryInfoIdToXxhash = null as unknown as I18nStoryInfoIdToXxhash
 let dataSelectEventLoaded = ref(false)
 // for bond
 let dataSelectCharIndex = ref<HTMLOptionData[]>([])
 let dataSelectMmt = new Map<string, { id: number; data: I18nBondInfoDataEntry }[]>()
 let dataSelectBondLoaded = ref(false)
-// for other
-let dataStoryMainIndex: IndexManifestScnearioData = {} as IndexManifestScnearioData      /* index_scenario_manifest_main.json */
-let dataStoryMainStoryI18n: IndexScenarioInfoToI18nId = {} as IndexScenarioInfoToI18nId  /* index_scenario_i18n_main.json */
-let dataI18nMain: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXxhash
+// for main/other story
 let dataStoryMainLoaded = ref(false)
 // for other (current)
 let dataSelectMainCurrIndex1 = ref<HTMLOptionData[]>([])   /* Main - Volume */
@@ -52,6 +47,48 @@ const selectEventName = ref('')
 const selectBondChar = ref('')
 const selectMainVolume = ref('')
 const selectMainChapter = ref('')
+
+/* REMOTE DATA */
+let dataI18nStoryXxhashToL10n: I18nStoryXxhashToL10nData = {} as I18nStoryXxhashToL10nData
+let dataEventI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXxhash
+let dataEventIndexManifest: IndexManifestScenarioEntry[] = [] as IndexManifestScenarioEntry[]
+let dataEventScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenarioInfoToI18nId
+let dataBondStudentName: StudentInfoDataSimple = {} as StudentInfoDataSimple
+let dataBondIndexMomotalkScenario: IndexMomotalkData = {} as IndexMomotalkData
+let dataBondScenarioI18n: I18nBondInfoData = {} as I18nBondInfoData
+let dataMainIndexManifest: IndexManifestScnearioData = {} as IndexManifestScnearioData
+let dataMainScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenarioInfoToI18nId
+let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXxhash
+const dataAllLoaded = ref(false)
+
+async function loadAllData() {
+  async function httpGetJsonAsync(var_: any, url: string) {
+    const data = JSON.parse(await httpGetAsync(url))
+    if (Array.isArray(var_)) {
+      var_.splice(0, var_.length, ...data)
+    } else {
+      Object.assign(var_, data)
+    }
+  }
+
+  await Promise.allSettled([
+    httpGetJsonAsync(dataI18nStoryXxhashToL10n, `/data/story/i18n/i18n_story.json`),
+
+    httpGetJsonAsync(dataEventI18nKeyToXxhash, `/data/story/i18n/i18n_event_index.json`),
+    httpGetJsonAsync(dataEventIndexManifest, `/data/common/index_scenario_manifest_event.json`),
+    httpGetJsonAsync(dataEventScenarioIdToI18nKey, `/data/common/index_scenario_i18n_event.json`),
+
+    httpGetJsonAsync(dataBondStudentName, `/data/common/index_stu.json`),
+    httpGetJsonAsync(dataBondIndexMomotalkScenario, `/data/common/index_momo.json`),
+    httpGetJsonAsync(dataBondScenarioI18n, `/data/story/i18n/i18n_bond.json`),
+
+    httpGetJsonAsync(dataMainIndexManifest, `/data/common/index_scenario_manifest_main.json`),
+    httpGetJsonAsync(dataMainScenarioIdToI18nKey, `/data/common/index_scenario_i18n_main.json`),
+    httpGetJsonAsync(dataMainI18nKeyToXxhash, `/data/story/i18n/i18n_main_index.json`)
+  ])
+  dataAllLoaded.value = true
+}
+
 
 const setting = useSetting()
 const searchCache = useSearchVars()
@@ -88,7 +125,7 @@ const optionsType = [
 type optionsStoryTypeMain = 'main' | 'side' | 'short' | 'other'
 
 function queryDamnI18nStoryData(key: string) {
-  const temp = dataI18nStory[key]
+  const temp = dataI18nStoryXxhashToL10n[key]
   const warnText = `[NO DATA for ${key}]`
   if (temp === undefined) {
     return {
@@ -103,7 +140,7 @@ function queryDamnI18nStoryData(key: string) {
 
 function loadBondData() {
   // Char data
-  let data: StudentInfoDataSimple = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
+  const data = dataBondStudentName
   let temp = []
   for (const [key, value] of Object.entries(data)) {
     let label = `${key}: ${getLangDataFlattened(value.Name, i18nLangAll.value, '/')}`
@@ -115,8 +152,8 @@ function loadBondData() {
   dataSelectCharIndex.value = temp
 
   // MMT data
-  let data2: IndexMomotalkData = JSON.parse(httpGetBlocking('/data/common/index_momo.json'))
-  let data3: I18nBondInfoData = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_bond.json'))
+  const data2 = dataBondIndexMomotalkScenario
+  const data3 = dataBondScenarioI18n
   let temp2 = new Map<string, { id: number; data: I18nBondInfoDataEntry }[]>()
   for (const key of Object.keys(data)) {
     const momoIndex = data2[key]
@@ -139,21 +176,21 @@ function loadBondData() {
 
 function loadEventData() {
   // event i18n index
-  dataI18nEvent = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_event_index.json')) as I18nStoryInfoIdToXxhash
+  const dataI18nEvent = dataEventI18nKeyToXxhash
 
   // event index
-  const data: IndexManifestScenarioEntry[] = JSON.parse(httpGetBlocking('/data/common/index_scenario_manifest_event.json'))
+  const data = dataEventIndexManifest
   let temp = []
   for (const entry of data) {
     temp.push({
-      'label': `${entry.id}: ${getLangDataFlattened(dataI18nStory[String(dataI18nEvent[entry.name])], i18nLangAll.value, '/')}`,
+      'label': `${entry.id}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])], i18nLangAll.value, '/')}`,
       'value': String(entry.id)
     })
   }
   dataSelectEventIndex.value = temp
 
   // event story
-  const data2: IndexScenarioInfoToI18nId = JSON.parse(httpGetBlocking('/data/common/index_scenario_i18n_event.json'))
+  const data2 = dataEventScenarioIdToI18nKey
   let temp2 = new Map<string, { id: string; name: NexonL10nData; desc: NexonL10nData; }[]>()
   for (const entry of data) {
     const temp3 = []
@@ -162,12 +199,12 @@ function loadEventData() {
       const storyId = entry['data'][idx2]
       temp3.push({
         'id': String(storyId),
-        'name': dataI18nStory[
+        'name': dataI18nStoryXxhashToL10n[
           dataI18nEvent[
             data2[String(storyId)][0]
             ]
           ],
-        'desc': dataI18nStory[
+        'desc': dataI18nStoryXxhashToL10n[
           dataI18nEvent[
             data2[String(storyId)][1]
             ]
@@ -182,14 +219,6 @@ function loadEventData() {
   dataSelectEventLoaded.value = true
 }
 
-function initMainData() {
-  if (!dataStoryMainLoaded.value) {
-    dataStoryMainIndex = JSON.parse(httpGetBlocking('/data/common/index_scenario_manifest_main.json'))
-    dataStoryMainStoryI18n = JSON.parse(httpGetBlocking('/data/common/index_scenario_i18n_main.json'))
-    dataI18nMain = JSON.parse(httpGetBlocking('/data/story/i18n/i18n_main_index.json'))
-  }
-}
-
 function clearMainData() {
   dataSelectMainCurrIndex1.value = []
   dataSelectMainCurrIndex2.value = []
@@ -200,12 +229,12 @@ function clearMainData() {
 
 function loadMainMainData1() {
   // get data
-  const data = dataStoryMainIndex['main']
+  const data = dataMainIndexManifest['main']
   let temp = []
   for (const idx in data) {
     const entry = data[idx]
     temp.push({
-      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStory[dataI18nMain[entry.name]],
+      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]],
         i18nLangAll.value, '/')}`,
       value: String(idx)
     })
@@ -217,12 +246,12 @@ function loadMainMainData1() {
 
 function loadMainMainData2() {
   // get data
-  const data = dataStoryMainIndex['main'][Number(selectMainVolume.value)]['data']
+  const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)]['data']
   let temp = []
   for (const idx in data) {
     const entry = data[idx]
     temp.push({
-      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStory[dataI18nMain[entry.name]],
+      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]],
         i18nLangAll.value, '/')}`,
       value: String(idx)
     })
@@ -234,15 +263,15 @@ function loadMainMainData2() {
 }
 
 function loadMainMainDataStory() {
-  const data = dataStoryMainIndex['main'][Number(selectMainVolume.value)]
+  const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)]
     ['data'][Number(selectMainChapter.value)]['data']
   let temp = []
   for (const storyId of data) {
-    const entryI18n = dataStoryMainStoryI18n[String(storyId)]
+    const entryI18n = dataMainScenarioIdToI18nKey[String(storyId)]
     temp.push({
       'id': String(storyId),
-      'name': queryDamnI18nStoryData(String(dataI18nMain[String(entryI18n[0])])),
-      'desc': queryDamnI18nStoryData(String(dataI18nMain[String(entryI18n[1])]))
+      'name': queryDamnI18nStoryData(String(dataMainI18nKeyToXxhash[String(entryI18n[0])])),
+      'desc': queryDamnI18nStoryData(String(dataMainI18nKeyToXxhash[String(entryI18n[1])]))
     })
   }
   dataSelectMainCurrStory.value = temp
@@ -254,12 +283,12 @@ function loadMainOtherData() {
   clearMainData()
 
   // get data
-  const data: IndexManifestScenarioParentEntry[] = dataStoryMainIndex[selectType.value as optionsStoryTypeMain]
+  const data: IndexManifestScenarioParentEntry[] = dataMainIndexManifest[selectType.value as optionsStoryTypeMain]
   let temp = []
   for (const idx in data) {
     const entry = data[idx]
     temp.push({
-      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStory[dataI18nMain[entry.name]],
+      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]],
         i18nLangAll.value, '/')}`,
       'value': String(idx)
     })
@@ -270,15 +299,15 @@ function loadMainOtherData() {
 }
 
 function loadMainOtherDataStory() {
-  const data = dataStoryMainIndex[selectType.value as optionsStoryTypeMain][Number(selectMainChapter.value)]['data']
+  const data = dataMainIndexManifest[selectType.value as optionsStoryTypeMain][Number(selectMainChapter.value)]['data']
   let temp = []
   for (const idx in data) {
     const storyId = data[idx]
-    const entryI18n = dataStoryMainStoryI18n[String(storyId)]
+    const entryI18n = dataMainScenarioIdToI18nKey[String(storyId)]
     temp.push({
       'id': String(storyId),
-      'name': queryDamnI18nStoryData(String(dataI18nMain[entryI18n[0]])),
-      'desc': queryDamnI18nStoryData(String(dataI18nMain[entryI18n[1]]))
+      'name': queryDamnI18nStoryData(String(dataMainI18nKeyToXxhash[entryI18n[0]])),
+      'desc': queryDamnI18nStoryData(String(dataMainI18nKeyToXxhash[entryI18n[1]]))
     })
   }
   dataSelectMainCurrStory.value = temp
@@ -295,7 +324,6 @@ watch(
     } else if (newValue === 'bond') {
       loadBondData()
     } else {
-      initMainData()
       if (!cacheRecoveryMultiStage.value) {
         clearMainData()
         dataSelectMainCurrLoaded.value = false
@@ -366,6 +394,8 @@ watch(
 
 /* 搜索内容缓存 (instance 级) */
 onMounted(() => {
+  loadAllData()
+
   if (searchCache.n_selectType === 'main' && searchCache.n_selectMainVolume !== '') {
     cacheRecoveryMultiStage.value = true
   }
@@ -385,124 +415,130 @@ watch(
 </script>
 
 <template>
-  <p>{{ $t('comp-search-scenario-select-1') }}&nbsp;
-    <client-only>
-      <el-select v-model="selectType"
-                 placeholder="Select" style="width: 240px">
-        <el-option
-          v-for="item in optionsType"
-          :key="item.value"
-          :label="$t('comp-search-scenario-option-' + item.value)"
-          :value="item.value"
-          :disabled="item.disabled ? item.disabled : false"
-        />
-      </el-select>
-    </client-only>
-  </p>
-  <div v-if="selectType === 'event'">
-    <div v-loading="!dataSelectEventLoaded" :key="uiLang">
-      <p>{{ $t('comp-search-scenario-select-2') }}
-        <client-only>
-          <el-select v-model="selectEventName" filterable
-                     placeholder="Select" style="width: 240px">
-            <el-option
-              v-for="item in dataSelectEventIndex"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </client-only>
-      </p>
-      <el-divider></el-divider>
-      <h2>{{ $t('comp-search-scenario-result') }}</h2>
-      <div :key="uiLang + '_' + selectEventName" class="search-event">
-        <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
-                                  v-for="(entry, idx) in dataSelectEventStory.get(selectEventName)" :key="idx" />
+  <div v-if="!dataAllLoaded">
+    <h2>Loading...</h2>
+  </div>
+  <div v-if="dataAllLoaded">
+    <p>{{ $t('comp-search-scenario-select-1') }}&nbsp;
+      <client-only>
+        <el-select v-model="selectType"
+                   placeholder="Select" style="width: 240px">
+          <el-option
+            v-for="item in optionsType"
+            :key="item.value"
+            :label="$t('comp-search-scenario-option-' + item.value)"
+            :value="item.value"
+            :disabled="item.disabled ? item.disabled : false"
+          />
+        </el-select>
+      </client-only>
+    </p>
+    <div v-if="selectType === 'event'">
+      <div v-loading="!dataSelectEventLoaded" :key="uiLang">
+        <p>{{ $t('comp-search-scenario-select-2') }}
+          <client-only>
+            <el-select v-model="selectEventName" filterable
+                       placeholder="Select" style="width: 240px">
+              <el-option
+                v-for="item in dataSelectEventIndex"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </client-only>
+        </p>
+        <el-divider></el-divider>
+        <h2>{{ $t('comp-search-scenario-result') }}</h2>
+        <div :key="uiLang + '_' + selectEventName" class="search-event">
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
+                                    v-for="(entry, idx) in dataSelectEventStory.get(selectEventName)" :key="idx" />
+        </div>
       </div>
     </div>
-  </div>
-  <div v-else-if="selectType === 'bond'">
-    <p v-html="i18n.t('comp-search-scenario-bond-p')"></p>
-    <div v-loading="!dataSelectBondLoaded" :key="uiLang">
-      <p>{{ $t('comp-search-scenario-select-3') }}
-        <client-only>
-          <el-select v-model="selectBondChar" filterable
-                     placeholder="Select" style="width: 240px">
-            <el-option
-              v-for="item in dataSelectCharIndex"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </client-only>
-      </p>
-      <el-divider></el-divider>
-      <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-      <p v-if="selectBondChar"><img :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`"></p>
-      <div :key="uiLang + '_' + selectBondChar">
-        <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
-                                 v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
+    <div v-else-if="selectType === 'bond'">
+      <p v-html="i18n.t('comp-search-scenario-bond-p')"></p>
+      <div v-loading="!dataSelectBondLoaded" :key="uiLang">
+        <p>{{ $t('comp-search-scenario-select-3') }}
+          <client-only>
+            <el-select v-model="selectBondChar" filterable
+                       placeholder="Select" style="width: 240px">
+              <el-option
+                v-for="item in dataSelectCharIndex"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </client-only>
+        </p>
+        <el-divider></el-divider>
+        <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
+        <p v-if="selectBondChar"><img
+          :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`"></p>
+        <div :key="uiLang + '_' + selectBondChar">
+          <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+                                   v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
+        </div>
       </div>
     </div>
-  </div>
-  <div v-else-if="selectType === 'main'">
-    <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
-      <p>{{ $t('comp-search-scenario-select-4') }}
-        <client-only>
-          <el-select v-model="selectMainVolume" filterable
-                     placeholder="Select" style="width: 240px">
-            <el-option
-              v-for="item in dataSelectMainCurrIndex1"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </client-only>
-      </p>
-      <p>{{ $t('comp-search-scenario-select-5') }}
-        <client-only>
-          <el-select v-model="selectMainChapter" filterable
-                     placeholder="Select" style="width: 240px">
-            <el-option
-              v-for="item in dataSelectMainCurrIndex2"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </client-only>
-      </p>
-      <el-divider></el-divider>
-      <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-      <div :key="uiLang + '_' + selectBondChar">
-        <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
-                                  v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
+    <div v-else-if="selectType === 'main'">
+      <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
+        <p>{{ $t('comp-search-scenario-select-4') }}
+          <client-only>
+            <el-select v-model="selectMainVolume" filterable
+                       placeholder="Select" style="width: 240px">
+              <el-option
+                v-for="item in dataSelectMainCurrIndex1"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </client-only>
+        </p>
+        <p>{{ $t('comp-search-scenario-select-5') }}
+          <client-only>
+            <el-select v-model="selectMainChapter" filterable
+                       placeholder="Select" style="width: 240px">
+              <el-option
+                v-for="item in dataSelectMainCurrIndex2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </client-only>
+        </p>
+        <el-divider></el-divider>
+        <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
+        <div :key="uiLang + '_' + selectBondChar">
+          <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+                                    v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
+        </div>
       </div>
     </div>
-  </div>
-  <div v-else-if="selectType !== ''">
-    <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
-      <p>{{ $t('comp-search-scenario-select-6') }}
-        <client-only>
-          <el-select v-model="selectMainChapter" filterable
-                     placeholder="Select" style="width: 240px">
-            <el-option
-              v-for="item in dataSelectMainCurrIndex2"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </client-only>
-      </p>
-      <el-divider></el-divider>
-      <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-      <div :key="uiLang + '_' + selectBondChar">
-        <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
-                                  v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
+    <div v-else-if="selectType !== ''">
+      <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
+        <p>{{ $t('comp-search-scenario-select-6') }}
+          <client-only>
+            <el-select v-model="selectMainChapter" filterable
+                       placeholder="Select" style="width: 240px">
+              <el-option
+                v-for="item in dataSelectMainCurrIndex2"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </client-only>
+        </p>
+        <el-divider></el-divider>
+        <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
+        <div :key="uiLang + '_' + selectBondChar">
+          <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+                                    v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
+        </div>
       </div>
     </div>
   </div>
