@@ -2,6 +2,8 @@
 import { computed } from 'vue'
 import { dialogueContentDecorator, convertNewlineToBr, checkDialogueSensei, getLangCode, getClassDialogueSensei } from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
+import DialogueIcon from '@/components/DialogueIcon.vue'
 
 const props = defineProps({
   dialogueLang1: {
@@ -69,6 +71,7 @@ const dialogueContentsDecorated = computed(() => [
   dialogueContentDecorator(props.dialogueType, props.dialogueContentLang2),
   dialogueContentDecorator(props.dialogueType, props.dialogueContentLang3)
 ])
+const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
 
 const setting = useSetting()
 </script>
@@ -76,6 +79,11 @@ const setting = useSetting()
 <template>
   <td class="momotalk-dialogue momotalk-speaker">
     <div :class="{'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType)}">
+      <div v-if="!checkDialogueSensei(dialogueType)" style="text-align: center;">
+        <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
+        <br />
+      </div>
+
       <div v-for="(speaker, idx) in dialogueSpeakers" :lang="getLangCode(dialogueLangs[idx])" :key="idx">
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
         <span v-else>{{ speaker }}</span>

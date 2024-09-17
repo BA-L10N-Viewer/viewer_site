@@ -3,6 +3,8 @@ import { ref, watch, computed } from 'vue'
 import { useSignalI18n } from '@/stores/signal'
 import { useSetting } from '@/stores/setting'
 import { checkDialogueSensei, convertNewlineToBr, getClassDialogueSensei, getLangCode } from '@/tool/StoryTool'
+import DialogueIcon from '@/components/DialogueIcon.vue'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 const props = defineProps({
   dialogueLang: {
@@ -49,10 +51,12 @@ const dialogueContentDecorated = computed(() => {
     return props.dialogueContent
   }
 })
+const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
 
 const signalI18n = useSignalI18n()
 const pageData = ref({})
 const setting = useSetting()
+
 
 watch(
   () => {
@@ -82,6 +86,11 @@ watch(
   <td class="momotalk-dialogue momotalk-speaker">
     <div :class="{'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType)}">
       <div :lang="getLangCode(dialogueLang)">
+        <div v-if="!checkDialogueSensei(dialogueType) && dialogueSpeaker" style="text-align: center;">
+          <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
+          <br />
+        </div>
+
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
         <span v-else>{{ dialogueSpeaker }}</span>
       </div>
