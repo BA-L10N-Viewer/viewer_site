@@ -30,25 +30,29 @@ const props = defineProps({
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2">
     <span class="story-dialogue-option-content" :style="{'color': dialogueTextColor}"
-          v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])" :lang="i18nToUiLangAll[0]" />
+          v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])"
+          :lang="i18nToUiLangAll[0]" />
     <br />
     <span class="story-dialogue-option-content" :style="{'color': dialogueTextColor}"
-          v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])" :lang="i18nToUiLangAll[1]" />
+          v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])"
+          :lang="i18nToUiLangAll[1]" />
     <br />
     <span class="story-dialogue-option-content" :style="{'color': dialogueTextColor}"
-          v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])" :lang="i18nToUiLangAll[2]" />
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
+          v-html="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])"
+          :lang="i18nToUiLangAll[2]" />
+    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
+                  :dialogue-selection-group="dialogueSelectionGroup" />
   </td>
 </template>
 
 <style scoped>
-  .story-dialogue-option {
-    background-color: #F0F0F0;
-    text-align: right;
-  }
+.story-dialogue-option {
+  background-color: #F0F0F0;
+  text-align: right;
+}
 
-  .story-dialogue-option-content {
-    color: #383838;
-    text-align: center;
-  }
+.story-dialogue-option-content {
+  color: #383838;
+  text-align: center;
+}
 </style>

@@ -1,6 +1,6 @@
 import { getNexonI18nDataDefault, NexonLangMap } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
-import { httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath, httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
 import type {
   I18nBondInfoData,
   I18nStoryInfoIdToXxhash,
@@ -141,5 +141,14 @@ export function checkIfScenarioIdIsMain(scnearioId: number | string) {
   else if (temp.startsWith("101") || temp.startsWith("102") || temp.startsWith("103") || temp.startsWith("104")) {return true}
   // it's not
   else return false
+}
+
+export function getScenarioCharacterSmallPortraitPath(path: string): string | null {
+  const temp = path.split("/").slice(-1)[0]
+  if (String(temp) === "null") {
+    return null
+  }
+
+  return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + path.split("/").slice(-1)[0] + ".png"
 }
 

@@ -63,18 +63,21 @@ const screenWidth = useWindowSize().width
                   :dialogue-selection-group="data_dialog.SelectionGroup"
                   :dialogue-content="getLangData(data_dialog.Message, i18nL1)"
                   :dialogue-character="getLangData(data_char.Name, i18nL1)" :dialogue-lang="langL1"
+                  :dialogue-character-image="data_char.SmallPortrait"
                   :dialogue-text-color="data_dialog.ShowTextColor" />
     <DialogueAuto :dialogue-data-type="data_type"
                   :dialogue-selection-to-group="data_dialog.SelectionToGroup"
                   :dialogue-selection-group="data_dialog.SelectionGroup"
                   :dialogue-content="getLangData(data_dialog.Message, i18nL2)"
                   :dialogue-character="getLangData(data_char.Name, i18nL2)" :dialogue-lang="langL2"
+                  :dialogue-character-image="data_char.SmallPortrait"
                   :dialogue-text-color="data_dialog.ShowTextColor" />
     <DialogueAuto :dialogue-data-type="data_type"
                   :dialogue-selection-to-group="data_dialog.SelectionToGroup"
                   :dialogue-selection-group="data_dialog.SelectionGroup"
                   :dialogue-content="getLangData(data_dialog.Message, i18nL3)"
                   :dialogue-character="getLangData(data_char.Name, i18nL3)" :dialogue-lang="langL3"
+                  :dialogue-character-image="data_char.SmallPortrait"
                   :dialogue-text-color="data_dialog.ShowTextColor" />
   </tr>
   <tr v-else>
@@ -83,6 +86,7 @@ const screenWidth = useWindowSize().width
                         :dialogue-selection-group="data_dialog.SelectionGroup"
                         :dialogue-content="data_dialog.Message"
                         :dialogue-character="data_char.Name"
+                        :dialogue-character-image="data_char.SmallPortrait"
                         :dialogue-text-color="data_dialog.ShowTextColor" />
   </tr>
 </template>

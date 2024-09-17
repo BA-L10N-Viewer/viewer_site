@@ -2,14 +2,19 @@
 /* speaker */
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import { replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
+import { getScenarioCharacterSmallPortraitPath, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
 import { defineProps, type PropType } from 'vue'
 import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import DialogueIcon from '@/components/DialogueIcon.vue'
 
 const props = defineProps({
   dialogueCharacter: {
     type: {} as PropType<NexonL10nData>,
+    required: true
+  },
+  dialogueCharacterImage: {
+    type: String,
     required: true
   },
   dialogueContent: {
@@ -33,6 +38,7 @@ const props = defineProps({
 
 <template>
   <td class="scenario-speaker scenario-dialogue">
+    <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" /><br />
     <span v-html="replaceStoryLineUsernameBlank(dialogueCharacter[i18nLangAll[0] as NexonL10nDataLang])" :style="{'color': dialogueTextColor}"
           :lang="i18nToUiLangAll[0]" />
     <br />

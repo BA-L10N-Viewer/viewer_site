@@ -15,6 +15,10 @@ const props = defineProps({
     type: {} as PropType<NexonL10nData>,
     required: true
   },
+  dialogueCharacterImage: {
+    type: String,
+    required: true
+  },
   dialogueContent: {
     type: {} as PropType<NexonL10nData>,
     required: true
@@ -41,7 +45,7 @@ const props = defineProps({
 <template>
   <DialogueNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-content="dialogueContent" :dialogue-character="dialogueCharacter"
-                  :dialogue-text-color="dialogueTextColor"
+                  :dialogue-text-color="dialogueTextColor" :dialogue-character-image="dialogueCharacterImage"
                   v-if="dialogueDataType === 'speaker'" />
   <DialogueOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogueContent="dialogueContent"

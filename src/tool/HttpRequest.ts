@@ -31,3 +31,20 @@ export async function httpGetAsync(url: string, depth: number = 0) {
     return await httpGetAsync(url, depth + 1)
   }
 }
+
+const staticCdnBasepath = {
+  "schaledb": {
+    "no-aws": "https://schaledb.com",
+    "aws": "https://ba-l10n-static.cnfast.top"
+  },
+  "static": {
+    "no-aws": "https://viewer-static.pages.dev/",
+    "aws": "https://schaledb-aws.cnfast.top"
+  }
+}
+export function getStaticCdnBasepath(type: "schaledb" | "static") {
+  const currHost = window.location.host
+  const currCdn = currHost === 'ba-l10n-aws.cnfast.top' ? "aws" : "no-aws"
+
+  return staticCdnBasepath[type][currCdn]
+}
