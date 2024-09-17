@@ -6,6 +6,7 @@ import { NexonLangMapReverse } from '@/tool/Constant'
 import 'lazysizes'
 import { defineProps, computed, ref, type PropType } from 'vue'
 import { type SchaleDbL10nData, type SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 const props = defineProps({
   char_id: {
@@ -33,7 +34,7 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
   <li style="margin-bottom: 0.6rem">
     <el-tag type="success">{{ char_id }}</el-tag>
     <span>&nbsp;&nbsp;</span>
-    <img class="icon-stu lazyload" :data-src="`https://schaledb.com/images/student/collection/${char_id}.webp`">
+    <img class="icon-stu lazyload" :data-src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${char_id}.webp`">
     <span>&nbsp;</span>
     <span v-for="(lang, idx) in schaleDbLang" :key="idx">{{ name[lang as SchaleDbL10nDataLang] }}<span v-if="idx + 1 != schaleDbLang.length">&nbsp;/&nbsp;</span></span>
     <br />

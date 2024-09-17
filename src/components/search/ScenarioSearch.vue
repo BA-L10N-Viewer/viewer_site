@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { httpGetBlocking } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath, httpGetBlocking } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getLangDataFlattened } from '@/tool/StoryTool'
@@ -440,7 +440,7 @@ watch(
       </p>
       <el-divider></el-divider>
       <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-      <p v-if="selectBondChar"><img :src="`https://schaledb.com/images/student/collection/${selectBondChar}.webp`"></p>
+      <p v-if="selectBondChar"><img :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`"></p>
       <div :key="uiLang + '_' + selectBondChar">
         <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
                                  v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
