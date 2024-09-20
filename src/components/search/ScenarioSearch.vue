@@ -393,8 +393,8 @@ watch(
 )
 
 /* 搜索内容缓存 (instance 级) */
-onMounted(() => {
-  loadAllData()
+onMounted(async () => {
+  await loadAllData()
 
   if (searchCache.n_selectType === 'main' && searchCache.n_selectMainVolume !== '') {
     cacheRecoveryMultiStage.value = true

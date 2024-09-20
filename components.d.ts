@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     DialogueAuto: typeof import('./src/components/scenario/desktop/DialogueAuto.vue')['default']
     DialogueAutoMobile: typeof import('./src/components/scenario/mobile/DialogueAutoMobile.vue')['default']
+    DialogueIcon: typeof import('./src/components/DialogueIcon.vue')['default']
     DialogueInfo: typeof import('./src/components/scenario/DialogueInfo.vue')['default']
     DialogueNormal: typeof import('./src/components/scenario/desktop/DialogueNormal.vue')['default']
     DialogueOption: typeof import('./src/components/scenario/desktop/DialogueOption.vue')['default']
