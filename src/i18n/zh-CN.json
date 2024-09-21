@@ -50,6 +50,9 @@
   "comp-story-i18n-btn-showboth": "同时显示原文与自动翻译结果",
   "comp-story-i18n-btn-clear": "清除所有自动翻译结果",
   "comp-story-i18n-btn-forcemobile": "强制移动视图显示对话",
+  "comp-story-i18n-TL_ip-0": "机器翻译就绪",
+  "comp-story-i18n-TL_ip-1": "正在请求机器翻译服务服务器……",
+  "comp-story-i18n-TL_ip-2": "正在清除所有机器翻译结果……",
 
   "search-mmt-input": "输入人物名字 (支持多语言全名搜索)",
   "search-mmt-h3": "搜索结果",

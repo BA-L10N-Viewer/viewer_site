@@ -50,6 +50,9 @@
   "comp-story-i18n-btn-showboth": "Show Both Text",
   "comp-story-i18n-btn-clear": "Clear All Translation",
   "comp-story-i18n-btn-forcemobile": "View Dialogues in Mobile",
+  "comp-story-i18n-TL_ip-0": "ML translation ready",
+  "comp-story-i18n-TL_ip-1": "Requesting ML service...",
+  "comp-story-i18n-TL_ip-2": "Clearing all ML result...",
 
   "search-mmt-input": "Enter Character Name (multi-lang, full-text support) ",
   "search-mmt-h3": "Search Result",

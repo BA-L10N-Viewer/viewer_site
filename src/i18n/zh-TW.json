@@ -50,6 +50,9 @@
   "comp-story-i18n-btn-showboth": "同時顯示原文與自動翻譯結果",
   "comp-story-i18n-btn-clear": "清除所有自動翻譯結果",
   "comp-story-i18n-btn-forcemobile": "強制移動檢視顯示對話",
+  "comp-story-i18n-TL_ip-0": "機器翻譯就緒",
+  "comp-story-i18n-TL_ip-1": "正在請求機器翻譯服務伺服器……",
+  "comp-story-i18n-TL_ip-2": "正在清除所有機器翻譯結果……",
 
   "search-mmt-input": "輸入人物名字 (支援多語言全名搜尋)",
   "search-mmt-h3": "搜尋結果",
