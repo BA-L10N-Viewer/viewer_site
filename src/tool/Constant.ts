@@ -66,7 +66,7 @@ export const nexonDataLangSelect = [
   { value: 'c_cn_tw', label: 'i18n-nexon-c-cn-tw' }
 ]
 
-export const NexonLangMapReverse = {
+export const NexonLangMapReverse : {[k: string]: string[]} = {
   'en': ['g_en'],
   'zh_TW': ['g_tw', 'c_zh', 'c_cn_tw'],
   'zh_CN': ['c_zh', 'g_tw_cn', 'c_cn'],
