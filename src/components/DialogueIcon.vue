@@ -12,7 +12,7 @@ const props = defineProps({
   },
   iconHeight: {
     type: String,
-    default: '4em'
+    default: '3em'
   }
 })
 </script>
