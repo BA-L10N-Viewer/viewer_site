@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { getStaticCdnBasepath, httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath, httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getLangDataFlattened } from '@/tool/StoryTool'
@@ -13,7 +13,7 @@ import type {
   I18nStoryInfoIdToXxhash, I18nStoryXxhashToL10nData,
   IndexManifestScenarioEntry, IndexManifestScenarioParentEntry,
   IndexManifestScnearioData,
-  IndexMomotalkData, IndexScenarioCharacterDataEntry,
+  IndexMomotalkData,
   IndexScenarioInfoToI18nId,
   NexonL10nData,
   StudentInfoDataSimple
@@ -62,15 +62,6 @@ let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXx
 const dataAllLoaded = ref(false)
 
 async function loadAllData() {
-  async function httpGetJsonAsync(var_: any, url: string) {
-    const data = JSON.parse(await httpGetAsync(url))
-    if (Array.isArray(var_)) {
-      var_.splice(0, var_.length, ...data)
-    } else {
-      Object.assign(var_, data)
-    }
-  }
-
   await Promise.allSettled([
     httpGetJsonAsync(dataI18nStoryXxhashToL10n, `/data/story/i18n/i18n_story.json`),
 

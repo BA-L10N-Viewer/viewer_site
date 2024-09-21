@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { type Ref, ref, watch } from 'vue'
+import { onMounted, type Ref, ref, watch } from 'vue'
 import { MOBILE_WIDTH_WIDER, NexonLangMap } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
-import { httpGetBlocking } from '@/tool/HttpRequest'
+import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
 import ScenarioDialogue from '@/components/scenario/ScenarioDialogue.vue'
 import type { CommonStoryDataDialog, IndexScenarioCharacterData } from '@/types/OutsourcedData'
@@ -32,15 +32,16 @@ watch(
 )
 // ------------------------------------------------
 const router = useRoute()
+const screenWidth = useWindowSize().width
 
-let scenarioData: CommonStoryDataDialog[] = JSON.parse(httpGetBlocking(`/data/story/normal/${router.params.storyId}.json`))
-let scenarioChar: IndexScenarioCharacterData = JSON.parse(httpGetBlocking(`/data/common/index_scenario_char.json`))
+let scenarioData: CommonStoryDataDialog[] = [] as unknown as CommonStoryDataDialog[]
+let scenarioChar: IndexScenarioCharacterData = {} as unknown as IndexScenarioCharacterData
+const isAllDataLoaded = ref(false)
 
 function getCharName(entry: CommonStoryDataDialog) {
   const charId = String(entry.CharacterId)
   if (charId !== '-1') {
     const data = scenarioChar[charId]
-    // console.log('getCharName', data)
     if (data) return data
     else return scenarioChar['-1']
   } else {
@@ -48,34 +49,45 @@ function getCharName(entry: CommonStoryDataDialog) {
   }
 }
 
-const screenWidth = useWindowSize().width
+onMounted(async () => {
+  await Promise.allSettled([
+    httpGetJsonAsync(scenarioData, `/data/story/normal/${router.params.storyId}.json`),
+    httpGetJsonAsync(scenarioChar, `/data/common/index_scenario_char.json`)
+  ])
+  isAllDataLoaded.value = true
+})
 </script>
 
 <template>
-  <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH_WIDER">
-    <thead>
-    <tr>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l1') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l2') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
-    </tr>
-    </thead>
-    <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                      v-for="(entry, idx) in scenarioData" :key="idx" />
-  </table>
-  <table class="momotalk-table" v-else>
-    <thead>
-    <tr>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
-    </tr>
-    </thead>
-    <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                      v-for="(entry, idx) in scenarioData" :key="idx" />
-  </table>
+  <div v-if="!isAllDataLoaded">
+    <h2>Loading...</h2>
+  </div>
+  <div v-if="isAllDataLoaded">
+    <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH_WIDER">
+      <thead>
+      <tr>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-l1') }}</th>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-l2') }}</th>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
+      </tr>
+      </thead>
+      <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
+                        v-for="(entry, idx) in scenarioData" :key="idx" />
+    </table>
+    <table class="momotalk-table" v-else>
+      <thead>
+      <tr>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+        <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
+      </tr>
+      </thead>
+      <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
+                        v-for="(entry, idx) in scenarioData" :key="idx" />
+    </table>
+  </div>
 </template>
 
 <style scoped>

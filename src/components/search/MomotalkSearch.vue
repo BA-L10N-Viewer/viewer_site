@@ -6,6 +6,7 @@ import MomotalkSearchEntry from '@/components/search/MomotalkSearchEntry.vue'
 import { useSetting } from '@/stores/setting'
 import type { SchaleDbL10nData, StudentInfoDataSimple, StudentInfoDataSimpleEntry } from '@/types/OutsourcedData'
 import { useSearchVars } from '@/stores/search'
+import { countCharacterLengthBiased, preProcessStringForSearch } from '@/tool/SearchTool'
 
 const i18n = useI18n()
 const setting = useSetting()
@@ -27,7 +28,7 @@ function updateCharData() {
   const checkInput = (entry: SchaleDbL10nData) => {
     return Object.keys(entry).some((key) => {
       const value = entry[key as keyof SchaleDbL10nData];
-      return value.toLowerCase().includes(inputQuery.value.toLowerCase());
+      return preProcessStringForSearch(value.toLowerCase()).includes(preProcessStringForSearch(inputQuery.value.toLowerCase()));
     });
   }
 
@@ -51,7 +52,7 @@ watch(
 watch(
   () => inputQuery.value,
   (newValue) => {
-    showContent.value = newValue.length >= 2;
+    showContent.value = countCharacterLengthBiased(newValue) >= 2;
   }
 )
 

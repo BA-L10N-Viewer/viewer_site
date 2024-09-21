@@ -3,7 +3,7 @@ import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { onBeforeMount, onMounted, type Ref, ref } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
-import { httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
+import { httpGetAsync } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {

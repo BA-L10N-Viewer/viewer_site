@@ -1,13 +1,12 @@
 import { getNexonI18nDataDefault, NexonLangMap } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
-import { getStaticCdnBasepath, httpGetAsync, httpGetBlocking } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath, httpGetAsync } from '@/tool/HttpRequest'
 import type {
   I18nBondInfoData,
   I18nStoryInfoIdToXxhash,
   I18nStoryXxhashToL10nData, IndexScenarioInfoToI18nId,
   NexonL10nData,
-  NexonL10nDataLang,
-  SchaleDbL10nData, SchaleDbL10nDataLang
+  NexonL10nDataLang
 } from '@/types/OutsourcedData'
 
 export function checkDialogueSensei(text: string) {

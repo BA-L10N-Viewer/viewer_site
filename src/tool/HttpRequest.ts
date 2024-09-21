@@ -59,3 +59,12 @@ export function getStaticCdnBasepath(type: "schaledb" | "static") {
 
   return staticCdnBasepath[type][currCdn]
 }
+
+export async function httpGetJsonAsync(var_: any, url: string) {
+  const data = JSON.parse(await httpGetAsync(url))
+  if (Array.isArray(var_)) {
+    var_.splice(0, var_.length, ...data)
+  } else {
+    Object.assign(var_, data)
+  }
+}
