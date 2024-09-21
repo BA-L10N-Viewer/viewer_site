@@ -128,3 +128,10 @@
 ruby {font-size: 1.0em}
 rt {font-size:0.8em}
 
+/**/
+.mobile-lang-hr {
+    width: calc(100% - 5px);
+    color: rgb(250, 250, 250);
+    margin-right: 5px;
+}
+

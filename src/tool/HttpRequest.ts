@@ -1,6 +1,6 @@
 import { SITE_VERSION } from '@/tool/Constant'
 
-const MAX_RETRY_DEPTH = 10
+export const MAX_RETRY_DEPTH = 10
 
 
 export function httpGetBlocking(url: string, depth: number = 0) {

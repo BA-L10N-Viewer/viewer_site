@@ -2,6 +2,7 @@
 /* option */
 import { defineProps } from 'vue'
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
+import ScenarioTranslatedDialogue from '@/components/scenario/ScenarioTranslatedDialogue.vue'
 
 const props = defineProps({
   dialogueLang: {
@@ -9,6 +10,10 @@ const props = defineProps({
     required: true
   },
   dialogueContent: {
+    type: String,
+    required: true
+  },
+  dialogueContentTranslated: {
     type: String,
     required: true
   },
@@ -30,13 +35,12 @@ const props = defineProps({
 
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2" :lang="dialogueLang">
-    <span class="story-dialogue-option-content" :style="{'color': dialogueTextColor}"
-          v-html="dialogueContent"></span>
+    <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent" :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
   </td>
 </template>
 
-<style scoped>
+<style>
   .story-dialogue-option {
     background-color: #F0F0F0;
     text-align: right;

@@ -1,4 +1,4 @@
-import type { NexonL10nData } from '@/types/OutsourcedData'
+import type { NexonL10nData, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
 
 export const MOBILE_WIDTH = 800
 export const MOBILE_WIDTH_WIDER = 1200
@@ -18,11 +18,7 @@ export const searchCascaderModeOptions = [
   }
 ]
 
-interface Dictionary<T> {
-  [key: string]: T;
-}
-
-export const NexonLangMap: Dictionary<string> = {
+export const NexonLangMap: Record<string, string> = {
   'g_en': 'en',
   'g_tw': 'zh_TW',
   'g_ko': 'ko',
@@ -36,15 +32,24 @@ export const NexonLangMap: Dictionary<string> = {
 }
 
 export const autoTranslateService = [
-  { value: 'google', label: 'i18n-setting-google' },
-  { value: 'deepl', label: 'i18n-setting-deepl' }
+  { value: 'google', label: 'i18n-setting-google' }
+  // { value: 'deepl', label: 'i18n-setting-deepl' } // disabled for rate limit
 ]
 
 export const autoTranslateLanguage = [
   { value: 'en', label: 'i18n-setting-lang-en' },
   { value: 'ja', label: 'i18n-setting-lang-ja' },
+  { value: 'ko', label: 'i18n-setting-lang-ko' },
+  { value: 'th', label: 'i18n-setting-lang-th' },
   { value: 'zh_CN', label: 'i18n-setting-lang-zh-cn' },
-  { value: 'zh_TW', label: 'i18n-setting-lang-zh-tw' }
+  { value: 'zh_TW', label: 'i18n-setting-lang-zh-tw' },
+  { value: 'fr', label: 'i18n-setting-lang-fr' },
+  { value: 'de', label: 'i18n-setting-lang-de' },
+  { value: 'it', label: 'i18n-setting-lang-it' },
+  { value: 'ru', label: 'i18n-setting-lang-ru' },
+  { value: 'pt', label: 'i18n-setting-lang-pt' },
+  { value: 'vi', label: 'i18n-setting-lang-vi' },
+  { value: 'pt-PT', label: 'i18n-setting-lang-pt-PT' },
 ]
 
 export const nexonDataLangSelect = [
@@ -61,7 +66,7 @@ export const nexonDataLangSelect = [
   { value: 'c_cn_tw', label: 'i18n-nexon-c-cn-tw' }
 ]
 
-export const NexonLangMapReverse: Dictionary<string[]> = {
+export const NexonLangMapReverse = {
   'en': ['g_en'],
   'zh_TW': ['g_tw', 'c_zh', 'c_cn_tw'],
   'zh_CN': ['c_zh', 'g_tw_cn', 'c_cn'],
@@ -70,7 +75,7 @@ export const NexonLangMapReverse: Dictionary<string[]> = {
   'th': ['g_th']
 }
 
-export const SchaleDbLangMap: Dictionary<string> = {
+export const SchaleDbLangMap: Record<SchaleDbL10nDataLang, string> = {
   'g_en': 'en',
   'g_tw': 'zh_TW',
   'g_ko': 'ko',
@@ -82,7 +87,7 @@ export const SchaleDbLangMap: Dictionary<string> = {
   'g_tw_cn': 'zh_CN',
   'c_cn_tw': 'zh_TW',
   'c_zh': 'zh_CN',
-  'c_zh_TW': 'zh_TW'
+  'c_zh_tw': 'zh_TW'
 }
 
 export const siteUiLangSelect = [

@@ -1,3 +1,4 @@
+export const NexonL10nDataLang : NexonL10nDataLang[] = ['j_ja', 'j_ko', 'g_tw', 'g_tw_cn', 'g_en', 'g_th', 'g_ja', 'g_ko', 'c_cn', 'c_cn_tw']
 export type NexonL10nDataLang = 'j_ja' | 'j_ko' | 'g_tw' | 'g_tw_cn' | 'g_en' | 'g_th' | 'g_ja' | 'g_ko' | 'c_cn' | 'c_cn_tw'
 export type NexonL10nData = Record<NexonL10nDataLang, string>
 export type NexonL10nDataDict = {

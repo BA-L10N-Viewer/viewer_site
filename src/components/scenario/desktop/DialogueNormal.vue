@@ -1,10 +1,10 @@
 <script setup lang="ts">
 /* speaker */
-import { defineProps, type PropType } from 'vue'
+import { defineProps } from 'vue'
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
-import type { IndexScenarioCharacterDataEntry } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getScenarioCharacterSmallPortraitPath } from '@/tool/StoryTool'
+import ScenarioTranslatedDialogue from '@/components/scenario/ScenarioTranslatedDialogue.vue'
 
 const props = defineProps({
   dialogueLang: {
@@ -15,11 +15,19 @@ const props = defineProps({
     type: String,
     required: true
   },
+  dialogueCharacterTranslated: {
+    type: String,
+    required: true
+  },
   dialogueCharacterImage: {
     type: String,
     required: true
   },
   dialogueContent: {
+    type: String,
+    required: true
+  },
+  dialogueContentTranslated: {
     type: String,
     required: true
   },
@@ -41,10 +49,10 @@ const props = defineProps({
 <template>
   <td :lang="dialogueLang" class="scenario-speaker scenario-dialogue">
     <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" /><br />
-    <span v-html="dialogueCharacter" :style="{'color': dialogueTextColor}"></span>
+    <ScenarioTranslatedDialogue :content-original="dialogueCharacter" :content-translated="dialogueCharacterTranslated" :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">
-    <span v-html="dialogueContent" :style="{'color': dialogueTextColor}"></span>
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
   </td>
 </template>

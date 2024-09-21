@@ -3,6 +3,7 @@
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 
 import { defineProps } from 'vue'
+import ScenarioTranslatedDialogue from '@/components/scenario/ScenarioTranslatedDialogue.vue'
 
 const props = defineProps({
   dialogueLang: {
@@ -10,6 +11,10 @@ const props = defineProps({
     required: true
   },
   dialogueContent: {
+    type: String,
+    required: true
+  },
+  dialogueContentTranslated: {
     type: String,
     required: true
   },
@@ -33,15 +38,19 @@ const props = defineProps({
 </script>
 
 <template>
-  <td v-if="dialogueDataType === 'title' || dialogueDataType === 'nextEpisode'" v-html="dialogueContent"
+  <td v-if="dialogueDataType === 'title' || dialogueDataType === 'nextEpisode'"
       :lang="dialogueLang"
-      colspan="2" class="story-dialogue-center"></td>
+      colspan="2" class="story-dialogue-center">
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
+  </td>
   <td v-else-if="dialogueDataType === 'na'" :lang="dialogueLang" colspan="2" class="story-dialogue-na">
-    <span v-html="dialogueContent"></span>
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
   </td>
-  <td v-else v-html="dialogueContent"
-      class="story-dialogue-other" :lang="dialogueLang" colspan="2"></td>
+  <td v-else
+      class="story-dialogue-other" :lang="dialogueLang" colspan="2">
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
+  </td>
 </template>
 
 <style scoped>

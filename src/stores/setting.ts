@@ -8,6 +8,7 @@ export const useSetting = defineStore('setting', {
     return {
       'username': 'Sensei',
       'ui_lang': convertLangToNormal(getUserLang()),
+      'ui_force_mobile': false,
       'i18n_lang1': 'j_ja',
       'i18n_lang2': 'null',
       'i18n_lang3': 'null',

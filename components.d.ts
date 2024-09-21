@@ -53,6 +53,7 @@ declare module 'vue' {
     ScenarioSearch: typeof import('./src/components/search/ScenarioSearch.vue')['default']
     ScenarioSearchEntryBond: typeof import('./src/components/search/ScenarioSearchEntryBond.vue')['default']
     ScenarioSearchEntryEvent: typeof import('./src/components/search/ScenarioSearchEntryEvent.vue')['default']
+    ScenarioTranslatedDialogue: typeof import('./src/components/scenario/ScenarioTranslatedDialogue.vue')['default']
     ScenarioUi: typeof import('./src/components/ScenarioUi.vue')['default']
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
   }

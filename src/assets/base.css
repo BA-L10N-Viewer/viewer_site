@@ -10,9 +10,9 @@
 }
 
 /* Fonts */
-*:lang(zh_CN) {font-family: "Noto Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif !important}
-*:lang(zh_TW) {font-family: "Noto Sans TC", "Microsoft JhengHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif}
-*:lang(en) {font-family: "Noto Sans", "Roboto", sans-serif !important}
+*:lang(zh_CN), *:lang(zh_cn) {font-family: "Noto Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif !important}
+*:lang(zh_TW), *:lang(zh_tw) {font-family: "Noto Sans TC", "Microsoft JhengHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif}
+*:lang(en), *:lang(fr), *:lang(de), *:lang(it), *:lang(ru) {font-family: "Noto Sans", "Roboto", sans-serif !important}
 *:lang(jp), *:lang(ja) {font-family: "Noto Sans JP", sans-serif !important}
 *:lang(kr), *:lang(ko) {font-family: "Noto Sans KR", sans-serif !important}
 *:lang(th) {font-family: "Noto Sans Thai", sans-serif !important}
