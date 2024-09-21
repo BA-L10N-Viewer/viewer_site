@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { httpGetBlocking } from '@/tool/HttpRequest'
+import { httpGetAsync } from '@/tool/HttpRequest'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import MomotalkSearchEntry from '@/components/search/MomotalkSearchEntry.vue'
@@ -14,8 +14,14 @@ const searchCache = useSearchVars()
 const inputQuery = ref('')
 const showContent = ref(false)
 
-const charDataRaw : StudentInfoDataSimple = JSON.parse(httpGetBlocking('/data/common/index_stu.json'))
+const isAllDataLoaded = ref(false)
+
+let charDataRaw : StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
 let charData = ref<StudentInfoDataSimpleEntry[]>([])
+
+async function loadAllData() {
+  charDataRaw = JSON.parse(await httpGetAsync('/data/common/index_stu.json'))
+}
 
 function updateCharData() {
   const checkInput = (entry: SchaleDbL10nData) => {
@@ -40,9 +46,6 @@ watch(
   },
   () => {
     updateCharData()
-  },
-  {
-    immediate: true
   }
 )
 watch(
@@ -53,7 +56,10 @@ watch(
 )
 
 /* 搜索内容缓存 (instance 级) */
-onMounted(() => {
+onMounted(async () => {
+  await loadAllData()
+  isAllDataLoaded.value = true
+
   inputQuery.value = searchCache.m_inputQuery
   updateCharData()
 })
@@ -66,14 +72,19 @@ watch(
 </script>
 
 <template>
-  <el-input v-model="inputQuery" :placeholder="i18n.t('search-mmt-input')" @input="updateCharData" />
-  <br />
-  <h3>{{ i18n.t('search-mmt-h3') }}</h3>
-  <el-button v-if="!showContent" @click="showContent = true">{{i18n.t('search-mmt-force-show')}}</el-button>
-  <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
-    <MomotalkSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
-                         :family_name="item['FamilyName']" :char_id="item['Id']" />
-  </ul>
+  <div v-if="!isAllDataLoaded">
+    <h2>Loading...</h2>
+  </div>
+  <div v-if="isAllDataLoaded">
+    <el-input v-model="inputQuery" :placeholder="i18n.t('search-mmt-input')" @input="updateCharData" />
+    <br />
+    <h3>{{ i18n.t('search-mmt-h3') }}</h3>
+    <el-button v-if="!showContent" @click="showContent = true">{{i18n.t('search-mmt-force-show')}}</el-button>
+    <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
+      <MomotalkSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
+                           :family_name="item['FamilyName']" :char_id="item['Id']" />
+    </ul>
+  </div>
 </template>
 
 <style scoped>
