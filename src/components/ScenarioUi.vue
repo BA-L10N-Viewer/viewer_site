@@ -235,7 +235,7 @@ onMounted(async () => {
   </div>
   <div v-if="isAllDataLoaded">
     <a id="main-table"></a>
-    <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile">
+    <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile" id="scnario-main-table">
       <thead>
       <tr>
         <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
@@ -251,7 +251,7 @@ onMounted(async () => {
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
-    <table class="momotalk-table" v-show="screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile">
+    <table class="momotalk-table" v-show="screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile" id="scnario-main-table">
       <thead>
       <tr>
         <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
@@ -265,9 +265,9 @@ onMounted(async () => {
     </table>
   </div>
 
-  <Teleport to="body">
-    <el-affix position="bottom" :offset="0">
-      <div style="width: calc(100% - 8px); padding-top: 1.3em; text-align: center; background-color: white; height: 4em;">
+  <Teleport v-if="isAllDataLoaded" to="body">
+    <el-affix position="bottom" :offset="0" target="#scnario-main-table">
+      <div style="width: calc(100% - 8px); padding-top: 1.3em; padding-left: 1em; text-align: center; background-color: white; height: 4em;">
         <el-pagination
           v-model:current-page="pagination_currPage"
           v-model:page-size="setting.scenario_pagination_perPage"
