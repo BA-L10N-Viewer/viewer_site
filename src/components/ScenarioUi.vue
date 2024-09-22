@@ -74,6 +74,8 @@ const pagination_background = ref(true)
 const pagination_layout = ref('')
 const pagination_pagerCount = ref(7)
 
+const pagination_data = ref()
+
 watch(
   () => useWindowSize().width.value,
   (newValue) => {
@@ -85,11 +87,22 @@ watch(
   { immediate: true }
 )
 
-const pagination_data = ref()
+watch(
+  () => pagination_currPerSize.value,
+  (newValue) => {
+    updatePaginationData(newValue)
+  }
+)
+
+function updatePaginationData(currPerSize: number = -1) {
+  pagination_length.value = scenarioData.length
+
+  const perSize = currPerSize === -1 ? pagination_currPerSize.value : currPerSize
+  pagination_data.value = chunk(scenarioData, perSize)
+}
 
 function initPagination() {
-  pagination_length.value = scenarioData.length
-  pagination_data.value = chunk(scenarioData, pagination_currPerSize.value)
+  updatePaginationData()
 }
 
 onUpdated(() => {
