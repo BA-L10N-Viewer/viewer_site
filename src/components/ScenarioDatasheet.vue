@@ -2,7 +2,7 @@
 import { defineProps, computed, ref, type PropType } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import type { ComponentSize } from 'element-plus'
-import { Iphone, Location, OfficeBuilding, Tickets, User } from '@element-plus/icons-vue'
+import { Iphone, Location, OfficeBuilding, Reading, Tickets, User } from '@element-plus/icons-vue'
 import { getLangDataFlattened } from '@/tool/StoryTool'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { useI18n } from 'vue-i18n'

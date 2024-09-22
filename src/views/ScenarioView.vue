@@ -53,8 +53,10 @@ ML_pinia.initAll()
     <h1>{{ $t('view-scenario-h1') }}</h1>
     <ScenarioDatasheet :story-desc="scenarioNameDesc[1]" :story-name="scenarioNameDesc[0]"
                        :story-id="Number(scenarioID)" />
+    <el-divider />
     <StoryI18nSetting />
-    <el-divider></el-divider>
+    <el-divider />
+
     <ScenarioUi />
   </div>
 </template>
