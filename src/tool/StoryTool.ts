@@ -37,6 +37,16 @@ export function convertNewlineToBr(text: string): string {
   return text.replace(/\[\\n\]/g, '<br />')
 }
 
+export function convertImgToImg(text: string) {
+  return text.replace(
+    /\[img:\s*UIs\/03_Scenario\/04_ScenarioImage\/([^\s\]]+)\s*\]/g,
+    `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/$1.png" />`);
+}
+
+export function convertMmtMsgToHtml(text: string) {
+  return convertImgToImg(convertNewlineToBr(text))
+}
+
 export function getLangData(entry: NexonL10nData, key: NexonL10nDataLang): string {
   if (key in entry) return entry[key]
   else return ''

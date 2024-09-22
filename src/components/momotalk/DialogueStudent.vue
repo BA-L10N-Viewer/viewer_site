@@ -2,7 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import { useSignalI18n } from '@/stores/signal'
 import { useSetting } from '@/stores/setting'
-import { checkDialogueSensei, convertNewlineToBr, getClassDialogueSensei } from '@/tool/StoryTool'
+import { checkDialogueSensei, convertMmtMsgToHtml, getClassDialogueSensei } from '@/tool/StoryTool'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
@@ -101,8 +101,8 @@ watch(
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
     <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
-      <DialogueTranslated :content-original="convertNewlineToBr(dialogueContentDecorated)"
-                          :content-translated="convertNewlineToBr(dialogueContentTranslated)" />
+      <DialogueTranslated :content-original="convertMmtMsgToHtml(dialogueContentDecorated)"
+                          :content-translated="convertMmtMsgToHtml(dialogueContentTranslated)" />
     </div>
   </td>
 </template>

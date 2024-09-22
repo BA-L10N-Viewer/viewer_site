@@ -2,7 +2,7 @@
 import DialogueStudent from '@/components/momotalk/DialogueStudent.vue'
 import { computed, type PropType, type Ref, ref, provide, inject } from 'vue'
 import { useSetting } from '@/stores/setting'
-import { MOBILE_WIDTH, MOBILE_WIDTH_WIDER } from '@/tool/Constant'
+import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'
 import DialogueStudentMobile from '@/components/momotalk/DialogueStudentMobile.vue'
 import { getLangData, type NexonL10nDataMlData } from '@/tool/StoryTool'
@@ -56,7 +56,7 @@ const router = useRouter()
 </script>
 
 <template>
-  <tr class="momotalk-dialogue-tr" v-show="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
+  <tr class="momotalk-dialogue-tr" v-show="(screenWidth >= MOBILE_WIDTH && !setting.ui_force_mobile) && ML_table">
     <DialogueStudent :dialogue-lang="i18nToUiLangAll[0]"
                      :dialogue-speaker="charName[i18nLangAll[0] as NexonL10nDataLang]"
                      :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[0] as NexonL10nDataLang)"

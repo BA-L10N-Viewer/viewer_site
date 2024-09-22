@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, type PropType, inject, type Ref, ref, provide } from 'vue'
+import { computed, type PropType, inject, type Ref, ref } from 'vue'
 import {
   dialogueContentDecorator,
-  convertNewlineToBr,
+  convertMmtMsgToHtml,
   checkDialogueSensei,
   getClassDialogueSensei,
   type NexonL10nDataMlData
@@ -11,7 +11,7 @@ import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import type { MomotalkStoryDataDialog, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
@@ -92,8 +92,8 @@ const dialogueContentsTranslated = computed(() => {
     <div v-for="(content, idx) in dialogueContentsDecorated" :key="idx"
          :class="getClassDialogueSensei(dialogueType)"
          :lang="i18nToUiLangAll[idx]">
-      <DialogueTranslated :content-original="convertNewlineToBr(content)"
-                          :content-translated="convertNewlineToBr(dialogueContentsTranslated[idx])" />
+      <DialogueTranslated :content-original="convertMmtMsgToHtml(content)"
+                          :content-translated="convertMmtMsgToHtml(dialogueContentsTranslated[idx])" />
 
       <hr class="mobile-lang-hr" v-if="!(idx + 1 == dialogueSpeakers.length)" />
     </div>

@@ -80,6 +80,16 @@
     display: table-row;
 }
 
+.momotalk-dialogue-img {
+    max-width: 15em;
+}
+
+@media screen and (max-width: 1200px) {
+    .momotalk-dialogue-img {
+        max-width: 10em;
+    }
+}
+
 .view-h1 {
     font-size: 2em;
 }

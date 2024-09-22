@@ -6,7 +6,11 @@
   --color-ba-mmt: #F19EAA;
 
   /* --color-bs-* are from Bootstrap, see more below */
-  --color-bs-primary: #0d6efd
+  --color-bs-primary: #0d6efd;
+
+  /* 移动端width */
+  --js-mobile-width: 800px;
+  --js-mobile-width-wide: 1200px;
 }
 
 /* Fonts */
