@@ -9,13 +9,10 @@ import ScenarioDialogue from '@/components/scenario/ScenarioDialogue.vue'
 import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedData'
 import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
-import {
-  joinTranslateResult as GoogleML_joinTranslateResult,
-  translate as GoogleML_translate
-} from '@/tool/translate/GoogleTranslate'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
+import { getMlTranslationByGoogle, type NexonL10nDataMlData } from '@/tool/StoryTool'
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -121,7 +118,7 @@ onUpdated(() => {
 
 // --------------------- ML AUTO TRANSLATE ---------------------
 // 创建每句台词对应的对应表
-const tableDialogueTranslated: Ref<Record<NexonL10nDataLang, { 'name': string; 'dialogue': string }[]>> = ref({
+const tableDialogueTranslated: Ref<NexonL10nDataMlData> = ref({
   'j_ja': [],
   'j_ko': [],
   'g_tw': [],
@@ -155,22 +152,17 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
   ML_in_progress.value = true
   clearMlTranslation(baselang as NexonL10nDataLang)
 
-  async function getTranslation(oriNameText: string, oriDialogueText: string, idx: number) {
-    let textName: string, textDialogue: string
-
-    if (oriNameText) textName = GoogleML_joinTranslateResult(await GoogleML_translate(oriNameText, actualMlLang))
-    else textName = ''
-    if (oriDialogueText) textDialogue = GoogleML_joinTranslateResult(await GoogleML_translate(oriDialogueText, actualMlLang))
-    else textDialogue = ''
-
-    tableDialogueTranslated.value[baselang][idx] = { name: textName, dialogue: textDialogue }
-  }
-
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
   for (const [idx, entry] of scenarioData.entries()) {
     asyncPool.addTask(
-      () => getTranslation(getCharName(entry).Name[baselang], entry.Message[baselang], idx)
+      async () => {
+        tableDialogueTranslated.value[baselang][idx] = await getMlTranslationByGoogle(
+          getCharName(entry).Name[baselang],
+          entry.Message[baselang],
+          actualMlLang
+        )
+      }
     )
   }
 
