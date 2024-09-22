@@ -6,7 +6,6 @@ import { checkDialogueSensei, convertNewlineToBr, getClassDialogueSensei } from 
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
-import { NexonLangMap } from '@/tool/Constant'
 
 const props = defineProps({
   dialogueLang: {
@@ -14,6 +13,7 @@ const props = defineProps({
     required: true
   },
   dialogueSpeaker: {
+    type: String,
     required: true
   },
   dialogueContent: {
