@@ -20,7 +20,7 @@ const props = defineProps({
     required: true
   },
   dialogueContent: {
-    type: {} as PropType<MomotalkStoryDataDialog>,
+    type: {} as PropType<NexonL10nData>,
     required: true
   },
   dialogueBgColor: {
