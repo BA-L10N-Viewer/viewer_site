@@ -34,7 +34,11 @@ watch(screenWidth, () => {
       </div>
     </el-col>
     <el-col :span="colSpanRight">
-      <div class="home-bulletin-div"></div>
+      <div class="home-bulletin-div">
+        <h2>AWS CDN Info</h2>
+        <p>For <b>users in China Mainland</b>, you can visit the AWS-accelerated site at <a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a> for better experience.</p>
+        <p><b>中国大陆地区用户</b>可访问本站的AWS加速版（<a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a>）以获得更好体验。</p>
+      </div>
     </el-col>
   </el-row>
 </template>
