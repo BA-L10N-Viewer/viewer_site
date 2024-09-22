@@ -92,7 +92,7 @@ const router = useRouter()
     <td :colspan="screenWidth >= MOBILE_WIDTH ? 6 : 2"
         style="text-align: center; background-color: var(--color-ba-mmt); font-size: 1.2em;">
       <b><a @click="router.push({name: 'scenario', params: {storyId: bond_story_id}})"
-            href="javascript: void 0">前往故事</a></b>
+            href="javascript: void 0">{{ $t('comp-mmt-ui-table-view-story')}}</a></b>
     </td>
   </tr>
 </template>
