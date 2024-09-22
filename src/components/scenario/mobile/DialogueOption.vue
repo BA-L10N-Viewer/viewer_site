@@ -44,7 +44,7 @@ let ML_table: Ref<Record<NexonL10nDataLang, { name: string; dialogue: string }[]
         :is_after_br="true" />
     </span>
     <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[0]">
+    <span :lang="i18nToUiLangAll[1]">
       <ScenarioTranslatedDialogue
         :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])"
         :content-translated="ML_table[i18nLangAll[1] as NexonL10nDataLang][entry_pos]['dialogue']"
@@ -52,7 +52,7 @@ let ML_table: Ref<Record<NexonL10nDataLang, { name: string; dialogue: string }[]
         :is_after_br="true" />
     </span>
     <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[0]">
+    <span :lang="i18nToUiLangAll[2]">
       <ScenarioTranslatedDialogue
         :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])"
         :content-translated="ML_table[i18nLangAll[2] as NexonL10nDataLang][entry_pos]['dialogue']"

@@ -50,8 +50,6 @@ const props = defineProps({
 })
 
 const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dialogueContent))
-
-console.log(props.dialogueCharacterTranslated)
 </script>
 
 <template>
