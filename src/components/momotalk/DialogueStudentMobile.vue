@@ -52,20 +52,20 @@ const setting = useSetting()
 
 // --------------------- ML SERVICE ---------------------
 let ML_table: Ref<[NexonL10nDataMlData]> = ref(inject('ML_table') as any)
-const mmtEntryPos = inject('mmtEntryPos')
-const mmtEntryDialoguePos = inject('mmtEntryDialoguePos')
+const mmtEntryPos = inject('mmtEntryPos') as number
+const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
 
 const dialogueSpeakersTranslated = computed(() => {
   const temp = []
   for (const lang of i18nLangAll.value) {
-    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]['speaker'])
+    temp.push(ML_table.value[mmtEntryPos][lang as NexonL10nDataLang][mmtEntryDialoguePos]['name'])
   }
   return temp
 })
 const dialogueContentsTranslated = computed(() => {
   const temp = []
   for (const lang of i18nLangAll.value) {
-    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]['dialogue'])
+    temp.push(ML_table.value[mmtEntryPos][lang as NexonL10nDataLang][mmtEntryDialoguePos]!['dialogue'])
   }
   return temp
 })
