@@ -1,45 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { dialogueContentDecorator, convertNewlineToBr, checkDialogueSensei, getLangCode, getClassDialogueSensei } from '@/tool/StoryTool'
+import { computed, type PropType, inject, type Ref, ref, provide } from 'vue'
+import {
+  dialogueContentDecorator,
+  convertNewlineToBr,
+  checkDialogueSensei,
+  getClassDialogueSensei,
+  type NexonL10nDataMlData
+} from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueIcon from '@/components/DialogueIcon.vue'
+import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
+import type { MomotalkStoryDataDialog, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import DialogueTranslated from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
-  dialogueLang1: {
-    type: String,
+  dialogueSpeaker: {
+    type: {} as PropType<NexonL10nData>,
     required: true
   },
-  dialogueLang2: {
-    type: String,
-    required: true
-  },
-  dialogueLang3: {
-    type: String,
-    required: true
-  },
-  dialogueSpeakerLang1: {
-    type: String,
-    required: true
-  },
-  dialogueSpeakerLang2: {
-    type: String,
-    required: true
-  },
-  dialogueSpeakerLang3: {
-    type: String,
-    required: true
-  },
-  dialogueContentLang1: {
-    type: String,
-    required: true
-  },
-  dialogueContentLang2: {
-    type: String,
-    required: true
-  },
-  dialogueContentLang3: {
-    type: String,
+  dialogueContent: {
+    type: {} as PropType<MomotalkStoryDataDialog>,
     required: true
   },
   dialogueBgColor: {
@@ -51,29 +32,44 @@ const props = defineProps({
     required: true
   }
 })
-const dialogueLangs = computed(() => [
-  props.dialogueLang1,
-  props.dialogueLang2,
-  props.dialogueLang3
-])
-const dialogueSpeakers = computed(() => [
-  props.dialogueSpeakerLang1,
-  props.dialogueSpeakerLang2,
-  props.dialogueSpeakerLang3
-])
-/*const dialogueContents = computed(() => [
-  props.dialogueContentLang1,
-  props.dialogueContentLang2,
-  props.dialogueContentLang3
-])*/
-const dialogueContentsDecorated = computed(() => [
-  dialogueContentDecorator(props.dialogueType, props.dialogueContentLang1),
-  dialogueContentDecorator(props.dialogueType, props.dialogueContentLang2),
-  dialogueContentDecorator(props.dialogueType, props.dialogueContentLang3)
-])
+const dialogueSpeakers = computed(() => {
+  const temp = []
+  for (const lang of i18nLangAll.value) {
+    temp.push(props.dialogueSpeaker[lang as NexonL10nDataLang])
+  }
+  return temp
+})
+const dialogueContentsDecorated = computed(() => {
+  const temp = []
+  for (const lang of i18nLangAll.value) {
+    temp.push(dialogueContentDecorator(props.dialogueType, props.dialogueContent[lang as NexonL10nDataLang]))
+  }
+  return temp
+})
 const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
 
 const setting = useSetting()
+
+// --------------------- ML SERVICE ---------------------
+let ML_table: Ref<[NexonL10nDataMlData]> = ref(inject('ML_table') as any)
+const mmtEntryPos = inject('mmtEntryPos')
+const mmtEntryDialoguePos = inject('mmtEntryDialoguePos')
+
+const dialogueSpeakersTranslated = computed(() => {
+  const temp = []
+  for (const lang of i18nLangAll.value) {
+    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]['speaker'])
+  }
+  return temp
+})
+const dialogueContentsTranslated = computed(() => {
+  const temp = []
+  for (const lang of i18nLangAll.value) {
+    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]['dialogue'])
+  }
+  return temp
+})
+// ------------------------------------------------------
 </script>
 
 <template>
@@ -84,19 +80,22 @@ const setting = useSetting()
         <br />
       </div>
 
-      <div v-for="(speaker, idx) in dialogueSpeakers" :lang="getLangCode(dialogueLangs[idx])" :key="idx">
+      <div v-for="(speaker, idx) in dialogueSpeakers" :key="idx"
+           :lang="i18nToUiLangAll[idx]">
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-        <span v-else>{{ speaker }}</span>
-        <br v-if="idx + 1 == dialogueSpeakers.length" />
+        <DialogueTranslated v-else :content-original="speaker" :content-translated="dialogueSpeakersTranslated[idx]" />
       </div>
     </div>
   </td>
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
-    <div v-for="(content, idx) in dialogueContentsDecorated" :class="getClassDialogueSensei(dialogueType)" :key="idx">
-      <span :lang="getLangCode(dialogueLangs[idx])"
-           v-html="convertNewlineToBr(content)"></span>
-      <br v-if="idx + 1 == dialogueSpeakers.length" />
+    <div v-for="(content, idx) in dialogueContentsDecorated" :key="idx"
+         :class="getClassDialogueSensei(dialogueType)"
+         :lang="i18nToUiLangAll[idx]">
+      <DialogueTranslated :content-original="convertNewlineToBr(content)"
+                          :content-translated="convertNewlineToBr(dialogueContentsTranslated[idx])" />
+
+      <hr class="mobile-lang-hr" v-if="!(idx + 1 == dialogueSpeakers.length)" />
     </div>
   </td>
 </template>

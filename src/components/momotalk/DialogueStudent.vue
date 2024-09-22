@@ -2,9 +2,11 @@
 import { ref, watch, computed } from 'vue'
 import { useSignalI18n } from '@/stores/signal'
 import { useSetting } from '@/stores/setting'
-import { checkDialogueSensei, convertNewlineToBr, getClassDialogueSensei, getLangCode } from '@/tool/StoryTool'
+import { checkDialogueSensei, convertNewlineToBr, getClassDialogueSensei } from '@/tool/StoryTool'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
+import DialogueTranslated from '@/components/DialogueTranslated.vue'
+import { NexonLangMap } from '@/tool/Constant'
 
 const props = defineProps({
   dialogueLang: {
@@ -85,29 +87,22 @@ watch(
 <template>
   <td class="momotalk-dialogue momotalk-speaker">
     <div :class="{'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType)}">
-      <div :lang="getLangCode(dialogueLang)">
+      <div :lang="dialogueLang">
         <div v-if="!checkDialogueSensei(dialogueType) && dialogueSpeaker" style="text-align: center;">
           <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
           <br />
         </div>
 
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-        <span v-else>{{ dialogueSpeaker }}</span>
-      </div>
-      <div v-if="dialogueSpeakerTranslated !== ''"
-           :lang="getLangCode(dialogueLangTranslated)">
-        <br /><i>{{ dialogueSpeakerTranslated }}</i>
+        <DialogueTranslated v-else :content-original="dialogueSpeaker" :content-translated="dialogueSpeakerTranslated" />
       </div>
     </div>
   </td>
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
-    <div :class="getClassDialogueSensei(dialogueType)">
-      <div :lang="getLangCode(dialogueLang)"
-           v-html="convertNewlineToBr(dialogueContentDecorated)"></div>
-      <div v-if="dialogueSpeakerTranslated !== ''"
-           :lang="getLangCode(dialogueLangTranslated)">
-        <br /><i v-html="convertNewlineToBr(dialogueContentTranslated)"></i></div>
+    <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
+      <DialogueTranslated :content-original="convertNewlineToBr(dialogueContentDecorated)"
+                          :content-translated="convertNewlineToBr(dialogueContentTranslated)" />
     </div>
   </td>
 </template>

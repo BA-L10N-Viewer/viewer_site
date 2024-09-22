@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { useSetting } from '@/stores/setting'
-import { defineProps, type PropType, type Ref, ref, watch } from 'vue'
-import { NexonLangMap } from '@/tool/Constant'
+import { defineProps, type PropType, ref } from 'vue'
 import MomotalkDialogue from '@/components/momotalk/MomotalkDialogue.vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import type {
   MomotalkStoryDataEntry,
-  NexonL10nData,
+  NexonL10nData
 } from '@/types/OutsourcedData'
+import { useSetting } from '@/stores/setting'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -19,72 +18,53 @@ const props = defineProps({
   data_charname: {
     type: {} as PropType<NexonL10nData>,
     required: true
+  },
+  entry_pos: {
+    type: Number,
+    required: true
   }
 })
 
-// --------------------- I18N ---------------------
 const setting = useSetting()
-const i18nL1: Ref = ref(setting.i18n_lang1)
-const i18nL2: Ref = ref(setting.i18n_lang2)
-const i18nL3: Ref = ref(setting.i18n_lang3)
-const langL1: Ref = ref(NexonLangMap[i18nL1.value])
-const langL2: Ref = ref(NexonLangMap[i18nL2.value])
-const langL3: Ref = ref(NexonLangMap[i18nL3.value])
-watch(
-  () => {
-    return [setting.i18n_lang1, setting.i18n_lang2, setting.i18n_lang3]
-  },
-  () => {
-    i18nL1.value = setting.i18n_lang1
-    i18nL2.value = setting.i18n_lang2
-    i18nL3.value = setting.i18n_lang3
-    langL1.value = NexonLangMap[i18nL1.value]
-    langL2.value = NexonLangMap[i18nL2.value]
-    langL3.value = NexonLangMap[i18nL3.value]
-  },
-  { immediate: true }
-)
-// ------------------------------------------------
 const mmtData = props.data_data
 const charName = props.data_charname
 
 const screenWidth = useWindowSize().width
+
+const anchorBackToTableTop = ref(null)
 </script>
 
 <template>
-  <!--
-  <div class="momotalk-div">
-    <div class="momotalk-header">
-      <p style="text-align: center" class="momotalk-header-p">Momotalk</p>
-    </div>
-  </div>
-  -->
+  <a ref="anchorBackToTableTop"></a>
+
   <div class="momotalk-header">
     <p style="text-align: center" class="momotalk-header-p">Momotalk</p>
   </div>
-  <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH">
+  <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH && !setting.ui_force_mobile">
     <thead>
     <tr>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-speaker')}}</th>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-l1')}}</th>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-speaker')}}</th>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-l2')}}</th>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-speaker')}}</th>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-l3')}}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l1') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l2') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
     </tr>
     </thead>
     <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
+                      :entry_pos="index" :mmt_entry_pos="entry_pos"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
-                      :bond_story_id="mmtData['BondScenarioId']"/>
+                      :bond_story_id="mmtData['BondScenarioId']" />
   </table>
-  <table class="momotalk-table" v-if="screenWidth < MOBILE_WIDTH">
+  <table class="momotalk-table" v-if="screenWidth < MOBILE_WIDTH || setting.ui_force_mobile">
     <thead>
     <tr>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-speaker')}}</th>
-      <th scope="col">{{$t('comp-mmt-ui-table-th-l4')}}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+      <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
     </tr>
     </thead>
     <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
+                      :entry_pos="index" :mmt_entry_pos="entry_pos"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
                       :bond_story_id="mmtData['BondScenarioId']" />
   </table>

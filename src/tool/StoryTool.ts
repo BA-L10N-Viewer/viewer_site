@@ -8,6 +8,10 @@ import type {
   NexonL10nData,
   NexonL10nDataLang
 } from '@/types/OutsourcedData'
+import {
+  joinTranslateResult as GoogleML_joinTranslateResult,
+  translate as GoogleML_translate
+} from '@/tool/translate/GoogleTranslate'
 
 export function checkDialogueSensei(text: string) {
   if (text === 'Answer') return true
@@ -36,15 +40,6 @@ export function convertNewlineToBr(text: string): string {
 export function getLangData(entry: NexonL10nData, key: NexonL10nDataLang): string {
   if (key in entry) return entry[key]
   else return ''
-}
-
-export function getLangCode(lang: string): string {
-  const lang_ = lang
-  if (!lang_) {
-    return 'en'
-  } else if (NexonLangMap[lang_]) {
-    return NexonLangMap[lang_]
-  } else return lang_
 }
 
 export function getLangDataFlattened(entry: NexonL10nData, langs: string[],
@@ -151,3 +146,15 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
   return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + path.split("/").slice(-1)[0] + ".png"
 }
 
+export type NexonL10nDataMlData = Record<NexonL10nDataLang | 'null', { 'name': string; 'dialogue': string }[]>
+
+export async function getMlTranslationByGoogle(oriNameText: string, oriDialogueText: string, actualMlLang: string) {
+  let textName: string, textDialogue: string
+
+  if (oriNameText) textName = GoogleML_joinTranslateResult(await GoogleML_translate(oriNameText, actualMlLang))
+  else textName = ''
+  if (oriDialogueText) textDialogue = GoogleML_joinTranslateResult(await GoogleML_translate(oriDialogueText, actualMlLang))
+  else textDialogue = ''
+
+  return { name: textName, dialogue: textDialogue }
+}
