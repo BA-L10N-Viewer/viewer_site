@@ -7,7 +7,7 @@ import { getScenarioCharacterSmallPortraitPath, replaceStoryLineUsernameBlank } 
 import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
 import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
-import ScenarioTranslatedDialogue from '@/components/scenario/ScenarioTranslatedDialogue.vue'
+import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
   dialogueCharacter: {

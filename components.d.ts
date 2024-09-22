@@ -16,6 +16,7 @@ declare module 'vue' {
     DialogueOther: typeof import('./src/components/scenario/desktop/DialogueOther.vue')['default']
     DialogueStudent: typeof import('./src/components/momotalk/DialogueStudent.vue')['default']
     DialogueStudentMobile: typeof import('./src/components/momotalk/DialogueStudentMobile.vue')['default']
+    DialogueTranslated: typeof import('./src/components/DialogueTranslated.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElButton: typeof import('element-plus/es')['ElButton']

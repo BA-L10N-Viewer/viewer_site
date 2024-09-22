@@ -10,7 +10,7 @@ import type {
   CommonStoryDataDialogTextColor,
   NexonL10nData, NexonL10nDataLang
 } from '@/types/OutsourcedData'
-import ScenarioTranslatedDialogue from '@/components/scenario/ScenarioTranslatedDialogue.vue'
+import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
   dialogueContent: {

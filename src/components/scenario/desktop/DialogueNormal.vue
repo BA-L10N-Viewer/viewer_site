@@ -4,7 +4,7 @@ import { defineProps } from 'vue'
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getScenarioCharacterSmallPortraitPath } from '@/tool/StoryTool'
-import ScenarioTranslatedDialogue from '@/components/scenario/ScenarioTranslatedDialogue.vue'
+import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
   dialogueLang: {
