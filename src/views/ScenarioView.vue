@@ -39,7 +39,7 @@ ML_pinia.initAll()
     <h1>Loading...</h1>
   </div>
   <div v-if="!isLoading">
-    <el-backtop :right="100" :bottom="100" @click="showI18nSettingDialog = true">
+    <el-backtop :right="50" :bottom="100" @click="showI18nSettingDialog = true">
       <el-icon>
         <Setting />
       </el-icon>

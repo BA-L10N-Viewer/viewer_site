@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import { onBeforeMount, onMounted, type Ref, ref } from 'vue'
+import { onMounted, type Ref, ref } from 'vue'
 import { Setting } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
 import { httpGetAsync } from '@/tool/HttpRequest'
@@ -41,7 +41,7 @@ onMounted(() => {loadEverything();})
 
 <template>
   <div v-loading="isLoading">
-    <el-backtop :right="100" :bottom="100" @click="showI18nSettingDialog = true">
+    <el-backtop :right="50" :bottom="100" @click="showI18nSettingDialog = true">
       <el-icon>
         <Setting />
       </el-icon>
