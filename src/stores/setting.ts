@@ -1,6 +1,7 @@
 import { watch } from 'vue'
 import { defineStore } from 'pinia'
 import { getUserLang, convertLangToNormal } from '../tool/BrowserTool'
+import { paginationScenarioControl } from '@/tool/Constant'
 
 
 export const useSetting = defineStore('setting', {
@@ -16,6 +17,7 @@ export const useSetting = defineStore('setting', {
       'auto_i18n_lang': 'en',
       'auto_i18n_showauto': false,
       'auto_i18n_showboth': true,
+      'scenario_pagination_perPage': paginationScenarioControl.perPageDefault,
       'temp': 'get_this_done'
     }
   },

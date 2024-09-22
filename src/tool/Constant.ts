@@ -104,3 +104,8 @@ export function getNexonI18nDataDefault(text: string = '[NO DATA]'): NexonL10nDa
   }
   return temp
 }
+
+export const paginationScenarioControl = {
+  perPage: [20, 50, 100, 150],
+  perPageDefault: 20
+}

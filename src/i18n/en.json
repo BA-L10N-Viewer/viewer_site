@@ -70,7 +70,8 @@
   "view-setting-h2-1": "Basic",
   "view-setting-h2-2": "L10N Viewing",
   "view-setting-p-1": "Username: ",
-  "view-setting-p-2": "Display Lang (doesn't affect text viewing): ",
+  "view-setting-p-2": "Display Lang (won't affect text viewing): ",
+  "view-setting-p-3": "Scenario Dialogue Number Per Page: ",
 
   "comp-search-scenario-select-1": "Story Category: ",
   "comp-search-scenario-select-2": "Event Name: ",

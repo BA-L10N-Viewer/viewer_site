@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { onMounted, type Ref, ref, watch, provide, onUpdated } from 'vue'
-import { MOBILE_WIDTH_WIDER, NexonLangMap } from '@/tool/Constant'
+import { onMounted, type Ref, ref, watch, provide, onUpdated, computed } from 'vue'
+import { MOBILE_WIDTH_WIDER, NexonLangMap, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
@@ -61,8 +61,7 @@ function getCharName(entry: CommonStoryDataDialog) {
 
 // --------------------- PAGINATION CONFIG ---------------------
 const pagination_length = ref(0)
-const pagination_perSize = [20, 50, 100, 150]
-const pagination_currPerSize = ref(20)
+const pagination_currPerSize = computed(() => setting.scenario_pagination_perPage)
 const pagination_currPage = ref(1)
 const pagination_currPage_cache = ref(1)
 
@@ -271,8 +270,8 @@ onMounted(async () => {
       <div style="width: calc(100% - 8px); padding-top: 1.3em; text-align: center; background-color: white; height: 4em;">
         <el-pagination
           v-model:current-page="pagination_currPage"
-          v-model:page-size="pagination_currPerSize"
-          :page-sizes="pagination_perSize"
+          v-model:page-size="setting.scenario_pagination_perPage"
+          :page-sizes="paginationScenarioControl.perPage"
           :size="pagination_size"
           :background="pagination_background"
           :layout="pagination_layout"
