@@ -25,7 +25,7 @@ const mmtId = computed(() => props.data.id)
     <MomotalkHeader :data_mmtid="data.id" :data_no="data_no - 1" :data_l10n="data.data[0]"/>
   </h3>
   <ul>
-    <li>{{ $t('comp-search-result-entry-bond-preposition') }} <RouterLink :to="`/momotalk/${char_id}#story-${data_no}`">{{ $t('comp-search-result-entry-bond-story') }}</RouterLink></li>
+    <li>{{ $t('comp-search-result-entry-bond-preposition') }} <RouterLink :to="`/momotalk/${char_id}#story-${data_no}`">{{ $t('comp-search-result-entry-bond-mmt') }}</RouterLink></li>
     <li>{{ $t('comp-search-result-entry-bond-preposition') }} <RouterLink :to="`/scenario/${mmtId}`">{{ $t('comp-search-result-entry-bond-story') }}</RouterLink></li>
   </ul>
 </template>
