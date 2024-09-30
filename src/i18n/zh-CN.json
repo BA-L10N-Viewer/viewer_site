@@ -112,6 +112,7 @@
 
   "view-mmt-h1": "Momotalk查看页",
   "view-mmt-stu-id-p": "学生ID：",
+  "view-mmt-btn-view": "查看对应故事",
 
   "comp-scenario-datasheet-name": "故事元数据一览",
   "comp-scenario-datasheet-item-1": "故事内部ID",

@@ -95,7 +95,7 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
       asyncPool.addTask(
         async () => {
           tableMlMmtData.value[idx][baselang][idx2] = await getMlTranslationByGoogle(
-            charName[baselang] || "",
+            charName[baselang] || '',
             dialogueEntry.Message[baselang],
             actualMlLang
           )
@@ -186,6 +186,11 @@ onMounted(async () => {
         <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
                         :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
         <span>&nbsp;&nbsp;</span>
+        <el-button type="primary" class="btn-view-story"
+                   tag="RouterLink" :to="`/scenario/${data.BondScenarioId}`">
+          {{ $t('view-mmt-btn-view') }}
+        </el-button>
+        <span>&nbsp;&nbsp;</span>
         <el-switch
           v-model="mmtStatus[index]"
           size="default"
@@ -200,5 +205,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-
+.btn-view-story {
+  text-decoration-line: none;
+}
 </style>
