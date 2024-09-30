@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import DialogueNormal from '@/components/scenario/desktop/DialogueNormal.vue'
-import DialogueOption from '@/components/scenario/desktop/DialogueOption.vue'
-import DialogueOther from '@/components/scenario/desktop/DialogueOther.vue'
+import DialogueDesktopNormal from '@/components/scenario/desktop/DialogueDesktopNormal.vue'
+import DialogueDesktopOption from '@/components/scenario/desktop/DialogueDesktopOption.vue'
+import DialogueDesktopOther from '@/components/scenario/desktop/DialogueDesktopOther.vue'
 
 import { computed } from 'vue'
 import { replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
@@ -53,18 +53,18 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
 </script>
 
 <template>
-  <DialogueNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
+  <DialogueDesktopNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-content="dialogueContent2" :dialogue-character="dialogueCharacter" :dialogue-character-image="dialogueCharacterImage"
                   :dialogue-lang="dialogueLang" :dialogue-text-color="dialogueTextColor"
                   :dialogue-character-translated="dialogueCharacterTranslated"
                   :dialogue-content-translated="dialogueContentTranslated"
                   v-if="dialogueDataType === 'speaker'" />
-  <DialogueOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
+  <DialogueDesktopOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-content="dialogueContent2" :dialogue-lang="dialogueLang"
                   :dialogue-text-color="dialogueTextColor"
                   :dialogue-content-translated="dialogueContentTranslated"
                   v-else-if="dialogueDataType === 'option'" />
-  <DialogueOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
+  <DialogueDesktopOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
                  :dialogue-selection-group="dialogueSelectionGroup" :dialogue-content="dialogueContent2" :dialogue-lang="dialogueLang"
                  :dialogue-text-color="dialogueTextColor"
                  :dialogue-content-translated="dialogueContentTranslated"

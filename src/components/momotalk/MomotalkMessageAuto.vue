@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import DialogueStudent from '@/components/momotalk/DialogueStudent.vue'
+import MessageStudent from '@/components/momotalk/MessageStudent.vue'
 import { computed, type PropType, type Ref, ref, provide, inject } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'
-import DialogueStudentMobile from '@/components/momotalk/DialogueStudentMobile.vue'
+import MessageStudentMobile from '@/components/momotalk/MessageStudentMobile.vue'
 import { getLangData } from '@/tool/StoryTool'
 import type {
   MomotalkStoryDataDialog, NexonL10nData,
@@ -56,7 +56,7 @@ const screenWidth = useWindowSize().width
 
 <template>
   <tr class="momotalk-dialogue-tr" v-show="(screenWidth >= MOBILE_WIDTH && !setting.ui_force_mobile) && ML_table">
-    <DialogueStudent :dialogue-lang="i18nToUiLangAll[0]"
+    <MessageStudent :dialogue-lang="i18nToUiLangAll[0]"
                      :dialogue-speaker="charName[i18nLangAll[0] as NexonL10nDataLang]"
                      :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[0] as NexonL10nDataLang)"
                      :dialogue-lang-translated="setting.auto_i18n_lang"
@@ -64,7 +64,7 @@ const screenWidth = useWindowSize().width
                      :dialogue-content-translated="ML_table[mmt_entry_pos][i18nLangAll[0] as NexonL10nDataLang][dialog_entry_pos]['dialogue']"
                      :dialogue-bg-color="data_dialog.MessageBgColor"
                      :dialogue-type="data_dialog.MessageCondition" />
-    <DialogueStudent :dialogue-lang="i18nToUiLangAll[1]"
+    <MessageStudent :dialogue-lang="i18nToUiLangAll[1]"
                      :dialogue-speaker="charName[i18nLangAll[1] as NexonL10nDataLang]"
                      :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[1] as NexonL10nDataLang)"
                      :dialogue-lang-translated="setting.auto_i18n_lang"
@@ -72,7 +72,7 @@ const screenWidth = useWindowSize().width
                      :dialogue-content-translated="ML_table[mmt_entry_pos][i18nLangAll[1] as NexonL10nDataLang][dialog_entry_pos]['dialogue']"
                      :dialogue-bg-color="data_dialog.MessageBgColor"
                      :dialogue-type="data_dialog.MessageCondition" />
-    <DialogueStudent :dialogue-lang="i18nToUiLangAll[2]"
+    <MessageStudent :dialogue-lang="i18nToUiLangAll[2]"
                      :dialogue-speaker="charName[i18nLangAll[2] as NexonL10nDataLang]"
                      :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[2] as NexonL10nDataLang)"
                      :dialogue-lang-translated="setting.auto_i18n_lang"
@@ -82,7 +82,7 @@ const screenWidth = useWindowSize().width
                      :dialogue-type="data_dialog.MessageCondition" />
   </tr>
   <tr class="momotalk-dialogue-tr" v-show="(screenWidth < MOBILE_WIDTH || setting.ui_force_mobile) && ML_table">
-    <DialogueStudentMobile :dialogueType="data_dialog.MessageCondition"
+    <MessageStudentMobile :dialogueType="data_dialog.MessageCondition"
                            :dialogueBgColor="data_dialog.MessageBgColor"
                            :dialogue-speaker="charName"
                            :dialogue-content="data_dialog.Message" />

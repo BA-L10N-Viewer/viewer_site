@@ -3,8 +3,8 @@ import { inject, type PropType, type Ref, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH_WIDER } from '@/tool/Constant'
 import { getLangData } from '@/tool/StoryTool'
-import DialogueAuto from '@/components/scenario/desktop/DialogueAuto.vue'
-import DialogueAutoMobile from '@/components/scenario/mobile/DialogueAutoMobile.vue'
+import DialogueDesktopAuto from '@/components/scenario/desktop/DialogueDesktopAuto.vue'
+import DialogueMobileAuto from '@/components/scenario/mobile/DialogueMobileAuto.vue'
 import type {
   CommonStoryDataDialog,
   CommonStoryDataDialogDataType,
@@ -44,7 +44,7 @@ const setting = useSetting()
 
 <template>
   <tr v-show="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
-    <DialogueAuto :dialogue-data-type="data_type"
+    <DialogueDesktopAuto :dialogue-data-type="data_type"
                   :dialogue-selection-to-group="data_dialog.SelectionToGroup"
                   :dialogue-selection-group="data_dialog.SelectionGroup"
                   :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[0] as NexonL10nDataLang)"
@@ -54,7 +54,7 @@ const setting = useSetting()
                   :dialogue-text-color="data_dialog.ShowTextColor"
                   :dialogue-character-translated="ML_table[i18nLangAll[0] as NexonL10nDataLang][entry_pos]['name']"
                   :dialogue-content-translated="ML_table[i18nLangAll[0] as NexonL10nDataLang][entry_pos]['dialogue']" />
-    <DialogueAuto :dialogue-data-type="data_type"
+    <DialogueDesktopAuto :dialogue-data-type="data_type"
                   :dialogue-selection-to-group="data_dialog.SelectionToGroup"
                   :dialogue-selection-group="data_dialog.SelectionGroup"
                   :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[1] as NexonL10nDataLang)"
@@ -64,7 +64,7 @@ const setting = useSetting()
                   :dialogue-text-color="data_dialog.ShowTextColor"
                   :dialogue-character-translated="ML_table[i18nLangAll[1] as NexonL10nDataLang][entry_pos]['name']"
                   :dialogue-content-translated="ML_table[i18nLangAll[1] as NexonL10nDataLang][entry_pos]['dialogue']" />
-    <DialogueAuto :dialogue-data-type="data_type"
+    <DialogueDesktopAuto :dialogue-data-type="data_type"
                   :dialogue-selection-to-group="data_dialog.SelectionToGroup"
                   :dialogue-selection-group="data_dialog.SelectionGroup"
                   :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[2] as NexonL10nDataLang)"
@@ -76,7 +76,7 @@ const setting = useSetting()
                   :dialogue-content-translated="ML_table[i18nLangAll[2] as NexonL10nDataLang][entry_pos]['dialogue']" />
   </tr>
   <tr v-show="(screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile) && ML_table">
-    <DialogueAutoMobile :dialogue-data-type="data_type"
+    <DialogueMobileAuto :dialogue-data-type="data_type"
                         :dialogue-selection-to-group="data_dialog.SelectionToGroup"
                         :dialogue-selection-group="data_dialog.SelectionGroup"
                         :dialogue-content="data_dialog.Message"

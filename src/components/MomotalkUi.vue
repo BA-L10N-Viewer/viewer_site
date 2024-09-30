@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { defineProps, type PropType, ref, onMounted, type Ref } from 'vue'
-import MomotalkDialogue from '@/components/momotalk/MomotalkDialogue.vue'
+import { defineProps, type PropType, onMounted } from 'vue'
+import MomotalkMessageAuto from '@/components/momotalk/MomotalkMessageAuto.vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import type {
@@ -65,7 +65,7 @@ onMounted(
       <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
     </tr>
     </thead>
-    <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
+    <MomotalkMessageAuto v-for="(entry, index) in mmtData['Data']" :key="index"
                       :dialog_entry_pos="index" :mmt_entry_pos="mmt_entry_pos"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
                       :bond_story_id="mmtData['BondScenarioId']" />
@@ -77,7 +77,7 @@ onMounted(
       <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
     </tr>
     </thead>
-    <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
+    <MomotalkMessageAuto v-for="(entry, index) in mmtData['Data']" :key="index"
                       :dialog_entry_pos="index" :mmt_entry_pos="mmt_entry_pos"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
                       :bond_story_id="mmtData['BondScenarioId']" />

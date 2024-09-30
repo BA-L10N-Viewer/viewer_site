@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import DialogueNormal from '@/components/scenario/mobile/DialogueNormal.vue'
-import DialogueOption from '@/components/scenario/mobile/DialogueOption.vue'
-import DialogueOther from '@/components/scenario/mobile/DialogueOther.vue'
+import DialogueMobileNormal from '@/components/scenario/mobile/DialogueMobileNormal.vue'
+import DialogueMobileOption from '@/components/scenario/mobile/DialogueMobileOption.vue'
+import DialogueMobileOther from '@/components/scenario/mobile/DialogueMobileOther.vue'
 
 import { defineProps, type PropType } from 'vue'
 import type {
@@ -47,17 +47,17 @@ const props = defineProps({
 </script>
 
 <template>
-  <DialogueNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
+  <DialogueMobileNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-content="dialogueContent" :dialogue-character="dialogueCharacter"
                   :dialogue-text-color="dialogueTextColor" :dialogue-character-image="dialogueCharacterImage"
                   :entry_pos="entry_pos"
                   v-if="dialogueDataType === 'speaker'" />
-  <DialogueOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
+  <DialogueMobileOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogueContent="dialogueContent"
                   :dialogue-text-color="dialogueTextColor"
                   :entry_pos="entry_pos"
                   v-else-if="dialogueDataType === 'option'" />
-  <DialogueOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
+  <DialogueMobileOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
                  :dialogue-selection-group="dialogueSelectionGroup" :dialogueContent="dialogueContent"
                  :dialogue-text-color="dialogueTextColor"
                  :entry_pos="entry_pos"
