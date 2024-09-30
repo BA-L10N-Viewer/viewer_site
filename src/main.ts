@@ -21,7 +21,6 @@ import i18n_zh_TW from '@/i18n/zh-TW.json'
 // Pinia
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useSetting } from '@/stores/setting'
-import { useSignalI18n } from '@/stores/signal'
 import { useSearchVars } from '@/stores/search'
 
 const app = createApp(App)
@@ -48,8 +47,6 @@ app.use(i18n)
 const settingStore = useSetting()
 settingStore.forcePersist()
 settingStore.init_watcher()
-const signalI18n = useSignalI18n()
-signalI18n.reset_i18n_all = true
 useSearchVars().clear()
 
 app.mount('#app')

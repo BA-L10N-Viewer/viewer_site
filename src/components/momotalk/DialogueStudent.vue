@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import { useSignalI18n } from '@/stores/signal'
 import { useSetting } from '@/stores/setting'
 import { checkDialogueSensei, convertMmtMsgToHtml, getClassDialogueSensei } from '@/tool/StoryTool'
 import DialogueIcon from '@/components/DialogueIcon.vue'
@@ -55,33 +54,7 @@ const dialogueContentDecorated = computed(() => {
 })
 const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
 
-const signalI18n = useSignalI18n()
-const pageData = ref({})
 const setting = useSetting()
-
-
-watch(
-  () => {
-    return pageData.value
-  },
-  () => {
-    // console.log(pageData)
-    watch(
-      () => {
-        return signalI18n.reset_i18n_all
-      },
-      () => {
-        // console.log(signalI18n.reset_i18n_all)
-        let temp : any = Object.assign({}, pageData.value)
-        temp.dialogueLangTranslated = ''
-        temp.dialogueSpeakerTranslated = ''
-        temp.dialogueSpeakerTranslated = ''
-
-        pageData.value = temp
-      })
-  },
-  { once: true }
-)
 </script>
 
 <template>
