@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, defineProps, type PropType } from 'vue'
-import { useRouter } from 'vue-router'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import type { I18nBondInfoDataEntry } from '@/types/OutsourcedData'
 
@@ -19,8 +18,6 @@ const props = defineProps({
   }
 })
 const mmtId = computed(() => props.data.id)
-
-const router = useRouter()
 </script>
 
 <template>
@@ -28,10 +25,8 @@ const router = useRouter()
     <MomotalkHeader :data_mmtid="data.id" :data_no="data_no - 1" :data_l10n="data.data[0]"/>
   </h3>
   <ul>
-    <li>{{ $t('comp-search-result-entry-bond-preposition') }} <a
-      @click="router.push({name: 'momotalk', params: {charId: char_id}})">{{ $t('comp-search-result-entry-bond-mmt') }}</a></li>
-    <li>{{ $t('comp-search-result-entry-bond-preposition') }} <a
-      @click="router.push({name: 'scenario', params: {storyId: mmtId}})">{{ $t('comp-search-result-entry-bond-story') }}</a></li>
+    <li>{{ $t('comp-search-result-entry-bond-preposition') }} <RouterLink :to="`/momotalk/${char_id}#story-${data_no}`">{{ $t('comp-search-result-entry-bond-story') }}</RouterLink></li>
+    <li>{{ $t('comp-search-result-entry-bond-preposition') }} <RouterLink :to="`/scenario/${mmtId}`">{{ $t('comp-search-result-entry-bond-story') }}</RouterLink></li>
   </ul>
 </template>
 
