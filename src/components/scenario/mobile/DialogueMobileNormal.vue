@@ -50,7 +50,6 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
 <template>
   <td class="scenario-speaker scenario-dialogue">
     <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" />
-    <br />
     <span :lang="i18nToUiLangAll[0]">
       <ScenarioTranslatedDialogue :content-original="dialogueCharacter[i18nLangAll[0] as NexonL10nDataLang]"
                                   :content-translated="ML_table[i18nLangAll[0] as NexonL10nDataLang][entry_pos]['name']"

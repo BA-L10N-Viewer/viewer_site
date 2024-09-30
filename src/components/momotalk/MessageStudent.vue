@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { computed } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { checkDialogueSensei, convertMmtMsgToHtml, getClassDialogueSensei } from '@/tool/StoryTool'
 import DialogueIcon from '@/components/DialogueIcon.vue'
@@ -63,7 +63,6 @@ const setting = useSetting()
       <div :lang="dialogueLang">
         <div v-if="!checkDialogueSensei(dialogueType) && dialogueSpeaker" style="text-align: center;">
           <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
-          <br />
         </div>
 
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>

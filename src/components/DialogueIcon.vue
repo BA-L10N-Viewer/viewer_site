@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
+import { ref, watch } from 'vue'
+import { useSetting } from '@/stores/setting'
 
 const props = defineProps({
   iconUrl: {
@@ -13,12 +15,34 @@ const props = defineProps({
   iconHeight: {
     type: String,
     default: '3em'
+  },
+  iconType: {
+    type: String,
+    default: 'char_icon'
+  },
+  autoBr: {
+    type: Boolean,
+    default: true
   }
 })
+
+const setting = useSetting()
+
+const isShowIcon = ref(true)
+if (props.iconType === 'char_icon') {
+  watch(
+    () => setting.ui_show_char_icon,
+    (newValue) => {
+      isShowIcon.value = newValue
+    }
+  )
+}
 </script>
 
 <template>
-  <img v-if="iconUrl !== null" :src="iconUrl as string" :style="`width: ${iconWidth}; height: ${iconHeight};`">
+  <img v-if="iconUrl !== null && isShowIcon" :src="iconUrl as string"
+       :style="`width: ${iconWidth}; height: ${iconHeight};`">
+  <br v-if="autoBr && isShowIcon" />
 </template>
 
 <style scoped>

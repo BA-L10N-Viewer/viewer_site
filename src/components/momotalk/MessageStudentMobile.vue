@@ -77,7 +77,6 @@ const dialogueContentsTranslated = computed(() => {
     <div :class="{'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType)}">
       <div v-if="!checkDialogueSensei(dialogueType)" style="text-align: center;">
         <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
-        <br />
       </div>
 
       <div v-for="(speaker, idx) in dialogueSpeakers" :key="idx"

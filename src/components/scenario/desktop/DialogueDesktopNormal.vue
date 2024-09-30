@@ -48,7 +48,7 @@ const props = defineProps({
 
 <template>
   <td :lang="dialogueLang" class="scenario-speaker scenario-dialogue">
-    <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" /><br />
+    <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" />
     <ScenarioTranslatedDialogue :content-original="dialogueCharacter" :content-translated="dialogueCharacterTranslated" :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">

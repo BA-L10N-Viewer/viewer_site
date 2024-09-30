@@ -166,6 +166,13 @@ watch(
           :disabled="!AUTO_TRANSLATE"
         />
       </el-col>
+      <el-col :span="elRow8Span">
+        <el-switch
+          v-model="setting.ui_show_char_icon"
+          size="large"
+          :active-text="$t('comp-story-i18n-btn-showcharicon')"
+        />
+      </el-col>
     </el-row>
     <el-row>
       <el-col :span="24">
