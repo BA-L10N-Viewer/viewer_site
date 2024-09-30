@@ -39,12 +39,8 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
     <span v-for="(lang, idx) in schaleDbLang" :key="idx">{{ name[lang as SchaleDbL10nDataLang] }}<span v-if="idx + 1 != schaleDbLang.length">&nbsp;/&nbsp;</span></span>
     <br />
     <ul style="font-size: 1.2rem">
-      <li>{{ $t('char-search-tip1') }}<a href="javascript: void 0"
-                                         @click="router.push({'name': 'momotalk', 'params': {'charId': char_id}})">{{ $t('char-search-tip2') }}</a>
-      </li>
-      <li>{{ $t('char-search-tip1') }}<a href="javascript: void 0"
-                                         @click="router.push({'name': 'char_info', 'params': {'charId': char_id}})">{{ $t('char-search-tip3') }}</a>
-      </li>
+      <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/momotalk/${char_id}`">{{ $t('char-search-tip2') }}</RouterLink></li>
+      <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/${char_id}`">{{ $t('char-search-tip3') }}</RouterLink></li>
     </ul>
   </li>
 </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, type PropType } from 'vue'
-import { useRouter } from 'vue-router'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import { checkIfScenarioIdIsMain, getScenarioExtraDataById } from '@/tool/StoryTool'
@@ -31,8 +30,6 @@ else {
   scenarioIdExtraData = {isAfterBattle: false, actualScenarioNo: props.data_no}
   scenarioIdIsAfterBattleFlag = "A"
 }
-
-const router = useRouter()
 </script>
 
 
@@ -44,8 +41,9 @@ const router = useRouter()
     <span>{{ scenarioIdExtraData.actualScenarioNo }}<span v-if="isScenarioMain">{{ "-" + scenarioIdIsAfterBattleFlag }}</span>.&nbsp;</span>
     <NexonI18nDataOutput :data="storyName" />
     <span>&nbsp;</span>
-    <el-button type="primary" class="btn-view-story" tag="a"
-               @click="router.push({name: 'scenario', params: {storyId: storyId}})">{{$t('comp-search-result-btn-view')}}
+    <el-button type="primary" class="btn-view-story"
+               tag="RouterLink" :to="`/scenario/${storyId}`">
+      {{$t('comp-search-result-btn-view')}}
     </el-button>
   </h3>
   <p>{{$t('comp-search-result-desc')}}</p>
