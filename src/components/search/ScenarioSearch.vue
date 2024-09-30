@@ -218,6 +218,7 @@ function clearMainData() {
   dataSelectMainCurrLoaded.value = false
 }
 
+/* 载入主线故事Volume部分 */
 function loadMainMainData1() {
   // get data
   const data = dataMainIndexManifest['main']
@@ -235,6 +236,7 @@ function loadMainMainData1() {
   dataSelectMainCurrLoaded.value = true
 }
 
+/* 载入主线故事Chapter部分 */
 function loadMainMainData2() {
   // get data
   const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)]['data']
@@ -253,6 +255,7 @@ function loadMainMainData2() {
   dataSelectMainCurrLoaded.value = true
 }
 
+/* 载入主线故事Scenario部分 */
 function loadMainMainDataStory() {
   const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)]
     ['data'][Number(selectMainChapter.value)]['data']
@@ -270,8 +273,11 @@ function loadMainMainDataStory() {
   dataSelectMainCurrLoaded.value = true
 }
 
+/* 载入除主线故事以外的主故事部分 */
 function loadMainOtherData() {
-  clearMainData()
+  if (!cacheRecoveryMultiStage.value) {
+    clearMainData()
+  }
 
   // get data
   const data: IndexManifestScenarioParentEntry[] = dataMainIndexManifest[selectType.value as optionsStoryTypeMain]
@@ -302,6 +308,7 @@ function loadMainOtherDataStory() {
     })
   }
   dataSelectMainCurrStory.value = temp
+  console.log(temp)
 
   dataSelectMainCurrLoaded.value = true
 }
@@ -372,10 +379,15 @@ watch(
 watch(
   () => selectMainChapter.value,
   (newValue) => {
+    console.log(newValue)
+
     dataSelectMainCurrLoaded.value = false
     if (newValue !== '') {
       if (selectType.value === 'main') loadMainMainDataStory()
-      else loadMainOtherDataStory()
+      else {
+        loadMainOtherDataStory()
+        cacheRecoveryMultiStage.value = false
+      }
     } else {
       dataSelectMainCurrStory.value = []
     }
@@ -387,7 +399,7 @@ watch(
 onMounted(async () => {
   await loadAllData()
 
-  if (searchCache.n_selectType === 'main' && searchCache.n_selectMainVolume !== '') {
+  if (searchCache.n_selectMainVolume !== '' || searchCache.n_selectMainChapter !== '') {
     cacheRecoveryMultiStage.value = true
   }
   selectType.value = searchCache.n_selectType
