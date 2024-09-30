@@ -4,7 +4,6 @@ import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import {
   getScenarioCharacterSmallPortraitPath,
-  type NexonL10nDataMlData,
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
 
@@ -12,6 +11,7 @@ import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
 import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
+import type { MlForScenario } from '@/types/MachineTranslation'
 
 const props = defineProps({
   dialogueCharacter: {
@@ -44,7 +44,7 @@ const props = defineProps({
   }
 })
 
-let ML_table: Ref<NexonL10nDataMlData> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
 </script>
 
 <template>

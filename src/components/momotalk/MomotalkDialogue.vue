@@ -5,12 +5,13 @@ import { useSetting } from '@/stores/setting'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'
 import DialogueStudentMobile from '@/components/momotalk/DialogueStudentMobile.vue'
-import { getLangData, type NexonL10nDataMlData } from '@/tool/StoryTool'
+import { getLangData } from '@/tool/StoryTool'
 import type {
   MomotalkStoryDataDialog, NexonL10nData,
   NexonL10nDataLang
 } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
+import type { MlForMomotalk } from '@/types/MachineTranslation'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -43,7 +44,7 @@ const charName = computed(() => props.char_name)
 const setting = useSetting()
 
 // --------------------- ML SERVICE ---------------------
-let ML_table: Ref<[NexonL10nDataMlData]> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForMomotalk> = ref(inject('ML_table') as any)
 
 provide('mmtEntryPos', props.mmt_entry_pos)
 provide('mmtEntryDialoguePos', props.dialog_entry_pos)

@@ -14,10 +14,11 @@ import type {
 } from '@/types/OutsourcedData'
 import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { getMlTranslationByGoogle, type NexonL10nDataMlData } from '@/tool/StoryTool'
+import { getMlTranslationByGoogle } from '@/tool/StoryTool'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
 import { i18nLangAll } from '@/tool/ConstantComputed'
+import type { MlForMomotalk } from '@/types/MachineTranslation'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -48,7 +49,7 @@ const ML_pinia = useI18nTlControl()
 ML_pinia.initAll()
 
 // 创建每一个mmt对话的对应表
-const tableMlMmtData: Ref<[NexonL10nDataMlData]> = ref([] as any)
+const tableMlMmtData: Ref<MlForMomotalk> = ref([] as any)
 const ML_in_progress = ref(false)
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {

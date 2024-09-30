@@ -156,8 +156,6 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
   return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + path.split("/").slice(-1)[0] + ".png"
 }
 
-export type NexonL10nDataMlData = Record<NexonL10nDataLang | 'null', { 'name': string; 'dialogue': string }[]>
-
 export async function getMlTranslationByGoogle(oriNameText: string, oriDialogueText: string, actualMlLang: string) {
   let textName: string, textDialogue: string
 

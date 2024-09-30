@@ -4,8 +4,7 @@ import {
   dialogueContentDecorator,
   convertMmtMsgToHtml,
   checkDialogueSensei,
-  getClassDialogueSensei,
-  type NexonL10nDataMlData
+  getClassDialogueSensei
 } from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
@@ -13,6 +12,7 @@ import DialogueIcon from '@/components/DialogueIcon.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
+import type { MlForMomotalk } from '@/types/MachineTranslation'
 
 const props = defineProps({
   dialogueSpeaker: {
@@ -51,7 +51,7 @@ const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[
 const setting = useSetting()
 
 // --------------------- ML SERVICE ---------------------
-let ML_table: Ref<[NexonL10nDataMlData]> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForMomotalk> = ref(inject('ML_table') as any)
 const mmtEntryPos = inject('mmtEntryPos') as number
 const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
 

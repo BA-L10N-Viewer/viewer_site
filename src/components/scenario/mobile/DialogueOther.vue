@@ -2,7 +2,7 @@
 /* title place st stm nextEpisode na */
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import { type NexonL10nDataMlData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
+import { replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
 import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
 import type {
@@ -11,6 +11,7 @@ import type {
   NexonL10nData, NexonL10nDataLang
 } from '@/types/OutsourcedData'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
+import type { MlForScenario } from '@/types/MachineTranslation'
 
 const props = defineProps({
   dialogueContent: {
@@ -39,7 +40,7 @@ const props = defineProps({
   }
 })
 
-let ML_table: Ref<NexonL10nDataMlData> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
 </script>
 
 <template>

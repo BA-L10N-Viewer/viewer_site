@@ -12,7 +12,8 @@ import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
-import { getMlTranslationByGoogle, type NexonL10nDataMlData } from '@/tool/StoryTool'
+import { getMlTranslationByGoogle } from '@/tool/StoryTool'
+import type { MlForScenario } from '@/types/MachineTranslation'
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -123,7 +124,7 @@ onUpdated(() => {
 
 // --------------------- ML AUTO TRANSLATE ---------------------
 // 创建每句台词对应的对应表
-const tableDialogueTranslated: Ref<NexonL10nDataMlData> = ref({
+const tableDialogueTranslated: Ref<MlForScenario> = ref({
   'j_ja': [],
   'j_ko': [],
   'g_tw': [],

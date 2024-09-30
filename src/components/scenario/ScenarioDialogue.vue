@@ -2,7 +2,7 @@
 import { inject, type PropType, type Ref, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH_WIDER } from '@/tool/Constant'
-import { getLangData, type NexonL10nDataMlData } from '@/tool/StoryTool'
+import { getLangData } from '@/tool/StoryTool'
 import DialogueAuto from '@/components/scenario/desktop/DialogueAuto.vue'
 import DialogueAutoMobile from '@/components/scenario/mobile/DialogueAutoMobile.vue'
 import type {
@@ -12,6 +12,7 @@ import type {
 } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
+import type { MlForScenario } from '@/types/MachineTranslation'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -34,7 +35,7 @@ const props = defineProps({
 })
 
 // --------------------- ML SERVICE ---------------------
-let ML_table: Ref<NexonL10nDataMlData> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
 // ------------------------------------------------------
 
 const screenWidth = useWindowSize().width
