@@ -154,6 +154,43 @@ provide('ML_in_progress', ML_in_progress)
 
 // ---------------------------------------------------
 
+const urlHashStoryId = (() => {
+  const urlHashMatch = window.location.hash.match(/#story-(\d+)/)
+  let mmtNo: number
+
+  if (urlHashMatch) {
+    mmtNo = Number(urlHashMatch[1]) - 1
+  } else {
+    mmtNo = -1
+  }
+
+  if (mmtNo !== -1 && (mmtNo > 0 && mmtNo < mmtStatus.value.length)) {
+    mmtStatus.value[mmtNo] = true
+  }
+
+  return mmtNo
+})()
+
+/* 对通过以 `#story-x` 形式指定的链接，自动展开该Momotalk并移动到那个位置 */
+const isMmtDefaultShow = (function() {
+  let isFirstTime = true
+
+  return (mmtIndex: number) => {
+    if (isFirstTime) {
+      if (urlHashStoryId === mmtIndex) {
+        isFirstTime = false
+
+        return true
+      }
+      else {
+        return false
+      }
+    } else {
+      return false
+    }
+  }
+})()
+
 onMounted(async () => {
   await loadRemoteResource()
   initMlData()
@@ -164,7 +201,10 @@ onMounted(async () => {
 
 
 <template>
-  <div v-loading="isLoading">
+  <div v-if="isLoading">
+    <h2>Loading...</h2>
+  </div>
+  <div v-if="!isLoading">
     <el-backtop :right="50" :bottom="100" @click="showI18nSettingDialog = true">
       <el-icon>
         <Setting />
@@ -181,8 +221,8 @@ onMounted(async () => {
     <StoryI18nSetting />
     <el-divider></el-divider>
 
-    <div v-for="(data, index) in mmtData" :key="index" :id="'mmt-story-' + String(index)">
-      <h2 style="background-color: white;">
+    <div v-for="(data, index) in mmtData" :key="index">
+      <h2 style="background-color: white;" :id="'mmt-story-h2-title-' + String(index)">
         <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
                         :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
         <span>&nbsp;&nbsp;</span>
@@ -198,7 +238,8 @@ onMounted(async () => {
         />
       </h2>
       <div v-if="mmtStatus[index]">
-        <MomotalkUi :data_charname="charName" :data_data="data" :entry_pos="index" />
+        <MomotalkUi :data_charname="charName" :data_data="data" :mmt_entry_pos="index"
+                    :is_default_show="isMmtDefaultShow(index)" />
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, type PropType, ref } from 'vue'
+import { defineProps, type PropType, ref, onMounted, type Ref } from 'vue'
 import MomotalkDialogue from '@/components/momotalk/MomotalkDialogue.vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
@@ -19,8 +19,12 @@ const props = defineProps({
     type: {} as PropType<NexonL10nData>,
     required: true
   },
-  entry_pos: {
+  mmt_entry_pos: {
     type: Number,
+    required: true
+  },
+  is_default_show: {
+    type: Boolean,
     required: true
   }
 })
@@ -31,12 +35,22 @@ const charName = props.data_charname
 
 const screenWidth = useWindowSize().width
 
-const anchorBackToTableTop = ref(null)
+onMounted(
+  () => {
+    if (props.is_default_show) {
+      const targetEle = document.getElementById(`mmt-story-h2-title-${String(props.mmt_entry_pos)}`)
+      if (targetEle) {
+        const targetHeightOffset = targetEle.getBoundingClientRect().y - 70
+        window.scrollBy({
+          left: 0, top: targetHeightOffset, behavior: 'smooth'
+        })
+      }
+    }
+  }
+)
 </script>
 
 <template>
-  <a ref="anchorBackToTableTop"></a>
-
   <div class="momotalk-header">
     <p style="text-align: center" class="momotalk-header-p">Momotalk</p>
   </div>
@@ -52,7 +66,7 @@ const anchorBackToTableTop = ref(null)
     </tr>
     </thead>
     <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
-                      :entry_pos="index" :mmt_entry_pos="entry_pos"
+                      :dialog_entry_pos="index" :mmt_entry_pos="mmt_entry_pos"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
                       :bond_story_id="mmtData['BondScenarioId']" />
   </table>
@@ -64,7 +78,7 @@ const anchorBackToTableTop = ref(null)
     </tr>
     </thead>
     <MomotalkDialogue v-for="(entry, index) in mmtData['Data']" :key="index"
-                      :entry_pos="index" :mmt_entry_pos="entry_pos"
+                      :dialog_entry_pos="index" :mmt_entry_pos="mmt_entry_pos"
                       :data_dialog="entry" :data_char="''" :char_name="charName"
                       :bond_story_id="mmtData['BondScenarioId']" />
   </table>
