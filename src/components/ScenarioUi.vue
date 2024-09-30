@@ -101,15 +101,21 @@ function initPagination() {
   updatePaginationData()
 }
 
+const htmlAnchorMainTableTop: Ref<HTMLAnchorElement | null> = ref(null)
 onUpdated(() => {
   if (pagination_currPage.value !== pagination_currPage_cache.value) {
     pagination_currPage_cache.value = pagination_currPage.value
 
-    window.scrollBy({
-      left: 0,
-      top: document.getElementById('main-table')!.getBoundingClientRect().y - 70,
-      behavior: 'smooth'
-    })
+    const targetHeightOffset = htmlAnchorMainTableTop.value?.getBoundingClientRect().y
+    if (targetHeightOffset) {
+      window.scrollBy({
+        left: 0,
+        top: targetHeightOffset - 70,
+        behavior: 'smooth'
+      })
+    } else {
+      console.error(`PAGINATION REPOSITION FAILED, offset = ${targetHeightOffset}`)
+    }
   }
 })
 
@@ -234,8 +240,9 @@ onMounted(async () => {
     <h2>Loading...</h2>
   </div>
   <div v-if="isAllDataLoaded">
-    <a id="main-table"></a>
-    <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile" id="scnario-main-table">
+    <a ref="htmlAnchorMainTableTop"></a>
+    <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
+           id="scnario-main-table">
       <thead>
       <tr>
         <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
@@ -251,7 +258,8 @@ onMounted(async () => {
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
-    <table class="momotalk-table" v-show="screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile" id="scnario-main-table">
+    <table class="momotalk-table" v-show="screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile"
+           id="scnario-main-table">
       <thead>
       <tr>
         <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
@@ -267,7 +275,8 @@ onMounted(async () => {
 
   <Teleport v-if="isAllDataLoaded" to="body">
     <el-affix position="bottom" :offset="0" target="#scnario-main-table">
-      <div style="width: calc(100% - 8px); padding-top: 1.3em; padding-left: 1em; text-align: center; background-color: white; height: 4em;">
+      <div
+        style="width: calc(100% - 8px); padding-top: 1.3em; padding-left: 1em; text-align: center; background-color: white; height: 4em;">
         <el-pagination
           v-model:current-page="pagination_currPage"
           v-model:page-size="setting.scenario_pagination_perPage"
