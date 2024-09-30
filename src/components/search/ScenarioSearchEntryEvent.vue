@@ -48,7 +48,10 @@ else {
   </h3>
   <p>{{$t('comp-search-result-desc')}}</p>
   <ul>
-    <NexonI18nDataOutput :data="storyDesc" html-element-name="li" />
+    <NexonI18nDataOutput :data="storyDesc"
+                         html-element-name="li"
+                         :enable-text-line-clamp="true"
+    />
   </ul>
   <el-divider></el-divider>
 </template>
