@@ -423,33 +423,29 @@ watch(
   </div>
   <div v-if="dataAllLoaded">
     <p>{{ $t('comp-search-scenario-select-1') }}&nbsp;
-      <client-only>
-        <el-select v-model="selectType"
-                   placeholder="Select" style="width: 240px">
-          <el-option
-            v-for="item in optionsType"
-            :key="item.value"
-            :label="$t('comp-search-scenario-option-' + item.value)"
-            :value="item.value"
-            :disabled="item.disabled ? item.disabled : false"
-          />
-        </el-select>
-      </client-only>
+      <el-select v-model="selectType"
+                 placeholder="Select" style="width: 240px">
+        <el-option
+          v-for="item in optionsType"
+          :key="item.value"
+          :label="$t('comp-search-scenario-option-' + item.value)"
+          :value="item.value"
+          :disabled="item.disabled ? item.disabled : false"
+        />
+      </el-select>
     </p>
     <div v-if="selectType === 'event'">
       <div v-loading="!dataSelectEventLoaded" :key="uiLang">
         <p>{{ $t('comp-search-scenario-select-2') }}
-          <client-only>
-            <el-select v-model="selectEventName" filterable
-                       placeholder="Select" style="width: 240px">
-              <el-option
-                v-for="item in dataSelectEventIndex"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </client-only>
+          <el-select v-model="selectEventName" filterable
+                     placeholder="Select" style="width: 240px">
+            <el-option
+              v-for="item in dataSelectEventIndex"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </p>
         <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-result') }}</h2>
@@ -463,22 +459,21 @@ watch(
       <p v-html="i18n.t('comp-search-scenario-bond-p')"></p>
       <div v-loading="!dataSelectBondLoaded" :key="uiLang">
         <p>{{ $t('comp-search-scenario-select-3') }}
-          <client-only>
-            <el-select v-model="selectBondChar" filterable
-                       placeholder="Select" style="width: 240px">
-              <el-option
-                v-for="item in dataSelectCharIndex"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </client-only>
+          <el-select v-model="selectBondChar" filterable
+                     placeholder="Select" style="width: 240px">
+            <el-option
+              v-for="item in dataSelectCharIndex"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </p>
         <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <p v-if="selectBondChar"><img
-          :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`"></p>
+        <p v-if="selectBondChar">
+          <img :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`">
+        </p>
         <div :key="uiLang + '_' + selectBondChar">
           <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
                                    v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
@@ -488,30 +483,26 @@ watch(
     <div v-else-if="selectType === 'main'">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <p>{{ $t('comp-search-scenario-select-4') }}
-          <client-only>
-            <el-select v-model="selectMainVolume" filterable
-                       placeholder="Select" style="width: 240px">
-              <el-option
-                v-for="item in dataSelectMainCurrIndex1"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </client-only>
+          <el-select v-model="selectMainVolume"
+                     placeholder="Select" style="width: 240px">
+            <el-option
+              v-for="item in dataSelectMainCurrIndex1"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </p>
         <p>{{ $t('comp-search-scenario-select-5') }}
-          <client-only>
-            <el-select v-model="selectMainChapter" filterable
-                       placeholder="Select" style="width: 240px">
-              <el-option
-                v-for="item in dataSelectMainCurrIndex2"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </client-only>
+          <el-select v-model="selectMainChapter"
+                     placeholder="Select" style="width: 240px">
+            <el-option
+              v-for="item in dataSelectMainCurrIndex2"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </p>
         <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
@@ -524,17 +515,15 @@ watch(
     <div v-else-if="selectType !== ''">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <p>{{ $t('comp-search-scenario-select-6') }}
-          <client-only>
-            <el-select v-model="selectMainChapter" filterable
-                       placeholder="Select" style="width: 240px">
-              <el-option
-                v-for="item in dataSelectMainCurrIndex2"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </client-only>
+          <el-select v-model="selectMainChapter" filterable
+                     placeholder="Select" style="width: 240px">
+            <el-option
+              v-for="item in dataSelectMainCurrIndex2"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </p>
         <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
