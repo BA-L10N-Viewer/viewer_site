@@ -154,14 +154,7 @@ watch(
           v-model="setting.auto_i18n_showauto"
           size="large"
           :active-text="$t('comp-story-i18n-btn-showauto')"
-          :disabled="!AUTO_TRANSLATE"
-        />
-      </el-col>
-      <el-col :span="elRow8Span">
-        <el-switch
-          v-model="setting.auto_i18n_showboth"
-          size="large"
-          :active-text="$t('comp-story-i18n-btn-showboth')"
+          :inactive-text="$t('comp-story-i18n-btn-showboth')"
           :disabled="!AUTO_TRANSLATE"
         />
       </el-col>

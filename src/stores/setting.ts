@@ -16,7 +16,6 @@ export const useSetting = defineStore('setting', {
       'auto_i18n_service': 'google',
       'auto_i18n_lang': 'en',
       'auto_i18n_showauto': false,
-      'auto_i18n_showboth': true,
       'scenario_pagination_perPage': paginationScenarioControl.perPageDefault,
       'temp': 'get_this_done'
     }
@@ -26,26 +25,7 @@ export const useSetting = defineStore('setting', {
       this.temp = 'force_persist_update'
     },
     init_watcher() {
-      watch(() => {
-          return useSetting().auto_i18n_showauto
-        },
-        () => {
-          useSetting().auto_i18n_showboth = !useSetting().auto_i18n_showauto
-        },
-        {
-          immediate: true
-        }
-      )
-      watch(() => {
-          return useSetting().auto_i18n_showboth
-        },
-        () => {
-          useSetting().auto_i18n_showauto = !useSetting().auto_i18n_showboth
-        },
-        {
-          immediate: true
-        }
-      )
+
     }
   },
 
