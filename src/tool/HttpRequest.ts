@@ -3,7 +3,7 @@ import { SITE_VERSION } from '@/tool/Constant'
 export const MAX_RETRY_DEPTH = 10
 
 
-export function httpGetBlocking(url: string, depth: number = 0) {
+export function httpGetSync(url: string, depth: number = 0) {
   if (depth > MAX_RETRY_DEPTH) {
     return ""
   }
@@ -15,12 +15,12 @@ export function httpGetBlocking(url: string, depth: number = 0) {
     if (xhr.status === 200) {
       return xhr.responseText
     } else {
-      return httpGetBlocking(url, depth + 1)
+      return httpGetSync(url, depth + 1)
     }
   }
   catch (e) {
     console.error(`httpGetBlocking(${url}, ${depth}): ${e}`)
-    return httpGetBlocking(url, depth + 1)
+    return httpGetSync(url, depth + 1)
   }
 }
 

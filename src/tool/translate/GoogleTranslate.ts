@@ -1,6 +1,6 @@
 import { BaseMtService, requestApi } from '@/tool/translate/MtUtils'
-import { ipClientCountryAtInit } from '@/tool/ClientIp'
 import type { Nullable } from '@/types/CommonType'
+import { getIpCountryCodeSync } from '@/tool/ClientIp'
 
 type GoogleTranslateResponseSentence = {
   trans: string;
@@ -43,12 +43,14 @@ class MtGoogleTranslate extends BaseMtService<GoogleTranslateResponse> {
   public isCn: boolean
 
   constructor() {
-    if (ipClientCountryAtInit.value === 'CN')
+    const ipCountryCode = getIpCountryCodeSync()
+
+    if (ipCountryCode === 'CN')
       super('https://aws-gt-api.cnfast.top/', 5000)
     else
       super('https://translate.googleapis.com', 3000)
 
-    this.isCn = ipClientCountryAtInit.value === 'CN'
+    this.isCn = ipCountryCode === 'CN'
   }
 
   getUrl(inputLang: string, inputText: string, outputLang: string, withBaseurl: boolean): string {
