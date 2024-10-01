@@ -16,7 +16,7 @@ import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedD
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
-import { i18nLangAll, mtI18nLangStats } from '@/tool/ConstantComputed'
+import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
@@ -122,38 +122,6 @@ watch(
   async (newValue) => {
     await mtPiniaWatchCallback(newValue, updateMlTranslation, clearMlTranslation, ML_pinia.setStatusToComplete)
   }
-  /*
-  async (newValue) => {
-    if (newValue[0].startsWith('t')) {
-      if (i18nLangAll.value[0])
-        await updateMlTranslation(i18nLangAll.value[0])
-      ML_pinia.setStatusToComplete('i18n_l1')
-    } else if (newValue[1].startsWith('t')) {
-      if (i18nLangAll.value[1])
-        await updateMlTranslation(i18nLangAll.value[1])
-      ML_pinia.setStatusToComplete('i18n_l2')
-    } else if (newValue[2].startsWith('t')) {
-      if (i18nLangAll.value[2])
-        await updateMlTranslation(i18nLangAll.value[2])
-      ML_pinia.setStatusToComplete('i18n_l3')
-    } else {
-      // 如果是清空指令的话
-      if (newValue[0].startsWith('c')) {
-        clearMlTranslation(i18nLangAll.value[0])
-        ML_pinia.setStatusToComplete('i18n_l1')
-      }
-      if (newValue[1].startsWith('c')) {
-        clearMlTranslation(i18nLangAll.value[1])
-        ML_pinia.setStatusToComplete('i18n_l2')
-      }
-      if (newValue[2].startsWith('c')) {
-        clearMlTranslation(i18nLangAll.value[2])
-        ML_pinia.setStatusToComplete('i18n_l3')
-      }
-
-    }
-  }
-   */
 )
 
 provide('ML_clearAll', initMlData)
@@ -172,7 +140,7 @@ const urlHashStoryId = (() => {
     mmtNo = -1
   }
 
-  if (mmtNo !== -1 && (mmtNo > 0 && mmtNo < mmtStatus.value.length)) {
+  if (mmtNo !== -1 && (mmtNo >= 0 && mmtNo < mmtStatus.value.length)) {
     mmtStatus.value[mmtNo] = true
   }
 
