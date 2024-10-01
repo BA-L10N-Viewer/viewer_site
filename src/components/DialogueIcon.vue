@@ -34,7 +34,8 @@ if (props.iconType === 'char_icon') {
     () => setting.ui_show_char_icon,
     (newValue) => {
       isShowIcon.value = newValue
-    }
+    },
+    { immediate: true }
   )
 }
 </script>
