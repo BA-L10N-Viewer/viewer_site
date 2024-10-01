@@ -12,6 +12,7 @@ import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
+import { i18nMobileLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   dialogueCharacter: {
@@ -50,49 +51,30 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
 <template>
   <td class="scenario-speaker scenario-dialogue">
     <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" />
-    <span :lang="i18nToUiLangAll[0]">
-      <ScenarioTranslatedDialogue :content-original="dialogueCharacter[i18nLangAll[0]]"
-                                  :content-translated="ML_table[i18nLangAll[0]][entry_pos]['name']"
-                                  :css_style="{'color': dialogueTextColor}"
-                                  :is_after_br="true" />
-    </span>
-    <span :lang="i18nToUiLangAll[1]">
-      <ScenarioTranslatedDialogue :content-original="dialogueCharacter[i18nLangAll[1]]"
-                                  :content-translated="ML_table[i18nLangAll[1]][entry_pos]['name']"
-                                  :css_style="{'color': dialogueTextColor}"
-                                  :is_after_br="true" />
-    </span>
-    <span :lang="i18nToUiLangAll[2]">
-      <ScenarioTranslatedDialogue :content-original="dialogueCharacter[i18nLangAll[2]]"
-                                  :content-translated="ML_table[i18nLangAll[2]][entry_pos]['name']"
-                                  :css_style="{'color': dialogueTextColor}"
-                                  :is_after_br="true" />
-    </span>
+    <template v-for="idx in i18nMobileLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[idx]">
+          <ScenarioTranslatedDialogue :content-original="dialogueCharacter[i18nLangAll[idx] as NexonL10nDataLang]"
+                                      :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['name']"
+                                      :css_style="{'color': dialogueTextColor}"
+                                      :is_after_br="true" />
+        </span>
+      </template>
+    </template>
   </td>
   <td class="scenario-text scenario-dialogue">
-    <span :lang="i18nToUiLangAll[0]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0]])"
-        :content-translated="ML_table[i18nLangAll[0]][entry_pos]['dialogue']"
-        :css_style="{'color': dialogueTextColor}"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[1]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1]])"
-        :content-translated="ML_table[i18nLangAll[1]][entry_pos]['dialogue']"
-        :css_style="{'color': dialogueTextColor}"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[2]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2]])"
-        :content-translated="ML_table[i18nLangAll[2]][entry_pos]['dialogue']"
-        :css_style="{'color': dialogueTextColor}"
-        :is_after_br="true" />
-    </span>
+    <template v-for="idx in i18nMobileLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[idx]">
+          <ScenarioTranslatedDialogue
+            :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[idx] as NexonL10nDataLang])"
+            :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['dialogue']"
+            :css_style="{'color': dialogueTextColor}"
+            :is_after_br="true" />
+        </span>
+        <hr class="mobile-lang-hr" v-if="idx + 1 < i18nMobileLoopIdx.length" />
+      </template>
+    </template>
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup" />
   </td>

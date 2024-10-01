@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { i18nDesktopLoopIdx } from '@/tool/Constant'
 import { defineProps, type PropType } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
-import { i18nLangAll, i18nToUiLangAll } from '../../tool/ConstantComputed'
+import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 
 const props = defineProps({
   data_no: {
@@ -24,10 +25,11 @@ const props = defineProps({
   <span>&nbsp;&nbsp;</span>
   <span>
     <span>{{ data_no + 1 }}.&nbsp;</span>
-    <span :lang="i18nToUiLangAll[0]">{{ data_l10n[i18nLangAll[0]] }}</span>
-    <span>&nbsp;/&nbsp;</span>
-    <span :lang="i18nToUiLangAll[1]">{{ data_l10n[i18nLangAll[1]] }}</span>
-    <span>&nbsp;/&nbsp;</span>
-    <span :lang="i18nToUiLangAll[2]">{{ data_l10n[i18nLangAll[2]] }}</span>
+    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[idx]">{{ data_l10n[i18nLangAll[idx]] }}</span>
+        <span v-if="idx + 1 < i18nDesktopLoopIdx.length">&nbsp;/&nbsp;</span>
+      </template>
+    </template>
   </span>
 </template>

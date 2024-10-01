@@ -2,6 +2,7 @@
 import { defineProps, type PropType } from 'vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import { i18nDesktopLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   data: {
@@ -24,30 +25,29 @@ const props = defineProps({
 </script>
 
 <template>
-  <span :lang="i18nToUiLangAll[0]"
-        :class="{'clamped-text': enableTextLineClamp}"
-        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[0]] }}</span>
-  <span v-if="htmlElementName === 'span'">&nbsp;/&nbsp;</span>
-  <span :lang="i18nToUiLangAll[1]"
-        :class="{'clamped-text': enableTextLineClamp}"
-        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[1]] }}</span>
-  <span v-if="htmlElementName === 'span'">&nbsp;/&nbsp;</span>
-  <span :lang="i18nToUiLangAll[2]"
-        :class="{'clamped-text': enableTextLineClamp}"
-        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[2]] }}</span>
+  <template v-if="htmlElementName === 'span'">
+    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[idx]"
+              :class="{'clamped-text': enableTextLineClamp}"
+              v-if="i18nLangAll[idx] as string !== 'null'">
+          {{ data[i18nLangAll[idx]] }}
+        </span>
+        <span v-if="idx + 1 < i18nDesktopLoopIdx.length">&nbsp;/&nbsp;</span>
+      </template>
 
-  <li :lang="i18nToUiLangAll[0]"
-      v-if="htmlElementName === 'li'">
-    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[0]] }}</span>
-  </li>
-  <li :lang="i18nToUiLangAll[1]"
-      v-if="htmlElementName === 'li'">
-    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[1]] }}</span>
-  </li>
-  <li :lang="i18nToUiLangAll[2]"
-      v-if="htmlElementName === 'li'">
-    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[2]]  }}</span>
-  </li>
+    </template>
+  </template>
+
+  <template v-if="htmlElementName === 'li'">
+    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <li :lang="i18nToUiLangAll[idx]">
+          <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[idx]] }}</span>
+        </li>
+      </template>
+    </template>
+  </template>
 </template>
 
 <style scoped>

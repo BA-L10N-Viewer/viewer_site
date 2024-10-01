@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, type PropType, type Ref, ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH_WIDER } from '@/tool/Constant'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER } from '@/tool/Constant'
 import { getLangData } from '@/tool/StoryTool'
 import DialogueDesktopAuto from '@/components/scenario/desktop/DialogueDesktopAuto.vue'
 import DialogueMobileAuto from '@/components/scenario/mobile/DialogueMobileAuto.vue'
@@ -44,36 +44,22 @@ const setting = useSetting()
 
 <template>
   <tr v-show="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
-    <DialogueDesktopAuto :dialogue-data-type="data_type"
-                  :dialogue-selection-to-group="data_dialog.SelectionToGroup"
-                  :dialogue-selection-group="data_dialog.SelectionGroup"
-                  :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[0])"
-                  :dialogue-character="getLangData(data_char.Name, i18nLangAll[0])"
-                  :dialogue-lang="i18nToUiLangAll[0]"
-                  :dialogue-character-image="data_char.SmallPortrait"
-                  :dialogue-text-color="data_dialog.ShowTextColor"
-                  :dialogue-character-translated="ML_table[i18nLangAll[0]][entry_pos]['name']"
-                  :dialogue-content-translated="ML_table[i18nLangAll[0]][entry_pos]['dialogue']" />
-    <DialogueDesktopAuto :dialogue-data-type="data_type"
-                  :dialogue-selection-to-group="data_dialog.SelectionToGroup"
-                  :dialogue-selection-group="data_dialog.SelectionGroup"
-                  :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[1])"
-                  :dialogue-character="getLangData(data_char.Name, i18nLangAll[1])"
-                  :dialogue-lang="i18nToUiLangAll[1]"
-                  :dialogue-character-image="data_char.SmallPortrait"
-                  :dialogue-text-color="data_dialog.ShowTextColor"
-                  :dialogue-character-translated="ML_table[i18nLangAll[1]][entry_pos]['name']"
-                  :dialogue-content-translated="ML_table[i18nLangAll[1]][entry_pos]['dialogue']" />
-    <DialogueDesktopAuto :dialogue-data-type="data_type"
-                  :dialogue-selection-to-group="data_dialog.SelectionToGroup"
-                  :dialogue-selection-group="data_dialog.SelectionGroup"
-                  :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[2])"
-                  :dialogue-character="getLangData(data_char.Name, i18nLangAll[2])"
-                  :dialogue-lang="i18nToUiLangAll[2]"
-                  :dialogue-character-image="data_char.SmallPortrait"
-                  :dialogue-text-color="data_dialog.ShowTextColor"
-                  :dialogue-character-translated="ML_table[i18nLangAll[2]][entry_pos]['name']"
-                  :dialogue-content-translated="ML_table[i18nLangAll[2]][entry_pos]['dialogue']" />
+    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <DialogueDesktopAuto :dialogue-data-type="data_type"
+                             :dialogue-selection-to-group="data_dialog.SelectionToGroup"
+                             :dialogue-selection-group="data_dialog.SelectionGroup"
+                             :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[idx] as NexonL10nDataLang)"
+                             :dialogue-character="getLangData(data_char.Name, i18nLangAll[idx] as NexonL10nDataLang)"
+                             :dialogue-lang="i18nToUiLangAll[idx]"
+                             :dialogue-character-image="data_char.SmallPortrait"
+                             :dialogue-text-color="data_dialog.ShowTextColor"
+                             :dialogue-character-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['name']"
+                             :dialogue-content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['dialogue']"
+
+                             v-if="i18nLangAll[idx] as string !== 'null'"/>
+      </template>
+    </template>
   </tr>
   <tr v-show="(screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile) && ML_table">
     <DialogueMobileAuto :dialogue-data-type="data_type"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, type PropType, inject, type Ref, ref } from 'vue'
 import {
-  dialogueContentDecorator,
+  mmtMessageContentDecorator,
   convertMmtMsgToHtml,
   checkDialogueSensei,
   getClassDialogueSensei
@@ -10,9 +10,10 @@ import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
+import { i18nMobileLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   dialogueSpeaker: {
@@ -32,20 +33,6 @@ const props = defineProps({
     required: true
   }
 })
-const dialogueSpeakers = computed(() => {
-  const temp = []
-  for (const lang of i18nLangAll.value) {
-    temp.push(props.dialogueSpeaker[lang])
-  }
-  return temp
-})
-const dialogueContentsDecorated = computed(() => {
-  const temp = []
-  for (const lang of i18nLangAll.value) {
-    temp.push(dialogueContentDecorator(props.dialogueType, props.dialogueContent[lang]))
-  }
-  return temp
-})
 const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
 
 const setting = useSetting()
@@ -54,21 +41,6 @@ const setting = useSetting()
 let ML_table: Ref<MlForMomotalk> = ref(inject('ML_table') as any)
 const mmtEntryPos = inject('mmtEntryPos') as number
 const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
-
-const dialogueSpeakersTranslated = computed(() => {
-  const temp = []
-  for (const lang of i18nLangAll.value) {
-    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]['name'])
-  }
-  return temp
-})
-const dialogueContentsTranslated = computed(() => {
-  const temp = []
-  for (const lang of i18nLangAll.value) {
-    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]!['dialogue'])
-  }
-  return temp
-})
 // ------------------------------------------------------
 </script>
 
@@ -79,22 +51,26 @@ const dialogueContentsTranslated = computed(() => {
         <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
       </div>
 
-      <div v-for="(speaker, idx) in dialogueSpeakers" :key="idx"
+      <div v-for="idx in i18nMobileLoopIdx" :key="idx"
            :lang="i18nToUiLangAll[idx]">
-        <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-        <DialogueTranslated v-else :content-original="speaker" :content-translated="dialogueSpeakersTranslated[idx]" />
+        <template v-if="i18nLangAll[idx] as string !== 'null'">
+          <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
+          <DialogueTranslated v-else :content-original="dialogueSpeaker[i18nLangAll[idx]]"
+                              :content-translated="ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['name']" />
+        </template>
       </div>
     </div>
   </td>
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
-    <div v-for="(content, idx) in dialogueContentsDecorated" :key="idx"
+    <div v-for="idx in i18nMobileLoopIdx" :key="idx"
          :class="getClassDialogueSensei(dialogueType)"
          :lang="i18nToUiLangAll[idx]">
-      <DialogueTranslated :content-original="convertMmtMsgToHtml(content)"
-                          :content-translated="convertMmtMsgToHtml(dialogueContentsTranslated[idx])" />
-
-      <hr class="mobile-lang-hr" v-if="!(idx + 1 == dialogueSpeakers.length)" />
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <DialogueTranslated :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContent[i18nLangAll[idx]]))"
+                            :content-translated="convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['dialogue'])" />
+        <hr class="mobile-lang-hr" v-if="!(idx + 1 == i18nMobileLoopIdx.length)" />
+      </template>
     </div>
   </td>
 </template>

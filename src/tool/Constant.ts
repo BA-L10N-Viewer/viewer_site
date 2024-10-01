@@ -50,7 +50,7 @@ export const autoTranslateLanguage = [
   { value: 'ru', label: 'i18n-setting-lang-ru' },
   { value: 'pt', label: 'i18n-setting-lang-pt' },
   { value: 'vi', label: 'i18n-setting-lang-vi' },
-  { value: 'pt-PT', label: 'i18n-setting-lang-pt-PT' },
+  { value: 'pt-PT', label: 'i18n-setting-lang-pt-PT' }
 ]
 
 export const nexonDataLangSelect = [
@@ -67,7 +67,7 @@ export const nexonDataLangSelect = [
   { value: 'c_cn_tw', label: 'i18n-nexon-c-cn-tw' }
 ]
 
-export const NexonLangMapReverse : {[k: string]: string[]} = {
+export const NexonLangMapReverse: { [k: string]: string[] } = {
   'en': ['g_en'],
   'zh_TW': ['g_tw', 'c_zh', 'c_cn_tw'],
   'zh_CN': ['c_zh', 'g_tw_cn', 'c_cn'],
@@ -110,3 +110,6 @@ export const paginationScenarioControl = {
   perPage: [20, 50, 100, 150],
   perPageDefault: 20
 }
+
+export const i18nDesktopLoopIdx = [0, 1, 2]
+export const i18nMobileLoopIdx = [0, 1, 2, 3, 4]

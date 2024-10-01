@@ -23,7 +23,7 @@ export function getClassDialogueSensei(text: string): string {
   else return ''
 }
 
-export function dialogueContentDecorator(dialogueType: string, dialogueContent: string) {
+export function mmtMessageContentDecorator(dialogueType: string, dialogueContent: string) {
   if (dialogueType === 'Answer') {
     return dialogueContent + '&nbsp;&lt;'
   } else if (dialogueType === 'Feedback') {

@@ -24,7 +24,6 @@ const props = defineProps({
 })
 
 const setting = useSetting()
-const router = useRouter()
 
 const uiLang = ref(setting.ui_lang)
 const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])

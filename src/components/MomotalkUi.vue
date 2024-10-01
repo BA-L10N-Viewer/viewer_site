@@ -2,12 +2,13 @@
 import { defineProps, type PropType, onMounted } from 'vue'
 import MomotalkMessageAuto from '@/components/momotalk/MomotalkMessageAuto.vue'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '@/tool/Constant'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH } from '@/tool/Constant'
 import type {
   MomotalkStoryDataEntry,
   NexonL10nData
 } from '@/types/OutsourcedData'
 import { useSetting } from '@/stores/setting'
+import { i18nLangAll } from '@/tool/ConstantComputed'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -57,12 +58,12 @@ onMounted(
   <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH && !setting.ui_force_mobile">
     <thead>
     <tr>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l1') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l2') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-      <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
+      <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+        <template v-if="i18nLangAll[idx] as string !== 'null'">
+          <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+          <th scope="col">{{ $t(`comp-mmt-ui-table-th-l${idx+1}`) }}</th>
+        </template>
+      </template>
     </tr>
     </thead>
     <MomotalkMessageAuto v-for="(entry, index) in mmtData['Data']" :key="index"

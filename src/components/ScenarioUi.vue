@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { onMounted, type Ref, ref, watch, provide, onUpdated, computed } from 'vue'
-import { MOBILE_WIDTH_WIDER, NexonLangMap, paginationScenarioControl } from '@/tool/Constant'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER, NexonLangMap, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
@@ -246,12 +246,12 @@ onMounted(async () => {
            id="scnario-main-table">
       <thead>
       <tr>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-l1') }}</th>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-l2') }}</th>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-l3') }}</th>
+        <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+          <template v-if="i18nLangAll[idx] as string !== 'null'">
+            <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+            <th scope="col">{{ $t(`comp-mmt-ui-table-th-l${idx+1}`) }}</th>
+          </template>
+        </template>
       </tr>
       </thead>
       <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"

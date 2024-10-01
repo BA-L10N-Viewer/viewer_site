@@ -12,6 +12,7 @@ import type {
 } from '@/types/OutsourcedData'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
+import { i18nMobileLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   dialogueContent: {
@@ -41,77 +42,31 @@ const props = defineProps({
 })
 
 let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
+
+const htmlTdClassName = (() => {
+  if (props.dialogueDataType === 'title' || props.dialogueDataType === 'nextEpisode') {
+    return {'story-dialogue-center': true}
+  } else if (props.dialogueDataType === 'na') {
+    return {'story-dialogue-na': true}
+  } else {
+    return {'story-dialogue-other': true}
+  }
+})()
 </script>
 
 <template>
-  <td v-if="dialogueDataType === 'title' || dialogueDataType === 'nextEpisode'"
-      colspan="2" class="story-dialogue-center">
-    <span :lang="i18nToUiLangAll[0]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0]])"
-        :content-translated="ML_table[i18nLangAll[0]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[1]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1]])"
-        :content-translated="ML_table[i18nLangAll[1]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[2]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2]])"
-        :content-translated="ML_table[i18nLangAll[2]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-  </td>
-  <td v-else-if="dialogueDataType === 'na'" colspan="2" class="story-dialogue-na">
-    <span :lang="i18nToUiLangAll[0]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0]])"
-        :content-translated="ML_table[i18nLangAll[0]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[1]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1]])"
-        :content-translated="ML_table[i18nLangAll[1]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[2]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2]])"
-        :content-translated="ML_table[i18nLangAll[2]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
-                  :dialogue-selection-group="dialogueSelectionGroup" />
-  </td>
-  <td v-else class="story-dialogue-other" colspan="2">
-    <span :lang="i18nToUiLangAll[0]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0]])"
-        :content-translated="ML_table[i18nLangAll[0]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[1]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1]])"
-        :content-translated="ML_table[i18nLangAll[1]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
-    <hr class="mobile-lang-hr" />
-    <span :lang="i18nToUiLangAll[2]">
-      <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2]])"
-        :content-translated="ML_table[i18nLangAll[2]][entry_pos]['dialogue']"
-        :is_after_br="true" />
-    </span>
+  <td colspan="2" :class="htmlTdClassName">
+    <template v-for="idx in i18nMobileLoopIdx" :key="idx">
+      <template v-if="i18nLangAll[idx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[idx]">
+          <ScenarioTranslatedDialogue
+            :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[idx] as NexonL10nDataLang])"
+            :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['dialogue']"
+            :is_after_br="true" />
+        </span>
+        <hr class="mobile-lang-hr" v-if="idx + 1 < i18nMobileLoopIdx.length" />
+      </template>
+    </template>
   </td>
 </template>
 
