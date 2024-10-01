@@ -14,11 +14,11 @@ import type {
 } from '@/types/OutsourcedData'
 import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { getMlTranslationByGoogle } from '@/tool/StoryTool'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
+import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -95,7 +95,8 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
     for (const [idx2, dialogueEntry] of dialogues.entries()) {
       asyncPool.addTask(
         async () => {
-          tableMlMmtData.value[idx][baselang][idx2] = await getMlTranslationByGoogle(
+          tableMlMmtData.value[idx][baselang][idx2] = await getDialogueMtTranslation(
+            setting.auto_i18n_service as MtServiceName,
             charName[baselang] || '',
             dialogueEntry.Message[baselang],
             actualMlLang
@@ -182,8 +183,7 @@ const isMmtDefaultShow = (function() {
         isFirstTime = false
 
         return true
-      }
-      else {
+      } else {
         return false
       }
     } else {

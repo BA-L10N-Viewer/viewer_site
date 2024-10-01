@@ -1,4 +1,5 @@
 import type { NexonL10nData, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 
 export const MOBILE_WIDTH = 800
 export const MOBILE_WIDTH_WIDER = 1200
@@ -32,7 +33,7 @@ export const NexonLangMap: Record<string, string> = {
   'null': ''
 }
 
-export const autoTranslateService = [
+export const autoTranslateService: { value: MtServiceName, label: string }[] = [
   { value: 'google', label: 'i18n-setting-google' }
   // { value: 'deepl', label: 'i18n-setting-deepl' } // disabled for rate limit
 ]

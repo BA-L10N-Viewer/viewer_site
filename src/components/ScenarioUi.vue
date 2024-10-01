@@ -12,8 +12,8 @@ import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
-import { getMlTranslationByGoogle } from '@/tool/StoryTool'
 import type { MlForScenario } from '@/types/MachineTranslation'
+import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -163,7 +163,8 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
   for (const [idx, entry] of scenarioData.entries()) {
     asyncPool.addTask(
       async () => {
-        tableDialogueTranslated.value[baselang][idx] = await getMlTranslationByGoogle(
+        tableDialogueTranslated.value[baselang][idx] = await getDialogueMtTranslation(
+          setting.auto_i18n_service as MtServiceName,
           getCharName(entry).Name[baselang],
           entry.Message[baselang],
           actualMlLang
@@ -249,7 +250,7 @@ onMounted(async () => {
         <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
           <template v-if="i18nLangAll[idx] as string !== 'null'">
             <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-            <th scope="col">{{ $t(`comp-mmt-ui-table-th-l${idx+1}`) }}</th>
+            <th scope="col">{{ $t(`comp-mmt-ui-table-th-l${idx + 1}`) }}</th>
           </template>
         </template>
       </tr>

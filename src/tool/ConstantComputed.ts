@@ -2,6 +2,7 @@ import { useSetting } from '@/stores/setting'
 import { computed } from 'vue'
 import { i18nDesktopLoopIdx, NexonLangMap } from '@/tool/Constant'
 import type { NexonL10nDataLang } from '@/types/OutsourcedData'
+import { useI18nTlControl } from '@/stores/i18nTlControl'
 
 
 export const i18nLangAll = computed(
@@ -29,11 +30,17 @@ export const i18nToUiLangAll = computed(
 )
 
 export const numberOfSelectedLangForDesktop = computed(() => {
-    let count = 0
-    for (const idx of i18nDesktopLoopIdx) {
-        if (i18nLangAll.value[idx] as string !== 'null') {
-            count += 1
-        }
+  let count = 0
+  for (const idx of i18nDesktopLoopIdx) {
+    if (i18nLangAll.value[idx] as string !== 'null') {
+      count += 1
     }
-    return count * 2
+  }
+  return count * 2
+})
+
+export const mtI18nLangStats = computed(() => {
+  const mtPinia = useI18nTlControl()
+  return [mtPinia.i18n_l1, mtPinia.i18n_l2, mtPinia.i18n_l3,
+    mtPinia.i18n_l4, mtPinia.i18n_l5]
 })

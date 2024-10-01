@@ -1,4 +1,4 @@
-import { getNexonI18nDataDefault, NexonLangMap } from '@/tool/Constant'
+import { getNexonI18nDataDefault } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath, httpGetAsync } from '@/tool/HttpRequest'
 import type {
@@ -8,10 +8,6 @@ import type {
   NexonL10nData,
   NexonL10nDataLang
 } from '@/types/OutsourcedData'
-import {
-  joinTranslateResult as GoogleML_joinTranslateResult,
-  translate as GoogleML_translate
-} from '@/tool/translate/GoogleTranslate'
 
 export function checkDialogueSensei(text: string) {
   if (text === 'Answer') return true
@@ -154,15 +150,4 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
   }
 
   return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + path.split("/").slice(-1)[0] + ".png"
-}
-
-export async function getMlTranslationByGoogle(oriNameText: string, oriDialogueText: string, actualMlLang: string) {
-  let textName: string, textDialogue: string
-
-  if (oriNameText) textName = GoogleML_joinTranslateResult(await GoogleML_translate(oriNameText, actualMlLang))
-  else textName = ''
-  if (oriDialogueText) textDialogue = GoogleML_joinTranslateResult(await GoogleML_translate(oriDialogueText, actualMlLang))
-  else textDialogue = ''
-
-  return { name: textName, dialogue: textDialogue }
 }
