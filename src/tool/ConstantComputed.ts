@@ -1,5 +1,5 @@
 import { useSetting } from '@/stores/setting'
-import { computed } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { i18nDesktopLoopIdx, NexonLangMap } from '@/tool/Constant'
 import type { NexonL10nDataLang } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
@@ -39,7 +39,7 @@ export const numberOfSelectedLangForDesktop = computed(() => {
   return count * 2
 })
 
-export const mtI18nLangStats = computed(() => {
+export const mtI18nLangStats: ComputedRef<[string, string, string, string, string]> = computed(() => {
   const mtPinia = useI18nTlControl()
   return [mtPinia.i18n_l1, mtPinia.i18n_l2, mtPinia.i18n_l3,
     mtPinia.i18n_l4, mtPinia.i18n_l5]

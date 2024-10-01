@@ -6,7 +6,7 @@ export async function mtPiniaWatchCallback(
   watcherNewValue: [string, string, string, string, string],
   funcUpdate: (lang: NexonL10nDataLang) => Promise<void>,
   funcClear: (lang: NexonL10nDataLang) => void,
-  funcStatusSet: (variable: string) => void
+  funcStatusSetToComplete: (variable: string) => void
 ) {
   let translateFirstTime = false
 
@@ -15,6 +15,8 @@ export async function mtPiniaWatchCallback(
       if (watcherNewValue[i].startsWith('t')) {
         if (i18nLangAll.value[i] as string !== 'null') {
           await funcUpdate(i18nLangAll.value[i])
+          funcStatusSetToComplete(`i18n_l${i+1}`)
+
           translateFirstTime = true
         }
       }
@@ -22,7 +24,9 @@ export async function mtPiniaWatchCallback(
 
     if (watcherNewValue[i].startsWith('c')) {
       funcClear(i18nLangAll.value[i])
-      funcStatusSet(`i18n_l${i}`)
+
+      console.log(i18nLangAll.value[i])
+      funcStatusSetToComplete(`i18n_l${i+1}`)
     }
   }
 }

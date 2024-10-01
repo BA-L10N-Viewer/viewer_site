@@ -16,9 +16,10 @@ import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedD
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
-import { i18nLangAll } from '@/tool/ConstantComputed'
+import { i18nLangAll, mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
+import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -117,7 +118,11 @@ function initMlData() {
 }
 
 watch(
-  () => [ML_pinia.i18n_l1, ML_pinia.i18n_l2, ML_pinia.i18n_l3],
+  mtI18nLangStats,
+  async (newValue) => {
+    await mtPiniaWatchCallback(newValue, updateMlTranslation, clearMlTranslation, ML_pinia.setStatusToComplete)
+  }
+  /*
   async (newValue) => {
     if (newValue[0].startsWith('t')) {
       if (i18nLangAll.value[0])
@@ -148,6 +153,7 @@ watch(
 
     }
   }
+   */
 )
 
 provide('ML_clearAll', initMlData)

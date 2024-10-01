@@ -10,10 +10,11 @@ import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedD
 import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { i18nLangAll } from '@/tool/ConstantComputed'
+import { i18nLangAll, mtI18nLangStats } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
+import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 
 // --------------------- I18N ---------------------
 const setting = useSetting()
@@ -187,7 +188,11 @@ function initMlData() {
 }
 
 watch(
-  () => [ML_pinia.i18n_l1, ML_pinia.i18n_l2, ML_pinia.i18n_l3],
+  mtI18nLangStats,
+  async (newValue) => {
+    await mtPiniaWatchCallback(newValue, updateMlTranslation, clearMlTranslation, ML_pinia.setStatusToComplete)
+  }
+  /*
   async (newValue) => {
     if (newValue[0].startsWith('t')) {
       if (i18nLangAll.value[0])
@@ -218,6 +223,7 @@ watch(
 
     }
   }
+   */
 )
 
 provide('ML_clearAll', initMlData)
