@@ -151,7 +151,8 @@ export function checkIfScenarioIdIsMain(scnearioId: number | string) {
 }
 
 export function getScenarioCharacterSmallPortraitPath(path: string): string | null {
-  const temp = path.split("/").slice(-1)[0]
+  // 逆天nx代码，人物头像数据里写的与实际不符，统一为全部小写
+  const temp = path.split("/").slice(-1)[0].toLowerCase()
   if (String(temp) === "null") {
     return null
   }
