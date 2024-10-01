@@ -2,7 +2,7 @@
 import { defineProps, computed, ref, type PropType } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import type { ComponentSize } from 'element-plus'
-import { Iphone, Location, OfficeBuilding, Reading, Tickets, User } from '@element-plus/icons-vue'
+import { Iphone, Reading, Tickets } from '@element-plus/icons-vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { useI18n } from 'vue-i18n'
@@ -132,9 +132,5 @@ function getStoryType() {
 
 .margin-top {
   margin-top: 20px;
-}
-
-.item-content {
-  min-width: 15em;
 }
 </style>

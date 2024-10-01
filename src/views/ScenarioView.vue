@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Setting } from '@element-plus/icons-vue'
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import { ref, onMounted, provide } from 'vue'
+import { ref, onMounted } from 'vue'
 import ScenarioUi from '@/components/ScenarioUi.vue'
 import { useRoute } from 'vue-router'
 import { getScenarioI18nContent } from '@/tool/StoryTool'
