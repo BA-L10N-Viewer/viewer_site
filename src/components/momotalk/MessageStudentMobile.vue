@@ -4,7 +4,7 @@ import {
   mmtMessageContentDecorator,
   convertMmtMsgToHtml,
   checkDialogueSensei,
-  getClassDialogueSensei
+  getClassDialogueSensei, getNexonL10nData
 } from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
@@ -55,7 +55,7 @@ const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
            :lang="i18nToUiLangAll[idx]">
         <template v-if="i18nLangAll[idx] as string !== 'null'">
           <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-          <DialogueTranslated v-else :content-original="dialogueSpeaker[i18nLangAll[idx]]"
+          <DialogueTranslated v-else :content-original="getNexonL10nData(dialogueSpeaker,i18nLangAll[idx])"
                               :content-translated="ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['name']" />
         </template>
       </div>
@@ -67,8 +67,9 @@ const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
          :class="getClassDialogueSensei(dialogueType)"
          :lang="i18nToUiLangAll[idx]">
       <template v-if="i18nLangAll[idx] as string !== 'null'">
-        <DialogueTranslated :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContent[i18nLangAll[idx]]))"
-                            :content-translated="convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['dialogue'])" />
+        <DialogueTranslated
+          :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[idx])))"
+          :content-translated="convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['dialogue'])" />
         <hr class="mobile-lang-hr" v-if="!(idx + 1 == i18nMobileLoopIdx.length)" />
       </template>
     </div>

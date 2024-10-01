@@ -1,5 +1,6 @@
 import { BaseMtService, requestApi } from '@/tool/translate/MtUtils'
 import { ipClientCountryAtInit } from '@/tool/ClientIp'
+import type { Nullable } from '@/types/CommonType'
 
 type GoogleTranslateResponseSentence = {
   trans: string;
@@ -65,8 +66,8 @@ class MtGoogleTranslate extends BaseMtService<GoogleTranslateResponse> {
     return url.toString()
   }
 
-  async translate(inputText: string, outputLang: string, inputLang: string = 'auto') {
-    const url = this.getUrl(inputLang, inputText, outputLang, true)
+  async translate(inputText: string | Nullable, outputLang: string, inputLang: string = 'auto') {
+    const url = this.getUrl(inputLang, String(inputText), outputLang, true)
     return await requestApi<GoogleTranslateResponse>(url, this.timeout, GoogleTranslateResponseBlank)
   }
 

@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue'
 import { getStaticCdnBasepath, httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
-import { getLangDataFlattened } from '@/tool/StoryTool'
+import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import ScenarioSearchEntryEvent from '@/components/search/ScenarioSearchEntryEvent.vue'
 import { useI18n } from 'vue-i18n'
@@ -134,7 +134,7 @@ function loadBondData() {
   const data = dataBondStudentName
   let temp = []
   for (const [key, value] of Object.entries(data)) {
-    let label = `${key}: ${getLangDataFlattened(value.Name, i18nLangAll.value, '/')}`
+    let label = `${key}: ${getNexonL10nDataFlattened(value.Name, i18nLangAll.value, '/')}`
     temp.push({
       'value': key,
       'label': label
@@ -174,7 +174,7 @@ function loadEventData() {
   let temp = []
   for (const entry of data) {
     temp.push({
-      'label': `${entry.id}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])], i18nLangAll.value, '/')}`,
+      'label': `${entry.id}: ${getNexonL10nDataFlattened(dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])], i18nLangAll.value, '/')}`,
       'value': String(entry.id)
     })
   }
@@ -226,8 +226,7 @@ function loadMainMainData1() {
   for (const idx in data) {
     const entry = data[idx]
     temp.push({
-      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]],
-        i18nLangAll.value, '/')}`,
+      'label': `${Number(idx) + 1}: ${getNexonL10nDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]], i18nLangAll.value, '/')}`,
       value: String(idx)
     })
   }
@@ -244,8 +243,7 @@ function loadMainMainData2() {
   for (const idx in data) {
     const entry = data[idx]
     temp.push({
-      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]],
-        i18nLangAll.value, '/')}`,
+      'label': `${Number(idx) + 1}: ${getNexonL10nDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]], i18nLangAll.value, '/')}`,
       value: String(idx)
     })
   }
@@ -285,8 +283,7 @@ function loadMainOtherData() {
   for (const idx in data) {
     const entry = data[idx]
     temp.push({
-      'label': `${Number(idx) + 1}: ${getLangDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]],
-        i18nLangAll.value, '/')}`,
+      'label': `${Number(idx) + 1}: ${getNexonL10nDataFlattened(dataI18nStoryXxhashToL10n[dataMainI18nKeyToXxhash[entry.name]], i18nLangAll.value, '/')}`,
       'value': String(idx)
     })
   }

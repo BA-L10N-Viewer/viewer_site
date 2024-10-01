@@ -3,7 +3,7 @@ import { defineProps, computed, ref, type PropType } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import type { ComponentSize } from 'element-plus'
 import { Iphone, Location, OfficeBuilding, Reading, Tickets, User } from '@element-plus/icons-vue'
-import { getLangDataFlattened } from '@/tool/StoryTool'
+import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -103,7 +103,7 @@ function getStoryType() {
           {{ $t('comp-scenario-datasheet-item-3') }}
         </div>
       </template>
-      <div class="item-content"><span v-html="getLangDataFlattened(storyName, i18nLangAll, '<br />')"></span></div>
+      <div class="item-content"><span v-html="getNexonL10nDataFlattened(storyName,i18nLangAll,'<br />')"></span></div>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -114,7 +114,7 @@ function getStoryType() {
           {{ $t('comp-scenario-datasheet-item-4') }}
         </div>
       </template>
-      <div class="item-content"><span v-html="getLangDataFlattened(storyDesc, i18nLangAll, '<br />')"></span></div>
+      <div class="item-content"><span v-html="getNexonL10nDataFlattened(storyDesc,i18nLangAll,'<br />')"></span></div>
     </el-descriptions-item>
   </el-descriptions>
 </template>

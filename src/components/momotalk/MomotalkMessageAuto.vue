@@ -5,7 +5,7 @@ import { useSetting } from '@/stores/setting'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'
 import MessageStudentMobile from '@/components/momotalk/MessageStudentMobile.vue'
-import { getLangData } from '@/tool/StoryTool'
+import { getNexonL10nData } from '@/tool/StoryTool'
 import type {
   MomotalkStoryDataDialog, NexonL10nData,
   NexonL10nDataLang
@@ -59,7 +59,7 @@ const screenWidth = useWindowSize().width
     <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
       <MessageStudent :dialogue-lang="i18nToUiLangAll[idx]"
                       :dialogue-speaker="charName[i18nLangAll[idx] as NexonL10nDataLang]"
-                      :dialogue-content="getLangData(data_dialog.Message, i18nLangAll[idx] as NexonL10nDataLang)"
+                      :dialogue-content="getNexonL10nData(data_dialog.Message,i18nLangAll[idx])"
                       :dialogue-lang-translated="setting.auto_i18n_lang"
                       :dialogue-speaker-translated="ML_table[mmt_entry_pos][i18nLangAll[idx]][dialog_entry_pos]['name']"
                       :dialogue-content-translated="ML_table[mmt_entry_pos][i18nLangAll[idx]][dialog_entry_pos]['dialogue']"

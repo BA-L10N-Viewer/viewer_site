@@ -2,7 +2,7 @@
 /* option */
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import { replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
+import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
 import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
 import type { CommonStoryDataDialogTextColor, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
@@ -42,8 +42,8 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
       <template v-if="i18nLangAll[idx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue
-            :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[idx] as NexonL10nDataLang])"
-            :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['dialogue']"
+            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[idx]))"
+            :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['dialogue']"
             :css_style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>

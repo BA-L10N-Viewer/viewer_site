@@ -8,6 +8,7 @@ import type {
   NexonL10nData,
   NexonL10nDataLang
 } from '@/types/OutsourcedData'
+import type { Nullable } from '@/types/CommonType'
 
 export function checkDialogueSensei(text: string) {
   if (text === 'Answer') return true
@@ -29,27 +30,33 @@ export function mmtMessageContentDecorator(dialogueType: string, dialogueContent
   }
 }
 
-export function convertNewlineToBr(text: string): string {
-  return text.replace(/\[\\n\]/g, '<br />')
+export function convertNewlineToBr(text: string | Nullable): string {
+  if (text)
+    return text.replace(/\[\\n\]/g, '<br />')
+  else
+    return ''
 }
 
-export function convertImgToImg(text: string) {
-  return text.replace(
-    /\[img:\s*UIs\/03_Scenario\/04_ScenarioImage\/([^\s\]]+)\s*\]/g,
-    `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/$1.png" />`);
+export function convertImgToImg(text: string | Nullable) {
+  if (text)
+    return text.replace(
+      /\[img:\s*UIs\/03_Scenario\/04_ScenarioImage\/([^\s\]]+)\s*\]/g,
+      `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/$1.png" />`);
+  else
+    return ''
 }
 
-export function convertMmtMsgToHtml(text: string) {
+export function convertMmtMsgToHtml(text: string | Nullable) {
   return convertImgToImg(convertNewlineToBr(text))
 }
 
-export function getLangData(entry: NexonL10nData, key: NexonL10nDataLang): string {
+export function getNexonL10nData(entry: NexonL10nData, key: NexonL10nDataLang): string {
   if (key in entry) return entry[key]
   else return ''
 }
 
-export function getLangDataFlattened(entry: NexonL10nData, langs: string[],
-                                     splitter: string = ''): string {
+export function getNexonL10nDataFlattened(entry: NexonL10nData, langs: string[],
+                                          splitter: string = ''): string {
   // 尽管这里说是 NexonL10nData 但实际上也可以是 SchaleDbL10nData
   type entryLangKeys = keyof NexonL10nData
 

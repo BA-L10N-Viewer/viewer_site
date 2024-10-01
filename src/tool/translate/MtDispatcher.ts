@@ -1,9 +1,10 @@
 import { GoogleTranslateInstance } from '@/tool/translate/GoogleTranslate'
+import type { Nullable } from '@/types/CommonType'
 
 export type MtServiceName = 'google'
 
 export async function getTranslation(mtServiceName: MtServiceName,
-                                     inputText: string, outputLang: string, inputLang: string = 'auto') {
+                                     inputText: string | Nullable, outputLang: string, inputLang: string = 'auto') {
   if (mtServiceName === 'google') {
     const resp = await GoogleTranslateInstance.translate(inputText, outputLang, inputLang)
     return GoogleTranslateInstance.concatTranslation(resp)
@@ -12,7 +13,7 @@ export async function getTranslation(mtServiceName: MtServiceName,
 }
 
 export async function getDialogueMtTranslation(mtServiceName: MtServiceName,
-                                               oriNameText: string, oriDialogueText: string, outputLang: string ='auto') {
+                                               oriNameText: string | Nullable, oriDialogueText: string | Nullable, outputLang: string ='auto') {
   let textName: string, textDialogue: string
 
   if (oriNameText) textName = await getTranslation(mtServiceName, oriNameText, outputLang)

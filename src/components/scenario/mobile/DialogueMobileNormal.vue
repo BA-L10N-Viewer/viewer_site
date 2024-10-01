@@ -3,6 +3,7 @@
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import {
+  getNexonL10nData,
   getScenarioCharacterSmallPortraitPath,
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
@@ -54,8 +55,8 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
     <template v-for="idx in i18nMobileLoopIdx" :key="idx">
       <template v-if="i18nLangAll[idx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[idx]">
-          <ScenarioTranslatedDialogue :content-original="dialogueCharacter[i18nLangAll[idx] as NexonL10nDataLang]"
-                                      :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['name']"
+          <ScenarioTranslatedDialogue :content-original="getNexonL10nData(dialogueCharacter,i18nLangAll[idx])"
+                                      :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
                                       :css_style="{'color': dialogueTextColor}"
                                       :is_after_br="true" />
         </span>
@@ -67,8 +68,8 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
       <template v-if="i18nLangAll[idx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue
-            :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[idx] as NexonL10nDataLang])"
-            :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['dialogue']"
+            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[idx]))"
+            :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['dialogue']"
             :css_style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>

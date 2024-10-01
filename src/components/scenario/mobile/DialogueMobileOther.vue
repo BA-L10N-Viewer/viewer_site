@@ -2,7 +2,7 @@
 /* title place st stm nextEpisode na */
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import { replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
+import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
 import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
 import type {
@@ -60,7 +60,7 @@ const htmlTdClassName = (() => {
       <template v-if="i18nLangAll[idx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue
-            :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[idx] as NexonL10nDataLang])"
+            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[idx]))"
             :content-translated="ML_table[i18nLangAll[idx] as NexonL10nDataLang][entry_pos]['dialogue']"
             :is_after_br="true" />
         </span>
