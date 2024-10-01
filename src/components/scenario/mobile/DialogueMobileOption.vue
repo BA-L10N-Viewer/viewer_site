@@ -39,24 +39,24 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
   <td class="story-dialogue-option scenario-dialogue" colspan="2">
     <span :lang="i18nToUiLangAll[0]">
       <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0] as NexonL10nDataLang])"
-        :content-translated="ML_table[i18nLangAll[0] as NexonL10nDataLang][entry_pos]['dialogue']"
+        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[0]])"
+        :content-translated="ML_table[i18nLangAll[0]][entry_pos]['dialogue']"
         :css_style="{'color': dialogueTextColor}"
         :is_after_br="true" />
     </span>
     <hr class="mobile-lang-hr" />
     <span :lang="i18nToUiLangAll[1]">
       <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1] as NexonL10nDataLang])"
-        :content-translated="ML_table[i18nLangAll[1] as NexonL10nDataLang][entry_pos]['dialogue']"
+        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[1]])"
+        :content-translated="ML_table[i18nLangAll[1]][entry_pos]['dialogue']"
         :css_style="{'color': dialogueTextColor}"
         :is_after_br="true" />
     </span>
     <hr class="mobile-lang-hr" />
     <span :lang="i18nToUiLangAll[2]">
       <ScenarioTranslatedDialogue
-        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2] as NexonL10nDataLang])"
-        :content-translated="ML_table[i18nLangAll[2] as NexonL10nDataLang][entry_pos]['dialogue']"
+        :content-original="replaceStoryLineUsernameBlank(dialogueContent[i18nLangAll[2]])"
+        :content-translated="ML_table[i18nLangAll[2]][entry_pos]['dialogue']"
         :css_style="{'color': dialogueTextColor}"
         :is_after_br="true" />
     </span>

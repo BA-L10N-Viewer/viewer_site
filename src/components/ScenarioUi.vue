@@ -156,7 +156,7 @@ function clearMlTranslation(baselang: NexonL10nDataLang) {
 
 async function updateMlTranslation(baselang: NexonL10nDataLang) {
   ML_in_progress.value = true
-  clearMlTranslation(baselang as NexonL10nDataLang)
+  clearMlTranslation(baselang)
 
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
@@ -190,28 +190,28 @@ watch(
   async (newValue) => {
     if (newValue[0].startsWith('t')) {
       if (i18nLangAll.value[0])
-        await updateMlTranslation(i18nLangAll.value[0] as NexonL10nDataLang)
+        await updateMlTranslation(i18nLangAll.value[0])
       ML_pinia.setStatusToComplete('i18n_l1')
     } else if (newValue[1].startsWith('t')) {
       if (i18nLangAll.value[1])
-        await updateMlTranslation(i18nLangAll.value[1] as NexonL10nDataLang)
+        await updateMlTranslation(i18nLangAll.value[1])
       ML_pinia.setStatusToComplete('i18n_l2')
     } else if (newValue[2].startsWith('t')) {
       if (i18nLangAll.value[2])
-        await updateMlTranslation(i18nLangAll.value[2] as NexonL10nDataLang)
+        await updateMlTranslation(i18nLangAll.value[2])
       ML_pinia.setStatusToComplete('i18n_l3')
     } else {
       // 如果是清空指令的话
       if (newValue[0].startsWith('c')) {
-        clearMlTranslation(i18nLangAll.value[0] as NexonL10nDataLang)
+        clearMlTranslation(i18nLangAll.value[0])
         ML_pinia.setStatusToComplete('i18n_l1')
       }
       if (newValue[1].startsWith('c')) {
-        clearMlTranslation(i18nLangAll.value[1] as NexonL10nDataLang)
+        clearMlTranslation(i18nLangAll.value[1])
         ML_pinia.setStatusToComplete('i18n_l2')
       }
       if (newValue[2].startsWith('c')) {
-        clearMlTranslation(i18nLangAll.value[2] as NexonL10nDataLang)
+        clearMlTranslation(i18nLangAll.value[2])
         ML_pinia.setStatusToComplete('i18n_l3')
       }
 

@@ -26,27 +26,27 @@ const props = defineProps({
 <template>
   <span :lang="i18nToUiLangAll[0]"
         :class="{'clamped-text': enableTextLineClamp}"
-        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[0] as NexonL10nDataLang] }}</span>
+        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[0]] }}</span>
   <span v-if="htmlElementName === 'span'">&nbsp;/&nbsp;</span>
   <span :lang="i18nToUiLangAll[1]"
         :class="{'clamped-text': enableTextLineClamp}"
-        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[1] as NexonL10nDataLang] }}</span>
+        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[1]] }}</span>
   <span v-if="htmlElementName === 'span'">&nbsp;/&nbsp;</span>
   <span :lang="i18nToUiLangAll[2]"
         :class="{'clamped-text': enableTextLineClamp}"
-        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[2] as NexonL10nDataLang] }}</span>
+        v-if="htmlElementName === 'span'">{{ data[i18nLangAll[2]] }}</span>
 
   <li :lang="i18nToUiLangAll[0]"
       v-if="htmlElementName === 'li'">
-    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[0] as NexonL10nDataLang] }}</span>
+    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[0]] }}</span>
   </li>
   <li :lang="i18nToUiLangAll[1]"
       v-if="htmlElementName === 'li'">
-    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[1] as NexonL10nDataLang] }}</span>
+    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[1]] }}</span>
   </li>
   <li :lang="i18nToUiLangAll[2]"
       v-if="htmlElementName === 'li'">
-    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[2] as NexonL10nDataLang] }}</span>
+    <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[2]]  }}</span>
   </li>
 </template>
 

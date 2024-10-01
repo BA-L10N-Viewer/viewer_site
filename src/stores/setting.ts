@@ -14,6 +14,8 @@ export const useSetting = defineStore('setting', {
       'i18n_lang1': 'j_ja',
       'i18n_lang2': 'null',
       'i18n_lang3': 'null',
+      'i18n_lang4': 'null',
+      'i18n_lang5': 'null',
       'auto_i18n_service': 'google',
       'auto_i18n_lang': 'en',
       'auto_i18n_showauto': false,

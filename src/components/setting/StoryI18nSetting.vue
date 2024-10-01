@@ -124,27 +124,65 @@ watch(
       </client-only>
     </el-col>
   </el-row>
+  <el-row gutter="1" class="setting-row">
+    <el-col :span="elRow12Span">
+      <span>{{ $t('comp-story-i18n-select-6') }}</span>
+      <el-select v-model="setting.i18n_lang4" style="width: calc(100% - 13em)"
+                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
+        <el-option v-for="item in nexonDataLangSelect"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
+    </el-col>
+    <el-col :span="elRow12Span">
+      <span>{{ $t('comp-story-i18n-select-7') }}</span>
+      <el-select v-model="setting.i18n_lang5" style="width: calc(100% - 13em)"
+                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
+        <el-option v-for="item in nexonDataLangSelect"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
+    </el-col>
+  </el-row>
   <div v-if="show_ml">
     <el-row gutter="1" class="setting-row">
       <el-col :span="elRow8Span">
         <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
                    @click="ML_update(1)"
                    class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto') }}
+          {{ $t('comp-story-i18n-btn-auto-1') }}
         </el-button>
       </el-col>
       <el-col :span="elRow8Span">
         <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
                    @click="ML_update(2)"
                    class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto') }}
+          {{ $t('comp-story-i18n-btn-auto-2') }}
         </el-button>
       </el-col>
       <el-col :span="elRow8Span">
         <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
                    @click="ML_update(3)"
                    class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto') }}
+          {{ $t('comp-story-i18n-btn-auto-3') }}
+        </el-button>
+      </el-col>
+    </el-row>
+    <el-row gutter="1" class="setting-row">
+      <el-col :span="elRow12Span">
+        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
+                   @click="ML_update(4)"
+                   class="btn-auto-translate">
+          {{ $t('comp-story-i18n-btn-auto-4') }}
+        </el-button>
+      </el-col>
+      <el-col :span="elRow12Span">
+        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
+                   @click="ML_update(5)"
+                   class="btn-auto-translate">
+          {{ $t('comp-story-i18n-btn-auto-5') }}
         </el-button>
       </el-col>
     </el-row>

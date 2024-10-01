@@ -28,7 +28,8 @@ export const NexonLangMap: Record<string, string> = {
   'j_ko': 'ko',
   'c_cn': 'zh_CN',
   'g_tw_cn': 'zh_CN',
-  'c_cn_tw': 'zh_TW'
+  'c_cn_tw': 'zh_TW',
+  'null': ''
 }
 
 export const autoTranslateService = [

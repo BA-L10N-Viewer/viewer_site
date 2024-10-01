@@ -35,14 +35,14 @@ const props = defineProps({
 const dialogueSpeakers = computed(() => {
   const temp = []
   for (const lang of i18nLangAll.value) {
-    temp.push(props.dialogueSpeaker[lang as NexonL10nDataLang])
+    temp.push(props.dialogueSpeaker[lang])
   }
   return temp
 })
 const dialogueContentsDecorated = computed(() => {
   const temp = []
   for (const lang of i18nLangAll.value) {
-    temp.push(dialogueContentDecorator(props.dialogueType, props.dialogueContent[lang as NexonL10nDataLang]))
+    temp.push(dialogueContentDecorator(props.dialogueType, props.dialogueContent[lang]))
   }
   return temp
 })
@@ -58,14 +58,14 @@ const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
 const dialogueSpeakersTranslated = computed(() => {
   const temp = []
   for (const lang of i18nLangAll.value) {
-    temp.push(ML_table.value[mmtEntryPos][lang as NexonL10nDataLang][mmtEntryDialoguePos]['name'])
+    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]['name'])
   }
   return temp
 })
 const dialogueContentsTranslated = computed(() => {
   const temp = []
   for (const lang of i18nLangAll.value) {
-    temp.push(ML_table.value[mmtEntryPos][lang as NexonL10nDataLang][mmtEntryDialoguePos]!['dialogue'])
+    temp.push(ML_table.value[mmtEntryPos][lang][mmtEntryDialoguePos]!['dialogue'])
   }
   return temp
 })
