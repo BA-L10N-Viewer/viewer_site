@@ -41,7 +41,11 @@ export function convertImgToImg(text: string | Nullable) {
   if (text)
     return text.replace(
       /\[img:\s*UIs\/03_Scenario\/04_ScenarioImage\/([^\s\]]+)\s*\]/g,
-      `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/$1.png" />`);
+      (match, p1) => {
+        const processedValue = p1.toLowerCase()
+        return `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${processedValue}.png" />`
+      }
+    );
   else
     return ''
 }
@@ -157,5 +161,5 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
     return null
   }
 
-  return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + path.split("/").slice(-1)[0] + ".png"
+  return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + temp + ".png"
 }
