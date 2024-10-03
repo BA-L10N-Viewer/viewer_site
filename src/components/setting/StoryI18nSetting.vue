@@ -86,7 +86,7 @@ watch(
       </client-only>
     </el-col>
   </el-row>
-  <el-row gutter="1" class="setting-row">
+  <el-row gutter="1" class="setting-row setting-row-connect-to-next">
     <el-col :span="elRow8Span">
       <span>{{ $t('comp-story-i18n-select-3') }}</span>
       <client-only>
@@ -147,7 +147,7 @@ watch(
     </el-col>
   </el-row>
   <div v-if="show_ml">
-    <el-row gutter="1" class="setting-row">
+    <el-row gutter="1" class="setting-row setting-row-connect-to-next">
       <el-col :span="elRow8Span">
         <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
                    @click="ML_update(1)"
@@ -224,16 +224,4 @@ watch(
 </template>
 
 <style scoped>
-.setting-row {
-  margin-bottom: 8px;
-}
-
-.setting-row .el-col {
-  margin-bottom: 5px;
-}
-
-.btn-auto-translate {
-  text-align: center;
-  width: calc(100% - 5px);
-}
 </style>

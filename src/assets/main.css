@@ -145,3 +145,22 @@ rt {font-size:0.8em}
     margin-right: 5px;
 }
 
+/* 对所有设置的统一CSS */
+.setting-row {
+    margin-bottom: 8px;
+}
+
+@media screen and (max-width: 700px) {
+    .setting-row-connect-to-next {
+        margin-bottom: 0 !important;
+    }
+}
+
+.setting-row button, .setting-row .el-select {
+    margin-bottom: 5px;
+}
+
+.btn-auto-translate {
+    text-align: center;
+    width: calc(100% - 5px);
+}
