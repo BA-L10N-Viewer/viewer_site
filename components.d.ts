@@ -7,8 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    DialogueAuto: typeof import('./src/components/scenario/desktop/DialogueAuto.vue')['default']
-    DialogueAutoMobile: typeof import('./src/components/scenario/mobile/DialogueAutoMobile.vue')['default']
+    CharVoiceDisplaySetting: typeof import('./src/components/setting/CharVoiceDisplaySetting.vue')['default']
     DialogueDesktopAuto: typeof import('./src/components/scenario/desktop/DialogueDesktopAuto.vue')['default']
     DialogueDesktopNormal: typeof import('./src/components/scenario/desktop/DialogueDesktopNormal.vue')['default']
     DialogueDesktopOption: typeof import('./src/components/scenario/desktop/DialogueDesktopOption.vue')['default']
@@ -19,11 +18,6 @@ declare module 'vue' {
     DialogueMobileNormal: typeof import('./src/components/scenario/mobile/DialogueMobileNormal.vue')['default']
     DialogueMobileOption: typeof import('./src/components/scenario/mobile/DialogueMobileOption.vue')['default']
     DialogueMobileOther: typeof import('./src/components/scenario/mobile/DialogueMobileOther.vue')['default']
-    DialogueNormal: typeof import('./src/components/scenario/desktop/DialogueNormal.vue')['default']
-    DialogueOption: typeof import('./src/components/scenario/desktop/DialogueOption.vue')['default']
-    DialogueOther: typeof import('./src/components/scenario/desktop/DialogueOther.vue')['default']
-    DialogueStudent: typeof import('./src/components/momotalk/DialogueStudent.vue')['default']
-    DialogueStudentMobile: typeof import('./src/components/momotalk/DialogueStudentMobile.vue')['default']
     DialogueTranslated: typeof import('./src/components/DialogueTranslated.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
@@ -51,10 +45,8 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']
-    MomotalkDialogue: typeof import('./src/components/momotalk/MomotalkDialogue.vue')['default']
     MomotalkHeader: typeof import('./src/components/momotalk/MomotalkHeader.vue')['default']
     MomotalkMessageAuto: typeof import('./src/components/momotalk/MomotalkMessageAuto.vue')['default']
-    MomotalkMessageDispatcher: typeof import('./src/components/momotalk/MomotalkMessageDispatcher.vue')['default']
     MomotalkSearch: typeof import('./src/components/search/MomotalkSearch.vue')['default']
     MomotalkSearchEntry: typeof import('./src/components/search/MomotalkSearchEntry.vue')['default']
     MomotalkUi: typeof import('./src/components/MomotalkUi.vue')['default']
@@ -71,7 +63,6 @@ declare module 'vue' {
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
   }
   export interface ComponentCustomProperties {
-    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

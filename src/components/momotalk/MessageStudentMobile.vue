@@ -9,7 +9,12 @@ import {
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueIcon from '@/components/DialogueIcon.vue'
-import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
+import {
+  i18nLangAll,
+  i18nToUiLangAll,
+  listOfPosOfSelectedLangForMobile,
+  numberOfSelectedLangForMobile
+} from '@/tool/ConstantComputed'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
@@ -63,14 +68,14 @@ const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
   </td>
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
-    <div v-for="idx in i18nMobileLoopIdx" :key="idx"
+    <div v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx"
          :class="getClassDialogueSensei(dialogueType)"
-         :lang="i18nToUiLangAll[idx]">
-      <template v-if="i18nLangAll[idx] as string !== 'null'">
+         :lang="i18nToUiLangAll[langIdx]">
+      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <DialogueTranslated
-          :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[idx])))"
-          :content-translated="convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['dialogue'])" />
-        <hr class="mobile-lang-hr" v-if="!(idx + 1 == i18nMobileLoopIdx.length)" />
+          :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[langIdx])))"
+          :content-translated="convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue'])" />
+        <hr class="mobile-lang-hr" v-if="!(idx + 1 == numberOfSelectedLangForMobile)" />
       </template>
     </div>
   </td>

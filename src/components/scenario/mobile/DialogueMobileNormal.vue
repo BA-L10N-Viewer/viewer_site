@@ -1,7 +1,12 @@
 <script setup lang="ts">
 /* speaker */
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
-import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
+import {
+  i18nLangAll,
+  i18nToUiLangAll,
+  listOfPosOfSelectedLangForMobile,
+  numberOfSelectedLangForMobile
+} from '@/tool/ConstantComputed'
 import {
   getNexonL10nData,
   getScenarioCharacterSmallPortraitPath,
@@ -64,16 +69,16 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
     </template>
   </td>
   <td class="scenario-text scenario-dialogue">
-    <template v-for="idx in i18nMobileLoopIdx" :key="idx">
-      <template v-if="i18nLangAll[idx] as string !== 'null'">
-        <span :lang="i18nToUiLangAll[idx]">
+    <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
+      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[langIdx]">
           <ScenarioTranslatedDialogue
-            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[idx]))"
-            :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['dialogue']"
+            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
+            :content-translated="ML_table[i18nLangAll[langIdx]][entry_pos]['dialogue']"
             :css_style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>
-        <hr class="mobile-lang-hr" v-if="idx + 1 < i18nMobileLoopIdx.length" />
+        <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />
       </template>
     </template>
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"

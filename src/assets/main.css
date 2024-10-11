@@ -43,6 +43,11 @@
     border: 1px solid black;
 }
 
+.momotalk-table thead th, .momotalk-table td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
 .momotalk-table > thead {
     margin-bottom: 5px;
 }

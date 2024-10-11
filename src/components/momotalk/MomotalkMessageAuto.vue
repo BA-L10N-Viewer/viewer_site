@@ -76,7 +76,7 @@ const screenWidth = useWindowSize().width
                           :dialogue-content="data_dialog.Message" />
   </tr>
   <tr class="momotalk-dialogue-tr" v-if="data_dialog.FavorScheduleId !== 0">
-    <td :colspan="screenWidth >= MOBILE_WIDTH ? numberOfSelectedLangForDesktop : 2"
+    <td :colspan="screenWidth >= MOBILE_WIDTH ? numberOfSelectedLangForDesktop * 2 : 2"
         style="text-align: center; background-color: var(--color-ba-mmt); font-size: 1.2em;">
       <b>
         <RouterLink :to="`/scenario/${bond_story_id}`">{{ $t('comp-mmt-ui-table-view-story') }}</RouterLink>

@@ -3,6 +3,7 @@ import { computed, type ComputedRef } from 'vue'
 import { i18nDesktopLoopIdx, NexonLangMap } from '@/tool/Constant'
 import type { NexonL10nDataLang } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
+import { range } from 'lodash'
 
 
 export const i18nLangAll = computed(
@@ -36,7 +37,27 @@ export const numberOfSelectedLangForDesktop = computed(() => {
       count += 1
     }
   }
-  return count * 2
+  return count
+})
+
+export const numberOfSelectedLangForMobile = computed(() => {
+  let count = 0
+  for (const idx of range(0, 5)) {
+    if (i18nLangAll.value[idx] as string !== 'null') {
+      count += 1
+    }
+  }
+  return count
+})
+
+export const listOfPosOfSelectedLangForMobile = computed(() => {
+  const pos: number[] = []
+  for (const idx of range(0, 5)) {
+    if (i18nLangAll.value[idx] as string !== 'null') {
+      pos.push(idx)
+    }
+  }
+  return pos
 })
 
 export const mtI18nLangStats: ComputedRef<[string, string, string, string, string]> = computed(() => {
