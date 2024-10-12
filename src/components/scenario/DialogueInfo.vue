@@ -39,9 +39,10 @@ function gotoBlueArchiveIo() {
     } else {
       alert(i18n.t('comp-scenario-dialogue-info-btn-baio-not-supported'))
     }
-
   }
 }
+
+const cssMarginLeftOfDialogueInfoQuickBtn = (props.dialogueSelectionGroup !== 0 || props.dialogueSelectionToGroup !== -1) ? "8px" : "0"
 </script>
 
 
@@ -53,7 +54,7 @@ function gotoBlueArchiveIo() {
     <el-tag type="info" v-if="dialogueSelectionToGroup !== -1"><span
       lang="en">SeleToGroup: {{ dialogueSelectionToGroup }}</span></el-tag>
 
-    <div style="text-align: right;">
+    <div style="" class="dialogue-info-quick-btn">
       <el-popover
         placement="top"
         :width="200"
@@ -77,5 +78,11 @@ function gotoBlueArchiveIo() {
 .dialogue-info-tag {
   margin-top: 8px;
   margin-right: 8px;
+}
+
+.dialogue-info-quick-btn {
+  text-align: right;
+  display: inline-block;
+  margin-left: v-bind(cssMarginLeftOfDialogueInfoQuickBtn);
 }
 </style>
