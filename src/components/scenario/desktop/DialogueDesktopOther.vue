@@ -33,6 +33,10 @@ const props = defineProps({
   dialogueTextColor: {
     type: String,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 </script>
@@ -45,7 +49,9 @@ const props = defineProps({
   </td>
   <td v-else-if="dialogueDataType === 'na'" :lang="dialogueLang" colspan="2" class="story-dialogue-na">
     <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
+    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
+                  :dialogue-selection-group="dialogueSelectionGroup"
+                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
   <td v-else
       class="story-dialogue-other" :lang="dialogueLang" colspan="2">

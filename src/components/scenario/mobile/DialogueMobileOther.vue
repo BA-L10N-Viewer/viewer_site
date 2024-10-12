@@ -43,6 +43,10 @@ const props = defineProps({
   entry_pos: {
     type: Number,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 
@@ -50,11 +54,11 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
 
 const htmlTdClassName = (() => {
   if (props.dialogueDataType === 'title' || props.dialogueDataType === 'nextEpisode') {
-    return {'story-dialogue-center': true}
+    return { 'story-dialogue-center': true }
   } else if (props.dialogueDataType === 'na') {
-    return {'story-dialogue-na': true}
+    return { 'story-dialogue-na': true }
   } else {
-    return {'story-dialogue-other': true}
+    return { 'story-dialogue-other': true }
   }
 })()
 </script>
@@ -72,6 +76,9 @@ const htmlTdClassName = (() => {
         <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />
       </template>
     </template>
+    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
+                  :dialogue-selection-group="dialogueSelectionGroup"
+                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
 </template>
 

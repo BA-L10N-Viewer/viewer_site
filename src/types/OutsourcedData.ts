@@ -12,6 +12,7 @@ export type SchaleDbL10nData = Record<SchaleDbL10nDataLang, string>
 export type CommonStoryDataDialogDataType = 'title' | 'st' | 'stm' | 'place' | 'nextEpisode' | 'na' | 'option' | 'speaker'
 export type CommonStoryDataDialogTextColor = 'black' | '#4EA24E' | '#59ADF8' | '#FF3333' | '#FF7800' | '#800000'
 export type CommonStoryDataDialog = {
+  AbsolutePos: number;
   SelectionGroup: number;
   SelectionToGroup: number;
   PopupFileName: string;

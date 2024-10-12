@@ -42,6 +42,10 @@ const props = defineProps({
   dialogueTextColor: {
     type: String,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 </script>
@@ -49,11 +53,15 @@ const props = defineProps({
 <template>
   <td :lang="dialogueLang" class="scenario-speaker scenario-dialogue">
     <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" />
-    <ScenarioTranslatedDialogue :content-original="dialogueCharacter" :content-translated="dialogueCharacterTranslated" :style="{'color': dialogueTextColor}" />
+    <ScenarioTranslatedDialogue :content-original="dialogueCharacter" :content-translated="dialogueCharacterTranslated"
+                                :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">
-    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated"
+                                :style="{'color': dialogueTextColor}" />
+    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
+                  :dialogue-selection-group="dialogueSelectionGroup"
+                  :dialogue-absolute-pos="dialogueAbsolutePos" />
   </td>
 </template>
 

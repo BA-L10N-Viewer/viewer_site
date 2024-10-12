@@ -56,6 +56,7 @@ const setting = useSetting()
                              :dialogue-text-color="data_dialog.ShowTextColor"
                              :dialogue-character-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
                              :dialogue-content-translated="ML_table[i18nLangAll[idx]][entry_pos]['dialogue']"
+                             :dialogue-absolute-pos="data_dialog.AbsolutePos"
 
                              v-if="i18nLangAll[idx] as string !== 'null'"/>
       </template>
@@ -69,6 +70,7 @@ const setting = useSetting()
                         :dialogue-character="data_char.Name"
                         :dialogue-character-image="data_char.SmallPortrait"
                         :dialogue-text-color="data_dialog.ShowTextColor"
+                        :dialogue-absolute-pos="data_dialog.AbsolutePos"
                         :entry_pos="entry_pos" />
   </tr>
 </template>

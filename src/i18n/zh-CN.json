@@ -133,6 +133,8 @@
   "comp-scenario-sheet-type-short": "短篇故事",
   "comp-scenario-sheet-type-other": "其他故事",
   "comp-scenario-sheet-type-event": "活动故事",
+  "comp-scenario-dialogue-info-btn-baio-popup": "前往碧蓝档案剧情站的对应故事",
+  "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io (碧蓝档案剧情站) 暂未支持该类型故事！",
 
   "btn-show-content": "显示内容"
 }

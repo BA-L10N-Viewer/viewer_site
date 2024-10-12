@@ -42,26 +42,35 @@ const props = defineProps({
   entry_pos: {
     type: Number,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 </script>
 
 <template>
-  <DialogueMobileNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogue-content="dialogueContent" :dialogue-character="dialogueCharacter"
-                  :dialogue-text-color="dialogueTextColor" :dialogue-character-image="dialogueCharacterImage"
-                  :entry_pos="entry_pos"
-                  v-if="dialogueDataType === 'speaker'" />
-  <DialogueMobileOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogueContent="dialogueContent"
-                  :dialogue-text-color="dialogueTextColor"
-                  :entry_pos="entry_pos"
-                  v-else-if="dialogueDataType === 'option'" />
+  <DialogueMobileNormal :dialogue-selection-to-group="dialogueSelectionToGroup"
+                        :dialogue-selection-group="dialogueSelectionGroup"
+                        :dialogue-content="dialogueContent" :dialogue-character="dialogueCharacter"
+                        :dialogue-text-color="dialogueTextColor" :dialogue-character-image="dialogueCharacterImage"
+                        :dialogue-absolute-pos="dialogueAbsolutePos"
+                        :entry_pos="entry_pos"
+                        v-if="dialogueDataType === 'speaker'" />
+  <DialogueMobileOption :dialogue-selection-to-group="dialogueSelectionToGroup"
+                        :dialogue-selection-group="dialogueSelectionGroup"
+                        :dialogueContent="dialogueContent"
+                        :dialogue-text-color="dialogueTextColor"
+                        :entry_pos="entry_pos"
+                        :dialogue-absolute-pos="dialogueAbsolutePos"
+                        v-else-if="dialogueDataType === 'option'" />
   <DialogueMobileOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
-                 :dialogue-selection-group="dialogueSelectionGroup" :dialogueContent="dialogueContent"
-                 :dialogue-text-color="dialogueTextColor"
-                 :entry_pos="entry_pos"
-                 v-else />
+                       :dialogue-selection-group="dialogueSelectionGroup" :dialogueContent="dialogueContent"
+                       :dialogue-text-color="dialogueTextColor"
+                       :entry_pos="entry_pos"
+                       :dialogue-absolute-pos="dialogueAbsolutePos"
+                       v-else />
 </template>
 
 <style scoped>

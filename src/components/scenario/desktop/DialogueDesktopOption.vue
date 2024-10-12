@@ -28,6 +28,10 @@ const props = defineProps({
   dialogueTextColor: {
     type: String,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 </script>
@@ -35,19 +39,22 @@ const props = defineProps({
 
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2" :lang="dialogueLang">
-    <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent" :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup" />
+    <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent"
+                                :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
+    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
+                  :dialogue-selection-group="dialogueSelectionGroup"
+                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
 </template>
 
 <style>
-  .story-dialogue-option {
-    background-color: #F0F0F0;
-    text-align: right;
-  }
+.story-dialogue-option {
+  background-color: #F0F0F0;
+  text-align: right;
+}
 
-  .story-dialogue-option-content {
-    color: #383838;
-    text-align: center;
-  }
+.story-dialogue-option-content {
+  color: #383838;
+  text-align: center;
+}
 </style>

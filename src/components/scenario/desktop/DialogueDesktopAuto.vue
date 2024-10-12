@@ -46,6 +46,10 @@ const props = defineProps({
   dialogueTextColor: {
     type: String,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 
@@ -53,22 +57,29 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
 </script>
 
 <template>
-  <DialogueDesktopNormal :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogue-content="dialogueContent2" :dialogue-character="dialogueCharacter" :dialogue-character-image="dialogueCharacterImage"
-                  :dialogue-lang="dialogueLang" :dialogue-text-color="dialogueTextColor"
-                  :dialogue-character-translated="dialogueCharacterTranslated"
-                  :dialogue-content-translated="dialogueContentTranslated"
-                  v-if="dialogueDataType === 'speaker'" />
-  <DialogueDesktopOption :dialogue-selection-to-group="dialogueSelectionToGroup" :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogue-content="dialogueContent2" :dialogue-lang="dialogueLang"
-                  :dialogue-text-color="dialogueTextColor"
-                  :dialogue-content-translated="dialogueContentTranslated"
-                  v-else-if="dialogueDataType === 'option'" />
+  <DialogueDesktopNormal :dialogue-selection-to-group="dialogueSelectionToGroup"
+                         :dialogue-selection-group="dialogueSelectionGroup"
+                         :dialogue-content="dialogueContent2" :dialogue-character="dialogueCharacter"
+                         :dialogue-character-image="dialogueCharacterImage"
+                         :dialogue-lang="dialogueLang" :dialogue-text-color="dialogueTextColor"
+                         :dialogue-character-translated="dialogueCharacterTranslated"
+                         :dialogue-content-translated="dialogueContentTranslated"
+                         :dialogue-absolute-pos="dialogueAbsolutePos"
+                         v-if="dialogueDataType === 'speaker'" />
+  <DialogueDesktopOption :dialogue-selection-to-group="dialogueSelectionToGroup"
+                         :dialogue-selection-group="dialogueSelectionGroup"
+                         :dialogue-content="dialogueContent2" :dialogue-lang="dialogueLang"
+                         :dialogue-text-color="dialogueTextColor"
+                         :dialogue-content-translated="dialogueContentTranslated"
+                         :dialogue-absolute-pos="dialogueAbsolutePos"
+                         v-else-if="dialogueDataType === 'option'" />
   <DialogueDesktopOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
-                 :dialogue-selection-group="dialogueSelectionGroup" :dialogue-content="dialogueContent2" :dialogue-lang="dialogueLang"
-                 :dialogue-text-color="dialogueTextColor"
-                 :dialogue-content-translated="dialogueContentTranslated"
-                 v-else />
+                        :dialogue-selection-group="dialogueSelectionGroup" :dialogue-content="dialogueContent2"
+                        :dialogue-lang="dialogueLang"
+                        :dialogue-text-color="dialogueTextColor"
+                        :dialogue-content-translated="dialogueContentTranslated"
+                        :dialogue-absolute-pos="dialogueAbsolutePos"
+                        v-else />
 </template>
 
 <style scoped>

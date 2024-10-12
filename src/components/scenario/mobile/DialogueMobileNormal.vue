@@ -48,6 +48,10 @@ const props = defineProps({
   entry_pos: {
     type: Number,
     required: true
+  },
+  dialogueAbsolutePos: {
+    type: Number,
+    required: true
   }
 })
 
@@ -82,7 +86,8 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
       </template>
     </template>
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
-                  :dialogue-selection-group="dialogueSelectionGroup" />
+                  :dialogue-selection-group="dialogueSelectionGroup"
+                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
 </template>
 
