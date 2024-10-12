@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { MOBILE_WIDTH, autoTranslateService, autoTranslateLanguage, nexonDataLangSelect } from '@/tool/Constant'
-import { defineProps, watch, ref } from 'vue'
+import { defineProps, watch, ref, computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
+import type { MlProgessInfo } from '@/types/MachineTranslation'
 
 const screenWidth = useWindowSize().width
 const setting = useSetting()
@@ -41,17 +42,30 @@ function ML_clearAll() {
 
 const AUTO_TRANSLATE = true
 const AUTO_TRANSLATE_IN_PROGRESS = ref(0)
+const AUTO_TRANSLATE_PROGRESS = ref<MlProgessInfo>({ completed: -1, total: -1 })
+const AUTO_TRANSLATE_PROGRESS_PERCENTAGE = computed(() => {
+  const progress = AUTO_TRANSLATE_PROGRESS.value
+  const percentage = progress.completed / progress.total * 100
+  return parseFloat(percentage.toFixed(2))
+})
 
 watch(
-  () => [ML_pinia.i18n_l1, ML_pinia.i18n_l2, ML_pinia.i18n_l3],
+  () => [ML_pinia.i18n_l1, ML_pinia.i18n_l2, ML_pinia.i18n_l3, ML_pinia.i18n_l4, ML_pinia.i18n_l5],
   (newValue) => {
-    if (newValue[0].startsWith('t') || newValue[1].startsWith('t') || newValue[2].startsWith('t')) {
+    if (newValue[0].startsWith('t') || newValue[1].startsWith('t') || newValue[2].startsWith('t') || newValue[3].startsWith('t') || newValue[4].startsWith('t')) {
       AUTO_TRANSLATE_IN_PROGRESS.value = 1
-    } else if (newValue[0].startsWith('c') || newValue[1].startsWith('c') || newValue[2].startsWith('c')) {
+    } else if (newValue[0].startsWith('c') || newValue[1].startsWith('c') || newValue[2].startsWith('c') || newValue[3].startsWith('c') || newValue[4].startsWith('c')) {
       AUTO_TRANSLATE_IN_PROGRESS.value = 2
     } else {
       AUTO_TRANSLATE_IN_PROGRESS.value = 0
     }
+  }
+)
+
+watch(
+  ML_pinia.progress,
+  (newValue) => {
+    AUTO_TRANSLATE_PROGRESS.value = newValue
   }
 )
 </script>
@@ -60,7 +74,10 @@ watch(
   <h3 style="text-align: center">{{ $t('comp-story-i18n-h3') }}</h3>
   <p style="text-align: center; font-weight: bold;">
     <span v-if="!AUTO_TRANSLATE_IN_PROGRESS" style="color: green;">{{ $t('comp-story-i18n-TL_ip-0') }}</span>
-    <span v-else style="color: red;">{{ $t(`comp-story-i18n-TL_ip-${AUTO_TRANSLATE_IN_PROGRESS}`) }}</span>
+    <span v-else>
+      <span style="color: red;">{{ $t(`comp-story-i18n-TL_ip-${AUTO_TRANSLATE_IN_PROGRESS}`) }}</span>
+      <span>&nbsp;({{ AUTO_TRANSLATE_PROGRESS.completed }}/{{ AUTO_TRANSLATE_PROGRESS.total }}, <b>{{ AUTO_TRANSLATE_PROGRESS_PERCENTAGE }}%</b>)</span>
+    </span>
   </p>
   <el-row gutter="1" class="setting-row">
     <el-col :span="elRow12Span">

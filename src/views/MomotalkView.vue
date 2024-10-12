@@ -107,7 +107,7 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
     }
   }
 
-  await asyncPool.runAll()
+  await asyncPool.runAll(ML_pinia.updateProgress)
   ML_in_progress.value = false
 }
 

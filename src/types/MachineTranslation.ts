@@ -4,3 +4,8 @@ export type NexonL10nDataMlData = Record<NexonL10nDataLang | 'null', { 'name': s
 
 export type MlForScenario = NexonL10nDataMlData
 export type MlForMomotalk = [NexonL10nDataMlData]
+
+export type MlProgessInfo = {
+  completed: number;
+  total: number;
+}
