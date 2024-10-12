@@ -66,7 +66,7 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue :content-original="getNexonL10nData(dialogueCharacter,i18nLangAll[idx])"
                                       :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
-                                      :css_style="{'color': dialogueTextColor}"
+                                      :style="{'color': dialogueTextColor}"
                                       :is_after_br="true" />
         </span>
       </template>
@@ -79,7 +79,7 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
             :content-translated="ML_table[i18nLangAll[langIdx]][entry_pos]['dialogue']"
-            :css_style="{'color': dialogueTextColor}"
+            :style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>
         <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />

@@ -8,7 +8,7 @@ import DialogueMobileAuto from '@/components/scenario/mobile/DialogueMobileAuto.
 import type {
   CommonStoryDataDialog,
   CommonStoryDataDialogDataType,
-  IndexScenarioCharacterDataEntry, NexonL10nDataLang
+  IndexScenarioCharacterDataEntry
 } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
