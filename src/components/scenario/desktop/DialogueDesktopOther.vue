@@ -46,6 +46,9 @@ const props = defineProps({
       :lang="dialogueLang"
       colspan="2" class="story-dialogue-center">
     <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
+    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
+                  :dialogue-selection-group="dialogueSelectionGroup"
+                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
   <td v-else-if="dialogueDataType === 'na'" :lang="dialogueLang" colspan="2" class="story-dialogue-na">
     <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />

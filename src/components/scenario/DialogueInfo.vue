@@ -53,26 +53,29 @@ function gotoBlueArchiveIo() {
     <el-tag type="info" v-if="dialogueSelectionToGroup !== -1"><span
       lang="en">SeleToGroup: {{ dialogueSelectionToGroup }}</span></el-tag>
 
-    <el-popover
-      placement="top"
-      :width="200"
-      trigger="hover"
-      hide-after="0"
-      popper-style="text-align: center"
-      :content="i18n.t('comp-scenario-dialogue-info-btn-baio-popup')"
-    >
-      <template #reference>
-        <el-button @click="gotoBlueArchiveIo" type="success" circle>
-          <img src="/assets/images/icon/blue_archive_io.webp"
-               style="height: 1em">
-        </el-button>
-      </template>
-    </el-popover>
+    <div style="text-align: right;">
+      <el-popover
+        placement="top"
+        :width="200"
+        trigger="hover"
+        hide-after="0"
+        popper-style="text-align: center"
+        :content="i18n.t('comp-scenario-dialogue-info-btn-baio-popup')"
+      >
+        <template #reference>
+          <el-button @click="gotoBlueArchiveIo" type="success" circle>
+            <img src="/assets/images/icon/blue_archive_io.webp"
+                 style="height: 1em">
+          </el-button>
+        </template>
+      </el-popover>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .dialogue-info-tag {
   margin-top: 8px;
+  margin-right: 8px;
 }
 </style>
