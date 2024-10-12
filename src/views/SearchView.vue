@@ -31,20 +31,18 @@ watch(
   <StoryI18nSetting :show_ml="false" />
   <el-divider></el-divider>
   <p v-html="i18n.t('search-step-1')"></p>
-  <client-only>
-    <el-cascader
-      v-model="cascaderMode"
-      :options="cascaderOptions"
-      :props="cascaderProps"
-      :size="'default'"
-      :show-all-levels="true"
-    >
-      <template #default="{ node, data }">
-        <span>{{ $t('search-cascader-' + data.value) }}</span>
-        <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
-      </template>
-    </el-cascader>
-  </client-only>
+  <el-cascader
+    v-model="cascaderMode"
+    :options="cascaderOptions"
+    :props="cascaderProps"
+    :size="'default'"
+    :show-all-levels="true"
+  >
+    <template #default="{ node, data }">
+      <span>{{ $t('search-cascader-' + data.value) }}</span>
+      <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+    </template>
+  </el-cascader>
   <p v-show="cascaderMode.length != 0" v-html="i18n.t('search-step-2')"></p>
 
   <ScenarioSearch v-if="cascaderMode[0] === 'story'" />

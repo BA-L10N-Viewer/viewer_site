@@ -76,69 +76,60 @@ watch(
     <span v-if="!AUTO_TRANSLATE_IN_PROGRESS" style="color: green;">{{ $t('comp-story-i18n-TL_ip-0') }}</span>
     <span v-else>
       <span style="color: red;">{{ $t(`comp-story-i18n-TL_ip-${AUTO_TRANSLATE_IN_PROGRESS}`) }}</span>
-      <span>&nbsp;({{ AUTO_TRANSLATE_PROGRESS.completed }}/{{ AUTO_TRANSLATE_PROGRESS.total }}, <b>{{ AUTO_TRANSLATE_PROGRESS_PERCENTAGE }}%</b>)</span>
+      <span>&nbsp;({{ AUTO_TRANSLATE_PROGRESS.completed }}/{{ AUTO_TRANSLATE_PROGRESS.total
+        }}, <b>{{ AUTO_TRANSLATE_PROGRESS_PERCENTAGE }}%</b>)</span>
     </span>
   </p>
   <el-row gutter="1" class="setting-row">
     <el-col :span="elRow12Span">
       <span>{{ $t('comp-story-i18n-select-1') }}</span>
-      <client-only>
-        <el-select v-model="setting.auto_i18n_service" style="width: calc(100% - 8em)">
-          <el-option v-for="item in autoTranslateService"
-                     :key="item.value"
-                     :label="$t(item.label)"
-                     :value="item.value" />
-        </el-select>
-      </client-only>
+      <el-select v-model="setting.auto_i18n_service" style="width: calc(100% - 8em)">
+        <el-option v-for="item in autoTranslateService"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
     </el-col>
     <el-col :span="elRow12Span">
       <span>{{ $t('comp-story-i18n-select-2') }}</span>
-      <client-only>
-        <el-select v-model="setting.auto_i18n_lang" style="width: calc(100% - 10em)">
-          <el-option v-for="item in autoTranslateLanguage"
-                     :key="item.value"
-                     :label="$t(item.label)"
-                     :value="item.value" />
-        </el-select>
-      </client-only>
+      <el-select v-model="setting.auto_i18n_lang" style="width: calc(100% - 10em)">
+        <el-option v-for="item in autoTranslateLanguage"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
     </el-col>
   </el-row>
   <el-row gutter="1" class="setting-row setting-row-connect-to-next">
     <el-col :span="elRow8Span">
       <span>{{ $t('comp-story-i18n-select-3') }}</span>
-      <client-only>
-        <el-select v-model="setting.i18n_lang1" style="width: calc(100% - 6em)"
-                   :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-          <el-option v-for="item in nexonDataLangSelect"
-                     :key="item.value"
-                     :label="$t(item.label)"
-                     :value="item.value" />
-        </el-select>
-      </client-only>
+      <el-select v-model="setting.i18n_lang1" style="width: calc(100% - 6em)"
+                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
+        <el-option v-for="item in nexonDataLangSelect"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
     </el-col>
     <el-col :span="elRow8Span">
       <span>{{ $t('comp-story-i18n-select-4') }}</span>
-      <client-only>
-        <el-select v-model="setting.i18n_lang2" style="width: calc(100% - 7em)"
-                   :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-          <el-option v-for="item in nexonDataLangSelect"
-                     :key="item.value"
-                     :label="$t(item.label)"
-                     :value="item.value" />
-        </el-select>
-      </client-only>
+      <el-select v-model="setting.i18n_lang2" style="width: calc(100% - 7em)"
+                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
+        <el-option v-for="item in nexonDataLangSelect"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
     </el-col>
     <el-col :span="elRow8Span">
       <span>{{ $t('comp-story-i18n-select-5') }}</span>
-      <client-only>
-        <el-select v-model="setting.i18n_lang3" style="width: calc(100% - 6em)"
-                   :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-          <el-option v-for="item in nexonDataLangSelect"
-                     :key="item.value"
-                     :label="$t(item.label)"
-                     :value="item.value" />
-        </el-select>
-      </client-only>
+      <el-select v-model="setting.i18n_lang3" style="width: calc(100% - 6em)"
+                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
+        <el-option v-for="item in nexonDataLangSelect"
+                   :key="item.value"
+                   :label="$t(item.label)"
+                   :value="item.value" />
+      </el-select>
     </el-col>
   </el-row>
   <el-row gutter="1" class="setting-row">
