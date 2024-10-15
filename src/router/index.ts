@@ -47,6 +47,12 @@ const router = createRouter({
       props: true
     },
     {
+      path: '/character/voice/:charId',
+      name: 'char_voice',
+      component: () => import('@/views/CharacterVoiceView.vue'),
+      props: true
+    },
+    {
       path: '/scenario/:storyId',
       name: 'scenario',
       component: () => import('@/views/ScenarioView.vue'),
