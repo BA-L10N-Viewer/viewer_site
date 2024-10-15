@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { MOBILE_WIDTH, autoTranslateService, autoTranslateLanguage, nexonDataLangSelect } from '@/tool/Constant'
+import { MOBILE_WIDTH, selectAutoTranslateService, autoTranslateLanguage, nexonDataLangSelect } from '@/tool/Constant'
 import { defineProps, watch, ref, computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
@@ -84,7 +84,7 @@ watch(
     <el-col :span="elRow12Span">
       <span>{{ $t('comp-story-i18n-select-1') }}</span>
       <el-select v-model="setting.auto_i18n_service" style="width: calc(100% - 8em)">
-        <el-option v-for="item in autoTranslateService"
+        <el-option v-for="item in selectAutoTranslateService"
                    :key="item.value"
                    :label="$t(item.label)"
                    :value="item.value" />
