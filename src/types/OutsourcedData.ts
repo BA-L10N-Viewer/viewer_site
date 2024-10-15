@@ -1,5 +1,15 @@
-export const NexonL10nDataLang : NexonL10nDataLang[] = ['j_ja', 'j_ko', 'g_tw', 'g_tw_cn', 'g_en', 'g_th', 'g_ja', 'g_ko', 'c_cn', 'c_cn_tw']
-export type NexonL10nDataLang = 'j_ja' | 'j_ko' | 'g_tw' | 'g_tw_cn' | 'g_en' | 'g_th' | 'g_ja' | 'g_ko' | 'c_cn' | 'c_cn_tw'
+export const NexonL10nDataLang: NexonL10nDataLang[] = ['j_ja', 'j_ko', 'g_tw', 'g_tw_cn', 'g_en', 'g_th', 'g_ja', 'g_ko', 'c_cn', 'c_cn_tw']
+export type NexonL10nDataLang =
+  'j_ja'
+  | 'j_ko'
+  | 'g_tw'
+  | 'g_tw_cn'
+  | 'g_en'
+  | 'g_th'
+  | 'g_ja'
+  | 'g_ko'
+  | 'c_cn'
+  | 'c_cn_tw'
 export type NexonL10nData = Record<NexonL10nDataLang, string>
 export type NexonL10nDataDict = {
   [key: string]: NexonL10nData
@@ -9,7 +19,15 @@ export type SchaleDbL10nDataLang = NexonL10nDataLang | 'c_zh' | 'c_zh_tw'
 export type SchaleDbL10nData = Record<SchaleDbL10nDataLang, string>
 
 /*  Common Story File (e.g. 1101.json)  */
-export type CommonStoryDataDialogDataType = 'title' | 'st' | 'stm' | 'place' | 'nextEpisode' | 'na' | 'option' | 'speaker'
+export type CommonStoryDataDialogDataType =
+  'title'
+  | 'st'
+  | 'stm'
+  | 'place'
+  | 'nextEpisode'
+  | 'na'
+  | 'option'
+  | 'speaker'
 export type CommonStoryDataDialogTextColor = 'black' | '#4EA24E' | '#59ADF8' | '#FF3333' | '#FF7800' | '#800000'
 export type CommonStoryDataDialog = {
   AbsolutePos: number;
@@ -44,7 +62,7 @@ export type I18nStoryXxhashToL10nData = {
 }
 
 /* Momotalk Data (e.g. 10041.json) */
-export type MomotalkStoryDataDialogBgColor = "white" | "green" | "blue"
+export type MomotalkStoryDataDialogBgColor = 'white' | 'green' | 'blue'
 export type MomotalkStoryDataDialog = {
   GroupId: number;
   Id: number;
@@ -91,15 +109,15 @@ export type IndexManifestScenarioEntry_BaseType = {
   desc: string;
 }
 export type IndexManifestScenarioChildEntry = IndexManifestScenarioEntry_BaseType & {
-  type: "child";
+  type: 'child';
   data: number[]
 }
 export type IndexManifestScenarioParentEntry = IndexManifestScenarioEntry_BaseType & {
-  type: "parent";
+  type: 'parent';
   data: IndexManifestScenarioChildEntry[]
 }
 export type IndexManifestScenarioEntry = IndexManifestScenarioParentEntry | IndexManifestScenarioChildEntry
-export type IndexManifestScenarioEntryType = IndexManifestScenarioEntry["type"]
+export type IndexManifestScenarioEntryType = IndexManifestScenarioEntry['type']
 
 export type IndexManifestScnearioData = {
   main: IndexManifestScenarioParentEntry[]; side: IndexManifestScenarioParentEntry[];
@@ -107,7 +125,7 @@ export type IndexManifestScnearioData = {
 }
 
 /* 学生索引表（简单） */
-export type StudentInfoDataEntryType = "student" | "npc" | "student_not_implemented"
+export type StudentInfoDataEntryType = 'student' | 'npc' | 'student_not_implemented'
 export type StudentInfoDataSimpleEntry = {
   Id: number;
   FamilyName: SchaleDbL10nData;
@@ -118,6 +136,29 @@ export type StudentInfoDataSimple = {
   [stuId: string]: StudentInfoDataSimpleEntry
 }
 
-
+/* 学生详细信息 */
+export type SchaleDbStuInfoFullVoicelineEntry = {
+  Group: string;
+  Transcription: SchaleDbL10nData;
+}
+export type SchaleDbStuInfoFullVoicelineCategory = 'Normal' | 'Lobby' | 'Event' | 'Battle'
+export const SchaleDbStuInfoFullVoicelineCategory: SchaleDbStuInfoFullVoicelineCategory[] = ['Normal', 'Lobby', 'Event', 'Battle']
+// 为什么是actual呢，因为我没导出battle的数据（
+export type SchaleDbStuInfoFullVoicelineActualCategory = Exclude<SchaleDbStuInfoFullVoicelineCategory, 'Battle'>
+export type SchaleDbStuInfoFullVoiceline = Record<SchaleDbStuInfoFullVoicelineActualCategory, SchaleDbStuInfoFullVoicelineEntry[]>
+export type SchaleDbStuInfoFull = {
+  Id: number;
+  School: string;
+  Club: string;
+  StatusMessage: SchaleDbL10nData;
+  Hobby: SchaleDbL10nData;
+  WeaponName: SchaleDbL10nData;
+  WeaponDesc: SchaleDbL10nData;
+  Profile: SchaleDbL10nData;
+  CharacterSSRNew: SchaleDbL10nData;
+  Voicelines: SchaleDbStuInfoFullVoiceline;
+  FamilyName: SchaleDbL10nData;
+  Name: SchaleDbL10nData;
+}
 
 
