@@ -23,23 +23,6 @@ setting.char_voice_data_curr_tab = 'Normal'
 
 <template>
   <div style="width: 100%; background-color: white;" class="select-data-source">
-    <p>{{ $t('选择人物语音数据源：') }}
-      <el-select v-model="setting.char_voice_data_source" style="width: 10em">
-        <el-option v-for="item in selectCharVoiceDataSource"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </p>
-    <p>{{ $t('切换人物语音信息分类：') }}
-      <el-select v-model="setting.char_voice_data_curr_tab" style="width: 10em">
-        <el-option v-for="item in selectCharVoiceCurrTabName"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value"
-                   :disabled="item.disabled" />
-      </el-select>
-    </p>
     <p>{{ $t('选择活动对话类型显示：') }}
       <el-select v-model="setting.char_voice_data_event_display_mode" style="width: 10em;" multiple collapse-tags>
         <el-option v-for="item in selectCharVoiceEventDisplayMode"

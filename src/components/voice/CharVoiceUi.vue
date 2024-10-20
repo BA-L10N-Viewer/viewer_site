@@ -3,6 +3,7 @@ import { useSetting } from '@/stores/setting'
 import { computed } from 'vue'
 import CharVoiceNexonUi from '@/components/voice/CharVoiceNexonUi.vue'
 import CharVoiceSchaleDbUi from '@/components/voice/CharVoiceSchaleDbUi.vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps(
   {
@@ -14,11 +15,7 @@ const props = defineProps(
 )
 
 const setting = useSetting()
-const currComponent = computed(() => {
-  const dataSource = setting.char_voice_data_source
-  if (dataSource === 'nexon') {return CharVoiceNexonUi}
-  else {return CharVoiceSchaleDbUi}
-})
+const i18n = useI18n()
 </script>
 
 <template>
@@ -26,7 +23,18 @@ const currComponent = computed(() => {
   <div class="char-voice-ui-div">
     <el-divider />
     <KeepAlive>
-      <component :is="currComponent" :char-id="charId" />
+      <el-tabs
+        v-model="setting.char_voice_data_source"
+        type="border-card"
+        class="demo-tabs"
+      >
+          <el-tab-pane :label="i18n.t('char-voice-ui-select-source-nexon')" name="nexon">
+            <component :is="CharVoiceNexonUi" :char-id="charId" />
+          </el-tab-pane>
+          <el-tab-pane :label="i18n.t('char-voice-ui-select-source-schaledb')" name="schaledb">
+            <component :is="CharVoiceSchaleDbUi" :char-id="charId" />
+          </el-tab-pane>
+      </el-tabs>
     </KeepAlive>
   </div>
 </template>
