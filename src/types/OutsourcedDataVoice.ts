@@ -34,7 +34,7 @@ export type NexonCharVoiceEventGroupEntry = {
 }
 export type NexonCharVoiceEventEntry = {
   EventId: string;
-  Data: NexonCharVoiceEventGroupEntry;
+  Data: NexonCharVoiceEventGroupEntry[];
 }
 export type NexonCharVoiceEvent = NexonCharVoiceEventEntry[]
 

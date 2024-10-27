@@ -15,6 +15,13 @@ export type NexonL10nDataDict = {
   [key: string]: NexonL10nData
 }
 
+export type NexonL10nDataLangOfUi = NexonL10nDataLang | 'null'
+export const NexonL10nDataLangOfUi: NexonL10nDataLangOfUi[] = [...NexonL10nDataLang, 'null']
+export type NexonL10nDataOfUi = Record<NexonL10nDataLangOfUi, string>
+export type NexonL10nDataLangDataOfUiDict = {
+  [key: string]: NexonL10nDataOfUi
+}
+
 export type SchaleDbL10nDataLang = NexonL10nDataLang | 'c_zh' | 'c_zh_tw'
 export type SchaleDbL10nData = Record<SchaleDbL10nDataLang, string>
 

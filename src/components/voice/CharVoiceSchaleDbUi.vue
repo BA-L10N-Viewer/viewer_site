@@ -56,6 +56,7 @@ onMounted(async () => {
     <h2>Char Voice SchaleDB UI</h2>
     <StoryI18nSetting />
     <el-divider />
+
   </div>
 </template>
 

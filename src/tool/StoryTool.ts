@@ -54,9 +54,13 @@ export function convertMmtMsgToHtml(text: string | Nullable) {
   return convertImgToImg(convertNewlineToBr(text))
 }
 
-export function getNexonL10nData(entry: NexonL10nData, key: NexonL10nDataLang): string {
-  if (key in entry) return entry[key]
-  else return ''
+// 等下，泛型还能这么写？？？？
+export function getNexonL10nData<TypeKey extends string = string, TypeValue extends unknown = string>(entry: Record<TypeKey, TypeValue>, key: TypeKey): TypeValue {
+  if (key in entry)
+    return entry[key]
+  else
+    // I approved this and if anything goes wrong I'll handle it
+    return '' as TypeValue
 }
 
 export function getNexonL10nDataFlattened(entry: NexonL10nData, langs: string[],

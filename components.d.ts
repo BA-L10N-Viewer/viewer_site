@@ -27,12 +27,17 @@ declare module 'vue' {
     DialogueMobileOther: typeof import('./src/components/scenario/mobile/DialogueMobileOther.vue')['default']
     DialogueTranslated: typeof import('./src/components/DialogueTranslated.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
+    ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCascader: typeof import('element-plus/es')['ElCascader']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElFooter: typeof import('element-plus/es')['ElFooter']
     ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
@@ -43,6 +48,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTag: typeof import('element-plus/es')['ElTag']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']
     MomotalkHeader: typeof import('./src/components/momotalk/MomotalkHeader.vue')['default']
@@ -61,5 +67,8 @@ declare module 'vue' {
     ScenarioSearchEntryEvent: typeof import('./src/components/search/ScenarioSearchEntryEvent.vue')['default']
     ScenarioUi: typeof import('./src/components/ScenarioUi.vue')['default']
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

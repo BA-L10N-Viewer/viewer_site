@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { computed } from 'vue'
 import CharVoiceNexonUi from '@/components/voice/CharVoiceNexonUi.vue'
 import CharVoiceSchaleDbUi from '@/components/voice/CharVoiceSchaleDbUi.vue'
 import { useI18n } from 'vue-i18n'
