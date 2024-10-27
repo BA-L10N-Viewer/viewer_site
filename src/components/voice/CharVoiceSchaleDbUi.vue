@@ -51,12 +51,13 @@ onMounted(async () => {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
-    <CharVoiceTopSetting :statCurrInfo="dataTabAvailabilityList" />
-
     <h2>Char Voice SchaleDB UI</h2>
     <StoryI18nSetting />
     <el-divider />
 
+    <template>
+
+    </template>
   </div>
 </template>
 

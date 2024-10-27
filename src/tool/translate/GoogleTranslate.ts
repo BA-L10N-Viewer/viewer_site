@@ -74,15 +74,20 @@ class MtGoogleTranslate extends BaseMtService<GoogleTranslateResponse> {
   }
 
   concatTranslation(response: GoogleTranslateResponse): string {
-    const actualSentences = response.sentences.slice(0, -1)
+    if (response.sentences) {
+      const actualSentences = response.sentences.slice(0, -1)
 
-    let result = ''
-    for (const entry of actualSentences) {
-      if ('trans' in entry)
-        result += entry['trans']
+      let result = ''
+      for (const entry of actualSentences) {
+        if ('trans' in entry)
+          result += entry['trans']
+      }
+
+      return result
     }
-
-    return result
+    else {
+      return ''
+    }
   }
 }
 

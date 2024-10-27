@@ -112,7 +112,9 @@ export const SchaleDbLangMap: Record<SchaleDbL10nDataLang, string> = {
   'c_zh_tw': 'zh_TW'
 }
 
-export const siteUiLangSelect = [
+export type SiteUiLang = 'zh_CN' | 'zh_TW' | 'en'
+export const SiteUiLang: SiteUiLang[] = ['zh_CN', 'zh_TW', 'en']
+export const siteUiLangSelect: { label: string; value: SiteUiLang }[] = [
   { label: 'Chinese Simp. / 中文(简体)', value: 'zh_CN' },
   { label: 'Chinese Trad. / 中文(繁体)', value: 'zh_TW' },
   { label: 'English', value: 'en' }

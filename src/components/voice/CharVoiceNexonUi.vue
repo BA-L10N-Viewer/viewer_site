@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { useI18n } from 'vue-i18n'
 import CharVoiceNexonNormal from '@/components/voice/CharVoiceNexonNormal.vue'
 import CharVoiceNexonBattle from '@/components/voice/CharVoiceNexonBattle.vue'
 import CharVoiceNexonEvent from '@/components/voice/CharVoiceNexonEvent.vue'
-import type { NexonCharVoiceBattle, NexonCharVoiceEntry } from '@/types/OutsourcedDataVoice'
-import { httpGetJsonAsync } from '@/tool/HttpRequest'
+import type { NexonCharVoiceEntry } from '@/types/OutsourcedDataVoice'
 import { SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
+import { symbolDataCharVoiceNexon } from '@/types/CharVoiceComp'
 
 const props = defineProps(
   {
@@ -22,14 +22,11 @@ const setting = useSetting()
 const i18n = useI18n()
 
 const isLoading = ref(true)
-const dataChar : NexonCharVoiceEntry = {} as unknown as NexonCharVoiceEntry
+
+const dataChar : NexonCharVoiceEntry = inject(symbolDataCharVoiceNexon)!
 const dataVoiceAvailability = [false, false, false, false]
 
 async function loadData() {
-  await Promise.allSettled([
-    httpGetJsonAsync(dataChar, `/data/common/voice/${props.charId}.json`)
-  ])
-
   for (const [idx, category] of SchaleDbStuInfoFullVoicelineCategory.entries()) {
     const currCategory = dataChar[category]
     if (currCategory) {

@@ -1,8 +1,9 @@
 import { watch } from 'vue'
 import { defineStore } from 'pinia'
 import { getUserLang, convertLangToNormal } from '../tool/BrowserTool'
-import { paginationScenarioControl } from '@/tool/Constant'
+import { paginationScenarioControl, type SiteUiLang } from '@/tool/Constant'
 import type { CharVoiceUiDataSource, CharVoiceUiEventDisplayMode, CharVoiceUiTabName } from '@/types/CharVoiceComp'
+import type { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 
 
 export const useSetting = defineStore('setting', {
@@ -10,7 +11,7 @@ export const useSetting = defineStore('setting', {
     return {
       'username': 'Sensei',
 
-      'ui_lang': convertLangToNormal(getUserLang()),
+      'ui_lang': convertLangToNormal(getUserLang()) as SiteUiLang,
       'ui_force_mobile': false,
       'ui_show_char_icon': true,
 

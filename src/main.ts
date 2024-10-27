@@ -7,10 +7,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-// Element Plus
-// import ElementPlus from 'element-plus'
-// import 'element-plus/dist/index.css'
-// import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+// PrimeVue
+import PrimeVue from 'primevue/config';
+import Lara from '@primevue/themes/lara';
 
 // i18n
 import { createI18n } from 'vue-i18n'
@@ -43,6 +42,15 @@ app.use(createPinia().use(piniaPluginPersistedstate))
 // app.use(ElementPlus)
 app.use(router)
 app.use(i18n)
+app.use(PrimeVue, {
+  theme: {
+    preset: Lara,
+    options: {
+      prefix: 'pv',
+      darkModeSelector: '.dark-mode-toggler',
+    }
+  }
+});
 
 const settingStore = useSetting()
 settingStore.forcePersist()

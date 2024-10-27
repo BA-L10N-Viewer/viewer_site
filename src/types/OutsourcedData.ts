@@ -150,9 +150,7 @@ export type SchaleDbStuInfoFullVoicelineEntry = {
 }
 export type SchaleDbStuInfoFullVoicelineCategory = 'Normal' | 'Lobby' | 'Event' | 'Battle'
 export const SchaleDbStuInfoFullVoicelineCategory: SchaleDbStuInfoFullVoicelineCategory[] = ['Normal', 'Lobby', 'Event', 'Battle']
-// 为什么是actual呢，因为我没导出battle的数据（
-export type SchaleDbStuInfoFullVoicelineActualCategory = Exclude<SchaleDbStuInfoFullVoicelineCategory, 'Battle'>
-export type SchaleDbStuInfoFullVoiceline = Record<SchaleDbStuInfoFullVoicelineActualCategory, SchaleDbStuInfoFullVoicelineEntry[]>
+export type SchaleDbStuInfoFullVoiceline = Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbStuInfoFullVoicelineEntry[]>
 export type SchaleDbStuInfoFull = {
   Id: number;
   School: string;

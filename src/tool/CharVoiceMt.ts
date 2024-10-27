@@ -1,13 +1,13 @@
 import type {
   NexonL10nDataLang,
-  NexonL10nDataOfUi, SchaleDbStuInfoFullVoiceline,
+  NexonL10nDataOfUi,
   SchaleDbStuInfoFullVoicelineCategory, SchaleDbStuInfoFullVoicelineEntry
 } from '@/types/OutsourcedData'
 import {
   NexonL10nDataLangOfUi
 } from '@/types/OutsourcedData'
 import type {
-  NexonCharVoiceBattle, NexonCharVoiceEntry,
+  NexonCharVoiceBattle,
   NexonCharVoiceEvent,
   NexonCharVoiceEventTranscriptionType,
   NexonCharVoiceNormal
@@ -16,6 +16,7 @@ import type { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { getNexonL10nData } from '@/tool/StoryTool'
 import { getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import { NexonLangMap } from '@/tool/Constant'
+import { type Ref, ref } from 'vue'
 
 export type NexonCharVoiceNormalEntryMtData = {
   Id: string;
@@ -45,13 +46,13 @@ export type NexonCharVoiceBattleMtData = { [key: string]: NexonCharVoiceBattleEn
 export type NexonCharVoiceEventMtData = { [key: string]: NexonCharVoiceEventVoiceEntryMtData }
 export type SchaleDbVoicelineCategoryMtData = { [key: string]: SchaleDbStuVoicelineEntryMtData }
 
-export type NexonCharVoiceMtData = {
+export type NexonCharVoiceMtData = Ref<{
   Normal: NexonCharVoiceNormalMtData
   Lobby: NexonCharVoiceNormalMtData
   Battle: NexonCharVoiceBattleMtData
-  Event: NexonCharVoiceEvent
-}
-export type SchaleDbStuVoicelineMtData = Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbStuVoicelineEntryMtData>
+  Event: NexonCharVoiceEventMtData
+}>
+export type SchaleDbStuVoicelineMtData = Ref<Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbVoicelineCategoryMtData>>
 
 /* ----------------------------------------
 *  MACHINE TRANSLATION - INIT
@@ -164,6 +165,8 @@ export function initNexonCharVoiceEventMtData(baseVoiceData: NexonCharVoiceEvent
       }
     }
   }
+
+  return result
 }
 
 export function initSchaleDbVoiceCategoryMtData(baseVoiceData: SchaleDbStuInfoFullVoicelineEntry[]) {
@@ -185,6 +188,7 @@ export function initSchaleDbVoiceCategoryMtData(baseVoiceData: SchaleDbStuInfoFu
         null: ''
       }
     }
+  return result
 }
 
 /* ----------------------------------------
