@@ -11,12 +11,12 @@ import type {
   I18nBondInfoData,
   I18nBondInfoDataEntry,
   I18nStoryInfoIdToXxhash, I18nStoryXxhashToL10nData,
-  IndexManifestScenarioEntry, IndexManifestScenarioParentEntry,
+  IndexManifestScenarioEntry,
   IndexManifestScenarioData,
   IndexMomotalkData,
   IndexScenarioInfoToI18nId,
   NexonL10nData,
-  StudentInfoDataSimple
+  StudentInfoDataSimple, IndexManifestScenarioChildEntry
 } from '@/types/OutsourcedData'
 import type { HTMLOptionData } from '@/types/CommonType'
 import { useSearchVars } from '@/stores/search'
@@ -278,7 +278,7 @@ function loadMainOtherData() {
   }
 
   // get data
-  const data: IndexManifestScenarioParentEntry[] = dataMainIndexManifest[selectType.value as optionsStoryTypeMain]
+  const data: IndexManifestScenarioChildEntry[] = dataMainIndexManifest[selectType.value as optionsStoryTypeMain] as IndexManifestScenarioChildEntry[]
   let temp = []
   for (const idx in data) {
     const entry = data[idx]

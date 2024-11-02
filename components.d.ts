@@ -50,8 +50,6 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
-    ElTabPane: typeof import('element-plus/es')['ElTabPane']
-    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']
