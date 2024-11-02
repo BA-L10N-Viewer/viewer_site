@@ -126,18 +126,18 @@ export type IndexManifestScenarioParentEntry = IndexManifestScenarioEntry_BaseTy
 export type IndexManifestScenarioEntry = IndexManifestScenarioParentEntry | IndexManifestScenarioChildEntry
 export type IndexManifestScenarioEntryType = IndexManifestScenarioEntry['type']
 
-export type IndexManifestScnearioData = {
-  main: IndexManifestScenarioParentEntry[]; side: IndexManifestScenarioParentEntry[];
-  short: IndexManifestScenarioParentEntry[]; other: IndexManifestScenarioParentEntry[];
+export type IndexManifestScenarioData = {
+  main: IndexManifestScenarioParentEntry[]; side: IndexManifestScenarioChildEntry[];
+  short: IndexManifestScenarioChildEntry[]; other: IndexManifestScenarioChildEntry[];
 }
 
 /* 学生索引表（简单） */
-export type StudentInfoDataEntryType = 'student' | 'npc' | 'student_not_implemented'
 export type StudentInfoDataSimpleEntry = {
   Id: number;
   FamilyName: SchaleDbL10nData;
   Name: SchaleDbL10nData;
-  Type: StudentInfoDataEntryType;
+  School: string;
+  Club: string;
 }
 export type StudentInfoDataSimple = {
   [stuId: string]: StudentInfoDataSimpleEntry
@@ -149,7 +149,7 @@ export type SchaleDbStuInfoFullVoicelineEntry = {
   Transcription: SchaleDbL10nData;
 }
 export type SchaleDbStuInfoFullVoicelineCategory = 'Normal' | 'Lobby' | 'Event' | 'Battle'
-export const SchaleDbStuInfoFullVoicelineCategory: SchaleDbStuInfoFullVoicelineCategory[] = ['Normal', 'Lobby', 'Event', 'Battle']
+export const SchaleDbStuInfoFullVoicelineCategory: SchaleDbStuInfoFullVoicelineCategory[] = ['Normal', 'Lobby', 'Battle', 'Event']
 export type SchaleDbStuInfoFullVoiceline = Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbStuInfoFullVoicelineEntry[]>
 export type SchaleDbStuInfoFull = {
   Id: number;
