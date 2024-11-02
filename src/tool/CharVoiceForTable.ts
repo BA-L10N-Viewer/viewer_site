@@ -191,7 +191,7 @@ export function convertNexonCharVoiceEventGroupEntryForTable(entry: NexonCharVoi
 
 function checkIfAllLangsAreNull(langs: NexonL10nDataLangOfUi[]) {
   for (const i of langs) {
-    if (!i) {
+    if (i) {
       if (i !== 'null')
         return false
     }
