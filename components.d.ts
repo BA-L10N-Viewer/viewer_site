@@ -7,7 +7,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    CharVoiceDisplaySetting: typeof import('./src/components/setting/CharVoiceDisplaySetting.vue')['default']
+    CharVoiceNexonBattle: typeof import('./src/components/voice/CharVoiceNexonBattle.vue')['default']
+    CharVoiceNexonEvent: typeof import('./src/components/voice/CharVoiceNexonEvent.vue')['default']
+    CharVoiceNexonNormal: typeof import('./src/components/voice/CharVoiceNexonNormal.vue')['default']
+    CharVoiceNexonUi: typeof import('./src/components/voice/CharVoiceNexonUi.vue')['default']
+    CharVoiceSchaleDbContent: typeof import('./src/components/voice/CharVoiceSchaleDbContent.vue')['default']
+    CharVoiceSchaleDbUi: typeof import('./src/components/voice/CharVoiceSchaleDbUi.vue')['default']
+    CharVoiceTopSetting: typeof import('./src/components/setting/CharVoiceTopSetting.vue')['default']
+    CharVoiceUi: typeof import('./src/components/voice/CharVoiceUi.vue')['default']
     DialogueDesktopAuto: typeof import('./src/components/scenario/desktop/DialogueDesktopAuto.vue')['default']
     DialogueDesktopNormal: typeof import('./src/components/scenario/desktop/DialogueDesktopNormal.vue')['default']
     DialogueDesktopOption: typeof import('./src/components/scenario/desktop/DialogueDesktopOption.vue')['default']
@@ -43,6 +50,8 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
+    ElTabPane: typeof import('element-plus/es')['ElTabPane']
+    ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']

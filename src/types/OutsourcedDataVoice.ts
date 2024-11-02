@@ -1,46 +1,58 @@
-import type { NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 
-export type CharVoiceNormalTranscription = Record<NexonL10nDataLang, string[][]>
-export type CharVoiceNormalEntry = {
+export type NexonCharVoiceNormalTranscription = Record<NexonL10nDataLang, string[][]>
+export type NexonCharVoiceNormalEntry = {
   Id: string;
   FilePath: string[];
-  Transcription: CharVoiceNormalTranscription;
+  Transcription: NexonCharVoiceNormalTranscription;
 }
-export type CharVoiceNormalGroup = {
+export type NexonCharVoiceNormalGroup = {
   GroupId: string;
-  Data: CharVoiceNormalEntry[]
+  Data: NexonCharVoiceNormalEntry[]
 }
-export type CharVoiceNormal = CharVoiceNormalGroup[]
+export type NexonCharVoiceNormal = NexonCharVoiceNormalGroup[]
 
-export type CharVoiceEventTranscriptionData = Record<NexonL10nDataLang, string[]>
-export type CharVoiceEventTranscriptionType = 'FirstTime' | 'Rerun' | 'Immortalized'
-export type CharVoiceEventTranscriptionEntry = {
-  Type: CharVoiceEventTranscriptionType;
-  Data: CharVoiceEventTranscriptionData;
+export type NexonCharVoiceEventTranscriptionData = Record<NexonL10nDataLang, string[]>
+export type NexonCharVoiceEventTranscriptionType = 'FirstTime' | 'Rerun' | 'Immortalized'
+export type NexonCharVoiceEventTranscriptionEntry = {
+  Type: NexonCharVoiceEventTranscriptionType;
+  Data: NexonCharVoiceEventTranscriptionData;
 }
-export type CharVoiceEventEntryParam = {
+export type NexonCharVoiceEventVoiceEntryParam = {
   DialogConditionDetail: string;
   DialogConditionDetailValue: number;
 }
-export type CharVoiceEventVoiceEntry = {
+export type NexonCharVoiceEventVoiceEntry = {
   Id: string;
   FilePath: string[];
-  Transcription: CharVoiceEventTranscriptionEntry;
-  Param: CharVoiceEventEntryParam
+  Transcription: NexonCharVoiceEventTranscriptionEntry[];
+  Param: NexonCharVoiceEventVoiceEntryParam
 }
-export type CharVoiceEventGroupEntry = {
+export type NexonCharVoiceEventGroupEntry = {
   GroupId: string;
-  Data: CharVoiceEventVoiceEntry[];
+  Data: NexonCharVoiceEventVoiceEntry[];
 }
-export type CharVoiceEventEntry = {
+export type NexonCharVoiceEventEntry = {
   EventId: string;
-  Data: CharVoiceEventGroupEntry;
+  Data: NexonCharVoiceEventGroupEntry[];
 }
-export type CharVoiceEvent = CharVoiceEventEntry[]
+export type NexonCharVoiceEvent = NexonCharVoiceEventEntry[]
 
-export type CharVoiceEntry = {
-  Normal: CharVoiceNormal;
-  Lobby?: CharVoiceNormal;
-  Battle?: CharVoiceNormal;
-  Event?: CharVoiceEvent;
+export type NexonCharVoiceBattleTranscription = NexonL10nData
+export type NexonCharVoiceBattleEntry = {
+  Id: string;
+  FilePath: string;
+  Transcription: NexonCharVoiceBattleTranscription
+}
+export type NexonCharVoiceBattleGroup = {
+  GroupId: string;
+  Data: NexonCharVoiceBattleEntry[];
+}
+export type NexonCharVoiceBattle = NexonCharVoiceBattleGroup[]
+
+export type NexonCharVoiceEntry = {
+  Normal: NexonCharVoiceNormal;
+  Lobby?: NexonCharVoiceNormal;
+  Battle?: NexonCharVoiceBattle;
+  Event?: NexonCharVoiceEvent;
 }

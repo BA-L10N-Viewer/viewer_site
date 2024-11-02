@@ -1,11 +1,11 @@
-import type { NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { MAX_RETRY_DEPTH } from '@/tool/HttpRequest'
 
 export async function mtPiniaWatchCallback(
   watcherNewValue: [string, string, string, string, string],
-  funcUpdate: (lang: NexonL10nDataLang) => Promise<void>,
-  funcClear: (lang: NexonL10nDataLang) => void,
+  funcUpdate: (lang: NexonL10nDataLangOfUi) => Promise<void>,
+  funcClear: (lang: NexonL10nDataLangOfUi) => void,
   funcStatusSetToComplete: (variable: string) => void
 ) {
   let translateFirstTime = false

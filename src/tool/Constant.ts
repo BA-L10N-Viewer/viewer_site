@@ -1,5 +1,7 @@
 import type { NexonL10nData, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
+import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList, CharVoiceUiTabName } from '@/types/CharVoiceComp'
+import type { NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
 
 export const MOBILE_WIDTH = 800
 export const MOBILE_WIDTH_WIDER = 1200
@@ -33,9 +35,27 @@ export const NexonLangMap: Record<string, string> = {
   'null': ''
 }
 
-export const autoTranslateService: { value: MtServiceName, label: string }[] = [
+export const selectAutoTranslateService: { value: MtServiceName, label: string }[] = [
   { value: 'google', label: 'i18n-setting-google' }
   // { value: 'deepl', label: 'i18n-setting-deepl' } // disabled for rate limit
+]
+
+export const selectCharVoiceDataSource: { value: CharVoiceUiDataSource, label: string }[] = [
+  { value: 'nexon', label: 'char-voice-ui-select-source-nexon' },
+  { value: 'schaledb', label: 'char-voice-ui-select-source-schaledb' }
+]
+
+export const selectCharVoiceCurrTabName: CharVoiceUiTabAvailabilityList = [
+  { value: 'Normal', label: 'char-voice-ui-select-tab-normal', disabled: false },
+  { value: 'Lobby', label: 'char-voice-ui-select-tab-lobby', disabled: false },
+  { value: 'Battle', label: 'char-voice-ui-select-tab-battle', disabled: false },
+  { value: 'Event', label: 'char-voice-ui-select-tab-event', disabled: false }
+]
+
+export const selectCharVoiceEventDisplayMode: { value: NexonCharVoiceEventTranscriptionType, label: string }[] = [
+  { value: 'FirstTime', label: 'char-voice-ui-checkbox-event-firsttime' },
+  { value: 'Rerun', label: 'char-voice-ui-checkbox-event-rerun' },
+  { value: 'Immortalized', label: 'char-voice-ui-checkbox-event-immortalized' }
 ]
 
 export const autoTranslateLanguage = [
@@ -92,7 +112,9 @@ export const SchaleDbLangMap: Record<SchaleDbL10nDataLang, string> = {
   'c_zh_tw': 'zh_TW'
 }
 
-export const siteUiLangSelect = [
+export type SiteUiLang = 'zh_CN' | 'zh_TW' | 'en'
+export const SiteUiLang: SiteUiLang[] = ['zh_CN', 'zh_TW', 'en']
+export const siteUiLangSelect: { label: string; value: SiteUiLang }[] = [
   { label: 'Chinese Simp. / 中文(简体)', value: 'zh_CN' },
   { label: 'Chinese Trad. / 中文(繁体)', value: 'zh_TW' },
   { label: 'English', value: 'en' }

@@ -136,5 +136,20 @@
   "comp-scenario-dialogue-info-btn-baio-popup": "Go to the story on blue-archive.io",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io hasn't supported this type of story!",
 
-  "btn-show-content": "Show Content"
+  "btn-show-content": "Show Content",
+
+  "comp-char-voice-costume-id": "Costume #",
+  "comp-char-voice-lang-code": "Lang Code",
+  "comp-char-voice-dialog-text": "Dialog Text",
+  "comp-char-voice-nexon-event-type": "Evnet Type",
+  "comp-char-voice-nexon-event-type-FirstTime": "First Time",
+  "comp-char-voice-nexon-event-type-Rerun": "Rerun",
+  "comp-char-voice-nexon-event-type-Immortalized": "Immortalized",
+
+  "char-voice-ui-select-source-nexon": "Nexon (In-game Datamine)",
+  "char-voice-ui-select-tab-normal": "General/Normal",
+  "char-voice-ui-select-tab-lobby": "Lobby",
+  "char-voice-ui-select-tab-battle": "Battle",
+  "char-voice-ui-select-tab-event": "Event",
+  "char-voice-ui-select-source-schaledb": "SchaleDB"
 }

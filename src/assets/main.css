@@ -169,3 +169,7 @@ rt {font-size:0.8em}
     text-align: center;
     width: calc(100% - 5px);
 }
+
+.char-voice-group-h3 {
+    font-size: 1.3em;
+}

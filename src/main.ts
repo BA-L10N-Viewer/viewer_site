@@ -7,10 +7,10 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-// Element Plus
-// import ElementPlus from 'element-plus'
-// import 'element-plus/dist/index.css'
-// import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+// PrimeVue
+import PrimeVue from 'primevue/config';
+import Aura from '@primevue/themes/aura';
+import Lara from '@primevue/themes/lara';
 
 // i18n
 import { createI18n } from 'vue-i18n'
@@ -22,6 +22,7 @@ import i18n_zh_TW from '@/i18n/zh-TW.json'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { useSetting } from '@/stores/setting'
 import { useSearchVars } from '@/stores/search'
+import { definePreset } from '@primevue/themes'
 
 const app = createApp(App)
 
@@ -43,6 +44,33 @@ app.use(createPinia().use(piniaPluginPersistedstate))
 // app.use(ElementPlus)
 app.use(router)
 app.use(i18n)
+
+const AuraCustomPreset = definePreset(Aura, {
+  semantic: {
+    primary: {
+      50: '#f0f9ff',
+      100: '#e0f2fe',
+      200: '#bae6fd',
+      300: '#7dd3fc',
+      400: '#38bdf8',
+      500: '#0ea5e9',
+      600: '#0284c7',
+      700: '#0369a1',
+      800: '#075985',
+      900: '#0c4a6e',
+      950: '#082f49',
+    }
+  }
+});
+app.use(PrimeVue, {
+  theme: {
+    preset: AuraCustomPreset,
+    options: {
+      prefix: 'pv',
+      darkModeSelector: '.dark-mode-toggler',
+    }
+  }
+});
 
 const settingStore = useSetting()
 settingStore.forcePersist()

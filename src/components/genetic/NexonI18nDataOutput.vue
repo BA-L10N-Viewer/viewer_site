@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { defineProps, type PropType } from 'vue'
-import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
-import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
-import { i18nDesktopLoopIdx } from '@/tool/Constant'
+import {
+  i18nLangAll,
+  i18nToUiLangAll,
+  listOfPosOfSelectedLangForMobile
+} from '@/tool/ConstantComputed'
+import type { NexonL10nData } from '@/types/OutsourcedData'
+import { i18nMobileLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   data: {
@@ -26,24 +30,23 @@ const props = defineProps({
 
 <template>
   <template v-if="htmlElementName === 'span'">
-    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-      <template v-if="i18nLangAll[idx] as string !== 'null'">
-        <span :lang="i18nToUiLangAll[idx]"
-              :class="{'clamped-text': enableTextLineClamp}"
-              v-if="i18nLangAll[idx] as string !== 'null'">
-          {{ data[i18nLangAll[idx]] }}
+    <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
+      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+        <span :lang="i18nToUiLangAll[langIdx]"
+              :class="{'clamped-text': enableTextLineClamp}">
+          {{ data[i18nLangAll[langIdx]] }}
         </span>
-        <span v-if="idx + 1 < i18nDesktopLoopIdx.length">&nbsp;/&nbsp;</span>
+        <span v-if="idx + 1 < listOfPosOfSelectedLangForMobile.length">&nbsp;/&nbsp;</span>
       </template>
 
     </template>
   </template>
 
   <template v-if="htmlElementName === 'li'">
-    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-      <template v-if="i18nLangAll[idx] as string !== 'null'">
-        <li :lang="i18nToUiLangAll[idx]">
-          <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[idx]] }}</span>
+    <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
+      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+        <li :lang="i18nToUiLangAll[langIdx]">
+          <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[langIdx]] }}</span>
         </li>
       </template>
     </template>

@@ -136,5 +136,20 @@
   "comp-scenario-dialogue-info-btn-baio-popup": "前往碧蓝档案剧情站的对应故事",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io (碧蓝档案剧情站) 暂未支持该类型故事！",
 
-  "btn-show-content": "显示内容"
+  "btn-show-content": "显示内容",
+
+  "comp-char-voice-costume-id": "造型编号",
+  "comp-char-voice-lang-code": "语言代码",
+  "comp-char-voice-dialog-text": "语音文本",
+  "comp-char-voice-nexon-event-type": "活动类型",
+  "comp-char-voice-nexon-event-type-FirstTime": "首次",
+  "comp-char-voice-nexon-event-type-Rerun": "复刻",
+  "comp-char-voice-nexon-event-type-Immortalized": "常驻",
+
+  "char-voice-ui-select-source-nexon": "Nexon (游戏解包)",
+  "char-voice-ui-select-tab-normal": "一般",
+  "char-voice-ui-select-tab-lobby": "大厅",
+  "char-voice-ui-select-tab-battle": "战斗",
+  "char-voice-ui-select-tab-event": "活动",
+  "char-voice-ui-select-source-schaledb": "SchaleDB"
 }
