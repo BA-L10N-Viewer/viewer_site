@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, provide, watch, ref, onBeforeMount } from 'vue'
+import { onMounted, provide, watch, ref, onBeforeMount, type Ref } from 'vue'
 import { useSetting } from '@/stores/setting'
 import CharVoiceNexonUi from '@/components/voice/CharVoiceNexonUi.vue'
 import CharVoiceSchaleDbUi from '@/components/voice/CharVoiceSchaleDbUi.vue'
@@ -13,10 +13,6 @@ import {
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import {
   symbolDataCharVoiceI18n,
-  symbolDataCharVoiceNexon,
-  symbolDataCharVoiceSdb,
-  symbolMtDataCharVoiceNexon,
-  symbolMtDataCharVoiceSdb
 } from '@/types/CharVoiceComp'
 import {
   clearNexonCharVoiceBattleMtData, clearNexonCharVoiceEventMtData,
@@ -38,6 +34,13 @@ import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { SiteUiLang } from '@/tool/Constant'
 import { createDictionaryWithDefault } from '@/tool/Tool'
+import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
+
+import PvTabs from 'primevue/tabs'
+import PvTabList from 'primevue/tablist'
+import PvTab from 'primevue/tab'
+import PvTabPanels from 'primevue/tabpanels'
+import PvTabPanel from 'primevue/tabpanel'
 
 const props = defineProps(
   {
@@ -64,8 +67,8 @@ const mtController = {
   inProgress: ref(false)
 }
 
-let dataMtVoiceNexon: NexonCharVoiceMtData = ref({} as unknown as NexonCharVoiceMtData)
-let dataMtVoiceSdb: SchaleDbStuVoicelineMtData = ref({} as unknown as SchaleDbStuVoicelineMtData)
+let dataMtVoiceNexon: Ref<NexonCharVoiceMtData> = ref({} as unknown as NexonCharVoiceMtData)
+let dataMtVoiceSdb: Ref<SchaleDbStuVoicelineMtData> = ref({} as unknown as SchaleDbStuVoicelineMtData)
 
 function clearMlTranslation(lang: NexonL10nDataLangOfUi) {
   // Nexon
@@ -100,7 +103,7 @@ async function updateMlTranslation(baselang: NexonL10nDataLangOfUi) {
       baselang, setting.auto_i18n_service as MtServiceName, setting.auto_i18n_lang, asyncPool)
   }
 
-  await asyncPool.runAll()
+  await asyncPool.runAll(mtController.pinia.updateProgress)
   mtController.inProgress.value = false
 }
 
@@ -116,7 +119,7 @@ watch(
   (newValue) => {
     dataVoiceI18nCurr.value = dataVoiceI18n[newValue]
   },
-  {immediate: true}
+  { immediate: true }
 )
 
 // -------------------------------------------------------------
@@ -128,7 +131,11 @@ async function loadAll() {
     httpGetJsonAsync(dataCharSdb, `/data/common/schale_stu/${props.charId}.json`),
     ...SiteUiLang.map(lang => httpGetJsonAsync(dataVoiceI18n[lang], `/data/common/i18n/voice_group.${lang}.json`))
   ])
-  dataVoiceSdb = dataCharSdb.Voicelines
+  if ('Voicelines' in dataVoiceSdb) {
+    dataVoiceSdb = dataCharSdb.Voicelines
+  } else {
+    dataVoiceSdb = {Normal: [], Lobby: [], Battle: [], Event: []}
+  }
 
   dataMtVoiceNexon.value = {
     Normal: initNexonCharVoiceNormalMtData(dataVoiceNexon.Normal),
@@ -144,10 +151,6 @@ async function loadAll() {
   }
 }
 
-provide(symbolDataCharVoiceNexon, dataVoiceNexon)
-provide(symbolDataCharVoiceSdb, dataVoiceSdb)
-provide(symbolMtDataCharVoiceNexon, dataMtVoiceNexon)
-provide(symbolMtDataCharVoiceSdb, dataMtVoiceSdb)
 provide(symbolDataCharVoiceI18n, dataVoiceI18nCurr.value)
 
 onBeforeMount(async function() {
@@ -163,21 +166,24 @@ onBeforeMount(async function() {
   </div>
   <div v-if="!isLoading">
     <h2>{{ $t('Character Voice UI') }}</h2>
+    <StoryI18nSetting />
     <div class="char-voice-ui-div">
       <el-divider />
       <KeepAlive>
-        <el-tabs
-          v-model="setting.char_voice_data_source"
-          type="border-card"
-          class="demo-tabs"
-        >
-          <el-tab-pane :label="i18n.t('char-voice-ui-select-source-nexon')" name="nexon">
-            <component :is="CharVoiceNexonUi" :char-id="charId" />
-          </el-tab-pane>
-          <el-tab-pane :label="i18n.t('char-voice-ui-select-source-schaledb')" name="schaledb">
-            <component :is="CharVoiceSchaleDbUi" :char-id="charId" />
-          </el-tab-pane>
-        </el-tabs>
+        <PvTabs :value="setting.char_voice_data_source" style="border: 1px var(--pv-tabs-tablist-border-color) solid">
+          <PvTabList>
+            <PvTab value="nexon">{{i18n.t('char-voice-ui-select-source-nexon')}}</PvTab>
+            <PvTab value="schaledb">{{i18n.t('char-voice-ui-select-source-schaledb')}}</PvTab>
+          </PvTabList>
+          <PvTabPanels>
+            <PvTabPanel value="nexon">
+              <component :is="CharVoiceNexonUi" :dataVoice="dataVoiceNexon" :dataVoiceMt="dataMtVoiceNexon" />
+            </PvTabPanel>
+            <PvTabPanel value="schaledb">
+              <component :is="CharVoiceSchaleDbUi" :dataVoice="dataVoiceSdb" :dataVoiceMt="dataMtVoiceSdb" />
+            </PvTabPanel>
+          </PvTabPanels>
+        </PvTabs>
       </KeepAlive>
     </div>
   </div>

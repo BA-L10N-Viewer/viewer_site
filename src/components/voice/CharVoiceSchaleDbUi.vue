@@ -1,41 +1,42 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { type SchaleDbStuInfoFull, SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
-import { httpGetJsonAsync } from '@/tool/HttpRequest'
-import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import CharVoiceTopSetting from '@/components/setting/CharVoiceTopSetting.vue'
-import { CharVoiceUiTabAvailabilityDict, CharVoiceUiTabAvailabilityList } from '@/types/CharVoiceComp'
+import { onMounted, type PropType, ref } from 'vue'
+import {
+  type SchaleDbStuInfoFullVoiceline,
+  SchaleDbStuInfoFullVoicelineCategory
+} from '@/types/OutsourcedData'
+import type {
+  SchaleDbStuVoicelineMtData
+} from '@/tool/CharVoiceMt'
+import CharVoiceSchaleDbContent from '@/components/voice/CharVoiceSchaleDbContent.vue'
 
-const props = defineProps(
-  {
-    charId: {
-      type: [Number, String],
-      required: true
-    }
+import PvTabs from 'primevue/tabs'
+import PvTabList from 'primevue/tablist'
+import PvTab from 'primevue/tab'
+import PvTabPanels from 'primevue/tabpanels'
+import PvTabPanel from 'primevue/tabpanel'
+
+const props = defineProps({
+  dataVoice: {
+    type: Object as PropType<SchaleDbStuInfoFullVoiceline>,
+    required: true
+  },
+  dataVoiceMt: {
+    type: Object as PropType<SchaleDbStuVoicelineMtData>,
+    required: true
   }
-)
+})
 
 const isLoading = ref(true)
-const dataChar: SchaleDbStuInfoFull = {} as unknown as SchaleDbStuInfoFull
-const dataTabAvailabilityList = CharVoiceUiTabAvailabilityList.slice(0)
-const dataTabAvailabilityDict = Object.assign({}, CharVoiceUiTabAvailabilityDict)
+
+const currTab = ref('Normal')
+const dataTabAvailability = [false, false, false, false]
 
 async function loadData() {
-  await Promise.allSettled([
-    httpGetJsonAsync(dataChar, `/data/common/schale_stu/${props.charId}.json`)
-  ])
-
-  // 更新可用性Dict
-  for (const key of SchaleDbStuInfoFullVoicelineCategory) {
-    if (key === 'Battle') {
-      dataTabAvailabilityDict.Battle = true
-    } else if (!(dataChar.Voicelines[key] && dataChar.Voicelines[key].length !== 0)) {
-      dataTabAvailabilityDict[key] = true
+  // 更新可用性列表
+  for (const [idx, key] of SchaleDbStuInfoFullVoicelineCategory.entries()) {
+    if (props.dataVoice[key] && props.dataVoice[key].length !== 0) {
+      dataTabAvailability[idx] = true
     }
-  }
-  // 更新可用性List
-  for (const value of dataTabAvailabilityList) {
-    value.disabled = dataTabAvailabilityDict[value.value]
   }
 }
 
@@ -51,13 +52,28 @@ onMounted(async () => {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
-    <h2>Char Voice SchaleDB UI</h2>
-    <StoryI18nSetting />
-    <el-divider />
-
-    <template>
-
-    </template>
+      <PvTabs :value="currTab" scrollable style="border: 1px var(--pv-tabs-tablist-border-color) solid">
+        <PvTabList>
+          <PvTab value="Normal">{{ $t('char-voice-ui-select-tab-normal') }}</PvTab>
+          <PvTab value="Lobby">{{ $t('char-voice-ui-select-tab-lobby') }}</PvTab>
+          <PvTab value="Battle">{{ $t('char-voice-ui-select-tab-battle') }}</PvTab>
+          <PvTab value="Event" v-if="dataTabAvailability[3]">{{ $t('char-voice-ui-select-tab-event') }}</PvTab>
+        </PvTabList>
+        <PvTabPanels>
+          <PvTabPanel value="Normal">
+            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Normal" :dataVoiceMt="dataVoiceMt.Normal" />
+          </PvTabPanel>
+          <PvTabPanel value="Lobby">
+            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Lobby" :dataVoiceMt="dataVoiceMt.Lobby" />
+          </PvTabPanel>
+          <PvTabPanel value="Battle">
+            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Battle" :dataVoiceMt="dataVoiceMt.Battle" />
+          </PvTabPanel>
+          <PvTabPanel value="Event" v-if="dataTabAvailability[3]">
+            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Event" :dataVoiceMt="dataVoiceMt.Event" />
+          </PvTabPanel>
+        </PvTabPanels>
+      </PvTabs>
   </div>
 </template>
 

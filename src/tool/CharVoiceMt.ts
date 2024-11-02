@@ -16,7 +16,6 @@ import type { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { getNexonL10nData } from '@/tool/StoryTool'
 import { getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import { NexonLangMap } from '@/tool/Constant'
-import { type Ref, ref } from 'vue'
 
 export type NexonCharVoiceNormalEntryMtData = {
   Id: string;
@@ -46,13 +45,13 @@ export type NexonCharVoiceBattleMtData = { [key: string]: NexonCharVoiceBattleEn
 export type NexonCharVoiceEventMtData = { [key: string]: NexonCharVoiceEventVoiceEntryMtData }
 export type SchaleDbVoicelineCategoryMtData = { [key: string]: SchaleDbStuVoicelineEntryMtData }
 
-export type NexonCharVoiceMtData = Ref<{
+export type NexonCharVoiceMtData = {
   Normal: NexonCharVoiceNormalMtData
   Lobby: NexonCharVoiceNormalMtData
   Battle: NexonCharVoiceBattleMtData
   Event: NexonCharVoiceEventMtData
-}>
-export type SchaleDbStuVoicelineMtData = Ref<Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbVoicelineCategoryMtData>>
+}
+export type SchaleDbStuVoicelineMtData = Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbVoicelineCategoryMtData>
 
 /* ----------------------------------------
 *  MACHINE TRANSLATION - INIT
@@ -237,7 +236,7 @@ export function updateNexonCharVoiceNormalMtData(baseVoiceData: NexonCharVoiceNo
   for (const group of baseVoiceData) {
     for (const entry of group.Data) {
       const texts = getNexonL10nData(entry.Transcription, lang as NexonL10nDataLang)
-      const actualTexts = texts.map(i => i.join(''))
+      const actualTexts = texts.map(i => i.join('<br />'))
       for (const [idx, text] of actualTexts.entries()) {
         asyncPool.addTask(
           async function() {

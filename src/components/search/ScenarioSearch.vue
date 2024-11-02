@@ -12,7 +12,7 @@ import type {
   I18nBondInfoDataEntry,
   I18nStoryInfoIdToXxhash, I18nStoryXxhashToL10nData,
   IndexManifestScenarioEntry, IndexManifestScenarioParentEntry,
-  IndexManifestScnearioData,
+  IndexManifestScenarioData,
   IndexMomotalkData,
   IndexScenarioInfoToI18nId,
   NexonL10nData,
@@ -56,7 +56,7 @@ let dataEventScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenari
 let dataBondStudentName: StudentInfoDataSimple = {} as StudentInfoDataSimple
 let dataBondIndexMomotalkScenario: IndexMomotalkData = {} as IndexMomotalkData
 let dataBondScenarioI18n: I18nBondInfoData = {} as I18nBondInfoData
-let dataMainIndexManifest: IndexManifestScnearioData = {} as IndexManifestScnearioData
+let dataMainIndexManifest: IndexManifestScenarioData = {} as IndexManifestScenarioData
 let dataMainScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenarioInfoToI18nId
 let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXxhash
 const dataAllLoaded = ref(false)

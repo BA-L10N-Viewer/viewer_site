@@ -4,7 +4,7 @@ import type {
 } from '@/types/OutsourcedData'
 import type { NexonCharVoiceEntry, NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
 import { selectCharVoiceCurrTabName } from '@/tool/Constant'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import type { NexonCharVoiceMtData, SchaleDbStuVoicelineMtData } from '@/tool/CharVoiceMt'
 
 export type CharVoiceUiTabName = SchaleDbStuInfoFullVoicelineCategory
@@ -24,6 +24,6 @@ export type CharVoiceUiEventDisplayMode = NexonCharVoiceEventTranscriptionType[]
 
 export const symbolDataCharVoiceNexon = Symbol('CharVoiceDataNexon') as InjectionKey<NexonCharVoiceEntry>
 export const symbolDataCharVoiceSdb = Symbol('CharVoiceDataSdb') as InjectionKey<SchaleDbStuInfoFullVoiceline>
-export const symbolMtDataCharVoiceNexon = Symbol('CharVoiceMtDataNexon') as InjectionKey<NexonCharVoiceMtData>
-export const symbolMtDataCharVoiceSdb = Symbol('CharVoiceMtDataSdb') as InjectionKey<SchaleDbStuVoicelineMtData>
+export const symbolMtDataCharVoiceNexon = Symbol('CharVoiceMtDataNexon') as InjectionKey<Ref<NexonCharVoiceMtData>>
+export const symbolMtDataCharVoiceSdb = Symbol('CharVoiceMtDataSdb') as InjectionKey<Ref<SchaleDbStuVoicelineMtData>>
 export const symbolDataCharVoiceI18n = Symbol('CharVoiceMtDataI18n') as InjectionKey<{ [key: string]: string }>
