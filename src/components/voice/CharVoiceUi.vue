@@ -187,6 +187,7 @@ onBeforeMount(async function() {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
+    <p>{{ charId }}</p>
     <StoryI18nSetting />
     <div class="char-voice-ui-div">
       <el-divider />
