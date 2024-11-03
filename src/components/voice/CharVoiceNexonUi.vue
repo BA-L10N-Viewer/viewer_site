@@ -13,6 +13,7 @@ import PvTabList from 'primevue/tablist'
 import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
+import { findFirstAvaliableTabName } from '@/tool/CharVoice'
 
 const props = defineProps({
   dataVoice: {
@@ -41,6 +42,8 @@ async function loadData() {
       }
     }
   }
+
+  currTab.value = findFirstAvaliableTabName(dataVoiceAvailability, SchaleDbStuInfoFullVoicelineCategory)
 }
 
 onMounted(async () => {

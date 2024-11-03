@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, provide, watch, ref, onBeforeMount, type Ref } from 'vue'
+import { onMounted, provide, watch, ref, onBeforeMount, type Ref, shallowRef } from 'vue'
 import { useSetting } from '@/stores/setting'
 import CharVoiceNexonUi from '@/components/voice/CharVoiceNexonUi.vue'
 import CharVoiceSchaleDbUi from '@/components/voice/CharVoiceSchaleDbUi.vue'
@@ -10,9 +10,9 @@ import {
   type SchaleDbStuInfoFull,
   type SchaleDbStuInfoFullVoiceline, SchaleDbStuInfoFullVoicelineCategory
 } from '@/types/OutsourcedData'
-import { httpGetJsonAsync } from '@/tool/HttpRequest'
+import { httpGetAsync, httpGetJsonAsync } from '@/tool/HttpRequest'
 import {
-  symbolDataCharVoiceI18n,
+  symbolDataCharVoiceI18n
 } from '@/types/CharVoiceComp'
 import {
   clearNexonCharVoiceBattleMtData, clearNexonCharVoiceEventMtData,
@@ -59,7 +59,7 @@ const isLoading = ref(true)
 let dataVoiceNexon: NexonCharVoiceEntry = {} as unknown as NexonCharVoiceEntry
 let dataVoiceSdb: SchaleDbStuInfoFullVoiceline = {} as unknown as SchaleDbStuInfoFullVoiceline
 let dataVoiceI18n: Record<SiteUiLang, {}> = createDictionaryWithDefault(SiteUiLang, {})
-const dataVoiceI18nCurr = ref<{ [key: string]: string }>({})
+const dataVoiceI18nCurr = shallowRef<{ [key: string]: string }>({})
 
 // --------------------- MT AUTO TRANSLATE ---------------------
 const mtController = {
@@ -118,8 +118,7 @@ watch(
   () => setting.ui_lang,
   (newValue) => {
     dataVoiceI18nCurr.value = dataVoiceI18n[newValue]
-  },
-  { immediate: true }
+  }
 )
 
 // -------------------------------------------------------------
@@ -128,30 +127,53 @@ async function loadAll() {
   let dataCharSdb: SchaleDbStuInfoFull = {} as unknown as SchaleDbStuInfoFull
   await Promise.allSettled([
     httpGetJsonAsync(dataVoiceNexon, `/data/common/voice/${props.charId}.json`),
-    httpGetJsonAsync(dataCharSdb, `/data/common/schale_stu/${props.charId}.json`),
+    (async function(): Promise<void> {
+      const rawText = await httpGetAsync(`/data/common/schale_stu/${props.charId}.json`)
+      if (rawText !== '') {
+        try {
+          Object.assign(dataCharSdb,JSON.parse(rawText))
+        } catch (e) {
+          Object.assign(dataCharSdb, {
+            Voicelines: {
+              Normal: [],
+              Lobby: [],
+              Battle: [],
+              Event: []
+            }
+          } as unknown as SchaleDbStuInfoFull)
+        }
+      } else
+        Object.assign(dataCharSdb, {
+          Voicelines: {
+            Normal: [],
+            Lobby: [],
+            Battle: [],
+            Event: []
+          }
+        } as unknown as SchaleDbStuInfoFull)
+    })(),
+    //httpGetJsonAsync(dataCharSdb, `/data/common/schale_stu/${props.charId}.json`),
     ...SiteUiLang.map(lang => httpGetJsonAsync(dataVoiceI18n[lang], `/data/common/i18n/voice_group.${lang}.json`))
   ])
-  if ('Voicelines' in dataVoiceSdb) {
-    dataVoiceSdb = dataCharSdb.Voicelines
-  } else {
-    dataVoiceSdb = {Normal: [], Lobby: [], Battle: [], Event: []}
-  }
+  dataVoiceSdb = dataCharSdb.Voicelines
 
   dataMtVoiceNexon.value = {
-    Normal: initNexonCharVoiceNormalMtData(dataVoiceNexon.Normal),
+    Normal: initNexonCharVoiceNormalMtData(dataVoiceNexon.Normal || []),
     Lobby: initNexonCharVoiceNormalMtData(dataVoiceNexon.Lobby || []),
     Battle: initNexonCharVoiceBattleMtData(dataVoiceNexon.Battle || []),
     Event: initNexonCharVoiceEventMtData(dataVoiceNexon.Event || [])
   }
   dataMtVoiceSdb.value = {
-    Normal: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Normal),
-    Lobby: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Lobby),
-    Battle: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Battle),
-    Event: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Event)
+    Normal: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Normal || []),
+    Lobby: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Lobby || []),
+    Battle: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Battle || []),
+    Event: initSchaleDbVoiceCategoryMtData(dataVoiceSdb.Event || [])
   }
+
+  dataVoiceI18nCurr.value = dataVoiceI18n[setting.ui_lang]
 }
 
-provide(symbolDataCharVoiceI18n, dataVoiceI18nCurr.value)
+provide(symbolDataCharVoiceI18n, dataVoiceI18nCurr)
 
 onBeforeMount(async function() {
   await loadAll()
@@ -172,8 +194,8 @@ onBeforeMount(async function() {
       <KeepAlive>
         <PvTabs :value="setting.char_voice_data_source" style="border: 1px var(--pv-tabs-tablist-border-color) solid">
           <PvTabList>
-            <PvTab value="nexon">{{i18n.t('char-voice-ui-select-source-nexon')}}</PvTab>
-            <PvTab value="schaledb">{{i18n.t('char-voice-ui-select-source-schaledb')}}</PvTab>
+            <PvTab value="nexon">{{ i18n.t('char-voice-ui-select-source-nexon') }}</PvTab>
+            <PvTab value="schaledb">{{ i18n.t('char-voice-ui-select-source-schaledb') }}</PvTab>
           </PvTabList>
           <PvTabPanels>
             <PvTabPanel value="nexon">

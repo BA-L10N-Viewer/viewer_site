@@ -14,6 +14,7 @@ import PvTabList from 'primevue/tablist'
 import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
+import { findFirstAvaliableTabName } from '@/tool/CharVoice'
 
 const props = defineProps({
   dataVoice: {
@@ -38,6 +39,8 @@ async function loadData() {
       dataTabAvailability[idx] = true
     }
   }
+
+  currTab.value = findFirstAvaliableTabName(dataTabAvailability, SchaleDbStuInfoFullVoicelineCategory)
 }
 
 onMounted(async () => {
@@ -56,7 +59,6 @@ onMounted(async () => {
         <PvTabList>
           <PvTab value="Normal">{{ $t('char-voice-ui-select-tab-normal') }}</PvTab>
           <PvTab value="Lobby">{{ $t('char-voice-ui-select-tab-lobby') }}</PvTab>
-          <PvTab value="Battle">{{ $t('char-voice-ui-select-tab-battle') }}</PvTab>
           <PvTab value="Event" v-if="dataTabAvailability[3]">{{ $t('char-voice-ui-select-tab-event') }}</PvTab>
         </PvTabList>
         <PvTabPanels>
@@ -65,9 +67,6 @@ onMounted(async () => {
           </PvTabPanel>
           <PvTabPanel value="Lobby">
             <CharVoiceSchaleDbContent :dataVoice="dataVoice.Lobby" :dataVoiceMt="dataVoiceMt.Lobby" />
-          </PvTabPanel>
-          <PvTabPanel value="Battle">
-            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Battle" :dataVoiceMt="dataVoiceMt.Battle" />
           </PvTabPanel>
           <PvTabPanel value="Event" v-if="dataTabAvailability[3]">
             <CharVoiceSchaleDbContent :dataVoice="dataVoice.Event" :dataVoiceMt="dataVoiceMt.Event" />

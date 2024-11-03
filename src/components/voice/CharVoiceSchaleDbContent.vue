@@ -42,7 +42,7 @@ function getProperGroupId(entry: SchaleDbVoiceEntryForTable) {
 
 function getProperGroupDisplayHtml(entry: SchaleDbVoiceEntryForTable) {
   const entryId = getProperGroupId(entry)
-  const entryGroupI18n = dataCharI18n[`SDB.${entryId}`]
+  const entryGroupI18n = dataCharI18n.value[`SDB.${entryId}`]
   if (entryGroupI18n) {
     if (!isNaN(Number(entry.Id.slice(-1)))) {
       return `${entryGroupI18n}&nbsp;${entry.Id.slice(-1)}`
