@@ -6,6 +6,7 @@ import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
+import PvTag from 'primevue/tag'
 
 import { convertNexonCharVoiceNormalCategoryForTable } from '@/tool/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
@@ -51,18 +52,14 @@ onMounted(async () => {
         <p><b>{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
         <PvDataTable :value="voiceEntry"
                      rowGroupMode="rowspan" :groupRowsBy="['CostumePos']" sortMode="single" :sortOrder="1">
-          <PvColumn field="CostumePos" :header="i18n.t('comp-char-voice-costume-id')" style="width: 6em">
+          <PvColumn field="CostumePos" :header="i18n.t('comp-char-voice-costume-id')" style="width: 4em">
             <template #body="slotProps">
               {{ slotProps.data.CostumePos }}
             </template>
           </PvColumn>
-          <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')" style="width: 6em">
-            <template #body="slotProps">
-              {{ slotProps.data.TranscriptionLang }}
-            </template>
-          </PvColumn>
           <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')" style="width: calc(100% - 12em - 5%)">
             <template #body="slotProps">
+              <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
               <DialogueTranslated
                 :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi]?.[Number(slotProps.data.CostumePos)] || ''"
                 :content-original="slotProps.data.Transcription || 'null'" />

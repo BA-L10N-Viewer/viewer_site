@@ -10,6 +10,7 @@ import type { NexonL10nDataLangOfUi, SchaleDbStuInfoFullVoicelineEntry } from '@
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
+import PvTag from 'primevue/tag'
 
 const props = defineProps({
   dataVoice: {
@@ -67,14 +68,10 @@ onMounted(async () => {
     <template v-for="(voiceEntry, idx) in dataForTable" :key="idx">
       <h3><span v-html="getProperGroupDisplayHtml(voiceEntry[0])"></span></h3>
       <PvDataTable :value="voiceEntry">
-        <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')" style="width: 6em">
-          <template #body="slotProps">
-            {{ slotProps.data.TranscriptionLang }}
-          </template>
-        </PvColumn>
         <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')"
-                  style="width: calc(100% - 12em - 5%)">
+                  style="width: calc(100%)">
           <template #body="slotProps">
+            <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
             <DialogueTranslated
               :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
               :content-original="slotProps.data.Transcription || 'null'" />

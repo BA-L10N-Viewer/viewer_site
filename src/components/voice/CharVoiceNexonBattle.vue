@@ -12,6 +12,7 @@ import PvColumn from 'primevue/column'
 import type { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import { useI18n } from 'vue-i18n'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
+import PvTag from 'primevue/tag'
 
 const props = defineProps({
   dataVoice: {
@@ -48,13 +49,9 @@ onMounted(async () => {
       <template v-for="(voiceEnrty, idx2) in voiceGroup.Data" :key="idx2">
         <p><b>{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
         <PvDataTable :value="voiceEnrty">
-          <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')" style="width: 6em">
-            <template #body="slotProps">
-              {{ slotProps.data.TranscriptionLang }}
-            </template>
-          </PvColumn>
           <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')" style="width: calc(100% - 6em - 5%)">
             <template #body="slotProps">
+              <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
               <DialogueTranslated
                 :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                 :content-original="slotProps.data.Transcription || 'null'" />
