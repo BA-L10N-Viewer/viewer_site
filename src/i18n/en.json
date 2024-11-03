@@ -6,12 +6,18 @@
   "home-h1-2": "Data Disclaimer",
   "home-p-4": "<b>Update Time</b>: Manual Update. See FAQ for more.",
 
+  "navi-0": "Home",
   "navi-1": "Search",
   "navi-1-1": "Advanced Search",
   "navi-1-2": "Character Search",
   "navi-2": "About",
   "navi-3": "Setting",
   "navi-4": "FAQ",
+  "navi-5": "View",
+  "navi-5-1": "Story",
+  "navi-5-2": "Momotalk",
+  "navi-5-3": "Character",
+  "navi-5-4": "Voiceline",
 
   "comp-story-i18n-h3": "Story L10N Viewing Setting",
   "comp-story-i18n-select-1": "ML Service: ",

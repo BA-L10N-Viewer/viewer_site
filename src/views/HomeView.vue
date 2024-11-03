@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '../tool/Constant'
+import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useI18n } from 'vue-i18n'
 
 const screenWidth = useWindowSize().width
