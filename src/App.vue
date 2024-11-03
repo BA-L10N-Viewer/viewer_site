@@ -36,45 +36,39 @@ document.getElementsByTagName('body')[0].lang = setting.ui_lang
       <SettingDialog />
     </PvDialog>
   </Teleport>
+  <Teleport to="body">
+    <PvMenubar :model="menubarValue" style="position: fixed; top: 0; width: calc(100% - 1em)">
+      <template #start>
+        <img
+          src="/assets/images/logo.png"
+          id="app-top-navi-logo"
+        />
+      </template>
+      <template #item="{ item, props, hasSubmenu }">
+        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
+          <a :href="href" v-bind="props.action" @click="navigate">
+            <span :class="item.icon" />
+            <span>{{ $t(item.label as string) }}</span>
+          </a>
+        </router-link>
+        <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+          <span :class="item.icon" />
+          <span>{{ $t(item.label as string) }}</span>
+          <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
+        </a>
+      </template>
+      <template #end>
+        <div class="flex items-center gap-2">
+          <PvButton severity="secondary" rounded @click="dialogSettingVisible = true">
+            <span class="pi pi-cog" />
+          </PvButton>
+        </div>
+      </template>
+    </PvMenubar>
+  </Teleport>
 
   <el-container>
-    <!-- 首先 明确这是个header -->
-    <el-header>
-      <!-- 其次 el-affix 可以用来装任何东西 -->
-      <el-affix>
-        <!-- 最后 el-menu 是我的导航栏 -->
-        <PvMenubar :model="menubarValue">
-          <template #start>
-            <img
-              src="/assets/images/logo.png"
-              id="app-top-navi-logo"
-            />
-          </template>
-          <template #item="{ item, props, hasSubmenu }">
-            <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-              <a :href="href" v-bind="props.action" @click="navigate">
-                <span :class="item.icon" />
-                <span>{{ $t(item.label as string) }}</span>
-              </a>
-            </router-link>
-            <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-              <span :class="item.icon" />
-              <span>{{ $t(item.label as string) }}</span>
-              <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
-            </a>
-          </template>
-          <template #end>
-            <div class="flex items-center gap-2">
-              <PvButton severity="secondary" rounded @click="dialogSettingVisible = true">
-                <span class="pi pi-cog" />
-              </PvButton>
-            </div>
-          </template>
-        </PvMenubar>
-      </el-affix>
-    </el-header>
-
-    <el-main style="height: 100%">
+    <el-main style="height: 100%; margin-top: 40px;">
       <span style="display: none">{{ $i18n.locale = setting.ui_lang }}</span>
       <RouterView />
     </el-main>
