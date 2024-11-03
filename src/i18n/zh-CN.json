@@ -146,6 +146,7 @@
   "comp-char-voice-nexon-event-type-Rerun": "复刻",
   "comp-char-voice-nexon-event-type-Immortalized": "常驻",
 
+  "char-voice-ui-h1": "人物语音查看页",
   "char-voice-ui-select-source-nexon": "Nexon (游戏解包)",
   "char-voice-ui-select-tab-normal": "一般",
   "char-voice-ui-select-tab-lobby": "大厅",

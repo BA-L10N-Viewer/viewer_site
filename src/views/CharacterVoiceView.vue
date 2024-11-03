@@ -6,7 +6,7 @@ const router = useRoute()
 </script>
 
 <template>
-  <h1 class="view-h1">{{ $t('Character Voice View') }}</h1>
+  <h1 class="view-h1">{{ $t('char-voice-ui-h1') }}</h1>
   <CharVoiceUi :char-id="String(router.params.charId)"/>
 </template>
 

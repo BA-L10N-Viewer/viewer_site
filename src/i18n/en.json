@@ -146,6 +146,7 @@
   "comp-char-voice-nexon-event-type-Rerun": "Rerun",
   "comp-char-voice-nexon-event-type-Immortalized": "Immortalized",
 
+  "char-voice-ui-h1": "Character Voice Viewer",
   "char-voice-ui-select-source-nexon": "Nexon (In-game Datamine)",
   "char-voice-ui-select-tab-normal": "General/Normal",
   "char-voice-ui-select-tab-lobby": "Lobby",

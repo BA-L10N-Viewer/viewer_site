@@ -187,7 +187,6 @@ onBeforeMount(async function() {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
-    <h2>{{ $t('Character Voice UI') }}</h2>
     <StoryI18nSetting />
     <div class="char-voice-ui-div">
       <el-divider />
