@@ -30,11 +30,6 @@ const router = createRouter({
       component: () => import('@/views/FaqView.vue')
     },
     {
-      path: '/setting',
-      name: 'setting',
-      component: () => import('../views/SettingView.vue')
-    },
-    {
       path: '/momotalk/:charId',
       name: 'momotalk',
       component: () => import('../views/MomotalkView.vue'),
