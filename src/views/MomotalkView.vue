@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { onMounted, provide, type Ref, ref, watch } from 'vue'
-import { Setting } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
 import { httpGetAsync } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
@@ -20,6 +19,9 @@ import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
+
+import PvButton from 'primevue/button'
+import PvDialog from 'primevue/dialog'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -180,20 +182,23 @@ onMounted(async () => {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
-    <el-backtop :right="50" :bottom="100" @click="showI18nSettingDialog = true">
-      <el-icon>
-        <Setting />
-      </el-icon>
-    </el-backtop>
-    <el-dialog
-      v-model="showI18nSettingDialog"
-      width="80%">
-      <StoryI18nSetting />
-    </el-dialog>
+    <Teleport to="body">
+      <div style="position: fixed; right: 5%; bottom: 10%;">
+        <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
+          <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
+          <span>L10N</span>
+        </PvButton>
+      </div>
+
+      <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
+                :draggable="false" :dismissableMask="true"
+                style="width: 90%">
+        <StoryI18nSetting />
+      </PvDialog>
+    </Teleport>
 
     <h1 class="view-h1">{{ $t('view-mmt-h1') }}</h1>
     <p>{{ $t('view-mmt-stu-id-p') }}{{ $route.params.charId }}</p>
-    <StoryI18nSetting />
     <el-divider></el-divider>
 
     <div v-for="(data, index) in mmtData" :key="index">

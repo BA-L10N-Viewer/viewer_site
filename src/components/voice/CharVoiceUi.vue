@@ -34,7 +34,6 @@ import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { SiteUiLang } from '@/tool/Constant'
 import { createDictionaryWithDefault } from '@/tool/Tool'
-import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 
 import PvTabs from 'primevue/tabs'
 import PvTabList from 'primevue/tablist'
@@ -188,7 +187,6 @@ onBeforeMount(async function() {
   </div>
   <div v-if="!isLoading">
     <p>{{ charId }}</p>
-    <StoryI18nSetting />
     <div class="char-voice-ui-div">
       <el-divider />
       <KeepAlive>

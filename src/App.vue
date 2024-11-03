@@ -43,30 +43,6 @@ document.getElementsByTagName('body')[0].lang = setting.ui_lang
       <!-- 其次 el-affix 可以用来装任何东西 -->
       <el-affix>
         <!-- 最后 el-menu 是我的导航栏 -->
-        <!--
-        <el-menu
-          :default-active="activeIndex"
-          class="el-menu-demo"
-          mode="horizontal"
-          :ellipsis="true"
-          router="router"
-          background-color="#fff"
-        >
-          <el-menu-item index="/"><img
-            src="/assets/images/logo.png"
-            alt="Element logo"
-            id="app-top-navi-logo"
-          /></el-menu-item>
-          <el-sub-menu>
-            <template #title>{{ $t('navi-1') }}</template>
-            <el-menu-item index="/search">{{ $t('navi-1-1') }}</el-menu-item>
-            <el-menu-item index="/search/character">{{ $t('navi-1-2') }}</el-menu-item>
-          </el-sub-menu>
-          <el-menu-item index="/setting">{{ $t('navi-3') }}</el-menu-item>
-          <el-menu-item index="/about">{{ $t('navi-2') }}</el-menu-item>
-          <el-menu-item index="/faq">{{ $t('navi-4') }}</el-menu-item>
-        </el-menu>
-        -->
         <PvMenubar :model="menubarValue">
           <template #start>
             <img
