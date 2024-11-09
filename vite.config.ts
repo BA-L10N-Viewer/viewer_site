@@ -8,6 +8,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import IconsResolver from 'unplugin-icons/resolver'
+import { PrimeVueResolver } from '@primevue/auto-import-resolver';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,7 +30,8 @@ export default defineConfig({
         IconsResolver({
           enabledCollections: ['ep']
         }),
-        ElementPlusResolver()
+        ElementPlusResolver(),
+        PrimeVueResolver()
       ]
     })
   ],
