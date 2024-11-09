@@ -51,6 +51,8 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTag: typeof import('element-plus/es')['ElTag']
+    Fluid: typeof import('primevue/fluid')['default']
+    InputText: typeof import('primevue/inputtext')['default']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']
     MomotalkHeader: typeof import('./src/components/momotalk/MomotalkHeader.vue')['default']
@@ -72,6 +74,7 @@ declare module 'vue' {
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
   }
   export interface ComponentCustomProperties {
+    Ripple: typeof import('primevue/ripple')['default']
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

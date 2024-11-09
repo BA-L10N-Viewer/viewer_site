@@ -30,8 +30,7 @@ export default defineConfig({
         IconsResolver({
           enabledCollections: ['ep']
         }),
-        ElementPlusResolver(),
-        PrimeVueResolver()
+        ElementPlusResolver()
       ]
     })
   ],
