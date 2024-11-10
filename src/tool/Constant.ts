@@ -2,6 +2,7 @@ import type { NexonL10nData, SchaleDbL10nDataLang } from '@/types/OutsourcedData
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList, CharVoiceUiTabName } from '@/types/CharVoiceComp'
 import type { NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
+import { ref } from 'vue'
 
 export const MOBILE_WIDTH = 800
 export const MOBILE_WIDTH_WIDER = 1200
@@ -130,9 +131,71 @@ export function getNexonI18nDataDefault(text: string = '[NO DATA]'): NexonL10nDa
 }
 
 export const paginationScenarioControl = {
-  perPage: [20, 50, 100, 150],
+  perPage: [20, 50, 100, 150, 999],
   perPageDefault: 20
 }
 
 export const i18nDesktopLoopIdx = [0, 1, 2]
 export const i18nMobileLoopIdx = [0, 1, 2, 3, 4]
+
+export const menubarValue = [
+  {
+    label: 'navi-0',
+    icon: 'pi pi-home',
+    route: '/'
+  },
+  {
+    label: 'navi-1',
+    icon: 'pi pi-search',
+    items: [
+      {
+        label: 'navi-1-1',
+        icon: 'pi pi-book',
+        route: '/search'
+      },
+      {
+        label: 'navi-1-2',
+        icon: 'pi pi-user',
+        route: '/search/character'
+      }
+    ]
+  },
+  {
+    label: 'navi-5',
+    icon: 'pi pi-sign-in',
+    items: [
+      {
+        label: 'navi-5-1',
+        icon: 'pi pi-book',
+        route: '/scenario'
+      },
+      {
+        label: 'navi-5-2',
+        icon: 'pi pi-heart',
+        route: '/momotalk'
+      },
+      {
+        label: 'navi-5-3',
+        icon: 'pi pi-user',
+        route: '/character',
+        visible: false
+      },
+      {
+        label: 'navi-5-4',
+        icon: 'pi pi-clipboard',
+        route: '/character/voice'
+      }
+    ],
+    visible: false
+  },
+  {
+    label: 'navi-2',
+    icon: 'pi pi-info-circle',
+    route: '/about'
+  },
+  {
+    label: 'navi-4',
+    icon: 'pi pi-question-circle',
+    route: '/faq'
+  }
+]

@@ -5,15 +5,7 @@
 }
 
 #app-top-navi-logo {
-    height: 3.5em;
-}
-
-.home-bulletin-div {
-    /* Modified from https://hina.loves.midokuni.com/ */
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid var(--color-ba-logo);
-    border-radius: 10px;
+    height: 2.5em;
 }
 
 /* Momotalk */
@@ -172,4 +164,10 @@ rt {font-size:0.8em}
 
 .char-voice-group-h3 {
     font-size: 1.3em;
+}
+
+#actual-body {
+    /* Mimics the el-container behavior */
+    margin-top: 60px;
+    padding: 20px;
 }

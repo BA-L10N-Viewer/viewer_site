@@ -1,4 +1,8 @@
+// CSS
+import './assets/style.css'
 import './assets/main.css'
+import 'primeicons/primeicons.css'
+import './assets/default_behavior_mimic.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -8,9 +12,10 @@ import App from './App.vue'
 import router from './router'
 
 // PrimeVue
-import PrimeVue from 'primevue/config';
-import Aura from '@primevue/themes/aura';
-import Lara from '@primevue/themes/lara';
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura'
+import Lara from '@primevue/themes/lara'
+import PvTooltip from 'primevue/tooltip';
 
 // i18n
 import { createI18n } from 'vue-i18n'
@@ -37,11 +42,7 @@ const i18n = createI18n({
   }
 })
 
-// for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-//   app.component(key, component)
-// }
 app.use(createPinia().use(piniaPluginPersistedstate))
-// app.use(ElementPlus)
 app.use(router)
 app.use(i18n)
 
@@ -58,19 +59,21 @@ const AuraCustomPreset = definePreset(Aura, {
       700: '#0369a1',
       800: '#075985',
       900: '#0c4a6e',
-      950: '#082f49',
+      950: '#082f49'
     }
   }
-});
+})
 app.use(PrimeVue, {
   theme: {
     preset: AuraCustomPreset,
     options: {
-      prefix: 'pv',
-      darkModeSelector: '.dark-mode-toggler',
+      prefix: 'p',
+      darkModeSelector: '.p-dark',
+      cssLayer: false
     }
   }
-});
+})
+app.directive('tooltip', PvTooltip)
 
 const settingStore = useSetting()
 settingStore.forcePersist()

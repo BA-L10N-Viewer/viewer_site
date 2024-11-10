@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Setting } from '@element-plus/icons-vue'
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { ref, onMounted } from 'vue'
 import ScenarioUi from '@/components/ScenarioUi.vue'
@@ -8,6 +7,10 @@ import { getScenarioI18nContent } from '@/tool/StoryTool'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import ScenarioDatasheet from '@/components/ScenarioDatasheet.vue'
+
+import PvButton from 'primevue/button'
+import PvDialog from 'primevue/dialog'
+import PvDivider from 'primevue/divider'
 
 const props = defineProps({
   storyId: Number
@@ -39,23 +42,25 @@ ML_pinia.initAll()
     <h1>Loading...</h1>
   </div>
   <div v-if="!isLoading">
-    <el-backtop :right="50" :bottom="100" @click="showI18nSettingDialog = true">
-      <el-icon>
-        <Setting />
-      </el-icon>
-    </el-backtop>
-    <el-dialog
-      v-model="showI18nSettingDialog"
-      width="80%">
-      <StoryI18nSetting />
-    </el-dialog>
+    <Teleport to="body">
+      <div style="position: fixed; right: 5%; bottom: 10%;">
+        <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
+          <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
+          <span>L10N</span>
+        </PvButton>
+      </div>
+
+      <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
+                :draggable="false" :dismissableMask="true"
+                style="width: 90%">
+        <StoryI18nSetting />
+      </PvDialog>
+    </Teleport>
 
     <h1>{{ $t('view-scenario-h1') }}</h1>
     <ScenarioDatasheet :story-desc="scenarioNameDesc[1]" :story-name="scenarioNameDesc[0]"
                        :story-id="Number(scenarioID)" />
-    <el-divider />
-    <StoryI18nSetting />
-    <el-divider />
+    <PvDivider />
 
     <ScenarioUi />
   </div>

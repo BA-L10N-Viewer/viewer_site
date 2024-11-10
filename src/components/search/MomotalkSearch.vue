@@ -8,6 +8,9 @@ import type { SchaleDbL10nData, StudentInfoDataSimple, StudentInfoDataSimpleEntr
 import { useSearchVars } from '@/stores/search'
 import { countCharacterLengthBiased, preProcessStringForSearch } from '@/tool/SearchTool'
 
+import PvInputText from 'primevue/inputtext'
+import PvButton from 'primevue/button'
+
 const i18n = useI18n()
 const setting = useSetting()
 const searchCache = useSearchVars()
@@ -17,7 +20,7 @@ const showContent = ref(false)
 
 const isAllDataLoaded = ref(false)
 
-let charDataRaw : StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
+let charDataRaw: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
 let charData = ref<StudentInfoDataSimpleEntry[]>([])
 
 async function loadAllData() {
@@ -27,9 +30,9 @@ async function loadAllData() {
 function updateCharData() {
   const checkInput = (entry: SchaleDbL10nData) => {
     return Object.keys(entry).some((key) => {
-      const value = entry[key as keyof SchaleDbL10nData];
-      return preProcessStringForSearch(value.toLowerCase()).includes(preProcessStringForSearch(inputQuery.value.toLowerCase()));
-    });
+      const value = entry[key as keyof SchaleDbL10nData]
+      return preProcessStringForSearch(value.toLowerCase()).includes(preProcessStringForSearch(inputQuery.value.toLowerCase()))
+    })
   }
 
   let temp = []
@@ -52,7 +55,7 @@ watch(
 watch(
   () => inputQuery.value,
   (newValue) => {
-    showContent.value = countCharacterLengthBiased(newValue) >= 2;
+    showContent.value = countCharacterLengthBiased(newValue) >= 2
   }
 )
 
@@ -77,10 +80,13 @@ watch(
     <h2>Loading...</h2>
   </div>
   <div v-if="isAllDataLoaded">
-    <el-input v-model="inputQuery" :placeholder="i18n.t('search-mmt-input')" @input="updateCharData" />
+    <PvInputText v-model="inputQuery" :placeholder="i18n.t('search-mmt-input')" @input="updateCharData"
+                 style="width: 100%;" />
     <br />
     <h3>{{ i18n.t('search-mmt-h3') }}</h3>
-    <el-button v-if="!showContent" @click="showContent = true">{{i18n.t('search-mmt-force-show')}}</el-button>
+    <PvButton v-if="!showContent" @click="showContent = true"
+              severity="secondary" size="small">{{ i18n.t('search-mmt-force-show') }}
+    </PvButton>
     <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
       <MomotalkSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
                            :family_name="item['FamilyName']" :char_id="item['Id']" />

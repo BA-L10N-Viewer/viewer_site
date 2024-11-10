@@ -34,13 +34,13 @@ import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { SiteUiLang } from '@/tool/Constant'
 import { createDictionaryWithDefault } from '@/tool/Tool'
-import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 
 import PvTabs from 'primevue/tabs'
 import PvTabList from 'primevue/tablist'
 import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
+import PvDivider from 'primevue/divider'
 
 const props = defineProps(
   {
@@ -188,9 +188,8 @@ onBeforeMount(async function() {
   </div>
   <div v-if="!isLoading">
     <p>{{ charId }}</p>
-    <StoryI18nSetting />
     <div class="char-voice-ui-div">
-      <el-divider />
+      <PvDivider />
       <KeepAlive>
         <PvTabs :value="setting.char_voice_data_source" style="border: 1px var(--pv-tabs-tablist-border-color) solid">
           <PvTabList>

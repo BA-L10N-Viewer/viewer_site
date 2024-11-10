@@ -22,6 +22,7 @@ import { httpGetSync } from '@/tool/HttpRequest'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
+import PvTag from 'primevue/tag'
 
 const props = defineProps({
   dataVoice: {
@@ -65,19 +66,15 @@ onMounted(async () => {
           <p><b>{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
           <PvDataTable :value="entryData.Data"
                        rowGroupMode="rowspan" :groupRowsBy="['EventType']" sortMode="single" :sortOrder="1">
-            <PvColumn field="EventType" :header="i18n.t('comp-char-voice-nexon-event-type')" style="width: 6em">
+            <PvColumn field="EventType" :header="i18n.t('comp-char-voice-nexon-event-type')" style="width: 4em">
               <template #body="slotProps">
                 {{ $t(`comp-char-voice-nexon-event-type-${slotProps.data.EventType}`) }}
-              </template>
-            </PvColumn>
-            <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')" style="width: 6em">
-              <template #body="slotProps">
-                {{ slotProps.data.TranscriptionLang }}
               </template>
             </PvColumn>
             <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')"
                       style="width: calc(100% - 12em - 5%)">
               <template #body="slotProps">
+                <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
                 <DialogueTranslated
                   :content-translated="dataVoiceMt[`${eventData.EventId}_${slotProps.data.Id}`]?.Transcription[slotProps.data.EventType! as NexonCharVoiceEventTranscriptionType]?.[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                   :content-original="slotProps.data.Transcription || 'null'" />
