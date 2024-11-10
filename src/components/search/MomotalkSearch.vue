@@ -82,7 +82,7 @@ watch(
   <div v-if="isAllDataLoaded">
     <!-- h1 标题 -->
     <h1 class="search-h1">
-      <i class="pi pi-search"></i>
+      <i class="pi pi-user"></i>
       <span>&nbsp;&nbsp;<span v-html="i18n.t('search-mmt-h1')"></span></span>
     </h1>
 
