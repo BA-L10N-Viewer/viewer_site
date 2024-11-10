@@ -78,7 +78,7 @@
   "search-mmt-h1": "Search by Character",
   "search-mmt-force-show": "Force show result?",
 
-  "search-h1": "Advanced Search",
+  "search-h1": "<font style=\"color: var(--color-ba-logo)\">Advanced</font> Search",
   "search-step-1": "First, select the <b>Story Type</b>: ",
   "search-step-2": "Then, use <b>filter</b> to filter the result: ",
   "search-cascader-story": "Normal Story",

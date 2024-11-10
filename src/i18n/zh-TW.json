@@ -78,7 +78,7 @@
   "search-mmt-h1": "按人物搜尋",
   "search-mmt-force-show": "是否強制顯示內容？",
 
-  "search-h1": "高階搜尋",
+  "search-h1": "<font style=\"color: var(--color-ba-logo)\">高階</font>搜尋",
   "search-step-1": "首先，選擇你要搜尋的<b>故事型別</b>：",
   "search-step-2": "然後，使用<b>過濾器</b>進一步過濾結果：",
   "search-cascader-story": "一般故事",
