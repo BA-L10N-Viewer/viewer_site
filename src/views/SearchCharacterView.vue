@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MomotalkSearch from '@/components/search/MomotalkSearch.vue'
+import CharacterSearch from '@/components/search/CharacterSearch.vue'
 </script>
 
 <template>
-  <MomotalkSearch />
+  <CharacterSearch />
 </template>
 
 <style scoped>

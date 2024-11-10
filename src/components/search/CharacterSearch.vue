@@ -2,7 +2,7 @@
 import { httpGetAsync } from '@/tool/HttpRequest'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import MomotalkSearchEntry from '@/components/search/MomotalkSearchEntry.vue'
+import CharacterSearchEntry from '@/components/search/CharacterSearchEntry.vue'
 import { useSetting } from '@/stores/setting'
 import type { SchaleDbL10nData, StudentInfoDataSimple, StudentInfoDataSimpleEntry } from '@/types/OutsourcedData'
 import { useSearchVars } from '@/stores/search'
@@ -96,7 +96,7 @@ watch(
               severity="secondary" size="small">{{ i18n.t('search-mmt-force-show') }}
     </PvButton>
     <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
-      <MomotalkSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
+      <CharacterSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
                            :family_name="item['FamilyName']" :char_id="item['Id']" />
     </ul>
   </div>

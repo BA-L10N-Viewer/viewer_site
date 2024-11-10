@@ -7,6 +7,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CharacterSearch: typeof import('./src/components/search/CharacterSearch.vue')['default']
+    CharacterSearchEntry: typeof import('./src/components/search/CharacterSearchEntry.vue')['default']
     CharVoiceNexonBattle: typeof import('./src/components/voice/CharVoiceNexonBattle.vue')['default']
     CharVoiceNexonEvent: typeof import('./src/components/voice/CharVoiceNexonEvent.vue')['default']
     CharVoiceNexonNormal: typeof import('./src/components/voice/CharVoiceNexonNormal.vue')['default']
