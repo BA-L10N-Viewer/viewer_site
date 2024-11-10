@@ -4,12 +4,23 @@ import { MOBILE_WIDTH, selectAutoTranslateService, autoTranslateLanguage, nexonD
 import { defineProps, watch, ref, computed } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
+import { useI18n } from 'vue-i18n'
 import type { MlProgessInfo } from '@/types/MachineTranslation'
 
+import PvFluid from 'primevue/fluid'
+import PvSelect from 'primevue/select'
+import PvDivider from 'primevue/divider'
+import PvButton from 'primevue/button'
+import PvToggleButton from 'primevue/togglebutton'
+
 const screenWidth = useWindowSize().width
+const isMobileWidth = computed(() => screenWidth.value <= MOBILE_WIDTH)
+const widthForTlLangToolBtn = computed(() => !isMobileWidth.value ? '6em' : '2em')
+const widthForTlLangSelect = computed(() => !isMobileWidth.value ? '14em' : '3em')
+
 const setting = useSetting()
-const elRow12Span = ref(0)
-const elRow8Span = ref(0)
+
+const i18n = useI18n()
 
 const props = defineProps({
   show_ml: {
@@ -18,16 +29,6 @@ const props = defineProps({
   }
 })
 
-watch(screenWidth, () => {
-  if (screenWidth.value <= MOBILE_WIDTH) {
-    elRow12Span.value = 24
-    elRow8Span.value = 24
-  } else {
-    elRow12Span.value = 12
-    elRow8Span.value = 8
-  }
-}, { immediate: true })
-
 const ML_pinia = useI18nTlControl()
 
 function ML_update(idx: number) {
@@ -35,9 +36,8 @@ function ML_update(idx: number) {
   AUTO_TRANSLATE_IN_PROGRESS.value = 1
 }
 
-function ML_clearAll() {
-  for (const idx of [1, 2, 3])
-    ML_pinia.setStatusClear(`i18n_l${idx}`)
+function ML_clear(idx: number) {
+  ML_pinia.setStatusClear(`i18n_l${idx}`)
 }
 
 const AUTO_TRANSLATE = true
@@ -71,8 +71,10 @@ watch(
 </script>
 
 <template>
-  <h3 style="text-align: center">{{ $t('comp-story-i18n-h3') }}</h3>
-  <p style="text-align: center; font-weight: bold;">
+  <h2 style="text-align: center; font-size: 1.4em;">{{ $t('comp-story-i18n-h3') }}</h2>
+
+  <!-- MACHINE TRANSLATION STATUS -->
+  <p style="text-align: center; font-weight: bold;" v-if="show_ml">
     <span v-if="!AUTO_TRANSLATE_IN_PROGRESS" style="color: green;">{{ $t('comp-story-i18n-TL_ip-0') }}</span>
     <span v-else>
       <span style="color: red;">{{ $t(`comp-story-i18n-TL_ip-${AUTO_TRANSLATE_IN_PROGRESS}`) }}</span>
@@ -80,80 +82,187 @@ watch(
         }}, <b>{{ AUTO_TRANSLATE_PROGRESS_PERCENTAGE }}%</b>)</span>
     </span>
   </p>
-  <el-row gutter="1" class="setting-row">
-    <el-col :span="elRow12Span">
-      <span>{{ $t('comp-story-i18n-select-1') }}</span>
-      <el-select v-model="setting.auto_i18n_service" style="width: calc(100% - 8em)">
-        <el-option v-for="item in selectAutoTranslateService"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-    <el-col :span="elRow12Span">
-      <span>{{ $t('comp-story-i18n-select-2') }}</span>
-      <el-select v-model="setting.auto_i18n_lang" style="width: calc(100% - 10em)">
-        <el-option v-for="item in autoTranslateLanguage"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-  </el-row>
-  <el-row gutter="1" class="setting-row setting-row-connect-to-next">
-    <el-col :span="elRow8Span">
-      <span>{{ $t('comp-story-i18n-select-3') }}</span>
-      <el-select v-model="setting.i18n_lang1" style="width: calc(100% - 6em)"
-                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-        <el-option v-for="item in nexonDataLangSelect"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-    <el-col :span="elRow8Span">
-      <span>{{ $t('comp-story-i18n-select-4') }}</span>
-      <el-select v-model="setting.i18n_lang2" style="width: calc(100% - 7em)"
-                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-        <el-option v-for="item in nexonDataLangSelect"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-    <el-col :span="elRow8Span">
-      <span>{{ $t('comp-story-i18n-select-5') }}</span>
-      <el-select v-model="setting.i18n_lang3" style="width: calc(100% - 6em)"
-                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-        <el-option v-for="item in nexonDataLangSelect"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-  </el-row>
-  <el-row gutter="1" class="setting-row">
-    <el-col :span="elRow12Span">
-      <span>{{ $t('comp-story-i18n-select-6') }}</span>
-      <el-select v-model="setting.i18n_lang4" style="width: calc(100% - 13em)"
-                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-        <el-option v-for="item in nexonDataLangSelect"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-    <el-col :span="elRow12Span">
-      <span>{{ $t('comp-story-i18n-select-7') }}</span>
-      <el-select v-model="setting.i18n_lang5" style="width: calc(100% - 13em)"
-                 :disabled="AUTO_TRANSLATE_IN_PROGRESS">
-        <el-option v-for="item in nexonDataLangSelect"
-                   :key="item.value"
-                   :label="$t(item.label)"
-                   :value="item.value" />
-      </el-select>
-    </el-col>
-  </el-row>
+
+  <!-- MACHINE TRANSLATION CONFIG -->
+  <PvFluid class="pv-fluid">
+    <span class="span-label">{{ $t('comp-story-i18n-select-1') }}</span>
+    <PvSelect v-model="setting.auto_i18n_service" :options="selectAutoTranslateService"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              class="pv-select-tl-lang"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)" />
+  </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid class="pv-fluid">
+    <span class="span-label">{{ $t('comp-story-i18n-select-2') }}</span>
+    <PvSelect v-model="setting.auto_i18n_lang" :options="autoTranslateLanguage"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              class="pv-select-tl-lang"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)" />
+  </PvFluid>
+  <PvDivider />
+
+  <!-- MACHINE TRANSLATION LANG -->
+  <PvFluid class="pv-fluid">
+    <span class="span-label">{{ $t('comp-story-i18n-select-3') }}</span>
+    <PvSelect v-model="setting.i18n_lang1" :options="nexonDataLangSelect"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              class="pv-select-tl-lang" />
+    <PvButton class="pv-button-tl-tool"
+              severity="success"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_update(1)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-1')">
+      <span class="pi pi-language"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-7') }}</span>
+    </PvButton>
+    <PvButton class="pv-button-tl-tool"
+              severity="danger"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_clear(1)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
+      <span class="pi pi-trash"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
+    </PvButton>
+  </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid class="pv-fluid">
+    <span class="span-label">{{ $t('comp-story-i18n-select-4') }}</span>
+    <PvSelect v-model="setting.i18n_lang2" :options="nexonDataLangSelect"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              class="pv-select-tl-lang" />
+
+    <PvButton class="pv-button-tl-tool"
+              severity="success"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_update(2)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-2')">
+      <span class="pi pi-language"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-7') }}</span>
+    </PvButton>
+    <PvButton class="pv-button-tl-tool"
+              severity="danger"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_clear(2)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
+      <span class="pi pi-trash"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
+    </PvButton>
+  </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid class="pv-fluid">
+    <span class="span-label">{{ $t('comp-story-i18n-select-5') }}</span>
+    <PvSelect v-model="setting.i18n_lang3" :options="nexonDataLangSelect"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              class="pv-select-tl-lang" />
+    <PvButton class="pv-button-tl-tool"
+              severity="success"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_update(3)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-3')">
+      <span class="pi pi-language"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-7') }}</span>
+    </PvButton>
+    <PvButton class="pv-button-tl-tool"
+              severity="danger"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_clear(3)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
+      <span class="pi pi-trash"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
+    </PvButton>
+  </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid class="pv-fluid">
+    <span class="span-label-2">{{ $t('comp-story-i18n-select-6') }}</span>
+    <PvSelect v-model="setting.i18n_lang4" :options="nexonDataLangSelect"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              class="pv-select-tl-lang-2" />
+    <PvButton class="pv-button-tl-tool"
+              severity="success"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_update(4)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-4')">
+      <span class="pi pi-language"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-7') }}</span>
+    </PvButton>
+    <PvButton class="pv-button-tl-tool"
+              severity="danger"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_clear(4)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
+      <span class="pi pi-trash"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
+    </PvButton>
+  </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid class="pv-fluid">
+    <span class="span-label-2">{{ $t('comp-story-i18n-select-7') }}</span>
+    <PvSelect v-model="setting.i18n_lang5" :options="nexonDataLangSelect"
+              :optionLabel="i => i18n.t(i.label)" optionValue="value"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              class="pv-select-tl-lang-2" />
+    <PvButton class="pv-button-tl-tool"
+              severity="success"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_update(5)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-5')">
+      <span class="pi pi-language"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-7') }}</span>
+    </PvButton>
+    <PvButton class="pv-button-tl-tool"
+              severity="danger"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+
+              @click="ML_clear(4)"
+              v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
+      <span class="pi pi-trash"></span>
+      <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
+    </PvButton>
+  </PvFluid>
+  <PvDivider />
+
+  <!-- SCENARIO/MOMOTALK DIALOGUE SETTING -->
+  <PvFluid>
+    <div :class="!isMobileWidth ? 'grid grid-cols-3 gap-4' : ''">
+      <div style="text-align: center">
+        <PvToggleButton
+          :off-label="i18n.t('comp-story-i18n-btn-showboth')"
+          :on-label="i18n.t('comp-story-i18n-btn-showauto')"
+          v-model="setting.auto_i18n_showauto" />
+      </div>
+      <div class="pv-fluid-spacing" v-show="isMobileWidth"></div>
+      <div style="text-align: center">
+        <PvToggleButton
+          :off-label="i18n.t('comp-story-i18n-btn-autoviewmode')"
+          :on-label="i18n.t('comp-story-i18n-btn-forcemobile')"
+          v-model="setting.ui_force_mobile" />
+        <br />
+      </div>
+      <div class="pv-fluid-spacing" v-show="isMobileWidth"></div>
+      <div style="text-align: center">
+        <PvToggleButton
+          :off-label="i18n.t('comp-story-i18n-btn-hidecharicon')"
+          :on-label="i18n.t('comp-story-i18n-btn-showcharicon')"
+          v-model="setting.ui_show_char_icon" />
+        <br />
+      </div>
+    </div>
+  </PvFluid>
+
+  <!--
   <div v-if="show_ml">
     <el-row gutter="1" class="setting-row setting-row-connect-to-next">
       <el-col :span="elRow8Span">
@@ -194,32 +303,6 @@ watch(
         </el-button>
       </el-col>
     </el-row>
-    <el-row gutter="1" class="setting-row" style="text-align: center;">
-      <el-col :span="elRow8Span">
-        <el-switch
-          v-model="setting.auto_i18n_showauto"
-          size="large"
-          :active-text="$t('comp-story-i18n-btn-showauto')"
-          :inactive-text="$t('comp-story-i18n-btn-showboth')"
-          :disabled="!AUTO_TRANSLATE"
-        />
-      </el-col>
-      <el-col :span="elRow8Span">
-        <el-switch
-          v-model="setting.ui_force_mobile"
-          size="large"
-          :active-text="$t('comp-story-i18n-btn-forcemobile')"
-          :disabled="!AUTO_TRANSLATE"
-        />
-      </el-col>
-      <el-col :span="elRow8Span">
-        <el-switch
-          v-model="setting.ui_show_char_icon"
-          size="large"
-          :active-text="$t('comp-story-i18n-btn-showcharicon')"
-        />
-      </el-col>
-    </el-row>
     <el-row>
       <el-col :span="24">
         <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS" style="width: 100%"
@@ -229,7 +312,41 @@ watch(
       </el-col>
     </el-row>
   </div>
+  -->
 </template>
 
 <style scoped>
+.span-label {
+  width: 6em;
+  font-size: 1.1em
+}
+
+/* 较长文本的label，如第四、五机翻语言 */
+.span-label-2 {
+  width: 14em;
+  font-size: 1.1em
+}
+
+.pv-select-tl-lang {
+  width: calc(100% - 6em - v-bind(widthForTlLangSelect))
+}
+
+/* 较长文本的select，如第四、五机翻语言 */
+.pv-select-tl-lang-2 {
+  width: calc(100% - 14em - v-bind(widthForTlLangSelect))
+}
+
+.pv-button-tl-tool {
+  width: v-bind(widthForTlLangToolBtn);
+  margin-left: 6px;
+}
+
+.pv-fluid {
+  display: flex;
+  flex-direction: row;
+}
+
+.pv-fluid-spacing {
+  height: 8px;
+}
 </style>
