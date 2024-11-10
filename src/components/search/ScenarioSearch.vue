@@ -558,5 +558,11 @@ watch(
   .search-event {
     max-width: 100%;
   }
+
+  .search-select-div {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 </style>
