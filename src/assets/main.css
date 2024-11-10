@@ -173,3 +173,9 @@ rt {font-size:0.8em}
 .char-voice-group-h3 {
     font-size: 1.3em;
 }
+
+#actual-body {
+    /* Mimics the el-container behavior */
+    margin-top: 60px;
+    padding: 20px;
+}

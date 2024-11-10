@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 import PvMenubar from 'primevue/menubar'
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
+import PvDivider from 'primevue/divider'
 import SettingDialog from '@/components/setting/SettingDialog.vue'
 
 
@@ -37,7 +38,7 @@ document.getElementsByTagName('body')[0].lang = setting.ui_lang
     </PvDialog>
   </Teleport>
   <Teleport to="body">
-    <PvMenubar :model="menubarValue" style="position: fixed; top: 0; width: calc(100% - 1em)">
+    <PvMenubar :model="menubarValue" style="position: fixed; top: 0; width: 100%">
       <template #start>
         <img
           src="/assets/images/logo.png"
@@ -67,24 +68,23 @@ document.getElementsByTagName('body')[0].lang = setting.ui_lang
     </PvMenubar>
   </Teleport>
 
-  <el-container>
-    <el-main style="height: 100%; margin-top: 40px;">
+  <div id="actual-body">
+    <div style="height: 100%;">
       <span style="display: none">{{ $i18n.locale = setting.ui_lang }}</span>
       <RouterView />
-    </el-main>
+    </div>
 
-    <el-divider />
-    <el-footer>
-      <div style="text-align: right">
-        <small>Copyright &copy; BALV 2024 All rights reserved.</small><br />
-        <small>We do not own any in-game data. See <a href="javascript: void 0" @click="router.push({name: 'about'})">here</a>
-          for details.</small><br />
-        <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with CDN
-          from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small>
-        <br /><br />
-      </div>
-    </el-footer>
-  </el-container>
+    <PvDivider />
+
+    <footer style="text-align: right">
+      <small>Copyright &copy; BALV 2024 All rights reserved.</small><br />
+      <small>We do not own any in-game data. See <a href="javascript: void 0" @click="router.push({name: 'about'})">here</a>
+        for details.</small><br />
+      <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with CDN
+        from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small>
+      <br /><br />
+    </footer>
+  </div>
 </template>
 
 <style scoped>

@@ -1,6 +1,8 @@
-import './styles/style.css'
+// CSS
+import './assets/style.css'
 import './assets/main.css'
 import 'primeicons/primeicons.css'
+import './assets/default_behavior_mimic.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

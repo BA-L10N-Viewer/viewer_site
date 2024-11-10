@@ -1,3 +1,4 @@
+/* Does a lot of stuff like resetting CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,23 +21,6 @@
     --border-color: rgba(255, 255, 255, 0.1);
     --text-color: var(--p-surface-0);
     --overlay-background: var(--p-surface-900);
-}
-
-/*
-html {
-    font-size: 14px;
-}
-*/
-
-body {
-    margin: 0px;
-    min-height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    background-color: var(--body-bg);
-    font-weight: normal;
-    color: var(--body-text-color);
-    padding: 1rem;
 }
 
 .card {
