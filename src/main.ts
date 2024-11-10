@@ -15,6 +15,7 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
 import Lara from '@primevue/themes/lara'
+import PvTooltip from 'primevue/tooltip';
 
 // i18n
 import { createI18n } from 'vue-i18n'
@@ -41,11 +42,7 @@ const i18n = createI18n({
   }
 })
 
-// for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-//   app.component(key, component)
-// }
 app.use(createPinia().use(piniaPluginPersistedstate))
-// app.use(ElementPlus)
 app.use(router)
 app.use(i18n)
 
@@ -76,6 +73,7 @@ app.use(PrimeVue, {
     }
   }
 })
+app.directive('tooltip', PvTooltip)
 
 const settingStore = useSetting()
 settingStore.forcePersist()

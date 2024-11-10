@@ -10,6 +10,7 @@ import ScenarioDatasheet from '@/components/ScenarioDatasheet.vue'
 
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
+import PvDivider from 'primevue/divider'
 
 const props = defineProps({
   storyId: Number
@@ -59,7 +60,7 @@ ML_pinia.initAll()
     <h1>{{ $t('view-scenario-h1') }}</h1>
     <ScenarioDatasheet :story-desc="scenarioNameDesc[1]" :story-name="scenarioNameDesc[0]"
                        :story-id="Number(scenarioID)" />
-    <el-divider />
+    <PvDivider />
 
     <ScenarioUi />
   </div>

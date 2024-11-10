@@ -4,6 +4,9 @@ import { defineProps, type PropType } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 
+import PvTag from 'primevue/tag'
+
+
 const props = defineProps({
   data_no: {
     type: Number,
@@ -21,7 +24,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <el-tag type="warning">{{ data_mmtid }}</el-tag>
+  <PvTag severity="warn">{{ data_mmtid }}</PvTag>
   <span>&nbsp;&nbsp;</span>
   <span>
     <span>{{ data_no + 1 }}.&nbsp;</span>

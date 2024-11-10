@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import { onMounted, provide, type Ref, ref, watch } from 'vue'
+import { onMounted, provide, type Ref, ref, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { httpGetAsync } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
@@ -22,6 +22,11 @@ import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
+import PvDivider from 'primevue/divider'
+import PvAccordion from 'primevue/accordion'
+import PvAccordionPanel from 'primevue/accordionpanel'
+import PvAccordionHeader from 'primevue/accordionheader'
+import PvAccordionContent from 'primevue/accordioncontent'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -45,7 +50,7 @@ async function loadRemoteResource() {
   charName = charData[String(route.params.charId)]['Name']
 }
 
-const mmtStatus: Ref<boolean[]> = ref([false, false, false, false, false, false])
+const mmtStatus = ref<number[]>([])
 
 // ------------------ ML SERVICE ---------------------
 const ML_pinia = useI18nTlControl()
@@ -142,37 +147,42 @@ const urlHashStoryId = (() => {
     mmtNo = -1
   }
 
-  if (mmtNo !== -1 && (mmtNo >= 0 && mmtNo < mmtStatus.value.length)) {
-    mmtStatus.value[mmtNo] = true
-  }
-
   return mmtNo
 })()
 
-/* 对通过以 `#story-x` 形式指定的链接，自动展开该Momotalk并移动到那个位置 */
-const isMmtDefaultShow = (function() {
-  let isFirstTime = true
+function scrollToDesignatedElement(eleId: string) {
+  const targetEle = document.getElementById(eleId)
+  if (targetEle) {
+    const targetHeightOffset = targetEle.getBoundingClientRect().y - 70
+    window.scrollBy({
+      left: 0, top: targetHeightOffset, behavior: 'smooth'
+    })
 
-  return (mmtIndex: number) => {
-    if (isFirstTime) {
-      if (urlHashStoryId === mmtIndex) {
-        isFirstTime = false
-
-        return true
-      } else {
-        return false
-      }
-    } else {
-      return false
-    }
+    console.log(targetHeightOffset)
   }
-})()
+}
+
+async function scrollToMmtByUrlHashtag() {
+  if (urlHashStoryId !== -1)
+    mmtStatus.value.push(urlHashStoryId)
+
+  // 等待Accordion显示
+  await nextTick()
+  await nextTick()
+
+  scrollToDesignatedElement(`mmt-story-h2-title-${urlHashStoryId}`)
+  console.log(`mmt-story-h2-title-${urlHashStoryId}`)
+}
 
 onMounted(async () => {
   await loadRemoteResource()
   initMlData()
 
   isLoading.value = false
+
+  // 等待DOM更新
+  await nextTick()
+  scrollToMmtByUrlHashtag()
 })
 </script>
 
@@ -199,29 +209,24 @@ onMounted(async () => {
 
     <h1 class="view-h1">{{ $t('view-mmt-h1') }}</h1>
     <p>{{ $t('view-mmt-stu-id-p') }}{{ $route.params.charId }}</p>
-    <el-divider></el-divider>
+    <PvDivider />
 
-    <div v-for="(data, index) in mmtData" :key="index">
-      <h2 style="background-color: white;" :id="'mmt-story-h2-title-' + String(index)">
-        <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
-                        :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
-        <span>&nbsp;&nbsp;</span>
-        <el-button type="primary" class="btn-view-story"
-                   tag="RouterLink" :to="`/scenario/${data.BondScenarioId}`">
-          {{ $t('view-mmt-btn-view') }}
-        </el-button>
-        <span>&nbsp;&nbsp;</span>
-        <el-switch
-          v-model="mmtStatus[index]"
-          size="default"
-          :active-text="$t('btn-show-content')"
-        />
-      </h2>
-      <div v-if="mmtStatus[index]">
-        <MomotalkUi :data_charname="charName" :data_data="data" :mmt_entry_pos="index"
-                    :is_default_show="isMmtDefaultShow(index)" />
-      </div>
-    </div>
+    <PvAccordion :value="mmtStatus" multiple>
+      <PvAccordionPanel v-for="(data, index) in mmtData" :key="index" :value="index">
+        <PvAccordionHeader :id="`mmt-story-h2-title-${index}`">
+          <div style="text-align: left; color: black;">
+            <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
+                            :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
+            <span>&nbsp;&nbsp;</span>
+          </div>
+        </PvAccordionHeader>
+        <PvAccordionContent>
+          <div style="color: black">
+            <MomotalkUi :data_charname="charName" :data_data="data" :mmt_entry_pos="index" />
+          </div>
+        </PvAccordionContent>
+      </PvAccordionPanel>
+    </PvAccordion>
   </div>
 </template>
 

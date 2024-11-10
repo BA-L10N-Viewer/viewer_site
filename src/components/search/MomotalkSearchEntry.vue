@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { useRouter } from 'vue-router'
 import { NexonLangMapReverse } from '@/tool/Constant'
 
 import 'lazysizes'
 import { defineProps, computed, ref, type PropType } from 'vue'
 import { type SchaleDbL10nData, type SchaleDbL10nDataLang } from '@/types/OutsourcedData'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
+
+import PvTag from 'primevue/tag'
 
 const props = defineProps({
   char_id: {
@@ -31,7 +32,7 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
 
 <template>
   <li style="margin-bottom: 0.6rem">
-    <el-tag type="success">{{ char_id }}</el-tag>
+    <PvTag severity="success">{{ char_id }}</PvTag>
     <span>&nbsp;&nbsp;</span>
     <img class="icon-stu lazyload" :data-src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${char_id}.webp`">
     <span>&nbsp;</span>

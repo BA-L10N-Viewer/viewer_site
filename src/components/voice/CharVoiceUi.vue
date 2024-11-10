@@ -40,6 +40,7 @@ import PvTabList from 'primevue/tablist'
 import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
+import PvDivider from 'primevue/divider'
 
 const props = defineProps(
   {
@@ -188,7 +189,7 @@ onBeforeMount(async function() {
   <div v-if="!isLoading">
     <p>{{ charId }}</p>
     <div class="char-voice-ui-div">
-      <el-divider />
+      <PvDivider />
       <KeepAlive>
         <PvTabs :value="setting.char_voice_data_source" style="border: 1px var(--pv-tabs-tablist-border-color) solid">
           <PvTabList>

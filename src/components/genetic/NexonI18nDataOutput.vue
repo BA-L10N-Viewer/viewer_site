@@ -6,7 +6,6 @@ import {
   listOfPosOfSelectedLangForMobile
 } from '@/tool/ConstantComputed'
 import type { NexonL10nData } from '@/types/OutsourcedData'
-import { i18nMobileLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   data: {

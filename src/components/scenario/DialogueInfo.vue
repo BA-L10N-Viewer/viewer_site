@@ -2,6 +2,9 @@
 import { defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import PvTag from 'primevue/tag'
+import PvButton from 'primevue/button'
+
 const props = defineProps({
   dialogueSelectionGroup: {
     type: Number,
@@ -42,34 +45,25 @@ function gotoBlueArchiveIo() {
   }
 }
 
-const cssMarginLeftOfDialogueInfoQuickBtn = (props.dialogueSelectionGroup !== 0 || props.dialogueSelectionToGroup !== -1) ? "8px" : "0"
+const cssMarginLeftOfDialogueInfoQuickBtn = (props.dialogueSelectionGroup !== 0 || props.dialogueSelectionToGroup !== -1) ? '8px' : '0'
 </script>
 
 
 <template>
   <div class="dialogue-info-tag">
-    <el-tag type="info" v-if="dialogueSelectionGroup !== 0"><span
-      lang="en">SeleGroup: {{ dialogueSelectionGroup }}</span></el-tag>
+    <PvTag severity="secondary" v-if="dialogueSelectionGroup !== 0"><span
+      lang="en" class="pv-tag">SeleGroup: {{ dialogueSelectionGroup }}</span></PvTag>
     <span v-if="dialogueSelectionGroup !== 0 && dialogueSelectionToGroup !== -1">&nbsp;</span>
-    <el-tag type="info" v-if="dialogueSelectionToGroup !== -1"><span
-      lang="en">SeleToGroup: {{ dialogueSelectionToGroup }}</span></el-tag>
+    <PvTag severity="secondary" v-if="dialogueSelectionToGroup !== -1"><span
+      lang="en" class="pv-tag">SeleToGroup: {{ dialogueSelectionToGroup }}</span></PvTag>
 
-    <div style="" class="dialogue-info-quick-btn">
-      <el-popover
-        placement="top"
-        :width="200"
-        trigger="hover"
-        hide-after="0"
-        popper-style="text-align: center"
-        :content="i18n.t('comp-scenario-dialogue-info-btn-baio-popup')"
-      >
-        <template #reference>
-          <el-button @click="gotoBlueArchiveIo" type="success" circle>
-            <img src="/assets/images/icon/blue_archive_io.webp"
-                 style="height: 1em">
-          </el-button>
-        </template>
-      </el-popover>
+    <div class="dialogue-info-quick-btn">
+      <PvButton @click="gotoBlueArchiveIo" severity="success" rounded
+                size="small"
+                v-tooltip.top="i18n.t('comp-scenario-dialogue-info-btn-baio-popup')">
+        <img src="/assets/images/icon/blue_archive_io.webp"
+             style="height: 1em">
+      </PvButton>
     </div>
   </div>
 </template>
@@ -84,5 +78,9 @@ const cssMarginLeftOfDialogueInfoQuickBtn = (props.dialogueSelectionGroup !== 0 
   text-align: right;
   display: inline-block;
   margin-left: v-bind(cssMarginLeftOfDialogueInfoQuickBtn);
+}
+
+.pv-tag {
+  font-weight: normal;
 }
 </style>

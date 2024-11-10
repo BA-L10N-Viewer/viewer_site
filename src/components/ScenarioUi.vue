@@ -16,6 +16,8 @@ import type { MlForScenario } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 
+import PvPaginator from 'primevue/paginator'
+
 // --------------------- I18N ---------------------
 const setting = useSetting()
 const i18nL1: Ref = ref(setting.i18n_lang1)
@@ -68,16 +70,26 @@ const pagination_currPage = ref(1)
 const pagination_currPage_cache = ref(1)
 
 const pagination_size = ref('')
-const pagination_background = ref(true)
 const pagination_layout = ref('')
 const pagination_pagerCount = ref(7)
 
 const pagination_data = ref()
+const pagination_template = computed(() => {
+  const width = useWindowSize().width.value
+
+  if (width <= 640)
+    return 'PrevPageLink CurrentPageReport NextPageLink'
+  else if (width <= 960)
+    return 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink'
+  else if (width <= 1300)
+    return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
+  else
+    return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown JumpToPageInput'
+})
 
 watch(
   () => useWindowSize().width.value,
   (newValue) => {
-    pagination_background.value = newValue >= MOBILE_WIDTH_WIDER
     pagination_layout.value = newValue >= MOBILE_WIDTH_WIDER ? 'total, sizes, prev, pager, next, jumper' : 'sizes, prev, pager, next'
     pagination_size.value = newValue >= MOBILE_WIDTH_WIDER ? 'default' : 'small'
     pagination_pagerCount.value = newValue >= MOBILE_WIDTH_WIDER ? 7 : 4
@@ -247,26 +259,22 @@ onMounted(async () => {
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
+
+    <br />
+    <PvPaginator
+      :rows="setting.scenario_pagination_perPage"
+      :total-records="pagination_length"
+      :rowsPerPageOptions="paginationScenarioControl.perPage"
+      :template="pagination_template"
+
+      @page="value => {pagination_currPage = value.page + 1}"
+      @update:rows="value => {setting.scenario_pagination_perPage = value}"
+    >
+      <template #end>
+        Total: {{ pagination_length }}
+      </template>
+    </PvPaginator>
   </div>
-
-  <Teleport v-if="isAllDataLoaded" to="body">
-    <el-affix position="bottom" :offset="0" target="#scnario-main-table">
-      <div
-        style="width: calc(100% - 8px); padding-top: 1.3em; padding-left: 1em; text-align: center; background-color: white; height: 4em;">
-        <el-pagination
-          v-model:current-page="pagination_currPage"
-          v-model:page-size="setting.scenario_pagination_perPage"
-          :page-sizes="paginationScenarioControl.perPage"
-          :size="pagination_size"
-          :background="pagination_background"
-          :layout="pagination_layout"
-          :total="pagination_length"
-          :pager-count="pagination_pagerCount"
-        />
-      </div>
-    </el-affix>
-  </Teleport>
-
 </template>
 
 <style scoped>

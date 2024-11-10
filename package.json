@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "@primevue/themes": "^4.1.1",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.7.7",
     "element-plus": "^2.7.6",
@@ -24,7 +23,10 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "primeicons": "^7.0.0",
-    "primevue": "^4.1.1",
+    "primevue": "4.2.1",
+    "@primevue/themes": "4.2.1",
+    "@primevue/auto-import-resolver": "4.2.1",
+    "@primevue/forms": "4.2.1",
     "seedrandom": "^3.0.5",
     "tailwindcss-primeui": "^0.3.4",
     "vue": "^3.4.29",
@@ -32,7 +34,6 @@
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
-    "@primevue/auto-import-resolver": "^4.2.1",
     "@rushstack/eslint-patch": "^1.8.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/lodash": "^4.17.7",

@@ -22,8 +22,8 @@ watch(screenWidth, () => {
 </script>
 
 <template>
-  <el-row :gutter="1" id="page-home-view">
-    <el-col :span="colSpanLeft">
+  <div style="display: flex">
+    <div style="flex: 2">
       <div class="home-bulletin-div">
         <h1>{{ t('home-h1-1') }}</h1>
         <p v-html="t('home-p-1')"></p>
@@ -32,19 +32,25 @@ watch(screenWidth, () => {
         <h1>{{ t('home-h1-2') }}</h1>
         <p v-html="t('home-p-4')"></p>
       </div>
-    </el-col>
-    <el-col :span="colSpanRight">
+    </div>
+    <div style="flex: 1">
       <div class="home-bulletin-div">
         <h2>AWS CDN Info</h2>
-        <p>For <b>users in China Mainland</b>, you can visit the AWS-accelerated site at <a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a> for better experience.</p>
-        <p><b>中国大陆地区用户</b>可访问本站的AWS加速版（<a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a>）以获得更好体验。</p>
+        <p>For <b>users in China Mainland</b>, you can visit the AWS-accelerated site at <a
+          href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a> for better experience.</p>
+        <p><b>中国大陆地区用户</b>可访问本站的AWS加速版（<a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a>）以获得更好体验。
+        </p>
       </div>
-    </el-col>
-  </el-row>
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
-
-
-</script>
-
+<style scoped>
+.home-bulletin-div {
+  /* Modified from https://hina.loves.midokuni.com/ */
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid var(--color-ba-logo);
+  border-radius: 10px;
+}
+</style>
