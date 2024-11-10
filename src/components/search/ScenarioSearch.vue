@@ -432,10 +432,10 @@ watch(
     <!-- 选择 select -->
     <div class="search-select-div">
       <PvFluid class="pv-fluid">
-        <span class="select-span-label">{{ $t('comp-search-scenario-select-1') }}</span>
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-1') }}</span>
         <PvSelect v-model="selectType" size="small"
                   placeholder="Select"
-                  class="select-pv-select"
+                  class="search-select-pv-select"
 
                   :options="optionsType"
                   :optionLabel="i => i18n.t('comp-search-scenario-option-' + i.value)"
@@ -443,10 +443,10 @@ watch(
       </PvFluid>
       <div class="pv-fluid-spacing" v-show="selectType !== ''"></div>
       <PvFluid class="pv-fluid" v-if="selectType === 'event'">
-        <span class="select-span-label">{{ $t('comp-search-scenario-select-2') }}</span>
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-2') }}</span>
         <PvSelect v-model="selectEventName" size="small" filter
                   placeholder="Select"
-                  class="select-pv-select"
+                  class="search-select-pv-select"
 
                   :options="dataSelectEventIndex"
                   optionLabel="label"
@@ -454,10 +454,10 @@ watch(
         />
       </PvFluid>
       <PvFluid class="pv-fluid" v-else-if="selectType === 'bond'">
-        <span class="select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
         <PvSelect v-model="selectBondChar" size="small" filter
                   placeholder="Select"
-                  class="select-pv-select"
+                  class="search-select-pv-select"
 
                   :options="dataSelectCharIndex"
                   optionLabel="label"
@@ -465,10 +465,10 @@ watch(
       </PvFluid>
       <template v-else-if="selectType === 'main'">
         <PvFluid class="pv-fluid">
-          <span class="select-span-label">{{ $t('comp-search-scenario-select-4') }}</span>
+          <span class="search-select-span-label">{{ $t('comp-search-scenario-select-4') }}</span>
           <PvSelect v-model="selectMainVolume" size="small" filter
                     placeholder="Select"
-                    class="select-pv-select"
+                    class="search-select-pv-select"
 
                     :options="dataSelectMainCurrIndex1"
                     optionLabel="label"
@@ -476,10 +476,10 @@ watch(
         </PvFluid>
         <div class="pv-fluid-spacing" v-show="selectType === 'main'"></div>
         <PvFluid class="pv-fluid">
-          <span class="select-span-label">{{ $t('comp-search-scenario-select-5') }}</span>
+          <span class="search-select-span-label">{{ $t('comp-search-scenario-select-5') }}</span>
           <PvSelect v-model="selectMainChapter" size="small" filter
                     placeholder="Select"
-                    class="select-pv-select"
+                    class="search-select-pv-select"
 
                     :options="dataSelectMainCurrIndex2"
                     optionLabel="label"
@@ -487,10 +487,10 @@ watch(
         </PvFluid>
       </template>
       <PvFluid class="pv-fluid" v-else-if="selectType !== ''">
-        <span class="select-span-label">{{ $t('comp-search-scenario-select-6') }}</span>
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-6') }}</span>
         <PvSelect v-model="selectMainChapter" size="small" filter
                   placeholder="Select"
-                  class="select-pv-select"
+                  class="search-select-pv-select"
 
                   :options="dataSelectMainCurrIndex2"
                   optionLabel="label"
@@ -544,32 +544,6 @@ watch(
 </template>
 
 <style scoped>
-.pv-fluid {
-  display: flex;
-  flex-direction: row;
-}
-
-.pv-fluid-spacing {
-  height: 8px;
-}
-
-.select-span-label {
-  width: 6rem;
-}
-
-.select-pv-select {
-  width: calc(100% - 6rem)
-}
-
-.search-h1 {
-  font-size: 5rem;
-  text-align: center
-}
-
-.search-h1 > i {
-  font-size: 5rem;
-}
-
 .search-select-div {
   width: 80%;
   margin-left: 10%;
@@ -583,19 +557,6 @@ watch(
 @media screen and (max-width: 700px) {
   .search-event {
     max-width: 100%;
-  }
-
-  .search-h1 {
-    font-size: 3rem;
-  }
-
-  .search-h1 > i {
-    font-size: 3rem;
-  }
-
-  .search-select-div {
-    width: 100%;
-    margin: revert;
   }
 }
 </style>

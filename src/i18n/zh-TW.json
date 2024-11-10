@@ -75,7 +75,7 @@
 
   "search-mmt-input": "輸入人物名字 (支援多語言全名搜尋)",
   "search-mmt-h3": "搜尋結果",
-  "search-mmt-h1": "按人物搜尋",
+  "search-mmt-h1": "<font style=\"color: var(--color-ba-logo)\">人物</font>搜尋",
   "search-mmt-force-show": "是否強制顯示內容？",
 
   "search-h1": "<font style=\"color: var(--color-ba-logo)\">高階</font>搜尋",

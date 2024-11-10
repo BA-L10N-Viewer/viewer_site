@@ -75,7 +75,7 @@
 
   "search-mmt-input": "Enter Character Name (multi-lang, full-text support) ",
   "search-mmt-h3": "Search Result",
-  "search-mmt-h1": "Search by Character",
+  "search-mmt-h1": "<font style=\"color: var(--color-ba-logo)\">Character</font> Search",
   "search-mmt-force-show": "Force show result?",
 
   "search-h1": "<font style=\"color: var(--color-ba-logo)\">Advanced</font> Search",

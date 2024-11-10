@@ -80,10 +80,18 @@ watch(
     <h2>Loading...</h2>
   </div>
   <div v-if="isAllDataLoaded">
+    <!-- h1 标题 -->
+    <h1 class="search-h1">
+      <i class="pi pi-search"></i>
+      <span>&nbsp;&nbsp;<span v-html="i18n.t('search-mmt-h1')"></span></span>
+    </h1>
+
+    <!-- Input -->
     <PvInputText v-model="inputQuery" :placeholder="i18n.t('search-mmt-input')" @input="updateCharData"
                  style="width: 100%;" />
     <br />
-    <h3>{{ i18n.t('search-mmt-h3') }}</h3>
+
+    <h2>{{ i18n.t('search-mmt-h3') }}</h2>
     <PvButton v-if="!showContent" @click="showContent = true"
               severity="secondary" size="small">{{ i18n.t('search-mmt-force-show') }}
     </PvButton>

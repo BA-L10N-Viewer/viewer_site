@@ -171,3 +171,46 @@ rt {font-size:0.8em}
     margin-top: 60px;
     padding: 20px;
 }
+
+/* PvFluid 常用css classes */
+.pv-fluid {
+    display: flex;
+    flex-direction: row;
+}
+
+.pv-fluid-spacing {
+    height: 8px;
+}
+
+/* 搜索页 */
+.search-select-span-label {
+    width: 6rem;
+}
+
+.search-select-pv-select {
+    width: calc(100% - 6rem)
+}
+
+.search-h1 {
+    font-size: 4rem;
+    text-align: center
+}
+
+.search-h1 > i {
+    font-size: 4rem;
+}
+
+@media screen and (max-width: 700px) {
+    .search-h1 {
+        font-size: 3rem;
+    }
+
+    .search-h1 > i {
+        font-size: 3rem;
+    }
+
+    .search-select-div {
+        width: 100%;
+        margin: revert;
+    }
+}
