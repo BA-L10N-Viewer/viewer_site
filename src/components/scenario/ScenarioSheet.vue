@@ -95,13 +95,13 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
         <template v-else-if="parentData.Type === 'main'">
           <span><b>{{ $t(`comp-scenario-datasheet-type-${scenarioType}`) }}</b></span>
           <br />
-          <span v-if="parentData.Data.VolumeName">{{ $t('comp-scenario-datasheet-parent-main-volume') }}&nbsp;-&nbsp;
+          <span v-if="parentData.Data.VolumeName"><b>{{ $t('comp-scenario-datasheet-parent-main-volume') }}</b>&nbsp;-&nbsp;
             <NexonI18nDataOutput
               :data="parentData.Data.VolumeName!"
               :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
           </span>
           <br v-if="parentData.Data.VolumeName" />
-          <span>
+          <span><b>{{ $t('comp-scenario-datasheet-parent-main-chapter') }}</b>&nbsp;-&nbsp;
             <NexonI18nDataOutput :data="parentData.Data.ChapterName"
                                  :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
           </span>

@@ -141,6 +141,8 @@
   "comp-scenario-datasheet-item-4": "Story Description",
   "comp-scenario-datasheet-item-5": "Data Status",
   "comp-scenario-datasheet-item-6": "Parent Data",
+  "comp-scenario-datasheet-parent-main-volume": "Volume Name",
+  "comp-scenario-datasheet-parent-main-chapter": "Chapter Name",
   "comp-scenario-datasheet-type-bond": "Bond/Personal Story",
   "comp-scenario-datasheet-type-main": "Main Story",
   "comp-scenario-datasheet-type-side": "Club/Side Story",
