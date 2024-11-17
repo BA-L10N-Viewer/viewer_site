@@ -59,7 +59,7 @@ onMounted(async () => {
                     v-if="!isMobile" />
           <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')" style="width: calc(100% - 6em - 5%)">
             <template #body="slotProps">
-              <PvTag severity="info" value="Info" v-id="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
+              <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
               <DialogueTranslated
                 :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                 :content-original="slotProps.data.Transcription || 'null'" />
