@@ -27,6 +27,7 @@ import PvAccordion from 'primevue/accordion'
 import PvAccordionPanel from 'primevue/accordionpanel'
 import PvAccordionHeader from 'primevue/accordionheader'
 import PvAccordionContent from 'primevue/accordioncontent'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -209,6 +210,7 @@ onMounted(async () => {
 
     <h1 class="view-h1">{{ $t('view-mmt-h1') }}</h1>
     <p>{{ $t('view-mmt-stu-id-p') }}{{ $route.params.charId }}</p>
+    <CharacterSheet :is-mmt="true" :char-id="String(route.params.charId)" />
     <PvDivider />
 
     <PvAccordion :value="mmtStatus" multiple>

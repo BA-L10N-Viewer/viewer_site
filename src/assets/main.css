@@ -228,11 +228,5 @@ table[class~=datasheet] .datasheet-title {
     background-color: #f5f7fa;
     font-weight: 700;
     text-align: center;
-    width: 2em;
-}
-
-@media screen and (max-width: 700px) {
-    table[class~=datasheet] .datasheet-title {
-        width: 2em;
-    }
+    width: 4em;
 }

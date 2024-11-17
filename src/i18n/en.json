@@ -154,6 +154,13 @@
   "comp-scenario-datasheet-status-unreleased": "Unreleased",
   "comp-scenario-datasheet-status-unknown": "Unknown",
 
+  "comp-char-datasheet-item-1": "Avatar",
+  "comp-char-datasheet-item-2": "Memorial/L2D Story",
+  "comp-char-datasheet-item-3": "Name",
+  "comp-char-datasheet-item-4": "School",
+  "comp-char-datasheet-item-5": "Club",
+  "comp-char-datasheet-enter-l2d": "View Memorial/L2D Story",
+
   "comp-scenario-dialogue-info-btn-baio-popup": "Go to the story on blue-archive.io",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io hasn't supported this type of story!",
 

@@ -24,6 +24,7 @@ import { useSearchVars } from '@/stores/search'
 import PvSelect from 'primevue/select'
 import PvFluid from 'primevue/fluid'
 import PvDivider from 'primevue/divider'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 
 const selectType = ref('')
 const i18n = useI18n()
@@ -513,13 +514,13 @@ watch(
     <div v-else-if="selectType === 'bond'">
       <div v-loading="!dataSelectBondLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <p v-if="selectBondChar">
-          <img :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`">
-        </p>
-        <div :key="uiLang + '_' + selectBondChar">
-          <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
-                                   v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
-        </div>
+        <template v-if="selectBondChar">
+          <CharacterSheet :is-mmt="false" :char-id="selectBondChar" />
+          <div :key="uiLang + '_' + selectBondChar">
+            <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+                                     v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
+          </div>
+        </template>
       </div>
     </div>
     <div v-else-if="selectType === 'main'">
