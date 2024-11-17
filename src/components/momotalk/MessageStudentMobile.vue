@@ -47,6 +47,22 @@ let ML_table: Ref<MlForMomotalk> = ref(inject('ML_table') as any)
 const mmtEntryPos = inject('mmtEntryPos') as number
 const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
 // ------------------------------------------------------
+
+// --------------------- UTILITY FUNCTION ---------------------
+function removeHtmlImgTag(text: string) {
+  const regexImg = /<img.*?\/?>/gi
+  return text.replaceAll(regexImg, '')
+}
+
+function extractHtmlImgTag(text: string) {
+  const regexImg = /<img.*?\/?>/gi
+  const result = text.match(regexImg)
+  if (result && result.length !== 0)
+    return result.join('<br />') + '<br />'
+  return ''
+}
+
+// ------------------------------------------------------------
 </script>
 
 <template>
@@ -68,14 +84,17 @@ const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
   </td>
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
+    <div v-html="extractHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja')))"></div>
     <div v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx"
          :class="getClassDialogueSensei(dialogueType)"
          :lang="i18nToUiLangAll[langIdx]">
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <DialogueTranslated
-          :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[langIdx])))"
-          :content-translated="convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue'])" />
-        <hr class="mobile-lang-hr" v-if="!(idx + 1 == numberOfSelectedLangForMobile)" />
+          :content-original="removeHtmlImgTag(convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))))"
+          :content-translated="removeHtmlImgTag(convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue']))"
+          :is_br="removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
+        <hr class="mobile-lang-hr"
+            v-if="!(idx + 1 == numberOfSelectedLangForMobile) && removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
       </template>
     </div>
   </td>
