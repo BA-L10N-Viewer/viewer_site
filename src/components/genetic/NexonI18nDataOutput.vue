@@ -78,7 +78,7 @@ const dataLangProcessed = computed(() => {
         <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
           <template v-if="i18nLangAll[langIdx] as string !== 'null'">
             <li :lang="i18nToUiLangAll[langIdx]">
-              <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[langIdx]] }}</span>
+              <span>{{ data[i18nLangAll[langIdx]] }}</span>
             </li>
           </template>
         </template>
@@ -87,7 +87,7 @@ const dataLangProcessed = computed(() => {
       <template v-else>
         <template v-for="(lang, idx) in dataLangProcessed" :key="idx">
           <li :lang="NexonLangMap[lang]">
-            <span :class="{'clamped-text': enableTextLineClamp}">{{ (data as any)[lang] }}</span>
+            <span>{{ (data as any)[lang] }}</span>
           </li>
         </template>
       </template>
@@ -98,6 +98,9 @@ const dataLangProcessed = computed(() => {
 <style scoped>
 span {
   display: inline-block;
+}
+li span {
+  display: revert;
 }
 
 .clamped-text {
