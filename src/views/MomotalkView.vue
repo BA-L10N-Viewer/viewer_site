@@ -158,7 +158,7 @@ function scrollToDesignatedElement(eleId: string) {
       left: 0, top: targetHeightOffset, behavior: 'smooth'
     })
 
-    console.log(targetHeightOffset)
+    // console.log(targetHeightOffset)
   }
 }
 
@@ -171,7 +171,7 @@ async function scrollToMmtByUrlHashtag() {
   await nextTick()
 
   scrollToDesignatedElement(`mmt-story-h2-title-${urlHashStoryId}`)
-  console.log(`mmt-story-h2-title-${urlHashStoryId}`)
+  // console.log(`mmt-story-h2-title-${urlHashStoryId}`)
 }
 
 onMounted(async () => {

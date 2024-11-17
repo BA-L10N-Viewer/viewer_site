@@ -19,13 +19,6 @@ const i18n = useI18n()
 
 const dialogSettingVisible = ref(false)
 
-watch(
-  dialogSettingVisible,
-  () => {
-    console.log(dialogSettingVisible.value)
-  }
-)
-
 document.getElementsByTagName('body')[0].lang = setting.ui_lang
 </script>
 

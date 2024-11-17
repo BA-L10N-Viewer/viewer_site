@@ -309,7 +309,7 @@ function loadMainOtherDataStory() {
     })
   }
   dataSelectMainCurrStory.value = temp
-  console.log(temp)
+  // console.log(temp)
 
   dataSelectMainCurrLoaded.value = true
 }
@@ -380,7 +380,7 @@ watch(
 watch(
   () => selectMainChapter.value,
   (newValue) => {
-    console.log(newValue)
+    // console.log(newValue)
 
     dataSelectMainCurrLoaded.value = false
     if (newValue !== '') {
