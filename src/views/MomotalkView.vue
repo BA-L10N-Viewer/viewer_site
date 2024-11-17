@@ -214,7 +214,7 @@ onMounted(async () => {
     <PvAccordion :value="mmtStatus" multiple>
       <PvAccordionPanel v-for="(data, index) in mmtData" :key="index" :value="index">
         <PvAccordionHeader :id="`mmt-story-h2-title-${index}`">
-          <div style="text-align: left; color: black;">
+          <div style="text-align: left; color: black; font-size: 1.2em;">
             <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
                             :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
             <span>&nbsp;&nbsp;</span>
