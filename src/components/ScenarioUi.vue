@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { onMounted, type Ref, ref, watch, provide, onUpdated, computed } from 'vue'
-import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER, NexonLangMap, paginationScenarioControl } from '@/tool/Constant'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
 import ScenarioDialogue from '@/components/scenario/ScenarioDialogue.vue'
-import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedData'
+import {
+  type I18nStoryXxhashToL10nData,
+  type NexonL10nData,
+  NexonL10nDataLang as NexonL10nDataLangConst, type RelatedScenarioInfoData, type RelatedScenarioParentInfoData,
+  type StudentInfoDataSimple
+} from '@/types/OutsourcedData'
 import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
@@ -17,38 +22,73 @@ import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/M
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 
 import PvPaginator from 'primevue/paginator'
+import { getScenarioI18nContent } from '@/tool/StoryTool'
+import ScenarioSheet from '@/components/scenario/ScenarioSheet.vue'
+import PvDivider from 'primevue/divider'
+import {
+  getScenarioDataStatus,
+  inferScenarioMainCategoryById,
+  inferScenarioTypeById,
+  type ScenarioParentData, type ScenarioParentDataBond, type ScenarioParentDataEvent, type ScenarioParentDataMain
+} from '@/tool/components/Scenario'
 
-// --------------------- I18N ---------------------
+// ------------------------------------------------
 const setting = useSetting()
-const i18nL1: Ref = ref(setting.i18n_lang1)
-const i18nL2: Ref = ref(setting.i18n_lang2)
-const i18nL3: Ref = ref(setting.i18n_lang3)
-const langL1: Ref = ref(NexonLangMap[i18nL1.value])
-const langL2: Ref = ref(NexonLangMap[i18nL2.value])
-const langL3: Ref = ref(NexonLangMap[i18nL3.value])
-watch(
-  () => {
-    return [setting.i18n_lang1, setting.i18n_lang2, setting.i18n_lang3]
-  },
-  () => {
-    i18nL1.value = setting.i18n_lang1
-    i18nL2.value = setting.i18n_lang2
-    i18nL3.value = setting.i18n_lang3
-    langL1.value = NexonLangMap[i18nL1.value]
-    langL2.value = NexonLangMap[i18nL2.value]
-    langL3.value = NexonLangMap[i18nL3.value]
-  },
-  { immediate: true }
-)
-// ------------------------------------------------
-
-// ------------------------------------------------
 const router = useRoute()
 const screenWidth = useWindowSize().width
 
 let scenarioData: CommonStoryDataDialog[] = [] as unknown as CommonStoryDataDialog[]
 let scenarioChar: IndexScenarioCharacterData = {} as unknown as IndexScenarioCharacterData
+let scenarioNameDesc: NexonL10nData[] = [] as unknown as NexonL10nData[]
+let bondStuInfo: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
+let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = {} as unknown as RelatedScenarioParentInfoData
+let scenarioRelatedData: RelatedScenarioInfoData = {} as unknown as RelatedScenarioInfoData
+let i18nStoryData: I18nStoryXxhashToL10nData = {} as unknown as I18nStoryXxhashToL10nData
 const isAllDataLoaded = ref(false)
+
+const scenarioID = computed(() => String(useRoute().params.storyId))
+const scenarioParentData = computed<ScenarioParentData>(() => {
+  const type1 = inferScenarioTypeById(scenarioID.value)
+  const type2 = type1 === 'main' ? inferScenarioMainCategoryById(scenarioID.value) : type1
+
+  if (type1 === 'main') {
+    const pos1 = scenarioRelatedData['main'][2][0]
+    const pos2 = scenarioRelatedData['main'][2][1]
+    if (type2 === 'main') {
+      return {
+        Type: type1,
+        Data: {
+          Category: type2,
+          VolumeName: i18nStoryData[scenarioRelatedParentInfo[`main_${pos1}`][0]],
+          ChapterName: i18nStoryData[scenarioRelatedParentInfo[`main_${pos1}_${pos2}`][0]]
+        }
+      } as ScenarioParentDataMain
+    } else
+      return {
+        Type: type1,
+        Data: {
+          Category: type2,
+          ChapterName: i18nStoryData[scenarioRelatedParentInfo[`main_${pos1}_${pos2}`][0]]
+        }
+      } as ScenarioParentDataMain
+  } else if (type1 === 'bond')
+    return {
+      Type: type1,
+      Data: {
+        CharId: scenarioID.value.slice(0, 5),
+        CharName: bondStuInfo[scenarioID.value.slice(0, 5)]['Name']
+      }
+    } as ScenarioParentDataBond
+  else {
+    return {
+      Type: type1,
+      Data: {
+        EventId: scenarioRelatedData['event'][scenarioID.value][2][0],
+        EventName: i18nStoryData[scenarioRelatedParentInfo[`event_${scenarioRelatedData['event'][scenarioID.value][2][0]}`][0]]
+      }
+    } as ScenarioParentDataEvent
+  }
+})
 
 function getCharName(entry: CommonStoryDataDialog) {
   const charId = String(entry.CharacterId)
@@ -60,8 +100,6 @@ function getCharName(entry: CommonStoryDataDialog) {
     return scenarioChar['-1']
   }
 }
-
-// ------------------------------------------------
 
 // --------------------- PAGINATION CONFIG ---------------------
 const pagination_length = ref(0)
@@ -214,7 +252,14 @@ provide('ML_in_progress', ML_in_progress)
 onMounted(async () => {
   await Promise.allSettled([
     httpGetJsonAsync(scenarioData, `/data/story/normal/${router.params.storyId}.json`),
-    httpGetJsonAsync(scenarioChar, `/data/common/index_scenario_char.json`)
+    httpGetJsonAsync(scenarioChar, `/data/common/index_scenario_char.json`),
+    httpGetJsonAsync(bondStuInfo, `/data/common/index_stu.json`),
+    httpGetJsonAsync(scenarioRelatedParentInfo, `/data/common/index_related_manifest_parent.json`),
+    httpGetJsonAsync(scenarioRelatedData, `/data/common/index_related_manifest_scenario.json`),
+    httpGetJsonAsync(i18nStoryData, '/data/story/i18n/i18n_story.json'),
+    (async () => {
+      scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+    })()
   ])
   initMlData()
   initPagination()
@@ -228,6 +273,13 @@ onMounted(async () => {
     <h2>Loading...</h2>
   </div>
   <div v-if="isAllDataLoaded">
+    <h2>{{ $t('comp-scenario-datasheet-name') }}</h2>
+    <ScenarioSheet :scenario-desc="scenarioNameDesc[1]" :scenario-name="scenarioNameDesc[0]"
+                   :scenario-id="String(scenarioID)"
+                   :parent-data="scenarioParentData"
+                   :data-status="getScenarioDataStatus(scenarioData[0].Message)" />
+    <PvDivider />
+
     <a ref="htmlAnchorMainTableTop"></a>
     <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
            id="scnario-main-table">

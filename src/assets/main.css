@@ -210,3 +210,29 @@ rt {font-size:0.8em}
         margin: revert;
     }
 }
+
+/* Datasheets */
+table[class~=datasheet] {
+    width: 100%;
+    border: 1px solid grey;
+    border-collapse: collapse;
+}
+table[class~=datasheet] td {
+    border: 1px solid #e5e7eb;
+}
+table[class~=datasheet] td {
+    padding: 8px 11px;
+}
+table[class~=datasheet] .datasheet-title {
+    color: #606266;
+    background-color: #f5f7fa;
+    font-weight: 700;
+    text-align: center;
+    width: 2em;
+}
+
+@media screen and (max-width: 700px) {
+    table[class~=datasheet] .datasheet-title {
+        width: 2em;
+    }
+}

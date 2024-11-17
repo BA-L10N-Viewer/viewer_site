@@ -3,31 +3,22 @@ import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { ref, onMounted } from 'vue'
 import ScenarioUi from '@/components/ScenarioUi.vue'
 import { useRoute } from 'vue-router'
-import { getScenarioI18nContent } from '@/tool/StoryTool'
-import type { NexonL10nData } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import ScenarioDatasheet from '@/components/ScenarioDatasheet.vue'
 
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
-import PvDivider from 'primevue/divider'
+
 
 const props = defineProps({
   storyId: Number
 })
 
 const showI18nSettingDialog = ref(false)
-const scenarioID = useRoute().params.storyId
 
 const isLoading = ref(true)
-let scenarioNameDesc: NexonL10nData[] = [] as any
 
-async function loadEverything() {
-  scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID)) as NexonL10nData[]
-}
 
 onMounted(async () => {
-  await loadEverything()
   isLoading.value = false
 })
 
@@ -58,10 +49,6 @@ ML_pinia.initAll()
     </Teleport>
 
     <h1>{{ $t('view-scenario-h1') }}</h1>
-    <ScenarioDatasheet :story-desc="scenarioNameDesc[1]" :story-name="scenarioNameDesc[0]"
-                       :story-id="Number(scenarioID)" />
-    <PvDivider />
-
     <ScenarioUi />
   </div>
 </template>
