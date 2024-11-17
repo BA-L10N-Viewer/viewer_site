@@ -11,6 +11,7 @@ import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
 import PvDivider from 'primevue/divider'
 import SettingDialog from '@/components/setting/SettingDialog.vue'
+import DataVersionDisplay from '@/components/DataVersionDisplay.vue'
 
 
 const setting = useSetting()
@@ -74,7 +75,8 @@ document.getElementsByTagName('body')[0].lang = setting.ui_lang
       <small>We do not own any in-game data. See <a href="javascript: void 0" @click="router.push({name: 'about'})">here</a>
         for details.</small><br />
       <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with CDN
-        from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small>
+        from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small><br />
+      <small><DataVersionDisplay :verbose="false" /></small>
       <br /><br />
     </footer>
   </div>

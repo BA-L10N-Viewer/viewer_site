@@ -182,5 +182,9 @@
   "char-voice-ui-select-tab-lobby": "大厅",
   "char-voice-ui-select-tab-battle": "战斗",
   "char-voice-ui-select-tab-event": "活动",
-  "char-voice-ui-select-source-schaledb": "SchaleDB"
+  "char-voice-ui-select-source-schaledb": "SchaleDB",
+
+  "comp-data-version-data": "数据更新时间",
+  "comp-data-version-site": "网站更新时间",
+  "comp-data-version-info": "版本信息"
 }

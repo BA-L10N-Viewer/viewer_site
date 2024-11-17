@@ -17,6 +17,7 @@ declare module 'vue' {
     CharVoiceSchaleDbContent: typeof import('./src/components/voice/CharVoiceSchaleDbContent.vue')['default']
     CharVoiceSchaleDbUi: typeof import('./src/components/voice/CharVoiceSchaleDbUi.vue')['default']
     CharVoiceUi: typeof import('./src/components/voice/CharVoiceUi.vue')['default']
+    DataVersionDisplay: typeof import('./src/components/DataVersionDisplay.vue')['default']
     DialogueDesktopAuto: typeof import('./src/components/scenario/desktop/DialogueDesktopAuto.vue')['default']
     DialogueDesktopNormal: typeof import('./src/components/scenario/desktop/DialogueDesktopNormal.vue')['default']
     DialogueDesktopOption: typeof import('./src/components/scenario/desktop/DialogueDesktopOption.vue')['default']
