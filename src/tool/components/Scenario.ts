@@ -29,6 +29,20 @@ export type ScenarioParentData = ScenarioParentDataMain | ScenarioParentDataBond
 export type ScenarioParentDataType = ScenarioParentData['Type']
 export type ScenarioParentDataMainCategory = ScenarioParentDataMain['Data']['Category']
 
+/* RELATED SCENARIO DATA */
+export type ScenarioRelatedStoryData = {
+  Prev: {
+    Id: number | null;
+    Name: NexonL10nData | null;
+    PosString: string | null;
+  },
+  Next: {
+    Id: number | null;
+    Name: NexonL10nData | null;
+    PosString: string | null;
+  }
+}
+
 
 export function inferScenarioTypeById(scenarioId: number | string): ScenarioParentDataType {
   const temp = String(scenarioId)
@@ -72,8 +86,7 @@ export function getScenarioDataStatus(data: NexonL10nData): ScenarioDataStatusTy
       result.push('released')
     else
       result.push('unknown')
-  }
-  else
+  } else
     result.push('unreleased')
 
   return result

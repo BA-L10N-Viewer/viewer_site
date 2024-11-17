@@ -42,6 +42,7 @@ declare module 'vue' {
     ScenarioDatasheet: typeof import('./src/components/ScenarioDatasheet.vue')['default']
     ScenarioDialogue: typeof import('./src/components/scenario/ScenarioDialogue.vue')['default']
     ScenarioIsAfterBattleBadge: typeof import('./src/components/genetic/ScenarioIsAfterBattleBadge.vue')['default']
+    ScenarioRelatedStory: typeof import('./src/components/scenario/ScenarioRelatedStory.vue')['default']
     ScenarioSearch: typeof import('./src/components/search/ScenarioSearch.vue')['default']
     ScenarioSearchEntryBond: typeof import('./src/components/search/ScenarioSearchEntryBond.vue')['default']
     ScenarioSearchEntryEvent: typeof import('./src/components/search/ScenarioSearchEntryEvent.vue')['default']

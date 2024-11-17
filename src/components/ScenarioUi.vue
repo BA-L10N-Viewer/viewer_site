@@ -22,15 +22,21 @@ import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/M
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 
 import PvPaginator from 'primevue/paginator'
-import { getScenarioI18nContent } from '@/tool/StoryTool'
+import { getScenarioExtraDataById, getScenarioI18nContent } from '@/tool/StoryTool'
 import ScenarioSheet from '@/components/scenario/ScenarioSheet.vue'
 import PvDivider from 'primevue/divider'
 import {
   getScenarioDataStatus,
   inferScenarioMainCategoryById,
   inferScenarioTypeById,
-  type ScenarioParentData, type ScenarioParentDataBond, type ScenarioParentDataEvent, type ScenarioParentDataMain
+  type ScenarioParentData,
+  type ScenarioParentDataBond,
+  type ScenarioParentDataEvent,
+  type ScenarioParentDataMain,
+  type ScenarioRelatedStoryData
 } from '@/tool/components/Scenario'
+import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 // ------------------------------------------------
 const setting = useSetting()
@@ -44,16 +50,17 @@ let bondStuInfo: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
 let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = {} as unknown as RelatedScenarioParentInfoData
 let scenarioRelatedData: RelatedScenarioInfoData = {} as unknown as RelatedScenarioInfoData
 let i18nStoryData: I18nStoryXxhashToL10nData = {} as unknown as I18nStoryXxhashToL10nData
+let scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
 const isAllDataLoaded = ref(false)
 
-const scenarioID = computed(() => String(useRoute().params.storyId))
+const scenarioID = ref(String(router.params.storyId))
 const scenarioParentData = computed<ScenarioParentData>(() => {
   const type1 = inferScenarioTypeById(scenarioID.value)
   const type2 = type1 === 'main' ? inferScenarioMainCategoryById(scenarioID.value) : type1
 
   if (type1 === 'main') {
-    const pos1 = scenarioRelatedData['main'][2][0]
-    const pos2 = scenarioRelatedData['main'][2][1]
+    const pos1 = scenarioRelatedData['main'][scenarioID.value][2][0]
+    const pos2 = scenarioRelatedData['main'][scenarioID.value][2][1]
     if (type2 === 'main') {
       return {
         Type: type1,
@@ -89,6 +96,50 @@ const scenarioParentData = computed<ScenarioParentData>(() => {
     } as ScenarioParentDataEvent
   }
 })
+
+async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> {
+  const scenarioType = inferScenarioTypeById(scenarioID.value)
+  const currData = scenarioRelatedData[scenarioType][scenarioID.value]
+
+  const [prevId, nextId] = currData[0]
+
+  let prevData: NexonL10nData[] = []
+  let nextData: NexonL10nData[] = []
+  let prevName: NexonL10nData | null = null
+  let prevPosString: string | null = null
+  let nextName: NexonL10nData | null = null
+  let nextPosString: string | null = null
+
+  if (prevId) {
+    prevData = await getScenarioI18nContent(Number(prevId)) as NexonL10nData[]
+    prevName = prevData[0]
+
+    const temp = getScenarioExtraDataById(Number(prevId))
+    if (scenarioType === 'main')
+      prevPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
+    else
+      prevPosString = `${temp.actualScenarioNo}`
+  }
+  if (nextId) {
+    nextData = await getScenarioI18nContent(Number(nextId)) as NexonL10nData[]
+    nextName = nextData[0]
+
+    const temp = getScenarioExtraDataById(Number(nextId))
+    if (scenarioType === 'main')
+      nextPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
+    else
+      nextPosString = `${temp.actualScenarioNo}`
+  }
+
+  console.log({
+    Prev: { Id: prevId, Name: prevName, PosString: prevPosString },
+    Next: { Id: nextId, Name: nextName, PosString: nextPosString }
+  })
+  return {
+    Prev: { Id: prevId, Name: prevName, PosString: prevPosString },
+    Next: { Id: nextId, Name: nextName, PosString: nextPosString }
+  }
+}
 
 function getCharName(entry: CommonStoryDataDialog) {
   const charId = String(entry.CharacterId)
@@ -259,8 +310,27 @@ onMounted(async () => {
     httpGetJsonAsync(i18nStoryData, '/data/story/i18n/i18n_story.json'),
     (async () => {
       scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })()
   ])
+  initMlData()
+  initPagination()
+
+  isAllDataLoaded.value = true
+})
+
+onBeforeRouteUpdate(async (to, from) => {
+  scenarioID.value = String(to.params.storyId)
+
+  isAllDataLoaded.value = false
+  await Promise.allSettled([
+    httpGetJsonAsync(scenarioData, `/data/story/normal/${scenarioID.value}.json`),
+    (async () => {
+      scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
+    })()
+  ])
+
   initMlData()
   initPagination()
 
@@ -280,6 +350,13 @@ onMounted(async () => {
                    :data-status="getScenarioDataStatus(scenarioData[0].Message)" />
     <PvDivider />
 
+    <ScenarioRelatedStory :prev-id="scenarioRelatedStoryData.Prev.Id"
+                          :prev-name="scenarioRelatedStoryData.Prev.Name"
+                          :prev-pos-string="scenarioRelatedStoryData.Prev.PosString"
+                          :next-id="scenarioRelatedStoryData.Next.Id"
+                          :next-name="scenarioRelatedStoryData.Next.Name"
+                          :next-pos-string="scenarioRelatedStoryData.Next.PosString"
+                          :key="scenarioID" />
     <a ref="htmlAnchorMainTableTop"></a>
     <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
            id="scnario-main-table">
@@ -326,6 +403,14 @@ onMounted(async () => {
         Total: {{ pagination_length }}
       </template>
     </PvPaginator>
+    <br />
+    <ScenarioRelatedStory :prev-id="scenarioRelatedStoryData.Prev.Id"
+                          :prev-name="scenarioRelatedStoryData.Prev.Name"
+                          :prev-pos-string="scenarioRelatedStoryData.Prev.PosString"
+                          :next-id="scenarioRelatedStoryData.Next.Id"
+                          :next-name="scenarioRelatedStoryData.Next.Name"
+                          :next-pos-string="scenarioRelatedStoryData.Next.PosString"
+                          :key="scenarioID" />
   </div>
 </template>
 
