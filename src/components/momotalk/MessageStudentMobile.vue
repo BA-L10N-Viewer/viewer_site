@@ -67,7 +67,7 @@ const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
     </div>
   </td>
   <td
-    :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
+    :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
     <div v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx"
          :class="getClassDialogueSensei(dialogueType)"
          :lang="i18nToUiLangAll[langIdx]">

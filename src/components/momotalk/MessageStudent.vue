@@ -71,7 +71,7 @@ const setting = useSetting()
     </div>
   </td>
   <td
-    :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-bg-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
+    :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
     <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
       <DialogueTranslated :content-original="convertMmtMsgToHtml(dialogueContentDecorated)"
                           :content-translated="convertMmtMsgToHtml(dialogueContentTranslated)" />

@@ -92,16 +92,12 @@
 }
 
 /* DialogueStudentXxx */
-.momotalk-dialogue-bg-white {
-    background-color: white;
+.momotalk-dialogue-text-green {
+    color: rgba(34, 139, 34);
 }
 
-.momotalk-dialogue-bg-green {
-    background-color: rgba(34, 139, 34, 0.8);
-}
-
-.momotalk-dialogue-bg-blue {
-    background-color: rgba(18, 138, 250, 0.7);
+.momotalk-dialogue-text-blue {
+    color: rgba(18, 138, 250);
 }
 
 .momotalk-dialogue-sensei {
