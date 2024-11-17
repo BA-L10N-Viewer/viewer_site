@@ -166,4 +166,41 @@ export type SchaleDbStuInfoFull = {
   Name: SchaleDbL10nData;
 }
 
+/* index_related_manifest_parent.json 父项信息 */
+export type RelatedScenarioParentInfoDataEntry = [number, number]
+export type RelatedScenarioParentInfoData = Record<string, RelatedScenarioParentInfoDataEntry>
 
+/* index_related_manifest_scenario.json Scenario->父项信息 */
+export type RelatedScenarioInfoDataEntryMain = [
+  [null | number, null | number], // 上一故事ID，下一故事ID
+  number,                         // 当前故事pos 0-indexed
+  [string, string]                // 父项信息key
+]
+export type RelatedScenarioInfoDataEntryEvent = [
+  [null | number, null | number], // 上一故事ID，下一故事ID
+  number,                         // 当前故事pos 0-indexed
+  [string]                        // 父项信息key [活动ID]
+]
+export type RelatedScenarioInfoDataEntryBond = [
+  [null | number, null | number], // 上一故事ID，下一故事ID
+  number,                         // 当前故事pos 0-indexed
+  [string]                        // 父项信息key [人物ID]
+]
+export type RelatedScenarioInfoDataEntry =
+  RelatedScenarioInfoDataEntryMain
+  | RelatedScenarioInfoDataEntryEvent
+  | RelatedScenarioInfoDataEntryBond
+
+export type RelatedScenarioInfoData = {
+  main: Record<string, RelatedScenarioInfoDataEntryMain>,
+  bond: Record<string, RelatedScenarioInfoDataEntryBond>,
+  event: Record<string, RelatedScenarioInfoDataEntryEvent>,
+}
+
+/* data/common/schale/localization.json */
+export type SchaleDbI18nDictData = {
+  School: Record<string, SchaleDbL10nData>,
+  Club: Record<string, SchaleDbL10nData>,
+  VoiceClipGroup: Record<'Normal' | 'Lobby' | 'Battle' | 'Event', SchaleDbL10nData>,
+  VoiceClip: Record<string, string>
+}

@@ -75,10 +75,10 @@
 
   "search-mmt-input": "Enter Character Name (multi-lang, full-text support) ",
   "search-mmt-h3": "Search Result",
-  "search-mmt-h1": "Search by Character",
+  "search-mmt-h1": "<font style=\"color: var(--color-ba-logo)\">Character</font> Search",
   "search-mmt-force-show": "Force show result?",
 
-  "search-h1": "Advanced Search",
+  "search-h1": "<font style=\"color: var(--color-ba-logo)\">Advanced</font> Search",
   "search-step-1": "First, select the <b>Story Type</b>: ",
   "search-step-2": "Then, use <b>filter</b> to filter the result: ",
   "search-cascader-story": "Normal Story",
@@ -139,12 +139,30 @@
   "comp-scenario-datasheet-item-2": "Story Category",
   "comp-scenario-datasheet-item-3": "Story Name",
   "comp-scenario-datasheet-item-4": "Story Description",
-  "comp-scenario-sheet-type-bond": "Bond/Personal Story",
-  "comp-scenario-sheet-type-main": "Main Story",
-  "comp-scenario-sheet-type-side": "Club/Side Story",
-  "comp-scenario-sheet-type-short": "Short Story",
-  "comp-scenario-sheet-type-other": "Other Story",
-  "comp-scenario-sheet-type-event": "Event Story",
+  "comp-scenario-datasheet-item-5": "Data Status",
+  "comp-scenario-datasheet-item-6": "Parent Data",
+  "comp-scenario-datasheet-parent-main-volume": "Volume Name",
+  "comp-scenario-datasheet-parent-main-chapter": "Chapter Name",
+  "comp-scenario-datasheet-type-bond": "Bond/Personal Story",
+  "comp-scenario-datasheet-type-main": "Main Story",
+  "comp-scenario-datasheet-type-side": "Club/Side Story",
+  "comp-scenario-datasheet-type-short": "Short Story",
+  "comp-scenario-datasheet-type-other": "Other Story",
+  "comp-scenario-datasheet-type-event": "Event Story",
+  "comp-scenario-datasheet-status-title-0": "JP Server",
+  "comp-scenario-datasheet-status-title-1": "Global Server",
+  "comp-scenario-datasheet-status-title-2": "CN Server",
+  "comp-scenario-datasheet-status-released": "Released",
+  "comp-scenario-datasheet-status-unreleased": "Unreleased",
+  "comp-scenario-datasheet-status-unknown": "Unknown",
+
+  "comp-char-datasheet-item-1": "Avatar",
+  "comp-char-datasheet-item-2": "Memorial/L2D Story",
+  "comp-char-datasheet-item-3": "Name",
+  "comp-char-datasheet-item-4": "School",
+  "comp-char-datasheet-item-5": "Club",
+  "comp-char-datasheet-enter-l2d": "View Memorial/L2D Story",
+
   "comp-scenario-dialogue-info-btn-baio-popup": "Go to the story on blue-archive.io",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io hasn't supported this type of story!",
 
@@ -164,5 +182,9 @@
   "char-voice-ui-select-tab-lobby": "Lobby",
   "char-voice-ui-select-tab-battle": "Battle",
   "char-voice-ui-select-tab-event": "Event",
-  "char-voice-ui-select-source-schaledb": "SchaleDB"
+  "char-voice-ui-select-source-schaledb": "SchaleDB",
+
+  "comp-data-version-data": "Data Update Time",
+  "comp-data-version-site": "Site Update Time",
+  "comp-data-version-info": "Version Info"
 }

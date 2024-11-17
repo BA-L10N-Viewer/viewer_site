@@ -7,6 +7,7 @@ import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
 import PvTag from 'primevue/tag'
+import PvButton from 'primevue/button'
 
 import { convertNexonCharVoiceNormalCategoryForTable } from '@/tool/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
@@ -14,6 +15,8 @@ import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import type { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import type { NexonCharVoiceNormalMtData } from '@/tool/CharVoiceMt'
 import { useI18n } from 'vue-i18n'
+import { useWindowSize } from '@vueuse/core'
+import { MOBILE_WIDTH } from '@/tool/Constant'
 
 const props = defineProps({
   dataVoice: {
@@ -29,6 +32,10 @@ const props = defineProps({
 const i18n = useI18n()
 
 const isLoading = ref(true)
+const isMobile = computed(() => {
+  const currWidth = useWindowSize().width.value
+  return currWidth <= MOBILE_WIDTH
+})
 const dataCharI18n = inject(symbolDataCharVoiceI18n)!
 
 const dataForTable = computed(
@@ -47,7 +54,13 @@ onMounted(async () => {
   <div v-else>
     <!-- Voice Data Start -->
     <template v-for="(voiceGroup, idx) in dataForTable" :key="idx">
-      <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}</h3>
+      <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}&nbsp;
+        <PvButton v-if="dataCharI18n[`NX.${voiceGroup.GroupId}.Extra`] !== ''"
+                  v-tooltip.hover.top="dataCharI18n[`NX.${voiceGroup.GroupId}.Extra`]"
+                  size="small" severity="secondary">
+          <i class="pi pi-question-circle"></i>
+        </PvButton>
+      </h3>
       <template v-for="(voiceEntry, idx2) in voiceGroup.Data" :key="idx2">
         <p><b>{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
         <PvDataTable :value="voiceEntry"
@@ -57,9 +70,13 @@ onMounted(async () => {
               {{ slotProps.data.CostumePos }}
             </template>
           </PvColumn>
-          <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')" style="width: calc(100% - 12em - 5%)">
+          <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')"
+                    style="width: 6em;"
+                    v-if="!isMobile" />
+          <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')"
+                    style="width: calc(100% - 12em - 5%)">
             <template #body="slotProps">
-              <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
+              <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
               <DialogueTranslated
                 :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi]?.[Number(slotProps.data.CostumePos)] || ''"
                 :content-original="slotProps.data.Transcription || 'null'" />

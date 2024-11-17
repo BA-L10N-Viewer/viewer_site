@@ -92,16 +92,12 @@
 }
 
 /* DialogueStudentXxx */
-.momotalk-dialogue-bg-white {
-    background-color: white;
+.momotalk-dialogue-text-green {
+    color: rgba(34, 139, 34);
 }
 
-.momotalk-dialogue-bg-green {
-    background-color: rgba(34, 139, 34, 0.8);
-}
-
-.momotalk-dialogue-bg-blue {
-    background-color: rgba(18, 138, 250, 0.7);
+.momotalk-dialogue-text-blue {
+    color: rgba(18, 138, 250);
 }
 
 .momotalk-dialogue-sensei {
@@ -170,4 +166,67 @@ rt {font-size:0.8em}
     /* Mimics the el-container behavior */
     margin-top: 60px;
     padding: 20px;
+}
+
+/* PvFluid 常用css classes */
+.pv-fluid {
+    display: flex;
+    flex-direction: row;
+}
+
+.pv-fluid-spacing {
+    height: 8px;
+}
+
+/* 搜索页 */
+.search-select-span-label {
+    width: 6rem;
+}
+
+.search-select-pv-select {
+    width: calc(100% - 6rem)
+}
+
+.search-h1 {
+    font-size: 4rem;
+    text-align: center
+}
+
+.search-h1 > i {
+    font-size: 4rem;
+}
+
+@media screen and (max-width: 700px) {
+    .search-h1 {
+        font-size: 3rem;
+    }
+
+    .search-h1 > i {
+        font-size: 3rem;
+    }
+
+    .search-select-div {
+        width: 100%;
+        margin: revert;
+    }
+}
+
+/* Datasheets */
+table[class~=datasheet] {
+    width: 100%;
+    border: 1px solid grey;
+    border-collapse: collapse;
+}
+table[class~=datasheet] td {
+    border: 1px solid #e5e7eb;
+}
+table[class~=datasheet] td {
+    padding: 8px 11px;
+}
+table[class~=datasheet] .datasheet-title {
+    color: #606266;
+    background-color: #f5f7fa;
+    font-weight: 700;
+    text-align: center;
+    width: 4em;
 }

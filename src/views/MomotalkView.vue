@@ -2,7 +2,7 @@
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
 import { onMounted, provide, type Ref, ref, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
-import { httpGetAsync } from '@/tool/HttpRequest'
+import { httpGetAsync, httpGetJsonAsync } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {
@@ -27,6 +27,7 @@ import PvAccordion from 'primevue/accordion'
 import PvAccordionPanel from 'primevue/accordionpanel'
 import PvAccordionHeader from 'primevue/accordionheader'
 import PvAccordionContent from 'primevue/accordioncontent'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
@@ -38,15 +39,20 @@ const props = defineProps({
 
 // ---------------------------------------
 const isLoading = ref(true)
-let mmtData: MomotalkStoryData = {} as unknown as MomotalkStoryData
+let mmtData: MomotalkStoryData = [] as unknown as MomotalkStoryData
 let charData: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
 let mmtI18nData: I18nBondInfoData = {} as unknown as I18nBondInfoData
 let charName: SchaleDbL10nData = {} as unknown as SchaleDbL10nData
+let bondL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 async function loadRemoteResource() {
-  mmtData = JSON.parse(await httpGetAsync(`/data/story/momotalk/${route.params.charId}.json`))
-  charData = JSON.parse(await httpGetAsync(`/data/common/index_stu.json`))
-  mmtI18nData = JSON.parse(await httpGetAsync(`/data/story/i18n/i18n_bond.json`))
+  await Promise.allSettled([
+    httpGetJsonAsync(mmtData, `/data/story/momotalk/${route.params.charId}.json`),
+    httpGetJsonAsync(charData, `/data/common/index_stu.json`),
+    httpGetJsonAsync(mmtI18nData, `/data/story/i18n/i18n_bond.json`),
+    httpGetJsonAsync(bondL2dData, `/data/common/index_momo_l2d.json`)
+  ])
+
   charName = charData[String(route.params.charId)]['Name']
 }
 
@@ -158,7 +164,7 @@ function scrollToDesignatedElement(eleId: string) {
       left: 0, top: targetHeightOffset, behavior: 'smooth'
     })
 
-    console.log(targetHeightOffset)
+    // console.log(targetHeightOffset)
   }
 }
 
@@ -171,7 +177,7 @@ async function scrollToMmtByUrlHashtag() {
   await nextTick()
 
   scrollToDesignatedElement(`mmt-story-h2-title-${urlHashStoryId}`)
-  console.log(`mmt-story-h2-title-${urlHashStoryId}`)
+  // console.log(`mmt-story-h2-title-${urlHashStoryId}`)
 }
 
 onMounted(async () => {
@@ -208,15 +214,16 @@ onMounted(async () => {
     </Teleport>
 
     <h1 class="view-h1">{{ $t('view-mmt-h1') }}</h1>
-    <p>{{ $t('view-mmt-stu-id-p') }}{{ $route.params.charId }}</p>
+    <CharacterSheet :is-mmt="true" :char-id="String(route.params.charId)" />
     <PvDivider />
 
     <PvAccordion :value="mmtStatus" multiple>
       <PvAccordionPanel v-for="(data, index) in mmtData" :key="index" :value="index">
         <PvAccordionHeader :id="`mmt-story-h2-title-${index}`">
-          <div style="text-align: left; color: black;">
+          <div style="text-align: left; color: black; font-size: 1.2em;">
             <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
-                            :data_l10n="mmtI18nData[data.BondScenarioId][0]" />
+                            :data_l10n="mmtI18nData[data.BondScenarioId][0]"
+                            :is_l2d="data.BondScenarioId === bondL2dData[String(charId)]" />
             <span>&nbsp;&nbsp;</span>
           </div>
         </PvAccordionHeader>

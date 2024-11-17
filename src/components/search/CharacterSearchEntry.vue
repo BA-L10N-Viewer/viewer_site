@@ -41,7 +41,7 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
     <ul style="font-size: 1.2rem">
       <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/momotalk/${char_id}`">{{ $t('char-search-tip2') }}</RouterLink></li>
       <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/${char_id}`">{{ $t('char-search-tip3') }}</RouterLink></li>
-      <li>{{ $t('char-search-tip1') }} <RouterLink :to="`/character/voice/${char_id}`">{{ $t('char-search-tip4') }}</RouterLink></li>
+      <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/voice/${char_id}`">{{ $t('char-search-tip4') }}</RouterLink></li>
     </ul>
   </li>
 </template>

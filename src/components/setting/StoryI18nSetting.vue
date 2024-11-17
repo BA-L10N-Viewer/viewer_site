@@ -11,7 +11,7 @@ import PvFluid from 'primevue/fluid'
 import PvSelect from 'primevue/select'
 import PvDivider from 'primevue/divider'
 import PvButton from 'primevue/button'
-import PvToggleButton from 'primevue/togglebutton'
+import PvSelectButton from 'primevue/selectbutton'
 
 const screenWidth = useWindowSize().width
 const isMobileWidth = computed(() => screenWidth.value <= MOBILE_WIDTH)
@@ -238,81 +238,33 @@ watch(
   <PvFluid>
     <div :class="!isMobileWidth ? 'grid grid-cols-3 gap-4' : ''">
       <div style="text-align: center">
-        <PvToggleButton
-          :off-label="i18n.t('comp-story-i18n-btn-showboth')"
-          :on-label="i18n.t('comp-story-i18n-btn-showauto')"
+        <PvSelectButton
+          :option-label="i => i18n.t(i.label)"
+          option-value="value"
+          :options="[{'label': 'comp-story-i18n-btn-showboth', 'value': false}, {'label': 'comp-story-i18n-btn-showauto', 'value': true}]"
           v-model="setting.auto_i18n_showauto" />
+
       </div>
       <div class="pv-fluid-spacing" v-show="isMobileWidth"></div>
       <div style="text-align: center">
-        <PvToggleButton
-          :off-label="i18n.t('comp-story-i18n-btn-autoviewmode')"
-          :on-label="i18n.t('comp-story-i18n-btn-forcemobile')"
+        <PvSelectButton
+          :option-label="i => i18n.t(i.label)"
+          option-value="value"
+          :options="[{'label': 'comp-story-i18n-btn-autoviewmode', 'value': false}, {'label': 'comp-story-i18n-btn-forcemobile', 'value': true}]"
           v-model="setting.ui_force_mobile" />
         <br />
       </div>
       <div class="pv-fluid-spacing" v-show="isMobileWidth"></div>
       <div style="text-align: center">
-        <PvToggleButton
-          :off-label="i18n.t('comp-story-i18n-btn-hidecharicon')"
-          :on-label="i18n.t('comp-story-i18n-btn-showcharicon')"
+        <PvSelectButton
+          :option-label="i => i18n.t(i.label)"
+          option-value="value"
+          :options="[{'label': 'comp-story-i18n-btn-hidecharicon', 'value': false}, {'label': 'comp-story-i18n-btn-showcharicon', 'value': true}]"
           v-model="setting.ui_show_char_icon" />
         <br />
       </div>
     </div>
   </PvFluid>
-
-  <!--
-  <div v-if="show_ml">
-    <el-row gutter="1" class="setting-row setting-row-connect-to-next">
-      <el-col :span="elRow8Span">
-        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
-                   @click="ML_update(1)"
-                   class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto-1') }}
-        </el-button>
-      </el-col>
-      <el-col :span="elRow8Span">
-        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
-                   @click="ML_update(2)"
-                   class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto-2') }}
-        </el-button>
-      </el-col>
-      <el-col :span="elRow8Span">
-        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
-                   @click="ML_update(3)"
-                   class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto-3') }}
-        </el-button>
-      </el-col>
-    </el-row>
-    <el-row gutter="1" class="setting-row">
-      <el-col :span="elRow12Span">
-        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
-                   @click="ML_update(4)"
-                   class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto-4') }}
-        </el-button>
-      </el-col>
-      <el-col :span="elRow12Span">
-        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS"
-                   @click="ML_update(5)"
-                   class="btn-auto-translate">
-          {{ $t('comp-story-i18n-btn-auto-5') }}
-        </el-button>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24">
-        <el-button :disabled="AUTO_TRANSLATE && AUTO_TRANSLATE_IN_PROGRESS" style="width: 100%"
-                   @click="ML_clearAll()">
-          {{ $t('comp-story-i18n-btn-clear') }}
-        </el-button>
-      </el-col>
-    </el-row>
-  </div>
-  -->
 </template>
 
 <style scoped>
