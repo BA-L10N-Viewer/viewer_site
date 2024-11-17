@@ -15,7 +15,7 @@ import type {
   NexonCharVoiceNormalEntry,
   NexonCharVoiceNormalGroup
 } from '@/types/OutsourcedDataVoice'
-import { getNexonL10nData } from '@/tool/StoryTool'
+import { convertNewlineToBr, getNexonL10nData } from '@/tool/StoryTool'
 
 /* -----------------------------------------------------
 *  CHARACTER VOICE (ENTRY)
@@ -62,7 +62,7 @@ export function convertNexonCharVoiceNormalEntryForTable(entry: NexonCharVoiceNo
         currCostume.push({
           Id: entry.Id,
           CostumePos: idx,
-          Transcription: text.join('<br />'),
+          Transcription: convertNewlineToBr(text.join('<br />')),
           TranscriptionLang: lang
         })
       }
@@ -84,7 +84,7 @@ export function convertNexonCharVoiceBattleEntryForTable(entry: NexonCharVoiceBa
     const text = getNexonL10nData(entry.Transcription, lang)
     result.push({
       Id: entry.Id,
-      Transcription: text,
+      Transcription: convertNewlineToBr(text),
       TranscriptionLang: lang
     })
   }
@@ -110,7 +110,7 @@ export function convertNexonCharVoiceEventEntryForTable(entry: NexonCharVoiceEve
       temp[currType].push({
         Id: entry.Id,
         EventType: currType,
-        Transcription: currText,
+        Transcription: convertNewlineToBr(currText),
         TranscriptionLang: lang
       })
     }
@@ -131,7 +131,7 @@ export function convertSchaleDbVoiceEntryForTable(entry: SchaleDbStuInfoFullVoic
       text = entry.Transcription[lang]
     result.push({
       Id: entry.Group,
-      Transcription: text,
+      Transcription: convertNewlineToBr(text),
       TranscriptionLang: lang
     })
   }

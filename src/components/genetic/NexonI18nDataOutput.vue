@@ -28,25 +28,27 @@ const props = defineProps({
 </script>
 
 <template>
-  <template v-if="htmlElementName === 'span'">
-    <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
-      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
-        <span :lang="i18nToUiLangAll[langIdx]"
-              :class="{'clamped-text': enableTextLineClamp}">
-          {{ data[i18nLangAll[langIdx]] }}
-        </span>
-        <span v-if="idx + 1 < listOfPosOfSelectedLangForMobile.length">&nbsp;/&nbsp;</span>
+  <template v-if="data">
+    <template v-if="htmlElementName === 'span'">
+      <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
+        <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+          <span :lang="i18nToUiLangAll[langIdx]"
+                :class="{'clamped-text': enableTextLineClamp}">
+            {{ data[i18nLangAll[langIdx]] }}
+          </span>
+          <span v-if="idx + 1 < listOfPosOfSelectedLangForMobile.length">&nbsp;/&nbsp;</span>
+        </template>
+
       </template>
-
     </template>
-  </template>
 
-  <template v-if="htmlElementName === 'li'">
-    <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
-      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
-        <li :lang="i18nToUiLangAll[langIdx]">
-          <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[langIdx]] }}</span>
-        </li>
+    <template v-if="htmlElementName === 'li'">
+      <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
+        <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+          <li :lang="i18nToUiLangAll[langIdx]">
+            <span :class="{'clamped-text': enableTextLineClamp}">{{ data[i18nLangAll[langIdx]] }}</span>
+          </li>
+        </template>
       </template>
     </template>
   </template>

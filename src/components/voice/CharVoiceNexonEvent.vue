@@ -65,7 +65,7 @@ onMounted(async () => {
   </div>
   <div v-else>
     <template v-for="(eventData, idx) in dataForTable" :key="idx">
-      <h2>{{ eventData.EventId }} - <NexonI18nDataOutput :data="i18nStory[indexEventI18n[`[STORY_EVENT_${eventData.EventId}_NAME]`]]" /></h2>
+      <h2 style="font-size: 1.5em">{{ eventData.EventId }} - <NexonI18nDataOutput :data="i18nStory[indexEventI18n[`[STORY_EVENT_${eventData.EventId}_NAME]`]]" /></h2>
       <template v-for="(groupData, idx2) in eventData.Data" :key="idx2">
         <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${groupData.GroupId}`] }}</h3>
         <template v-for="(entryData, idx3) in groupData.Data" :key="idx3">
