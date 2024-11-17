@@ -7,6 +7,7 @@ import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
 import PvTag from 'primevue/tag'
+import PvButton from 'primevue/button'
 
 import { convertNexonCharVoiceNormalCategoryForTable } from '@/tool/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
@@ -53,7 +54,13 @@ onMounted(async () => {
   <div v-else>
     <!-- Voice Data Start -->
     <template v-for="(voiceGroup, idx) in dataForTable" :key="idx">
-      <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}</h3>
+      <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}&nbsp;
+        <PvButton v-if="dataCharI18n[`NX.${voiceGroup.GroupId}.Extra`] !== ''"
+                  v-tooltip.hover.top="dataCharI18n[`NX.${voiceGroup.GroupId}.Extra`]"
+                  size="small" severity="secondary">
+          <i class="pi pi-question-circle"></i>
+        </PvButton>
+      </h3>
       <template v-for="(voiceEntry, idx2) in voiceGroup.Data" :key="idx2">
         <p><b>{{ dataCharI18n[`NX.${voiceGroup.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
         <PvDataTable :value="voiceEntry"
