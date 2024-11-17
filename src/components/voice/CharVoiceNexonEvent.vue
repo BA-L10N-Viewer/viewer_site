@@ -23,6 +23,8 @@ import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import PvTag from 'primevue/tag'
+import { useWindowSize } from '@vueuse/core'
+import { MOBILE_WIDTH } from '@/tool/Constant'
 
 const props = defineProps({
   dataVoice: {
@@ -38,6 +40,10 @@ const props = defineProps({
 const i18n = useI18n()
 
 const isLoading = ref(true)
+const isMobile = computed(() => {
+  const currWidth = useWindowSize().width.value
+  return currWidth <= MOBILE_WIDTH
+})
 const dataCharI18n = inject(symbolDataCharVoiceI18n)!
 
 const dataForTable = computed(
@@ -71,10 +77,13 @@ onMounted(async () => {
                 {{ $t(`comp-char-voice-nexon-event-type-${slotProps.data.EventType}`) }}
               </template>
             </PvColumn>
+            <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')"
+                      style="width: 6em;"
+                      v-if="!isMobile" />
             <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')"
                       style="width: calc(100% - 12em - 5%)">
               <template #body="slotProps">
-                <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
+                <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
                 <DialogueTranslated
                   :content-translated="dataVoiceMt[`${eventData.EventId}_${slotProps.data.Id}`]?.Transcription[slotProps.data.EventType! as NexonCharVoiceEventTranscriptionType]?.[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                   :content-original="slotProps.data.Transcription || 'null'" />
