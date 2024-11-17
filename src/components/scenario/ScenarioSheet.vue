@@ -36,11 +36,11 @@ const props = defineProps({
 
 const scenarioType = props.parentData?.Type === 'main' ? props.parentData?.Data.Category : props.parentData?.Type
 
-const isMobile = computed(() => useWindowSize().width.value >= MOBILE_WIDTH)
+const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
 </script>
 
 <template>
-  <table class="datasheet" v-if="isMobile">
+  <table class="datasheet" v-if="!isMobile">
     <tr>
       <td class="datasheet-title">{{ $t('comp-scenario-datasheet-item-3') }}</td>
       <td colspan="3">
