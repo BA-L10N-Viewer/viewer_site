@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { getStaticCdnBasepath, httpGetJsonAsync } from '@/tool/HttpRequest'
+import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
@@ -61,6 +61,7 @@ let dataEventScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenari
 let dataBondStudentName: StudentInfoDataSimple = {} as StudentInfoDataSimple
 let dataBondIndexMomotalkScenario: IndexMomotalkData = {} as IndexMomotalkData
 let dataBondScenarioI18n: I18nBondInfoData = {} as I18nBondInfoData
+let dataBondL2dData: Record<string, number> = {} as Record<string, number>
 let dataMainIndexManifest: IndexManifestScenarioData = {} as IndexManifestScenarioData
 let dataMainScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenarioInfoToI18nId
 let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXxhash
@@ -77,6 +78,7 @@ async function loadAllData() {
     httpGetJsonAsync(dataBondStudentName, `/data/common/index_stu.json`),
     httpGetJsonAsync(dataBondIndexMomotalkScenario, `/data/common/index_momo.json`),
     httpGetJsonAsync(dataBondScenarioI18n, `/data/story/i18n/i18n_bond.json`),
+    httpGetJsonAsync(dataBondL2dData, `/data/common/index_momo_l2d.json`),
 
     httpGetJsonAsync(dataMainIndexManifest, `/data/common/index_scenario_manifest_main.json`),
     httpGetJsonAsync(dataMainScenarioIdToI18nKey, `/data/common/index_scenario_i18n_main.json`),
@@ -518,6 +520,7 @@ watch(
           <CharacterSheet :is-mmt="false" :char-id="selectBondChar" />
           <div :key="uiLang + '_' + selectBondChar">
             <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+                                     :is-l2d="entry.id === dataBondL2dData[selectBondChar]"
                                      v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
           </div>
         </template>

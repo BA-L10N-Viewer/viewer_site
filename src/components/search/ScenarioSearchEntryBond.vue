@@ -15,6 +15,10 @@ const props = defineProps({
   char_id: {
     type: String,
     required: true
+  },
+  isL2d: {
+    type: Boolean,
+    required: true
   }
 })
 const mmtId = computed(() => props.data.id)
@@ -22,7 +26,7 @@ const mmtId = computed(() => props.data.id)
 
 <template>
   <h3>
-    <MomotalkHeader :data_mmtid="data.id" :data_no="data_no - 1" :data_l10n="data.data[0]"/>
+    <MomotalkHeader :data_mmtid="data.id" :data_no="data_no - 1" :data_l10n="data.data[0]" :is_l2d="isL2d"/>
   </h3>
   <ul>
     <li>{{ $t('comp-search-result-entry-bond-preposition') }} <RouterLink :to="`/momotalk/${char_id}#story-${data_no}`">{{ $t('comp-search-result-entry-bond-mmt') }}</RouterLink></li>
