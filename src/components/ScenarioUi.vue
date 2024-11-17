@@ -278,9 +278,4 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-th {
-  position: sticky;
-  top: 60px;
-  background: white;
-}
 </style>
