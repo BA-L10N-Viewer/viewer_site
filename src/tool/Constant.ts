@@ -199,3 +199,9 @@ export const menubarValue = [
     route: '/faq'
   }
 ]
+
+export const allLangcodeOfSchaleDbBySiteUiLang: Record<SiteUiLang, SchaleDbL10nDataLang[]> = {
+  en: ['g_en', 'j_ja', 'j_ko', 'g_th', 'g_tw', 'c_cn', 'c_zh'],
+  zh_CN: ['c_zh', 'g_tw_cn', 'c_cn', 'j_ja', 'j_ko', 'g_th', 'g_tw'],
+  zh_TW: ['c_zh_tw', 'g_tw', 'c_cn_tw', 'j_ja', 'j_ko', 'g_th', 'c_zh', 'c_cn']
+}

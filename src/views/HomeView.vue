@@ -1,35 +1,26 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useI18n } from 'vue-i18n'
 
 const screenWidth = useWindowSize().width
-const colSpanLeft = ref(16)
-const colSpanRight = ref(8)
+const isMobileWidth = computed(() => MOBILE_WIDTH >= screenWidth.value)
+
+const cssFlexRowForDiv1 = computed(() => !isMobileWidth.value ? 2 : 1)
 
 const { t } = useI18n()
-
-watch(screenWidth, () => {
-  if (screenWidth.value <= MOBILE_WIDTH) {
-    colSpanLeft.value = 24
-    colSpanRight.value = 24
-  } else {
-    colSpanLeft.value = 16
-    colSpanRight.value = 8
-  }
-}, { immediate: true })
 </script>
 
 <template>
-  <div style="display: flex">
-    <div style="flex: 2">
+  <div :style="isMobileWidth? '' :'display: flex'">
+    <div class="home-bulletin-div-group-1">
       <div class="home-bulletin-div">
-        <h1>{{ t('home-h1-1') }}</h1>
+        <h1>{{ $t('home-h1-1') }}</h1>
         <p v-html="t('home-p-1')"></p>
         <p v-html="t('home-p-2')"></p>
         <p v-html="t('home-p-3')"></p>
-        <h1>{{ t('home-h1-2') }}</h1>
+        <h1>{{ $t('home-h1-2') }}</h1>
         <p v-html="t('home-p-4')"></p>
       </div>
     </div>
@@ -52,5 +43,9 @@ watch(screenWidth, () => {
   margin: 10px;
   border: 1px solid var(--color-ba-logo);
   border-radius: 10px;
+}
+
+.home-bulletin-div-group-1 {
+  flex: v-bind(cssFlexRowForDiv1)
 }
 </style>

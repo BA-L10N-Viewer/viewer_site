@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { getStaticCdnBasepath, httpGetJsonAsync } from '@/tool/HttpRequest'
+import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
@@ -22,6 +22,9 @@ import type { HTMLOptionData } from '@/types/CommonType'
 import { useSearchVars } from '@/stores/search'
 
 import PvSelect from 'primevue/select'
+import PvFluid from 'primevue/fluid'
+import PvDivider from 'primevue/divider'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 
 const selectType = ref('')
 const i18n = useI18n()
@@ -58,6 +61,7 @@ let dataEventScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenari
 let dataBondStudentName: StudentInfoDataSimple = {} as StudentInfoDataSimple
 let dataBondIndexMomotalkScenario: IndexMomotalkData = {} as IndexMomotalkData
 let dataBondScenarioI18n: I18nBondInfoData = {} as I18nBondInfoData
+let dataBondL2dData: Record<string, number> = {} as Record<string, number>
 let dataMainIndexManifest: IndexManifestScenarioData = {} as IndexManifestScenarioData
 let dataMainScenarioIdToI18nKey: IndexScenarioInfoToI18nId = {} as IndexScenarioInfoToI18nId
 let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXxhash
@@ -74,6 +78,7 @@ async function loadAllData() {
     httpGetJsonAsync(dataBondStudentName, `/data/common/index_stu.json`),
     httpGetJsonAsync(dataBondIndexMomotalkScenario, `/data/common/index_momo.json`),
     httpGetJsonAsync(dataBondScenarioI18n, `/data/story/i18n/i18n_bond.json`),
+    httpGetJsonAsync(dataBondL2dData, `/data/common/index_momo_l2d.json`),
 
     httpGetJsonAsync(dataMainIndexManifest, `/data/common/index_scenario_manifest_main.json`),
     httpGetJsonAsync(dataMainScenarioIdToI18nKey, `/data/common/index_scenario_i18n_main.json`),
@@ -307,7 +312,7 @@ function loadMainOtherDataStory() {
     })
   }
   dataSelectMainCurrStory.value = temp
-  console.log(temp)
+  // console.log(temp)
 
   dataSelectMainCurrLoaded.value = true
 }
@@ -378,7 +383,7 @@ watch(
 watch(
   () => selectMainChapter.value,
   (newValue) => {
-    console.log(newValue)
+    // console.log(newValue)
 
     dataSelectMainCurrLoaded.value = false
     if (newValue !== '') {
@@ -421,28 +426,86 @@ watch(
     <h2>Loading...</h2>
   </div>
   <div v-if="dataAllLoaded">
-    <p>{{ $t('comp-search-scenario-select-1') }}&nbsp;
-      <PvSelect v-model="selectType" size="small" filter
-                class="w-full md:w-56 p-select-sm p-inputfield-sm"
-                placeholder="Select" style="font-size: 0.9em"
+    <!-- h1 标题 -->
+    <h1 class="search-h1">
+      <i class="pi pi-search"></i>
+      <span>&nbsp;&nbsp;<span v-html="i18n.t('search-h1')"></span></span>
+    </h1>
 
-                :options="optionsType"
-                :optionLabel="i => i18n.t('comp-search-scenario-option-' + i.value)"
-                optionValue="value" />
-    </p>
+    <!-- 选择 select -->
+    <div class="search-select-div">
+      <PvFluid class="pv-fluid">
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-1') }}</span>
+        <PvSelect v-model="selectType" size="small"
+                  placeholder="Select"
+                  class="search-select-pv-select"
+
+                  :options="optionsType"
+                  :optionLabel="i => i18n.t('comp-search-scenario-option-' + i.value)"
+                  optionValue="value" />
+      </PvFluid>
+      <div class="pv-fluid-spacing" v-show="selectType !== ''"></div>
+      <PvFluid class="pv-fluid" v-if="selectType === 'event'">
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-2') }}</span>
+        <PvSelect v-model="selectEventName" size="small" filter
+                  placeholder="Select"
+                  class="search-select-pv-select"
+
+                  :options="dataSelectEventIndex"
+                  optionLabel="label"
+                  optionValue="value"
+        />
+      </PvFluid>
+      <PvFluid class="pv-fluid" v-else-if="selectType === 'bond'">
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
+        <PvSelect v-model="selectBondChar" size="small" filter
+                  placeholder="Select"
+                  class="search-select-pv-select"
+
+                  :options="dataSelectCharIndex"
+                  optionLabel="label"
+                  optionValue="value" />
+      </PvFluid>
+      <template v-else-if="selectType === 'main'">
+        <PvFluid class="pv-fluid">
+          <span class="search-select-span-label">{{ $t('comp-search-scenario-select-4') }}</span>
+          <PvSelect v-model="selectMainVolume" size="small" filter
+                    placeholder="Select"
+                    class="search-select-pv-select"
+
+                    :options="dataSelectMainCurrIndex1"
+                    optionLabel="label"
+                    optionValue="value" />
+        </PvFluid>
+        <div class="pv-fluid-spacing" v-show="selectType === 'main'"></div>
+        <PvFluid class="pv-fluid">
+          <span class="search-select-span-label">{{ $t('comp-search-scenario-select-5') }}</span>
+          <PvSelect v-model="selectMainChapter" size="small" filter
+                    placeholder="Select"
+                    class="search-select-pv-select"
+
+                    :options="dataSelectMainCurrIndex2"
+                    optionLabel="label"
+                    optionValue="value" />
+        </PvFluid>
+      </template>
+      <PvFluid class="pv-fluid" v-else-if="selectType !== ''">
+        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-6') }}</span>
+        <PvSelect v-model="selectMainChapter" size="small" filter
+                  placeholder="Select"
+                  class="search-select-pv-select"
+
+                  :options="dataSelectMainCurrIndex2"
+                  optionLabel="label"
+                  optionValue="value" />
+      </PvFluid>
+    </div>
+
+    <PvDivider />
+
+    <!-- 显示结果 -->
     <div v-if="selectType === 'event'">
       <div v-loading="!dataSelectEventLoaded" :key="uiLang">
-        <p>{{ $t('comp-search-scenario-select-2') }}
-          <PvSelect v-model="selectEventName" size="small" filter
-                    class="w-full md:w-56"
-                    placeholder="Select" style="font-size: 0.9em"
-
-                    :options="dataSelectEventIndex"
-                    optionLabel="label"
-                    optionValue="value"
-          />
-        </p>
-        <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-result') }}</h2>
         <div :key="uiLang + '_' + selectEventName" class="search-event">
           <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
@@ -451,52 +514,20 @@ watch(
       </div>
     </div>
     <div v-else-if="selectType === 'bond'">
-      <p v-html="i18n.t('comp-search-scenario-bond-p')"></p>
       <div v-loading="!dataSelectBondLoaded" :key="uiLang">
-        <p>{{ $t('comp-search-scenario-select-3') }}
-          <PvSelect v-model="selectBondChar" size="small" filter
-                    class="w-full md:w-56"
-                    placeholder="Select" style="font-size: 0.9em"
-
-
-                    :options="dataSelectCharIndex"
-                    optionLabel="label"
-                    optionValue="value" />
-        </p>
-        <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <p v-if="selectBondChar">
-          <img :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${selectBondChar}.webp`">
-        </p>
-        <div :key="uiLang + '_' + selectBondChar">
-          <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
-                                   v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
-        </div>
+        <template v-if="selectBondChar">
+          <CharacterSheet :is-mmt="false" :char-id="selectBondChar" />
+          <div :key="uiLang + '_' + selectBondChar">
+            <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+                                     :is-l2d="entry.id === dataBondL2dData[selectBondChar]"
+                                     v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
+          </div>
+        </template>
       </div>
     </div>
     <div v-else-if="selectType === 'main'">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
-        <p>{{ $t('comp-search-scenario-select-4') }}
-          <PvSelect v-model="selectMainVolume" size="small" filter
-                    class="w-full md:w-56"
-                    placeholder="Select" style="font-size: 0.9em"
-
-
-                    :options="dataSelectMainCurrIndex1"
-                    optionLabel="label"
-                    optionValue="value" />
-        </p>
-        <p>{{ $t('comp-search-scenario-select-5') }}
-          <PvSelect v-model="selectMainChapter" size="small" filter
-                    class="w-full md:w-56"
-                    placeholder="Select" style="font-size: 0.9em"
-
-
-                    :options="dataSelectMainCurrIndex2"
-                    optionLabel="label"
-                    optionValue="value" />
-        </p>
-        <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
         <div :key="uiLang + '_' + selectBondChar">
           <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
@@ -506,17 +537,6 @@ watch(
     </div>
     <div v-else-if="selectType !== ''">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
-        <p>{{ $t('comp-search-scenario-select-6') }}
-          <PvSelect v-model="selectMainChapter" size="small" filter
-                    class="w-full md:w-56"
-                    placeholder="Select" style="font-size: 0.9em"
-
-
-                    :options="dataSelectMainCurrIndex2"
-                    optionLabel="label"
-                    optionValue="value" />
-        </p>
-        <el-divider></el-divider>
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
         <div :key="uiLang + '_' + selectBondChar">
           <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
@@ -528,6 +548,12 @@ watch(
 </template>
 
 <style scoped>
+.search-select-div {
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .search-event {
   max-width: max(1200px, 80%);
 }
@@ -535,6 +561,12 @@ watch(
 @media screen and (max-width: 700px) {
   .search-event {
     max-width: 100%;
+  }
+
+  .search-select-div {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 </style>

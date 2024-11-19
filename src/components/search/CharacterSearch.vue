@@ -2,7 +2,7 @@
 import { httpGetAsync } from '@/tool/HttpRequest'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import MomotalkSearchEntry from '@/components/search/MomotalkSearchEntry.vue'
+import CharacterSearchEntry from '@/components/search/CharacterSearchEntry.vue'
 import { useSetting } from '@/stores/setting'
 import type { SchaleDbL10nData, StudentInfoDataSimple, StudentInfoDataSimpleEntry } from '@/types/OutsourcedData'
 import { useSearchVars } from '@/stores/search'
@@ -80,15 +80,23 @@ watch(
     <h2>Loading...</h2>
   </div>
   <div v-if="isAllDataLoaded">
+    <!-- h1 标题 -->
+    <h1 class="search-h1">
+      <i class="pi pi-user"></i>
+      <span>&nbsp;&nbsp;<span v-html="i18n.t('search-mmt-h1')"></span></span>
+    </h1>
+
+    <!-- Input -->
     <PvInputText v-model="inputQuery" :placeholder="i18n.t('search-mmt-input')" @input="updateCharData"
                  style="width: 100%;" />
     <br />
-    <h3>{{ i18n.t('search-mmt-h3') }}</h3>
+
+    <h2>{{ i18n.t('search-mmt-h3') }}</h2>
     <PvButton v-if="!showContent" @click="showContent = true"
               severity="secondary" size="small">{{ i18n.t('search-mmt-force-show') }}
     </PvButton>
     <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
-      <MomotalkSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
+      <CharacterSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
                            :family_name="item['FamilyName']" :char_id="item['Id']" />
     </ul>
   </div>

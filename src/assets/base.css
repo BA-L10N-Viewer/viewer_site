@@ -4,6 +4,8 @@
 :root {
   --color-ba-logo: #128AFA;
   --color-ba-mmt: #F19EAA;
+  --color-ba-stu-striker: #cc1a25;
+  --color-ba-stu-special: #006bff;
 
   /* --color-bs-* are from Bootstrap, see more below */
   --color-bs-primary: #0d6efd;

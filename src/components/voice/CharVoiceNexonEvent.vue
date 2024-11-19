@@ -19,10 +19,11 @@ import type {
 } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import { httpGetSync } from '@/tool/HttpRequest'
-import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
-import { useSetting } from '@/stores/setting'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import PvTag from 'primevue/tag'
+import { useWindowSize } from '@vueuse/core'
+import { MOBILE_WIDTH } from '@/tool/Constant'
+import PvButton from 'primevue/button'
 
 const props = defineProps({
   dataVoice: {
@@ -38,6 +39,10 @@ const props = defineProps({
 const i18n = useI18n()
 
 const isLoading = ref(true)
+const isMobile = computed(() => {
+  const currWidth = useWindowSize().width.value
+  return currWidth <= MOBILE_WIDTH
+})
 const dataCharI18n = inject(symbolDataCharVoiceI18n)!
 
 const dataForTable = computed(
@@ -59,9 +64,18 @@ onMounted(async () => {
   </div>
   <div v-else>
     <template v-for="(eventData, idx) in dataForTable" :key="idx">
-      <h2>{{ eventData.EventId }} - <NexonI18nDataOutput :data="i18nStory[indexEventI18n[`[STORY_EVENT_${eventData.EventId}_NAME]`]]" /></h2>
+      <h2 style="font-size: 1.5em">{{ eventData.EventId }} -
+        <NexonI18nDataOutput :data="i18nStory[indexEventI18n[`[STORY_EVENT_${eventData.EventId}_NAME]`]]" />
+      </h2>
       <template v-for="(groupData, idx2) in eventData.Data" :key="idx2">
-        <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${groupData.GroupId}`] }}</h3>
+        <h3 class="char-voice-group-h3">{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;
+          <PvButton
+            v-if="dataCharI18n[`NX.${groupData.GroupId}.Extra`] !== ''"
+            v-tooltip.hover.top="dataCharI18n[`NX.${groupData.GroupId}.Extra`]"
+            size="small" severity="secondary">
+            <i class="pi pi-question-circle"></i>
+          </PvButton>
+        </h3>
         <template v-for="(entryData, idx3) in groupData.Data" :key="idx3">
           <p><b>{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
           <PvDataTable :value="entryData.Data"
@@ -71,10 +85,13 @@ onMounted(async () => {
                 {{ $t(`comp-char-voice-nexon-event-type-${slotProps.data.EventType}`) }}
               </template>
             </PvColumn>
+            <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')"
+                      style="width: 6em;"
+                      v-if="!isMobile" />
             <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')"
                       style="width: calc(100% - 12em - 5%)">
               <template #body="slotProps">
-                <PvTag severity="info" value="Info">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
+                <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
                 <DialogueTranslated
                   :content-translated="dataVoiceMt[`${eventData.EventId}_${slotProps.data.Id}`]?.Transcription[slotProps.data.EventType! as NexonCharVoiceEventTranscriptionType]?.[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                   :content-original="slotProps.data.Transcription || 'null'" />

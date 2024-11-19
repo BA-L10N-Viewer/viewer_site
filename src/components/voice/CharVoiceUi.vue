@@ -41,6 +41,7 @@ import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
 import PvDivider from 'primevue/divider'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 
 const props = defineProps(
   {
@@ -187,7 +188,7 @@ onBeforeMount(async function() {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
-    <p>{{ charId }}</p>
+    <CharacterSheet :is-mmt="false" :char-id="charId" />
     <div class="char-voice-ui-div">
       <PvDivider />
       <KeepAlive>

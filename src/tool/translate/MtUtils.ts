@@ -27,7 +27,7 @@ export async function mtPiniaWatchCallback(
     if (watcherNewValue[i].startsWith('c')) {
       funcClear(i18nLangAll.value[i])
 
-      console.log(i18nLangAll.value[i])
+      // console.log(i18nLangAll.value[i])
       funcStatusSetToComplete(`i18n_l${i+1}`)
     }
   }

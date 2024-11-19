@@ -75,10 +75,10 @@
 
   "search-mmt-input": "輸入人物名字 (支援多語言全名搜尋)",
   "search-mmt-h3": "搜尋結果",
-  "search-mmt-h1": "按人物搜尋",
+  "search-mmt-h1": "<font style=\"color: var(--color-ba-logo)\">人物</font>搜尋",
   "search-mmt-force-show": "是否強制顯示內容？",
 
-  "search-h1": "高階搜尋",
+  "search-h1": "<font style=\"color: var(--color-ba-logo)\">高階</font>搜尋",
   "search-step-1": "首先，選擇你要搜尋的<b>故事型別</b>：",
   "search-step-2": "然後，使用<b>過濾器</b>進一步過濾結果：",
   "search-cascader-story": "一般故事",
@@ -139,12 +139,30 @@
   "comp-scenario-datasheet-item-2": "故事分類",
   "comp-scenario-datasheet-item-3": "故事名稱",
   "comp-scenario-datasheet-item-4": "故事描述",
-  "comp-scenario-sheet-type-bond": "羈絆/個人故事",
-  "comp-scenario-sheet-type-main": "主線故事",
-  "comp-scenario-sheet-type-side": "支線/社團故事",
-  "comp-scenario-sheet-type-short": "短篇故事",
-  "comp-scenario-sheet-type-other": "其他故事",
-  "comp-scenario-sheet-type-event": "活動故事",
+  "comp-scenario-datasheet-item-5": "資料狀態",
+  "comp-scenario-datasheet-item-6": "父項資訊",
+  "comp-scenario-datasheet-parent-main-volume": "篇名",
+  "comp-scenario-datasheet-parent-main-chapter": "章名",
+  "comp-scenario-datasheet-type-bond": "羈絆/個人故事",
+  "comp-scenario-datasheet-type-main": "主線故事",
+  "comp-scenario-datasheet-type-side": "支線/社團故事",
+  "comp-scenario-datasheet-type-short": "短篇故事",
+  "comp-scenario-datasheet-type-other": "其他故事",
+  "comp-scenario-datasheet-type-event": "活動故事",
+  "comp-scenario-datasheet-status-title-0": "日服",
+  "comp-scenario-datasheet-status-title-1": "國際服",
+  "comp-scenario-datasheet-status-title-2": "國服",
+  "comp-scenario-datasheet-status-released": "已發行",
+  "comp-scenario-datasheet-status-unreleased": "未發行",
+  "comp-scenario-datasheet-status-unknown": "未知",
+
+  "comp-char-datasheet-item-1": "頭像",
+  "comp-char-datasheet-item-2": "回憶大廳/L2D故事",
+  "comp-char-datasheet-item-3": "姓名",
+  "comp-char-datasheet-item-4": "學院",
+  "comp-char-datasheet-item-5": "社團",
+  "comp-char-datasheet-enter-l2d": "查看回憶大廳/L2D故事",
+
   "comp-scenario-dialogue-info-btn-baio-popup": "前往碧藍檔案劇情站的對應故事",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io (碧藍檔案劇情站) 暫未支援該型別故事！",
 
@@ -164,5 +182,9 @@
   "char-voice-ui-select-tab-lobby": "大廳",
   "char-voice-ui-select-tab-battle": "戰鬥",
   "char-voice-ui-select-tab-event": "活動",
-  "char-voice-ui-select-source-schaledb": "SchaleDB"
+  "char-voice-ui-select-source-schaledb": "SchaleDB",
+
+  "comp-data-version-data": "資料更新時間",
+  "comp-data-version-site": "網站更新時間",
+  "comp-data-version-info": "版本資訊"
 }
