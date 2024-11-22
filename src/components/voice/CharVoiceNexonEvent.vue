@@ -78,7 +78,7 @@ onMounted(async () => {
           </PvButton>
         </h3>
         <template v-for="(entryData, idx3) in groupData.Data" :key="idx3">
-          <p><b>{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
+          <p><b>{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;{{ idx3 + 1 }}</b></p>
           <PvDataTable :value="entryData.Data"
                        rowGroupMode="rowspan" :groupRowsBy="['EventType']" sortMode="single" :sortOrder="1">
             <PvColumn field="EventType" :header="i18n.t('comp-char-voice-nexon-event-type')" style="width: 4em">
