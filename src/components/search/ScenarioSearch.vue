@@ -437,7 +437,7 @@ watch(
       <PvFluid class="pv-fluid">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-1') }}</span>
         <PvSelect v-model="selectType" size="small"
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="optionsType"
@@ -448,7 +448,7 @@ watch(
       <PvFluid class="pv-fluid" v-if="selectType === 'event'">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-2') }}</span>
         <PvSelect v-model="selectEventName" size="small" filter
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="dataSelectEventIndex"
@@ -459,7 +459,7 @@ watch(
       <PvFluid class="pv-fluid" v-else-if="selectType === 'bond'">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
         <PvSelect v-model="selectBondChar" size="small" filter
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="dataSelectCharIndex"
@@ -470,7 +470,7 @@ watch(
         <PvFluid class="pv-fluid">
           <span class="search-select-span-label">{{ $t('comp-search-scenario-select-4') }}</span>
           <PvSelect v-model="selectMainVolume" size="small" filter
-                    placeholder="Select"
+                    :placeholder="i18n.t('comp-search-select-placeholder')"
                     class="search-select-pv-select"
 
                     :options="dataSelectMainCurrIndex1"
@@ -481,7 +481,7 @@ watch(
         <PvFluid class="pv-fluid">
           <span class="search-select-span-label">{{ $t('comp-search-scenario-select-5') }}</span>
           <PvSelect v-model="selectMainChapter" size="small" filter
-                    placeholder="Select"
+                    :placeholder="i18n.t('comp-search-select-placeholder')"
                     class="search-select-pv-select"
 
                     :options="dataSelectMainCurrIndex2"
@@ -492,7 +492,7 @@ watch(
       <PvFluid class="pv-fluid" v-else-if="selectType !== ''">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-6') }}</span>
         <PvSelect v-model="selectMainChapter" size="small" filter
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="dataSelectMainCurrIndex2"
