@@ -51,9 +51,13 @@ const staticCdnBasepath = {
   "static": {
     "no-aws": "https://viewer-static.pages.dev",
     "aws": "https://ba-l10n-static.cnfast.top"
+  },
+  "ghapi": {
+    "no-aws": "https://api.github.com",
+    "aws": "https://gapi-aws.cnfast.top"
   }
 }
-export function getStaticCdnBasepath(type: "schaledb" | "static") {
+export function getStaticCdnBasepath(type: "schaledb" | "static" | "ghapi") {
   const currHost = window.location.host
   const currCdn = currHost === 'ba-l10n-aws.cnfast.top' ? "aws" : "no-aws"
 
