@@ -182,7 +182,7 @@ watch(
   </PvFluid>
   <div class="pv-fluid-spacing"></div>
   <PvFluid class="pv-fluid">
-    <span class="span-label-2">{{ $t('comp-story-i18n-select-6') }}</span>
+    <span class="span-label">{{ $t('comp-story-i18n-select-6') }}</span>
     <PvSelect v-model="setting.i18n_lang4" :options="nexonDataLangSelect"
               :optionLabel="i => i18n.t(i.label)" optionValue="value"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
@@ -208,7 +208,7 @@ watch(
   </PvFluid>
   <div class="pv-fluid-spacing"></div>
   <PvFluid class="pv-fluid">
-    <span class="span-label-2">{{ $t('comp-story-i18n-select-7') }}</span>
+    <span class="span-label">{{ $t('comp-story-i18n-select-7') }}</span>
     <PvSelect v-model="setting.i18n_lang5" :options="nexonDataLangSelect"
               :optionLabel="i => i18n.t(i.label)" optionValue="value"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
@@ -274,10 +274,10 @@ watch(
 }
 
 /* 较长文本的label，如第四、五机翻语言 */
-.span-label-2 {
+/* .span-label-2 {
   width: 6em;
   font-size: 1.1em
-}
+} */
 
 .pv-select-tl-lang {
   width: calc(100% - 6em - v-bind(widthForTlLangSelect))
