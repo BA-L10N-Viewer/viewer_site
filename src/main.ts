@@ -29,6 +29,8 @@ import { useSetting } from '@/stores/setting'
 import { useSearchVars } from '@/stores/search'
 import { definePreset } from '@primevue/themes'
 
+import { fetchData } from './tool/PreFetchedData'
+
 const app = createApp(App)
 
 const i18n = createI18n({
@@ -81,5 +83,5 @@ settingStore.init_watcher()
 useSearchVars().clear()
 
 app.mount('#app')
-
+fetchData()
 

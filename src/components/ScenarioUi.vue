@@ -37,6 +37,7 @@ import {
 } from '@/tool/components/Scenario'
 import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
 import { onBeforeRouteUpdate } from 'vue-router'
+import { DirectoryDataCommonFileIndexRelatedManifestParent, DirectoryDataCommonFileIndexRelatedManifestScenario, DirectoryDataCommonFileIndexScenarioChar, DirectoryDataCommonFileIndexStu, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
 
 // ------------------------------------------------
 const setting = useSetting()
@@ -44,12 +45,12 @@ const router = useRoute()
 const screenWidth = useWindowSize().width
 
 let scenarioData: CommonStoryDataDialog[] = [] as unknown as CommonStoryDataDialog[]
-let scenarioChar: IndexScenarioCharacterData = {} as unknown as IndexScenarioCharacterData
+let scenarioChar: IndexScenarioCharacterData = DirectoryDataCommonFileIndexScenarioChar.value
 let scenarioNameDesc: NexonL10nData[] = [] as unknown as NexonL10nData[]
-let bondStuInfo: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
-let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = {} as unknown as RelatedScenarioParentInfoData
-let scenarioRelatedData: RelatedScenarioInfoData = {} as unknown as RelatedScenarioInfoData
-let i18nStoryData: I18nStoryXxhashToL10nData = {} as unknown as I18nStoryXxhashToL10nData
+let bondStuInfo: StudentInfoDataSimple = DirectoryDataCommonFileIndexStu.value
+let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = DirectoryDataCommonFileIndexRelatedManifestParent.value
+let scenarioRelatedData: RelatedScenarioInfoData = DirectoryDataCommonFileIndexRelatedManifestScenario.value
+let i18nStoryData: I18nStoryXxhashToL10nData = DirectoryDataStoryI18nFileI18nStory.value
 let scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
 const isAllDataLoaded = ref(false)
 
@@ -303,11 +304,6 @@ provide('ML_in_progress', ML_in_progress)
 onMounted(async () => {
   await Promise.allSettled([
     httpGetJsonAsync(scenarioData, `/data/story/normal/${router.params.storyId}.json`),
-    httpGetJsonAsync(scenarioChar, `/data/common/index_scenario_char.json`),
-    httpGetJsonAsync(bondStuInfo, `/data/common/index_stu.json`),
-    httpGetJsonAsync(scenarioRelatedParentInfo, `/data/common/index_related_manifest_parent.json`),
-    httpGetJsonAsync(scenarioRelatedData, `/data/common/index_related_manifest_scenario.json`),
-    httpGetJsonAsync(i18nStoryData, '/data/story/i18n/i18n_story.json'),
     (async () => {
       scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()

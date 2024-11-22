@@ -5,6 +5,8 @@
   "home-p-3": "All game artwork, information and assets used in this site are the property and copyright of the respective authors. This site is non-profit and is not affiliated in any forms with Blue Archive, Yostar, Nexon and Nexon Games.",
   "home-h1-2": "Data Disclaimer",
   "home-p-4": "<b>Update Time</b>: Manual Update. See FAQ for more.",
+  "home-pre-fetch-h1": "Pre-Fetching data...",
+  "home-pre-fetch-button": "Force Show Content",
 
   "navi-0": "Home",
   "navi-1": "Search",

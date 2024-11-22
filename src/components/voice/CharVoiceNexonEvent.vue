@@ -24,6 +24,7 @@ import PvTag from 'primevue/tag'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import PvButton from 'primevue/button'
+import { DirectoryDataCommonFileIndexMomo, DirectoryDataStoryI18nFileI18nBond, DirectoryDataStoryI18nFileI18nEventInde, DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
 
 const props = defineProps({
   dataVoice: {
@@ -50,8 +51,8 @@ const dataForTable = computed(
 )
 
 
-const indexEventI18n: I18nStoryInfoIdToXxhash = JSON.parse(httpGetSync('/data/story/i18n/i18n_event_index.json'))
-const i18nStory: NexonL10nDataDict = JSON.parse(httpGetSync('/data/story/i18n/i18n_story.json'))
+const indexEventI18n: I18nStoryInfoIdToXxhash = DirectoryDataStoryI18nFileI18nEventIndex.value//JSON.parse(httpGetSync('/data/story/i18n/i18n_event_index.json'))
+const i18nStory: NexonL10nDataDict = DirectoryDataStoryI18nFileI18nStory.value//JSON.parse(httpGetSync('/data/story/i18n/i18n_story.json'))
 
 onMounted(async () => {
   isLoading.value = false

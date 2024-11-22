@@ -10,6 +10,7 @@ import { countCharacterLengthBiased, preProcessStringForSearch } from '@/tool/Se
 
 import PvInputText from 'primevue/inputtext'
 import PvButton from 'primevue/button'
+import { DirectoryDataCommonFileIndexStu } from '@/tool/PreFetchedData'
 
 const i18n = useI18n()
 const setting = useSetting()
@@ -24,7 +25,7 @@ let charDataRaw: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
 let charData = ref<StudentInfoDataSimpleEntry[]>([])
 
 async function loadAllData() {
-  charDataRaw = JSON.parse(await httpGetAsync('/data/common/index_stu.json'))
+  charDataRaw = DirectoryDataCommonFileIndexStu.value//JSON.parse(await httpGetAsync('/data/common/index_stu.json'))
 }
 
 function updateCharData() {
