@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
 import { onMounted, type Ref, ref, watch, provide, onUpdated, computed } from 'vue'
-import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
@@ -51,7 +51,7 @@ let bondStuInfo: StudentInfoDataSimple = DirectoryDataCommonFileIndexStu.value
 let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = DirectoryDataCommonFileIndexRelatedManifestParent.value
 let scenarioRelatedData: RelatedScenarioInfoData = DirectoryDataCommonFileIndexRelatedManifestScenario.value
 let i18nStoryData: I18nStoryXxhashToL10nData = DirectoryDataStoryI18nFileI18nStory.value
-let scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
+const scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
 const isAllDataLoaded = ref(false)
 
 const scenarioID = ref(String(router.params.storyId))
@@ -159,36 +159,20 @@ const pagination_currPerSize = computed(() => setting.scenario_pagination_perPag
 const pagination_currPage = ref(1)
 const pagination_currPage_cache = ref(1)
 
-const pagination_size = ref('')
-const pagination_layout = ref('')
-const pagination_pagerCount = ref(7)
-
 const pagination_data = ref()
 const pagination_template = computed(() => {
   const width = useWindowSize().width.value
 
-  if (width <= 640)
+  if (width <= MOBILE_WIDTH)
     return 'PrevPageLink CurrentPageReport NextPageLink'
-  else if (width <= 960)
-    return 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink'
-  else if (width <= 1300)
-    return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
+  else if (width <= MOBILE_WIDTH_WIDER)
+    return 'PrevPageLink PageLinks NextPageLink RowsPerPageDropdown'
   else
     return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown JumpToPageInput'
 })
 
 watch(
-  () => useWindowSize().width.value,
-  (newValue) => {
-    pagination_layout.value = newValue >= MOBILE_WIDTH_WIDER ? 'total, sizes, prev, pager, next, jumper' : 'sizes, prev, pager, next'
-    pagination_size.value = newValue >= MOBILE_WIDTH_WIDER ? 'default' : 'small'
-    pagination_pagerCount.value = newValue >= MOBILE_WIDTH_WIDER ? 7 : 4
-  },
-  { immediate: true }
-)
-
-watch(
-  () => pagination_currPerSize.value,
+  () => setting.scenario_pagination_perPage,
   (newValue) => {
     updatePaginationData(newValue)
   }
@@ -197,7 +181,7 @@ watch(
 function updatePaginationData(currPerSize: number = -1) {
   pagination_length.value = scenarioData.length
 
-  const perSize = currPerSize === -1 ? pagination_currPerSize.value : currPerSize
+  const perSize = currPerSize === -1 ? setting.scenario_pagination_perPage : currPerSize
   pagination_data.value = chunk(scenarioData, perSize)
 }
 
@@ -206,7 +190,7 @@ function initPagination() {
 }
 
 const htmlAnchorMainTableTop: Ref<HTMLAnchorElement | null> = ref(null)
-onUpdated(() => {
+watch(pagination_currPage, () => { //onUpdated(() => {
   if (pagination_currPage.value !== pagination_currPage_cache.value) {
     pagination_currPage_cache.value = pagination_currPage.value
 
@@ -221,7 +205,7 @@ onUpdated(() => {
       console.error(`PAGINATION REPOSITION FAILED, offset = ${targetHeightOffset}`)
     }
   }
-})
+}, {flush: 'post'})
 
 // -------------------------------------------------------------
 
@@ -283,6 +267,19 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 }
 
 function initMlData() {
+  tableDialogueTranslated.value = {
+    'j_ja': [],
+    'j_ko': [],
+    'g_tw': [],
+    'g_tw_cn': [],
+    'g_en': [],
+    'g_th': [],
+    'g_ja': [],
+    'g_ko': [],
+    'c_cn': [],
+    'c_cn_tw': [],
+    'null': []
+  }
   for (const lang of NexonL10nDataLangConst) {
     clearMlTranslation(lang)
   }
