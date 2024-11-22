@@ -275,7 +275,7 @@ watch(
 
 /* 较长文本的label，如第四、五机翻语言 */
 .span-label-2 {
-  width: 14em;
+  width: 6em;
   font-size: 1.1em
 }
 
