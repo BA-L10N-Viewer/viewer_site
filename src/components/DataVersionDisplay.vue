@@ -29,10 +29,8 @@ onMounted(async () => {
   await Promise.allSettled([
     dataUpdateTime.value = Number(await httpGetAsync(`/data/MODIFIED.txt`)) * 1000,
     (async () => {
-      const ghAction = JSON.parse(await httpGetAsync(`${getStaticCdnBasepath('ghapi')}/repos/BA-L10N-Viewer/viewer_site/actions/runs`))
       const ghCommit = JSON.parse(await httpGetAsync(`${getStaticCdnBasepath('ghapi')}/repos/BA-L10N-Viewer/viewer_site/commits/master`))
-
-      siteUpdatedTime.value = (new Date(ghAction['workflow_runs'][0]['updated_at'])).getTime()
+      siteUpdatedTime.value = (new Date(ghCommit['commit']['author']['date'])).getTime()
       siteCommitHash.value = ghCommit['sha']
     })()
   ])
