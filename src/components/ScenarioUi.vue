@@ -186,6 +186,8 @@ function updatePaginationData(currPerSize: number = -1) {
 }
 
 function initPagination() {
+  pagination_currPage.value = 1
+  pagination_currPage_cache.value = 1
   updatePaginationData()
 }
 
