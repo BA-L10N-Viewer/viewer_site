@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { onMounted, type Ref, ref, watch, provide, onUpdated, computed } from 'vue'
+import { onMounted, type Ref, ref, watch, provide, onUpdated, computed, shallowRef } from 'vue'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
@@ -44,9 +44,9 @@ const setting = useSetting()
 const router = useRoute()
 const screenWidth = useWindowSize().width
 
-let scenarioData: CommonStoryDataDialog[] = [] as unknown as CommonStoryDataDialog[]
+const scenarioData = ref<CommonStoryDataDialog[]>([] as unknown as CommonStoryDataDialog[])
 let scenarioChar: IndexScenarioCharacterData = DirectoryDataCommonFileIndexScenarioChar.value
-let scenarioNameDesc: NexonL10nData[] = [] as unknown as NexonL10nData[]
+let scenarioNameDesc = ref<NexonL10nData[]>([] as unknown as NexonL10nData[])
 let bondStuInfo: StudentInfoDataSimple = DirectoryDataCommonFileIndexStu.value
 let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = DirectoryDataCommonFileIndexRelatedManifestParent.value
 let scenarioRelatedData: RelatedScenarioInfoData = DirectoryDataCommonFileIndexRelatedManifestScenario.value
@@ -179,10 +179,10 @@ watch(
 )
 
 function updatePaginationData(currPerSize: number = -1) {
-  pagination_length.value = scenarioData.length
+  pagination_length.value = scenarioData.value.length
 
   const perSize = currPerSize === -1 ? setting.scenario_pagination_perPage : currPerSize
-  pagination_data.value = chunk(scenarioData, perSize)
+  pagination_data.value = chunk(scenarioData.value, perSize)
 }
 
 function initPagination() {
@@ -228,7 +228,7 @@ const ML_in_progress = ref(false)
 const ML_pinia = useI18nTlControl()
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
-  const dataLength = scenarioData!.length
+  const dataLength = scenarioData!.value.length
   const actualTable = tableDialogueTranslated.value
   const blankData = { 'name': '', 'dialogue': '' }
 
@@ -247,7 +247,7 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
-  for (const [idx, entry] of scenarioData.entries()) {
+  for (const [idx, entry] of scenarioData.value.entries()) {
     asyncPool.addTask(
       async () => {
         tableDialogueTranslated.value[baselang][idx] = await getDialogueMtTranslation(
@@ -300,9 +300,9 @@ provide('ML_in_progress', ML_in_progress)
 
 onMounted(async () => {
   await Promise.allSettled([
-    httpGetJsonAsync(scenarioData, `/data/story/normal/${router.params.storyId}.json`),
+    httpGetJsonAsync(scenarioData.value, `/data/story/normal/${router.params.storyId}.json`),
     (async () => {
-      scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })()
   ])
@@ -317,9 +317,9 @@ onBeforeRouteUpdate(async (to, from) => {
 
   isAllDataLoaded.value = false
   await Promise.allSettled([
-    httpGetJsonAsync(scenarioData, `/data/story/normal/${scenarioID.value}.json`),
+    httpGetJsonAsync(scenarioData.value, `/data/story/normal/${scenarioID.value}.json`),
     (async () => {
-      scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })()
   ])
