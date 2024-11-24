@@ -9,12 +9,12 @@ import {
 } from '@/tool/ConstantComputed'
 import {
   getNexonL10nData,
-  getScenarioCharacterSmallPortraitPath,
+  getScenarioCharacterSmallPortraitPath, getScenarioPopupFilenamePath,
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
 
 import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
-import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
@@ -52,6 +52,10 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialoguePopupFilename: {
+    type: String,
+    required: true
   }
 })
 
@@ -73,6 +77,9 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
     </template>
   </td>
   <td class="scenario-text scenario-dialogue">
+    <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
+         v-if="dialoguePopupFilename"
+         class="momotalk-dialogue-img" />
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">

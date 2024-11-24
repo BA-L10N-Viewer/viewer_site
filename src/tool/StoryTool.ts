@@ -172,3 +172,11 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
 
   return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + temp + ".png"
 }
+
+export function getScenarioPopupFilenamePath(filename: string): string {
+  const temp = String(filename)
+  if (temp.endsWith('.png'))
+    return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}`
+  else
+    return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}.png`
+}

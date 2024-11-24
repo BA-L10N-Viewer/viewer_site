@@ -50,6 +50,10 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialoguePopupFilename: {
+    type: String,
+    required: true
   }
 })
 

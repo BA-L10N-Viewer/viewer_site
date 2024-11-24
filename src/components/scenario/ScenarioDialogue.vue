@@ -57,6 +57,7 @@ const setting = useSetting()
                              :dialogue-character-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
                              :dialogue-content-translated="ML_table[i18nLangAll[idx]][entry_pos]['dialogue']"
                              :dialogue-absolute-pos="data_dialog.AbsolutePos"
+                             :dialogue-popup-filename="data_dialog.PopupFileName"
 
                              v-if="i18nLangAll[idx] as string !== 'null'"/>
       </template>
@@ -71,6 +72,7 @@ const setting = useSetting()
                         :dialogue-character-image="data_char.SmallPortrait"
                         :dialogue-text-color="data_dialog.ShowTextColor"
                         :dialogue-absolute-pos="data_dialog.AbsolutePos"
+                        :dialogue-popup-filename="data_dialog.PopupFileName"
                         :entry_pos="entry_pos" />
   </tr>
 </template>
