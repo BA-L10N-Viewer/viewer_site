@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { CHAR_NPC_IMG_URL, NexonLangMapReverse } from '@/tool/Constant'
+import { allLangcodeOfSchaleDbBySiteUiLang, CHAR_NPC_IMG_URL, MOBILE_WIDTH } from '@/tool/Constant'
 
 import 'lazysizes'
 import { defineProps, computed, ref, type PropType } from 'vue'
-import { type SchaleDbL10nData, type SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import { type SchaleDbL10nData } from '@/types/OutsourcedData'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 import PvTag from 'primevue/tag'
+import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
+import { useWindowSize } from '@vueuse/core'
 
 const props = defineProps({
   char_id: {
@@ -39,7 +41,9 @@ function isNpc(charId: string | number) {
 const setting = useSetting()
 
 const uiLang = ref(setting.ui_lang)
-const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
+const schaleDbLang = computed(() => allLangcodeOfSchaleDbBySiteUiLang[uiLang.value])
+
+const cssFontSizeForCharName = computed(() => useWindowSize().width.value < MOBILE_WIDTH ? '0.8em' : '1em')
 </script>
 
 <template>
@@ -48,7 +52,7 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
     <span>&nbsp;&nbsp;</span>
     <img class="icon-stu lazyload" :data-src="getImgUrlById(char_id)">
     <span>&nbsp;</span>
-    <span v-for="(lang, idx) in schaleDbLang" :key="idx">{{ name[lang as SchaleDbL10nDataLang] }}<span v-if="idx + 1 != schaleDbLang.length">&nbsp;/&nbsp;</span></span>
+    <span class="char-name"><NexonI18nDataOutput :data="name" :data-lang="schaleDbLang" /></span>
     <br />
     <ul style="font-size: 1.2rem">
       <template v-if="!isNpc(char_id)">
@@ -63,5 +67,8 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
 <style scoped>
 .icon-stu {
   height: 2em;
+}
+.char-name {
+  font-size: v-bind(cssFontSizeForCharName)
 }
 </style>
