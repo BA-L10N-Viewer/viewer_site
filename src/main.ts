@@ -15,7 +15,10 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
 import Lara from '@primevue/themes/lara'
-import PvTooltip from 'primevue/tooltip';
+import PvTooltip from 'primevue/tooltip'
+
+// Sentry
+import * as Sentry from "@sentry/vue";
 
 // i18n
 import { createI18n } from 'vue-i18n'
@@ -32,6 +35,22 @@ import { definePreset } from '@primevue/themes'
 import { fetchData } from './tool/PreFetchedData'
 
 const app = createApp(App)
+
+Sentry.init({
+  app,
+  dsn: "https://92794d37ef29d2d9ed0e739a418add68@o4508351878529024.ingest.us.sentry.io/4508351880232960",
+  integrations: [
+    Sentry.browserTracingIntegration({ router }),
+    Sentry.replayIntegration(),
+  ],
+  // Tracing
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+  tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+  // Session Replay
+  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+});
 
 const i18n = createI18n({
   allowComposition: true,
@@ -83,5 +102,6 @@ settingStore.init_watcher()
 useSearchVars().clear()
 
 app.mount('#app')
-fetchData()
 
+
+fetchData()

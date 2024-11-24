@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -15,28 +16,25 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  plugins: [
-    vue(),
-    vueJsx(),
-    vueDevTools(),
-    AutoImport({
-      imports: ['vue', 'vue-router', 'pinia'],
-      resolvers: [
-        IconsResolver({
-          prefix: 'Icon'
-        }),
-        ElementPlusResolver()
-      ]
-    }),
-    Components({
-      resolvers: [
-        IconsResolver({
-          enabledCollections: ['ep']
-        }),
-        ElementPlusResolver()
-      ]
-    })
-  ],
+  plugins: [vue(), vueJsx(), vueDevTools(), AutoImport({
+    imports: ['vue', 'vue-router', 'pinia'],
+    resolvers: [
+      IconsResolver({
+        prefix: 'Icon'
+      }),
+      ElementPlusResolver()
+    ]
+  }), Components({
+    resolvers: [
+      IconsResolver({
+        enabledCollections: ['ep']
+      }),
+      ElementPlusResolver()
+    ]
+  }), sentryVitePlugin({
+    org: "sctopzhang",
+    project: "javascript-vue"
+  })],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
