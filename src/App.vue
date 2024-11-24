@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router'
 import { useSetting } from '@/stores/setting'
-
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { menubarValue } from '@/tool/Constant'
-import { fetchData } from '@/tool/PreFetchedData' //PersistanceData?
+
+import { fetchData, isFetching } from '@/tool/PreFetchedData' //PersistanceData?
+
 import { useI18n } from 'vue-i18n'
 
 import PvMenubar from 'primevue/menubar'
@@ -16,8 +17,9 @@ import DataVersionDisplay from '@/components/DataVersionDisplay.vue'
 
 const showForceLoad = ref(false)
 const isForceLoad = ref(false)
-setTimeout(() => {showForceLoad.value = true}
-  , 300000)
+setTimeout(() => {
+  showForceLoad.value = true
+}, 300000)
 
 const setting = useSetting()
 const router = useRouter()
@@ -31,7 +33,7 @@ fetchData()
 </script>
 
 <template>
-  <template v-if="!isFetching || ifForceLoad">
+  <template v-if="!isFetching || isForceLoad">
     <Teleport to="body">
       <PvDialog v-model:visible="dialogSettingVisible" modal :header="i18n.t('navi-3')" :closable="true"
                 :draggable="false" :dismissableMask="true"
@@ -84,15 +86,23 @@ fetchData()
           for details.</small><br />
         <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with CDN
           from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small><br />
-        <small><DataVersionDisplay :verbose="false" /></small>
+        <small>
+          <DataVersionDisplay :verbose="false" />
+        </small>
         <br /><br />
       </footer>
     </div>
   </template>
   <template v-else>
-    <h1 class="view-h1">{{ $t('home-pre-fetch-h1') }}</h1>
-    <div v-show="showForceLoad">
-      <PvButton @click="isForceLoad=true" severity="danger" size="large" style="font-size: 1.5em;">{{ $t('home-pre-fetch-button') }}</PvButton>
+    <div style="text-align: center; padding-top: 3vh;">
+      <img src="/assets/images/logo.png" style="height: 16vh" />
+      <h1 style="font-size: 6vh">Pre-fetching Data...<br />预获取数据中……</h1>
+      <div v-show="showForceLoad">
+        <PvButton @click="isForceLoad=true" severity="danger" size="large" style="font-size: 4vh;">
+          {{ $t('home-pre-fetch-button') }}
+        </PvButton>
+        <br /><br /><br /><br />
+      </div>
     </div>
   </template>
 </template>
