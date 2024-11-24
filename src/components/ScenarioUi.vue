@@ -155,7 +155,6 @@ function getCharName(entry: CommonStoryDataDialog) {
 
 // --------------------- PAGINATION CONFIG ---------------------
 const pagination_length = ref(0)
-const pagination_currPerSize = computed(() => setting.scenario_pagination_perPage)
 const pagination_currPage = ref(1)
 const pagination_currPage_cache = ref(1)
 
