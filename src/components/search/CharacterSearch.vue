@@ -9,7 +9,7 @@ import { countCharacterLengthBiased, preProcessStringForSearch } from '@/tool/Se
 
 import PvInputText from 'primevue/inputtext'
 import PvButton from 'primevue/button'
-import { DirectoryDataCommonFileIndexStu } from '@/tool/PreFetchedData'
+import { DirectoryDataCommonFileIndexNpc, DirectoryDataCommonFileIndexStu } from '@/tool/PreFetchedData'
 
 const i18n = useI18n()
 const setting = useSetting()
@@ -21,10 +21,10 @@ const showContent = ref(false)
 const isAllDataLoaded = ref(false)
 
 let charDataRaw: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
-let charData = ref<StudentInfoDataSimpleEntry[]>([])
+const charData = ref<StudentInfoDataSimpleEntry[]>([])
 
 async function loadAllData() {
-  charDataRaw = DirectoryDataCommonFileIndexStu.value//JSON.parse(await httpGetAsync('/data/common/index_stu.json'))
+  charDataRaw = Object.assign({}, DirectoryDataCommonFileIndexNpc.value, DirectoryDataCommonFileIndexStu.value)
 }
 
 function updateCharData() {
@@ -45,9 +45,7 @@ function updateCharData() {
 }
 
 watch(
-  () => {
-    return setting.ui_lang
-  },
+  () => setting.ui_lang,
   () => {
     updateCharData()
   }
@@ -97,7 +95,7 @@ watch(
     </PvButton>
     <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
       <CharacterSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
-                           :family_name="item['FamilyName']" :char_id="item['Id']" />
+                            :family_name="item['FamilyName']" :char_id="item['Id']" />
     </ul>
   </div>
 </template>

@@ -4,7 +4,7 @@ import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import { useRoute } from 'vue-router'
 import type { SchaleDbI18nDictData, StudentInfoDataSimple } from '@/types/OutsourcedData'
 import { useWindowSize } from '@vueuse/core'
-import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH } from '@/tool/Constant'
+import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH, CHAR_NPC_IMG_URL } from '@/tool/Constant'
 
 import PvButton from 'primevue/button'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
@@ -34,17 +34,9 @@ let sdbStuInfoData: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimp
 let sdbLocalizationData: SchaleDbI18nDictData = {} as unknown as SchaleDbI18nDictData
 
 const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
-const isNpc = computed(() => String(props.charId) in NPC_IMG_URL)
+const isNpc = computed(() => String(props.charId) in CHAR_NPC_IMG_URL)
 
-const NPC_IMG_URL: Record<string, string> = {
-  '9009000': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_arona.png`, // Arona
-  '9009001': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_sora.png`, // Sora
-  '9009002': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_momoka.png`, // Momoka
-  '9009003': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_rin.png`, // Rin
-  '9009004': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0013.png`, // Ayumu
-  '9009005': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0035.png`  // Plana
-}
-const charImgUrl = isNpc.value ? NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
+const charImgUrl = isNpc.value ? CHAR_NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
 let indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 const cssCharColor = computed(() => {
