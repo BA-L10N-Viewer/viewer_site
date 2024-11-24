@@ -166,6 +166,9 @@
   "comp-char-datasheet-item-5": "社團",
   "comp-char-datasheet-enter-l2d": "查看回憶大廳/L2D故事",
 
+  "comp-search-scenario-datasheet-item-1": "標題",
+  "comp-search-scenario-datasheet-item-2": "簡介",
+
   "comp-scenario-dialogue-info-btn-baio-popup": "前往碧藍檔案劇情站的對應故事",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io (碧藍檔案劇情站) 暫未支援該型別故事！",
 

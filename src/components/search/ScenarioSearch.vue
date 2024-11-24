@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
@@ -33,33 +33,70 @@ import {
   DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nMainIndex,
   DirectoryDataStoryI18nFileI18nStory
 } from '@/tool/PreFetchedData'
+import ScenarioSearchChapterMetadata from '@/components/search/ScenarioSearchChapterMetadata.vue'
 
 const selectType = ref('')
 const i18n = useI18n()
 
 /* DATA */
+type ChapterMetadata = Record<'name' | 'desc', NexonL10nData>
 // general
 const cacheRecoveryMultiStage = ref<boolean>(false)
 // for event
-let dataSelectEventIndex = ref<HTMLOptionData[]>([])
+const dataSelectEventIndex = ref<HTMLOptionData[]>([])
 let dataSelectEventStory = new Map<string, { id: string; name: NexonL10nData; desc: NexonL10nData; }[]>()
-let dataSelectEventLoaded = ref(false)
+let dataSelectEventMetadata = new Map<string, ChapterMetadata>()
+const dataSelectEventLoaded = ref(false)
 // for bond
-let dataSelectCharIndex = ref<HTMLOptionData[]>([])
+const dataSelectCharIndex = ref<HTMLOptionData[]>([])
 let dataSelectMmt = new Map<string, { id: number; data: I18nBondInfoDataEntry }[]>()
-let dataSelectBondLoaded = ref(false)
-// for main/other story
-let dataStoryMainLoaded = ref(false)
+const dataSelectBondLoaded = ref(false)
 // for other (current)
-let dataSelectMainCurrIndex1 = ref<HTMLOptionData[]>([])   /* Main - Volume */
-let dataSelectMainCurrIndex2 = ref<HTMLOptionData[]>([])   /* Main - Chapter */
-let dataSelectMainCurrStory = ref<{ id: string; name: NexonL10nData; desc: NexonL10nData; }[]>([])       /* 用于最终显示故事 */
-let dataSelectMainCurrLoaded = ref(false)
+const dataSelectMainCurrIndex1 = ref<HTMLOptionData[]>([])   /* Main - Volume */
+const dataSelectMainCurrIndex2 = ref<HTMLOptionData[]>([])   /* Main - Chapter */
+const dataSelectMainCurrStory = ref<{ id: string; name: NexonL10nData; desc: NexonL10nData; }[]>([])       /* 用于最终显示故事 */
+const dataSelectMainCurrLoaded = ref(false)
 /* <select> SELECTION */
 const selectEventName = ref('')
 const selectBondChar = ref('')
 const selectMainVolume = ref('')
 const selectMainChapter = ref('')
+/* volume/chapter metadata */
+const selectMainVolumeMetadata = computed<ChapterMetadata | null>(() => {
+  if (selectMainVolume.value === '') {
+    return null
+  } else {
+    const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)]
+    return {
+      name: dataI18nStoryXxhashToL10n[
+        dataMainI18nKeyToXxhash[data.name]
+        ],
+      desc: dataI18nStoryXxhashToL10n[
+        dataMainI18nKeyToXxhash[data.desc]
+        ]
+    }
+  }
+})
+const selectMainChapterMetadata = computed<ChapterMetadata | null>(() => {
+  if (selectMainChapter.value === '')
+    return null
+  else {
+    const currType = selectType.value
+    if (currType === 'main' || currType === 'side' || currType === 'short' || currType === 'other') {
+      const data = dataMainIndexManifest[currType][Number(selectMainChapter.value)]
+      return {
+        name: dataI18nStoryXxhashToL10n[
+          dataMainI18nKeyToXxhash[data.name]
+          ],
+        desc: dataI18nStoryXxhashToL10n[
+          dataMainI18nKeyToXxhash[data.desc]
+          ]
+      }
+    } else {
+      return null
+    }
+  }
+})
 
 /* REMOTE DATA */
 let dataI18nStoryXxhashToL10n: I18nStoryXxhashToL10nData = {} as I18nStoryXxhashToL10nData
@@ -186,13 +223,19 @@ function loadEventData() {
   // event index
   const data = dataEventIndexManifest
   let temp = []
+  let temp3 = new Map<string, ChapterMetadata>()
   for (const entry of data) {
     temp.push({
       'label': `${entry.id}: ${getNexonL10nDataFlattened(dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])], i18nLangAll.value, '/')}`,
       'value': String(entry.id)
     })
+    temp3.set(String(entry.id), {
+      name: dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])],
+      desc: dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.desc])]
+    })
   }
   dataSelectEventIndex.value = temp
+  dataSelectEventMetadata = temp3
 
   // event story
   const data2 = dataEventScenarioIdToI18nKey
@@ -514,6 +557,8 @@ watch(
     <div v-if="selectType === 'event'">
       <div v-loading="!dataSelectEventLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-result') }}</h2>
+        <ScenarioSearchChapterMetadata :data="dataSelectEventMetadata.get(selectEventName)!"
+                                       v-if="selectEventName !== ''" />
         <div :key="uiLang + '_' + selectEventName" class="search-event">
           <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
                                     v-for="(entry, idx) in dataSelectEventStory.get(selectEventName)" :key="idx" />
@@ -536,8 +581,13 @@ watch(
     <div v-else-if="selectType === 'main'">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <div :key="uiLang + '_' + selectBondChar">
-          <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+        <ScenarioSearchChapterMetadata :data="selectMainVolumeMetadata"
+                                       v-if="selectMainVolumeMetadata" />
+        <br />
+        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata"
+                                       v-if="selectMainChapterMetadata" />
+        <div :key="uiLang + '_' + selectMainChapter">
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
                                     v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
         </div>
       </div>
@@ -545,8 +595,10 @@ watch(
     <div v-else-if="selectType !== ''">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <div :key="uiLang + '_' + selectBondChar">
-          <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata"
+                                       v-if="selectMainChapterMetadata" />
+        <div :key="uiLang + '_' + selectMainChapter">
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
                                     v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
         </div>
       </div>
