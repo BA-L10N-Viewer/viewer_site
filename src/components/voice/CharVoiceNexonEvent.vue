@@ -23,7 +23,7 @@ import PvTag from 'primevue/tag'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import PvButton from 'primevue/button'
-import { DirectoryDataCommonFileIndexMomo, DirectoryDataStoryI18nFileI18nBond, DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
+import { DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
 
 const props = defineProps({
   dataVoice: {
