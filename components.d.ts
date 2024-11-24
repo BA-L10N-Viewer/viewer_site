@@ -7,6 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutViewCompEn: typeof import('./src/components/views/AboutViewCompEn.vue')['default']
+    AboutViewCompZhCn: typeof import('./src/components/views/AboutViewCompZhCn.vue')['default']
+    AboutViewCompZhTw: typeof import('./src/components/views/AboutViewCompZhTw.vue')['default']
     CharacterSearch: typeof import('./src/components/search/CharacterSearch.vue')['default']
     CharacterSearchEntry: typeof import('./src/components/search/CharacterSearchEntry.vue')['default']
     CharacterSheet: typeof import('./src/components/CharacterSheet.vue')['default']
@@ -48,8 +51,5 @@ declare module 'vue' {
     ScenarioUi: typeof import('./src/components/ScenarioUi.vue')['default']
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }
