@@ -19,7 +19,7 @@ import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/
 import { chunk } from 'lodash'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
-import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
+import { mtPiniaWatchCallback, symbolForMtProgressBool } from '@/tool/translate/MtUtils'
 
 import PvPaginator from 'primevue/paginator'
 import { getScenarioExtraDataById, getScenarioI18nContent } from '@/tool/StoryTool'
@@ -302,7 +302,7 @@ watch(
 
 provide('ML_clearAll', initMlData)
 provide('ML_table', tableDialogueTranslated)
-provide('ML_in_progress', ML_in_progress)
+provide(symbolForMtProgressBool, ML_in_progress.value)
 // -------------------------------------------------------------
 
 // --------------------- TABLE CSS WIDTH ---------------------
