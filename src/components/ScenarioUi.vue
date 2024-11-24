@@ -37,7 +37,13 @@ import {
 } from '@/tool/components/Scenario'
 import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
 import { onBeforeRouteUpdate } from 'vue-router'
-import { DirectoryDataCommonFileIndexRelatedManifestParent, DirectoryDataCommonFileIndexRelatedManifestScenario, DirectoryDataCommonFileIndexScenarioChar, DirectoryDataCommonFileIndexStu, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
+import {
+  DirectoryDataCommonFileIndexRelatedManifestParent,
+  DirectoryDataCommonFileIndexRelatedManifestScenario,
+  DirectoryDataCommonFileIndexScenarioChar,
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataStoryI18nFileI18nStory
+} from '@/tool/PreFetchedData'
 
 // ------------------------------------------------
 const setting = useSetting()
@@ -206,7 +212,7 @@ watch(pagination_currPage, () => { //onUpdated(() => {
       console.error(`PAGINATION REPOSITION FAILED, offset = ${targetHeightOffset}`)
     }
   }
-}, {flush: 'post'})
+}, { flush: 'post' })
 
 // -------------------------------------------------------------
 
@@ -367,7 +373,8 @@ onBeforeRouteUpdate(async (to, from) => {
                           :next-id="scenarioRelatedStoryData.Next.Id"
                           :next-name="scenarioRelatedStoryData.Next.Name"
                           :next-pos-string="scenarioRelatedStoryData.Next.PosString"
-                          :key="scenarioID" />
+                          :key="scenarioID"
+                          info-pos="top" />
     <a ref="htmlAnchorMainTableTop"></a>
     <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
            id="scnario-main-table">
@@ -421,7 +428,8 @@ onBeforeRouteUpdate(async (to, from) => {
                           :next-id="scenarioRelatedStoryData.Next.Id"
                           :next-name="scenarioRelatedStoryData.Next.Name"
                           :next-pos-string="scenarioRelatedStoryData.Next.PosString"
-                          :key="scenarioID" />
+                          :key="scenarioID"
+                          info-pos="bottom"/>
   </div>
 </template>
 
@@ -429,6 +437,7 @@ onBeforeRouteUpdate(async (to, from) => {
 .momotalk-table th:nth-child(odd) {
   width: v-bind(cssWidthForThOfChar)
 }
+
 .momotalk-table th:nth-child(even) {
   width: v-bind(cssWidthForThOfContent);
 }
