@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { httpGetAsync } from '@/tool/HttpRequest'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CharacterSearchEntry from '@/components/search/CharacterSearchEntry.vue'

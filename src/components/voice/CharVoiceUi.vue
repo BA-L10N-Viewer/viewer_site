@@ -42,6 +42,7 @@ import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
 import PvDivider from 'primevue/divider'
 import CharacterSheet from '@/components/CharacterSheet.vue'
+import { DirectoryDataCommonI18nFileVoiceGroup } from '@/tool/PreFetchedData'
 
 const props = defineProps(
   {
@@ -59,7 +60,7 @@ const isLoading = ref(true)
 
 let dataVoiceNexon: NexonCharVoiceEntry = {} as unknown as NexonCharVoiceEntry
 let dataVoiceSdb: SchaleDbStuInfoFullVoiceline = {} as unknown as SchaleDbStuInfoFullVoiceline
-let dataVoiceI18n: Record<SiteUiLang, {}> = createDictionaryWithDefault(SiteUiLang, {})
+const dataVoiceI18n: Record<SiteUiLang, {}> = DirectoryDataCommonI18nFileVoiceGroup.value
 const dataVoiceI18nCurr = shallowRef<{ [key: string]: string }>({})
 
 // --------------------- MT AUTO TRANSLATE ---------------------
@@ -153,8 +154,6 @@ async function loadAll() {
           }
         } as unknown as SchaleDbStuInfoFull)
     })(),
-    //httpGetJsonAsync(dataCharSdb, `/data/common/schale_stu/${props.charId}.json`),
-    ...SiteUiLang.map(lang => httpGetJsonAsync(dataVoiceI18n[lang], `/data/common/i18n/voice_group.${lang}.json`))
   ])
   dataVoiceSdb = dataCharSdb.Voicelines
 

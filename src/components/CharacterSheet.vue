@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { getStaticCdnBasepath, httpGetAsync, httpGetJsonAsync } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import { useRoute } from 'vue-router'
 import type { SchaleDbI18nDictData, StudentInfoDataSimple } from '@/types/OutsourcedData'
 import { useWindowSize } from '@vueuse/core'
@@ -9,6 +9,11 @@ import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH } from '@/tool/Constant
 import PvButton from 'primevue/button'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import { useSetting } from '@/stores/setting'
+import {
+  DirectoryDataCommonFileIndexMomoL2d,
+  DirectoryDataCommonFileIndexNpc,
+  DirectoryDataCommonFileIndexStu, DirectoryDataCommonSchaleFileLocalization
+} from '@/tool/PreFetchedData'
 
 const props = defineProps({
   charId: {
@@ -40,7 +45,7 @@ const NPC_IMG_URL: Record<string, string> = {
   '9009005': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0035.png`  // Plana
 }
 const charImgUrl = isNpc.value ? NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
-const indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
+let indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 const cssCharColor = computed(() => {
   if (String(props.charId).startsWith('900'))
@@ -52,15 +57,9 @@ const cssCharColor = computed(() => {
 })
 
 onMounted(async () => {
-  await Promise.allSettled([
-    (async () => {
-      const sdbStu = JSON.parse(await httpGetAsync(`/data/common/index_stu.json`))
-      const sdbNpc = JSON.parse(await httpGetAsync(`/data/common/index_npc.json`))
-      sdbStuInfoData = Object.assign({}, sdbStu, sdbNpc)
-    })(),
-    httpGetJsonAsync(sdbLocalizationData, `/data/common/schale/localization.json`),
-    httpGetJsonAsync(indexL2dData, `/data/common/index_momo_l2d.json`)
-  ])
+  sdbStuInfoData = Object.assign({}, DirectoryDataCommonFileIndexStu.value, DirectoryDataCommonFileIndexNpc.value)
+  indexL2dData = DirectoryDataCommonFileIndexMomoL2d.value
+  sdbLocalizationData = DirectoryDataCommonSchaleFileLocalization.value
 
   isLoading.value = false
 })

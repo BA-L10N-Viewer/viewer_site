@@ -18,13 +18,12 @@ import type {
   NexonL10nDataLangOfUi
 } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
-import { httpGetSync } from '@/tool/HttpRequest'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import PvTag from 'primevue/tag'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import PvButton from 'primevue/button'
-import { DirectoryDataCommonFileIndexMomo, DirectoryDataStoryI18nFileI18nBond, DirectoryDataStoryI18nFileI18nEventInde, DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
+import { DirectoryDataCommonFileIndexMomo, DirectoryDataStoryI18nFileI18nBond, DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
 
 const props = defineProps({
   dataVoice: {

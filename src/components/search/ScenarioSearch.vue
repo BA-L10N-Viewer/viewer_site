@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
-import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
@@ -25,6 +24,15 @@ import PvSelect from 'primevue/select'
 import PvFluid from 'primevue/fluid'
 import PvDivider from 'primevue/divider'
 import CharacterSheet from '@/components/CharacterSheet.vue'
+import {
+  DirectoryDataCommonFileIndexMomo, DirectoryDataCommonFileIndexMomoL2d,
+  DirectoryDataCommonFileIndexScenarioI18nEvent, DirectoryDataCommonFileIndexScenarioI18nMain,
+  DirectoryDataCommonFileIndexScenarioManifestEvent, DirectoryDataCommonFileIndexScenarioManifestMain,
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataStoryI18nFileI18nBond,
+  DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nMainIndex,
+  DirectoryDataStoryI18nFileI18nStory
+} from '@/tool/PreFetchedData'
 
 const selectType = ref('')
 const i18n = useI18n()
@@ -68,22 +76,21 @@ let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXx
 const dataAllLoaded = ref(false)
 
 async function loadAllData() {
-  await Promise.allSettled([
-    httpGetJsonAsync(dataI18nStoryXxhashToL10n, `/data/story/i18n/i18n_story.json`),
+  dataI18nStoryXxhashToL10n = DirectoryDataStoryI18nFileI18nStory.value
 
-    httpGetJsonAsync(dataEventI18nKeyToXxhash, `/data/story/i18n/i18n_event_index.json`),
-    httpGetJsonAsync(dataEventIndexManifest, `/data/common/index_scenario_manifest_event.json`),
-    httpGetJsonAsync(dataEventScenarioIdToI18nKey, `/data/common/index_scenario_i18n_event.json`),
+  dataEventI18nKeyToXxhash = DirectoryDataStoryI18nFileI18nEventIndex.value
+  dataEventIndexManifest = DirectoryDataCommonFileIndexScenarioManifestEvent.value
+  dataEventScenarioIdToI18nKey = DirectoryDataCommonFileIndexScenarioI18nEvent.value
 
-    httpGetJsonAsync(dataBondStudentName, `/data/common/index_stu.json`),
-    httpGetJsonAsync(dataBondIndexMomotalkScenario, `/data/common/index_momo.json`),
-    httpGetJsonAsync(dataBondScenarioI18n, `/data/story/i18n/i18n_bond.json`),
-    httpGetJsonAsync(dataBondL2dData, `/data/common/index_momo_l2d.json`),
+  dataBondStudentName = DirectoryDataCommonFileIndexStu.value
+  dataBondIndexMomotalkScenario = DirectoryDataCommonFileIndexMomo.value
+  dataBondScenarioI18n = DirectoryDataStoryI18nFileI18nBond.value
+  dataBondL2dData = DirectoryDataCommonFileIndexMomoL2d.value
 
-    httpGetJsonAsync(dataMainIndexManifest, `/data/common/index_scenario_manifest_main.json`),
-    httpGetJsonAsync(dataMainScenarioIdToI18nKey, `/data/common/index_scenario_i18n_main.json`),
-    httpGetJsonAsync(dataMainI18nKeyToXxhash, `/data/story/i18n/i18n_main_index.json`)
-  ])
+  dataMainIndexManifest = DirectoryDataCommonFileIndexScenarioManifestMain.value
+  dataMainScenarioIdToI18nKey = DirectoryDataCommonFileIndexScenarioI18nMain.value
+  dataMainI18nKeyToXxhash = DirectoryDataStoryI18nFileI18nMainIndex.value
+
   dataAllLoaded.value = true
 }
 
