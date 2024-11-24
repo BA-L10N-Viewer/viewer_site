@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { defineProps, type PropType } from 'vue'
+import { defineProps, type PropType, computed } from 'vue'
 import MomotalkMessageAuto from '@/components/momotalk/MomotalkMessageAuto.vue'
 import { useWindowSize } from '@vueuse/core'
-import { i18nDesktopLoopIdx, MOBILE_WIDTH } from '@/tool/Constant'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER } from '@/tool/Constant'
 import type {
   MomotalkStoryDataEntry,
   NexonL10nData
 } from '@/types/OutsourcedData'
 import { useSetting } from '@/stores/setting'
-import { i18nLangAll } from '@/tool/ConstantComputed'
+import { i18nLangAll, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 
 import PvButton from 'primevue/button'
 
@@ -34,6 +34,20 @@ const mmtData = props.data_data
 const charName = props.data_charname
 
 const screenWidth = useWindowSize().width
+
+const isMobile = computed(() => screenWidth.value < MOBILE_WIDTH_WIDER || setting.ui_force_mobile)
+const cssWidthForThOfChar = '6em'
+const cssWidthForThOfContent = computed(() => {
+  if (isMobile.value)
+    return '100'
+  else {
+    const currLangCount = numberOfSelectedLangForDesktop.value
+    if (currLangCount !== 0)
+      return `calc(${Math.floor(100 / currLangCount)}vw - ${cssWidthForThOfChar})`
+    else
+      return '100%'
+  }
+})
 </script>
 
 <template>
@@ -77,5 +91,10 @@ const screenWidth = useWindowSize().width
 </template>
 
 <style scoped>
-
+.momotalk-table th:nth-child(odd) {
+  width: v-bind(cssWidthForThOfChar)
+}
+.momotalk-table th:nth-child(even) {
+  width: v-bind(cssWidthForThOfContent);
+}
 </style>

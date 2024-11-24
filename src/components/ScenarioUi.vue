@@ -15,7 +15,7 @@ import {
 import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { i18nLangAll, mtI18nLangStats } from '@/tool/ConstantComputed'
+import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
@@ -299,6 +299,23 @@ provide('ML_table', tableDialogueTranslated)
 provide('ML_in_progress', ML_in_progress)
 // -------------------------------------------------------------
 
+// --------------------- TABLE CSS WIDTH ---------------------
+// 控制table的width
+const isMobile = computed(() => screenWidth.value < MOBILE_WIDTH_WIDER || setting.ui_force_mobile)
+const cssWidthForThOfChar = '6em'
+const cssWidthForThOfContent = computed(() => {
+  if (isMobile.value)
+    return '100'
+  else {
+    const currLangCount = numberOfSelectedLangForDesktop.value
+    if (currLangCount !== 0)
+      return `calc(${Math.floor(100 / currLangCount)}vw - ${cssWidthForThOfChar})`
+    else
+      return '100%'
+  }
+})
+// -------------------------------------------------------------
+
 onMounted(async () => {
   await Promise.allSettled([
     httpGetJsonAsync(scenarioData.value, `/data/story/normal/${router.params.storyId}.json`),
@@ -365,7 +382,7 @@ onBeforeRouteUpdate(async (to, from) => {
       </tr>
       </thead>
       <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                        :entry_pos="idx + (pagination_currPage - 1) * pagination_currPerSize"
+                        :entry_pos="idx + (pagination_currPage - 1) * setting.scenario_pagination_perPage"
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
@@ -378,7 +395,7 @@ onBeforeRouteUpdate(async (to, from) => {
       </tr>
       </thead>
       <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                        :entry_pos="idx + (pagination_currPage - 1) * pagination_currPerSize"
+                        :entry_pos="idx + (pagination_currPage - 1) * setting.scenario_pagination_perPage"
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
@@ -409,4 +426,10 @@ onBeforeRouteUpdate(async (to, from) => {
 </template>
 
 <style scoped>
+.momotalk-table th:nth-child(odd) {
+  width: v-bind(cssWidthForThOfChar)
+}
+.momotalk-table th:nth-child(even) {
+  width: v-bind(cssWidthForThOfContent);
+}
 </style>
