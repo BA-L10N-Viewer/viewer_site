@@ -80,6 +80,7 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
     <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
          v-if="dialoguePopupFilename"
          class="momotalk-dialogue-img" />
+    <br>
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">

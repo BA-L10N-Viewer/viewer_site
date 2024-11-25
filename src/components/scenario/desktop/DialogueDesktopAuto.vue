@@ -69,6 +69,7 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
                          :dialogue-character-translated="dialogueCharacterTranslated"
                          :dialogue-content-translated="dialogueContentTranslated"
                          :dialogue-absolute-pos="dialogueAbsolutePos"
+                         :dialogue-popup-filename="dialoguePopupFilename"
                          v-if="dialogueDataType === 'speaker'" />
   <DialogueDesktopOption :dialogue-selection-to-group="dialogueSelectionToGroup"
                          :dialogue-selection-group="dialogueSelectionGroup"
