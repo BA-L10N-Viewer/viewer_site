@@ -17,11 +17,13 @@ const { t } = useI18n()
     <div class="home-bulletin-div-group-1">
       <div class="home-bulletin-div">
         <h1>{{ $t('home-h1-1') }}</h1>
-        <p v-html="t('home-p-1')"></p>
-        <p v-html="t('home-p-2')"></p>
-        <p v-html="t('home-p-3')"></p>
+        <p v-html="t('home-p-1-1')"></p>
+        <p v-html="t('home-p-1-2')"></p>
+        <p v-html="t('home-p-1-3')"></p>
         <h1>{{ $t('home-h1-2') }}</h1>
-        <p v-html="t('home-p-4')"></p>
+        <p v-html="t('home-p-2-1')"></p>
+        <p v-html="t('home-p-2-2')"></p>
+        <p v-html="t('home-p-2-3')"></p>
       </div>
     </div>
     <div style="flex: 1">

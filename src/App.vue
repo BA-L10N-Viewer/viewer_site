@@ -4,7 +4,7 @@ import { useSetting } from '@/stores/setting'
 import { ref } from 'vue'
 import { menubarValue } from '@/tool/Constant'
 
-import { fetchData, isFetching } from '@/tool/PreFetchedData' //PersistanceData?
+import { fetchData, isFetching } from '@/tool/PreFetchedData'
 
 import { useI18n } from 'vue-i18n'
 
