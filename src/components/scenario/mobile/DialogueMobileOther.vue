@@ -70,6 +70,7 @@ const htmlTdClassName = (() => {
         <span :lang="i18nToUiLangAll[langIdx]">
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
+            :content-original-lang="i18nToUiLangAll[langIdx]"
             :content-translated="ML_table[i18nLangAll[langIdx] as NexonL10nDataLang][entry_pos]['dialogue']"
             :is_after_br="true" />
         </span>

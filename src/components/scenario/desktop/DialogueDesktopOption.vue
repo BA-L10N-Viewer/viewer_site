@@ -39,7 +39,7 @@ const props = defineProps({
 
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2" :lang="dialogueLang">
-    <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent"
+    <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent" :content-original-lang="dialogueLang"
                                 :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup"

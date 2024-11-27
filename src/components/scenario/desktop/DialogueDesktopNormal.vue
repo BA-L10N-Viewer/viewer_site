@@ -58,6 +58,7 @@ const props = defineProps({
   <td :lang="dialogueLang" class="scenario-speaker scenario-dialogue">
     <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" />
     <ScenarioTranslatedDialogue :content-original="dialogueCharacter" :content-translated="dialogueCharacterTranslated"
+                                :content-original-lang="dialogueLang"
                                 :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">
@@ -65,7 +66,7 @@ const props = defineProps({
          v-if="dialoguePopupFilename"
          class="momotalk-dialogue-img" />
     <br />
-    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated"
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated"
                                 :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup"

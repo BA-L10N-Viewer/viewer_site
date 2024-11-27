@@ -21,7 +21,7 @@ import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import PvTag from 'primevue/tag'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '@/tool/Constant'
+import { MOBILE_WIDTH, NexonLangMap } from '@/tool/Constant'
 import PvButton from 'primevue/button'
 import { DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
 
@@ -93,6 +93,7 @@ onMounted(async () => {
               <template #body="slotProps">
                 <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
                 <DialogueTranslated
+                  :content-original-lang="NexonLangMap[slotProps.data.Transcription]"
                   :content-translated="dataVoiceMt[`${eventData.EventId}_${slotProps.data.Id}`]?.Transcription[slotProps.data.EventType! as NexonCharVoiceEventTranscriptionType]?.[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                   :content-original="slotProps.data.Transcription || 'null'" />
               </template>

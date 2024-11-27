@@ -17,6 +17,10 @@ const props = defineProps({
     type: String,
     required: true
   },
+  contentOriginalLang: {
+    type: String,
+    required: true
+  },
   contentTranslated: {
     type: String,
     required: true
@@ -59,7 +63,7 @@ defineOptions({
 </script>
 
 <template>
-  <span :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
+  <span :lang="contentOriginalLang" :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
   <br v-show="is_br && (isShowOriginal || !shouldDisplay)" />
   <span :class="html_class" v-show="shouldDisplay" v-html="String(contentTranslated)" :style="actualCssStyle" :lang="currMlLang"></span>
   <br v-show="shouldDisplay && is_after_br"/>

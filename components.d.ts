@@ -52,4 +52,7 @@ declare module 'vue' {
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }
