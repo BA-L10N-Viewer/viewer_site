@@ -42,24 +42,28 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? false
 </script>
 
 <template>
-  <div style="margin-top: 1em; margin-bottom: 1em;">
+  <div style="margin-top: 1em; margin-bottom: 1em; text-align: center;">
     <!-- 故事名称 -->
     <PvFluid class="pv-fluid" v-if="infoPos === 'top'">
       <div style="width: calc(50%);">
         <template v-if="prevName">
           <p><b>{{ prevPosString }}</b></p>
-          <ul>
-            <NexonI18nDataOutput :data="prevName" html-element-name="li" />
-          </ul>
+          <div class="div-for-ul">
+            <ul>
+              <NexonI18nDataOutput :data="prevName" html-element-name="li" />
+            </ul>
+          </div>
         </template>
       </div>
       <div class="pv-fluid-spacing"></div>
       <div style="width: calc(50%)">
         <template v-if="nextName">
           <p><b>{{ nextPosString }}</b></p>
-          <ul>
-            <NexonI18nDataOutput :data="nextName" html-element-name="li" />
-          </ul>
+          <div class="div-for-ul">
+            <ul>
+              <NexonI18nDataOutput :data="nextName" html-element-name="li" />
+            </ul>
+          </div>
         </template>
       </div>
     </PvFluid>
@@ -116,18 +120,22 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? false
       <div style="width: calc(50%);">
         <template v-if="prevName">
           <p><b>{{ prevPosString }}</b></p>
-          <ul>
-            <NexonI18nDataOutput :data="prevName" html-element-name="li" />
-          </ul>
+          <div class="div-for-ul">
+            <ul>
+              <NexonI18nDataOutput :data="prevName" html-element-name="li" />
+            </ul>
+          </div>
         </template>
       </div>
       <div class="pv-fluid-spacing"></div>
       <div style="width: calc(50%)">
         <template v-if="nextName">
           <p><b>{{ nextPosString }}</b></p>
-          <ul>
-            <NexonI18nDataOutput :data="nextName" html-element-name="li" />
-          </ul>
+          <div class="div-for-ul">
+            <ul>
+              <NexonI18nDataOutput :data="nextName" html-element-name="li" />
+            </ul>
+          </div>
         </template>
       </div>
     </PvFluid>
@@ -135,5 +143,23 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? false
 </template>
 
 <style scoped>
-
+.div-for-ul{
+  width: 60%;
+  text-align: left;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+@media screen and (max-width: 1200px) {
+  .div-for-ul{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .div-for-ul{
+    width: 100%;
+    margin: revert;
+  }
+}
 </style>
