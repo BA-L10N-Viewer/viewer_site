@@ -23,6 +23,7 @@ export type NexonL10nDataLangDataOfUiDict = {
 }
 
 export type SchaleDbL10nDataLang = NexonL10nDataLang | 'c_zh' | 'c_zh_tw'
+export const SchaleDbL10nDataLang: SchaleDbL10nDataLang[] = [...NexonL10nDataLang, 'c_zh', 'c_zh_tw']
 export type SchaleDbL10nData = Record<SchaleDbL10nDataLang, string>
 
 /*  Common Story File (e.g. 1101.json)  */

@@ -73,6 +73,8 @@
   "comp-story-i18n-btn-forcemobile": "View Dialogues in Mobile",
   "comp-story-i18n-btn-hidecharicon": "Hide Character Icon",
   "comp-story-i18n-btn-showcharicon": "Show Character Icon",
+  "comp-story-i18n-btn-showzh": "Show CN Community Translation (no MT support)",
+  "comp-story-i18n-btn-hidezh": "Hide CN Community Translation",
   "comp-story-i18n-TL_ip-0": "ML translation ready",
   "comp-story-i18n-TL_ip-1": "Requesting ML service...",
   "comp-story-i18n-TL_ip-2": "Clearing all ML result...",
@@ -196,5 +198,26 @@
 
   "comp-data-version-data": "Data Update Time",
   "comp-data-version-site": "Site Update Time",
-  "comp-data-version-info": "Version Info"
+  "comp-data-version-info": "Version Info",
+
+  "view-char-profile-h1": "Character Profile",
+  "comp-char-profile-h2-0": "Character Voicelines",
+  "comp-char-profile-p-0-1": "To view voicelines, click here to view it in another page",
+  "comp-char-profile-h2-1": "Portrait & Icon",
+  "comp-char-profile-h2-2": "Family & Given Name",
+  "comp-char-profile-h3-2-1": "Family Name",
+  "comp-char-profile-h3-2-2": "Given Name",
+  "comp-char-profile-h2-3": "Affiliation",
+  "comp-char-profile-h3-3-1": "School",
+  "comp-char-profile-h3-3-2": "Club",
+  "comp-char-profile-h2-4": "Unique Weapon",
+  "comp-char-profile-h3-4-1": "Unique Weapon Name",
+  "comp-char-profile-h3-4-2": "Unique Weapon Description",
+  "comp-char-profile-h2-5": "Profile",
+  "comp-char-profile-h3-5-1": "Introduction",
+  "comp-char-profile-h3-5-2": "3-Star Character Intro Text",
+  "comp-char-profile-h3-5-3": "Momotalk Status Message",
+  "comp-char-profile-h3-5-4": "Hobby",
+  "comp-char-profile-generic-table-langcode": "Lang Code",
+  "comp-char-profile-generic-table-text": "Content"
 }

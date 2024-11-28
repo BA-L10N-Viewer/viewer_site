@@ -4,6 +4,7 @@ import { getUserLang, convertLangToNormal } from '../tool/BrowserTool'
 import { defaultLangForNexonL10nLang, paginationScenarioControl, type SiteUiLang } from '@/tool/Constant'
 import type { CharVoiceUiDataSource, CharVoiceUiEventDisplayMode, CharVoiceUiTabName } from '@/types/CharVoiceComp'
 import type { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
+import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 
 
 export const useSetting = defineStore('setting', {
@@ -19,6 +20,7 @@ export const useSetting = defineStore('setting', {
       'ui_show_char_icon': true,
 
       'char_voice_data_source': 'nexon' as CharVoiceUiDataSource,
+      'show_lang_zh': false,
 
       'i18n_lang1': defaultLang[0] as NexonL10nDataLangOfUi,
       'i18n_lang2': defaultLang[1] as NexonL10nDataLangOfUi,
@@ -26,7 +28,7 @@ export const useSetting = defineStore('setting', {
       'i18n_lang4': defaultLang[3] as NexonL10nDataLangOfUi,
       'i18n_lang5': defaultLang[4] as NexonL10nDataLangOfUi,
 
-      'auto_i18n_service': 'google',
+      'auto_i18n_service': 'google' as MtServiceName,
       'auto_i18n_lang': 'en',
       'auto_i18n_showauto': false,
 

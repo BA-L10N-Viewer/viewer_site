@@ -25,7 +25,7 @@ const i18n = useI18n()
 const props = defineProps({
   show_ml: {
     type: Boolean,
-    default: true // Set default value
+    default: true
   }
 })
 
@@ -186,7 +186,7 @@ watch(
     <PvSelect v-model="setting.i18n_lang4" :options="nexonDataLangSelect"
               :optionLabel="i => i18n.t(i.label)" optionValue="value"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
-              class="pv-select-tl-lang-2" />
+              class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
@@ -212,7 +212,7 @@ watch(
     <PvSelect v-model="setting.i18n_lang5" :options="nexonDataLangSelect"
               :optionLabel="i => i18n.t(i.label)" optionValue="value"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
-              class="pv-select-tl-lang-2" />
+              class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
@@ -263,6 +263,20 @@ watch(
           v-model="setting.ui_show_char_icon" />
         <br />
       </div>
+    </div>
+  </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid>
+    <div :style="{'text-align': 'center'}">
+      <PvSelectButton
+        v-model="setting.show_lang_zh"
+
+        :allow-empty="false"
+        :option-label="i => i18n.t(i.label)"
+        option-value="value"
+
+        :options="[{label: 'comp-story-i18n-btn-showzh', value: true}, {label: 'comp-story-i18n-btn-hidezh', value: false}]"
+      />
     </div>
   </PvFluid>
 </template>

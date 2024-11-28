@@ -73,6 +73,8 @@
   "comp-story-i18n-btn-forcemobile": "强制移动视图显示对话",
   "comp-story-i18n-btn-hidecharicon": "隐藏人物头像",
   "comp-story-i18n-btn-showcharicon": "显示人物头像",
+  "comp-story-i18n-btn-showzh": "显示社区中文翻译 (仅部分页面；无机翻支持)",
+  "comp-story-i18n-btn-hidezh": "隐藏社区中文翻译 (仅部分页面；无机翻支持)",
   "comp-story-i18n-TL_ip-0": "机器翻译就绪",
   "comp-story-i18n-TL_ip-1": "正在请求机器翻译服务服务器……",
   "comp-story-i18n-TL_ip-2": "正在清除所有机器翻译结果……",
@@ -196,5 +198,26 @@
 
   "comp-data-version-data": "数据更新时间",
   "comp-data-version-site": "网站更新时间",
-  "comp-data-version-info": "版本信息"
+  "comp-data-version-info": "版本信息",
+
+  "view-char-profile-h1": "人物档案",
+  "comp-char-profile-h2-0": "人物语音",
+  "comp-char-profile-p-0-1": "欲查看人物语音，请单击此链接前往另一页面查看",
+  "comp-char-profile-h2-1": "人物立绘与图标",
+  "comp-char-profile-h2-2": "姓、名",
+  "comp-char-profile-h3-2-1": "姓",
+  "comp-char-profile-h3-2-2": "名",
+  "comp-char-profile-h2-3": "归属",
+  "comp-char-profile-h3-3-1": "学院",
+  "comp-char-profile-h3-3-2": "社团",
+  "comp-char-profile-h2-4": "固有武器",
+  "comp-char-profile-h3-4-1": "固有武器名称",
+  "comp-char-profile-h3-4-2": "固有武器简介",
+  "comp-char-profile-h2-5": "人物档案",
+  "comp-char-profile-h3-5-1": "人物介绍",
+  "comp-char-profile-h3-5-2": "三星角色抽卡提示语",
+  "comp-char-profile-h3-5-3": "Momotalk状态消息",
+  "comp-char-profile-h3-5-4": "爱好",
+  "comp-char-profile-generic-table-langcode": "语言代码",
+  "comp-char-profile-generic-table-text": "内容"
 }

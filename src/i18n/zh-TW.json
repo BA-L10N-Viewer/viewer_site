@@ -73,6 +73,8 @@
   "comp-story-i18n-btn-forcemobile": "強制移動檢視顯示對話",
   "comp-story-i18n-btn-hidecharicon": "隱藏人物頭像",
   "comp-story-i18n-btn-showcharicon": "顯示人物頭像",
+  "comp-story-i18n-btn-showzh": "顯示社群中文翻譯 (僅部分頁面；無機翻支援)",
+  "comp-story-i18n-btn-hidezh": "隱藏社群中文翻譯 (僅部分頁面；無機翻支援)",
   "comp-story-i18n-TL_ip-0": "機器翻譯就緒",
   "comp-story-i18n-TL_ip-1": "正在請求機器翻譯服務伺服器……",
   "comp-story-i18n-TL_ip-2": "正在清除所有機器翻譯結果……",
@@ -196,5 +198,26 @@
 
   "comp-data-version-data": "資料更新時間",
   "comp-data-version-site": "網站更新時間",
-  "comp-data-version-info": "版本資訊"
+  "comp-data-version-info": "版本資訊",
+
+  "view-char-profile-h1": "人物檔案",
+  "comp-char-profile-h2-0": "人物語音",
+  "comp-char-profile-p-0-1": "欲檢視人物語音，請單擊此連結前往另一頁面檢視",
+  "comp-char-profile-h2-1": "人物立繪與圖示",
+  "comp-char-profile-h2-2": "姓、名",
+  "comp-char-profile-h3-2-1": "姓",
+  "comp-char-profile-h3-2-2": "名",
+  "comp-char-profile-h2-3": "歸屬",
+  "comp-char-profile-h3-3-1": "學院",
+  "comp-char-profile-h3-3-2": "社團",
+  "comp-char-profile-h2-4": "固有武器",
+  "comp-char-profile-h3-4-1": "固有武器名稱",
+  "comp-char-profile-h3-4-2": "固有武器簡介",
+  "comp-char-profile-h2-5": "人物檔案",
+  "comp-char-profile-h3-5-1": "人物介紹",
+  "comp-char-profile-h3-5-2": "三星角色抽卡提示語",
+  "comp-char-profile-h3-5-3": "Momotalk狀態訊息",
+  "comp-char-profile-h3-5-4": "愛好",
+  "comp-char-profile-generic-table-langcode": "語言程式碼",
+  "comp-char-profile-generic-table-text": "內容"
 }
