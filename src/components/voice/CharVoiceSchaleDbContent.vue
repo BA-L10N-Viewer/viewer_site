@@ -13,7 +13,9 @@ import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import PvTag from 'primevue/tag'
 import PvButton from 'primevue/button'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '@/tool/Constant'
+import { MOBILE_WIDTH, NexonLangMapReverse } from '@/tool/Constant'
+import { DirectoryDataCommonSchaleFileLocalization } from '@/tool/PreFetchedData'
+import { useSetting } from '@/stores/setting'
 
 const props = defineProps({
   dataVoice: {
@@ -26,13 +28,14 @@ const props = defineProps({
   }
 })
 
+const setting = useSetting()
 const i18n = useI18n()
 const isMobile = computed(() => {
   const currWidth = useWindowSize().width.value
   return currWidth <= MOBILE_WIDTH
 })
 const isLoading = ref(true)
-const dataCharI18n = inject(symbolDataCharVoiceI18n)!
+const dataCharI18n = DirectoryDataCommonSchaleFileLocalization.value['VoiceClip']
 
 const dataForTable = computed(
   () => convertSchaleDbVoiceCategoryForTable(props.dataVoice, i18nLangAll.value)
@@ -49,15 +52,15 @@ function getProperGroupId(entry: SchaleDbVoiceEntryForTable) {
 
 function getProperGroupDisplayHtml(entry: SchaleDbVoiceEntryForTable) {
   const entryId = getProperGroupId(entry)
-  const entryGroupI18n = dataCharI18n.value[`SDB.${entryId}`]
-  if (entryGroupI18n === `SDB.${entryId}`) {
+  const entryGroupI18n = dataCharI18n[`${entryId}`]
+  if (entryGroupI18n == undefined) {
     if (!isNaN(Number(entry.Id.slice(-1)))) {
       return `${entryGroupI18n}&nbsp;${entry.Id.slice(-1)}`
     } else {
       return entryGroupI18n
     }
   } else {
-    return entryId
+    return entryGroupI18n[NexonLangMapReverse[setting.ui_lang][0]].replaceAll('{0}', '')
   }
 }
 

@@ -203,5 +203,5 @@ export type SchaleDbI18nDictData = {
   School: Record<string, SchaleDbL10nData>,
   Club: Record<string, SchaleDbL10nData>,
   VoiceClipGroup: Record<'Normal' | 'Lobby' | 'Battle' | 'Event', SchaleDbL10nData>,
-  VoiceClip: Record<string, string>
+  VoiceClip: Record<string, SchaleDbL10nData>
 }
