@@ -30,6 +30,11 @@ const router = createRouter({
       component: () => import('@/views/FaqView.vue')
     },
     {
+      path: '/whybalv',
+      name: 'whybalv',
+      component: () => import('@/views/WhyBalvView.vue')
+    },
+    {
       path: '/momotalk/:charId',
       name: 'momotalk',
       component: () => import('../views/MomotalkView.vue'),
