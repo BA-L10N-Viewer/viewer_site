@@ -33,7 +33,7 @@ export default defineConfig({
     ]
   }), sentryVitePlugin({
     org: "sctopzhang",
-    project: "javascript-vue"
+    project: "ba-l10n-viewer"
   })],
   resolve: {
     alias: {
