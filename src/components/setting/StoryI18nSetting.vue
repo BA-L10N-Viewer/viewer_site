@@ -15,7 +15,7 @@ import PvSelectButton from 'primevue/selectbutton'
 
 const screenWidth = useWindowSize().width
 const isMobileWidth = computed(() => screenWidth.value <= MOBILE_WIDTH)
-const widthForTlLangToolBtn = computed(() => !isMobileWidth.value ? '6em' : '2em')
+const widthForTlLangToolBtn = computed(() => !isMobileWidth.value ? '7em' : '2em')
 const widthForTlLangSelect = computed(() => !isMobileWidth.value ? '14em' : '3em')
 
 const setting = useSetting()
