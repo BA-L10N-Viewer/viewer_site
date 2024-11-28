@@ -226,7 +226,7 @@ watch(
               severity="danger"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
 
-              @click="ML_clear(4)"
+              @click="ML_clear(5)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
       <span class="pi pi-trash"></span>
       <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
