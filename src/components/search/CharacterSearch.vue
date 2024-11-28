@@ -53,6 +53,7 @@ watch(
 watch(
   () => inputQuery.value,
   (newValue) => {
+    searchCache.setMomotalkSearchVars(newValue)
     showContent.value = countCharacterLengthBiased(newValue) >= 2
   }
 )
@@ -65,12 +66,6 @@ onMounted(async () => {
   inputQuery.value = searchCache.m_inputQuery
   updateCharData()
 })
-watch(
-  () => [inputQuery.value],
-  () => {
-    searchCache.setMomotalkSearchVars(inputQuery.value)
-  }
-)
 </script>
 
 <template>
