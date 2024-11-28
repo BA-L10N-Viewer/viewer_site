@@ -20,6 +20,7 @@ declare module 'vue' {
     CharVoiceSchaleDbContent: typeof import('./src/components/voice/CharVoiceSchaleDbContent.vue')['default']
     CharVoiceSchaleDbUi: typeof import('./src/components/voice/CharVoiceSchaleDbUi.vue')['default']
     CharVoiceUi: typeof import('./src/components/voice/CharVoiceUi.vue')['default']
+    copy: typeof import('./src/components/views/WhyBalvViewCompZhCn copy.vue')['default']
     DataVersionDisplay: typeof import('./src/components/DataVersionDisplay.vue')['default']
     DialogueDesktopAuto: typeof import('./src/components/scenario/desktop/DialogueDesktopAuto.vue')['default']
     DialogueDesktopNormal: typeof import('./src/components/scenario/desktop/DialogueDesktopNormal.vue')['default']
@@ -32,6 +33,9 @@ declare module 'vue' {
     DialogueMobileOption: typeof import('./src/components/scenario/mobile/DialogueMobileOption.vue')['default']
     DialogueMobileOther: typeof import('./src/components/scenario/mobile/DialogueMobileOther.vue')['default']
     DialogueTranslated: typeof import('./src/components/DialogueTranslated.vue')['default']
+    FaqViewCompEn: typeof import('./src/components/views/FaqViewCompEn.vue')['default']
+    FaqViewCompZhCn: typeof import('./src/components/views/FaqViewCompZhCn.vue')['default']
+    FaqViewCompZhTw: typeof import('./src/components/views/FaqViewCompZhTw.vue')['default']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']
     MomotalkHeader: typeof import('./src/components/momotalk/MomotalkHeader.vue')['default']
@@ -51,6 +55,9 @@ declare module 'vue' {
     ScenarioUi: typeof import('./src/components/ScenarioUi.vue')['default']
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
+    WhyBalvViewCompEn: typeof import('./src/components/views/WhyBalvViewCompEn.vue')['default']
+    WhyBalvViewCompZhCn: typeof import('./src/components/views/WhyBalvViewCompZhCn.vue')['default']
+    WhyBalvViewCompZhTw: typeof import('./src/components/views/WhyBalvViewCompZhTw.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
