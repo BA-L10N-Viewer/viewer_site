@@ -40,9 +40,10 @@ const charImgUrl = isNpc.value ? CHAR_NPC_IMG_URL[String(props.charId)] : `${get
 let indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 const cssCharColor = computed(() => {
-  if (String(props.charId).startsWith('900'))
+  const charId = String(props.charId)
+  if (charId.startsWith('900') || charId.length !== 5)
     return 'black'
-  else if (String(props.charId).startsWith('1'))
+  else if (charId.startsWith('1'))
     return 'var(--color-ba-stu-striker)'
   else
     return 'var(--color-ba-stu-special)'
