@@ -1,5 +1,5 @@
 <template>
-  <h1>Why BA L110N Viewer</h1>
+  <h1>Why BA L10N Viewer</h1>
   <p>BA L10N Viewer (BALV), the site itself, isn't really just a gacha game hobbiest trying to practice his frontend development skills. <strong>Not at all, really.</strong></p>
   <p>Despite its simple and shabby UI and lacking a lot of functionalities, my original intent that is <em><strong>cross-language comparision</strong></em>, have never changed that much. At its core, BALV is tool dedicated for language learners and people who are curious about localization differences across different languages. But now, apparently, something more significant is happening, going on right now as I'm writing this article.</p>
   <p>The VERY BAD, VERY UNPROFESSIONAL LOCALIZATION that we're all seeing in-game.</p>
