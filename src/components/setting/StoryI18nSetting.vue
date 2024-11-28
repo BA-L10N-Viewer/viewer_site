@@ -110,7 +110,7 @@ watch(
               class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(1)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-1')">
@@ -119,7 +119,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(1)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -137,7 +137,7 @@ watch(
 
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(2)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-2')">
@@ -146,7 +146,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(2)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -163,7 +163,7 @@ watch(
               class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(3)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-3')">
@@ -172,7 +172,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(3)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -189,7 +189,7 @@ watch(
               class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(4)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-4')">
@@ -198,7 +198,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(4)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -215,7 +215,7 @@ watch(
               class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(5)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-5')">
@@ -224,7 +224,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(5)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
