@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, type PropType, ref } from 'vue'
+import { computed, onMounted, type PropType, ref } from 'vue'
 import type { SchaleDbVoicelineCategoryMtData } from '@/tool/CharVoiceMt'
 import { useI18n } from 'vue-i18n'
-import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 import { convertSchaleDbVoiceCategoryForTable, type SchaleDbVoiceEntryForTable } from '@/tool/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import type { NexonL10nDataLangOfUi, SchaleDbStuInfoFullVoicelineEntry } from '@/types/OutsourcedData'
@@ -10,8 +9,6 @@ import type { NexonL10nDataLangOfUi, SchaleDbStuInfoFullVoicelineEntry } from '@
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
-import PvTag from 'primevue/tag'
-import PvButton from 'primevue/button'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH, NexonLangMapReverse } from '@/tool/Constant'
 import { DirectoryDataCommonSchaleFileLocalization } from '@/tool/PreFetchedData'
@@ -60,7 +57,7 @@ function getProperGroupDisplayHtml(entry: SchaleDbVoiceEntryForTable) {
       return entryGroupI18n
     }
   } else {
-    return entryGroupI18n[NexonLangMapReverse[setting.ui_lang][0]].replaceAll('{0}', '')
+    return entryGroupI18n[NexonLangMapReverse[setting.ui_lang][0]].replaceAll('{0}', String(entry.Id).slice(-1))
   }
 }
 
