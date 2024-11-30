@@ -75,14 +75,7 @@ onMounted(async () => {
   </div>
   <div v-else>
     <template v-for="(voiceEntry, idx) in dataForTable" :key="idx">
-      <h3><span v-html="getProperGroupDisplayHtml(voiceEntry[0])"></span>&nbsp;
-        <PvButton
-          v-if="dataCharI18n[`SDB.${getProperGroupDisplayHtml(voiceEntry[0])}.Extra`] !== ''"
-          v-tooltip.hover.top="dataCharI18n[`SDB.${getProperGroupDisplayHtml(voiceEntry[0])}.Extra`]"
-          size="small" severity="secondary">
-          <i class="pi pi-question-circle"></i>
-        </PvButton>
-      </h3>
+      <h3><span v-html="getProperGroupDisplayHtml(voiceEntry[0])"></span></h3>
       <PvDataTable :value="voiceEntry">
         <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')"
                   style="width: 6em;"

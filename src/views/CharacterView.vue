@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import CharacterProfileUi from '@/components/profile/CharacterProfileUi.vue'
 import PvButton from 'primevue/button'
