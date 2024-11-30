@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
+import { type Component, watch, onMounted } from 'vue'
 import { useSetting } from '@/stores/setting'
 import type { SiteUiLang } from '@/tool/Constant';
 import FaqViewCompEn from '@/components/views/FaqViewCompEn.vue';
 import FaqViewCompZhCn from '@/components/views/FaqViewCompZhCn.vue';
 import FaqViewCompZhTw from '@/components/views/FaqViewCompZhTw.vue';
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useI18n } from 'vue-i18n'
 
 const allComps: Record<SiteUiLang, Component> = {
   en: FaqViewCompEn,
@@ -13,7 +15,19 @@ const allComps: Record<SiteUiLang, Component> = {
 }
 
 const setting = useSetting()
+const i18n = useI18n()
 
+onMounted(
+  () => {
+    watch(
+      () => setting.ui_lang,
+      () => {
+        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['faq']))
+      },
+      { immediate: true }
+    )
+  }
+)
 </script>
 
 <template>

@@ -219,5 +219,16 @@
   "comp-char-profile-h3-5-3": "Momotalk状态消息",
   "comp-char-profile-h3-5-4": "爱好",
   "comp-char-profile-generic-table-langcode": "语言代码",
-  "comp-char-profile-generic-table-text": "内容"
+  "comp-char-profile-generic-table-text": "内容",
+
+  "app-title-full-home": "首页",
+  "app-title-full-faq": "FAQ",
+  "app-title-full-about": "关于",
+  "app-title-prefix-scenario": "故事｜",
+  "app-title-prefix-momotalk": "Momotalk｜",
+  "app-title-prefix-voice": "人物语音｜",
+  "app-title-prefix-profile": "人物档案｜",
+  "app-title-full-whybalv": "为什么有这个项目",
+  "app-title-full-search-advanced": "高级搜索",
+  "app-title-full-search-char": "人物搜索"
 }

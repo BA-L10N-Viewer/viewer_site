@@ -219,5 +219,16 @@
   "comp-char-profile-h3-5-3": "Momotalk Status Message",
   "comp-char-profile-h3-5-4": "Hobby",
   "comp-char-profile-generic-table-langcode": "Lang Code",
-  "comp-char-profile-generic-table-text": "Content"
+  "comp-char-profile-generic-table-text": "Content",
+
+  "app-title-full-home": "Home",
+  "app-title-full-faq": "FAQ",
+  "app-title-full-about": "About",
+  "app-title-prefix-scenario": "Story｜",
+  "app-title-prefix-momotalk": "Momotalk｜",
+  "app-title-prefix-voice": "Voiceline｜",
+  "app-title-prefix-profile": "Profile｜",
+  "app-title-full-whybalv": "Why BALV",
+  "app-title-full-search-advanced": "Advanced Search",
+  "app-title-full-search-char": "Character Search"
 }

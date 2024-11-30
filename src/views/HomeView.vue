@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useI18n } from 'vue-i18n'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useSetting } from '@/stores/setting'
 
 const screenWidth = useWindowSize().width
 const isMobileWidth = computed(() => MOBILE_WIDTH >= screenWidth.value)
 
 const cssFlexRowForDiv1 = computed(() => !isMobileWidth.value ? 2 : 1)
 
+const setting = useSetting()
 const { t } = useI18n()
+
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    () => {
+      changeAppPageTitle(t(AppPageCategoryToI18nCode['home']))
+    },
+    { immediate: true }
+  )
+})
+
 </script>
 
 <template>

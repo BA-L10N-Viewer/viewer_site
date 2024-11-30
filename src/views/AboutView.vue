@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
+import { type Component, watch, onMounted } from 'vue'
 import { useSetting } from '@/stores/setting'
-import type { SiteUiLang } from '@/tool/Constant';
-import AboutViewCompEn from '@/components/views/AboutViewCompEn.vue';
-import AboutViewCompZhCn from '@/components/views/AboutViewCompZhCn.vue';
-import AboutViewCompZhTw from '@/components/views/AboutViewCompZhTw.vue';
+import type { SiteUiLang } from '@/tool/Constant'
+import AboutViewCompEn from '@/components/views/AboutViewCompEn.vue'
+import AboutViewCompZhCn from '@/components/views/AboutViewCompZhCn.vue'
+import AboutViewCompZhTw from '@/components/views/AboutViewCompZhTw.vue'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useI18n } from 'vue-i18n'
 
 const allComps: Record<SiteUiLang, Component> = {
   en: AboutViewCompEn,
@@ -13,6 +15,20 @@ const allComps: Record<SiteUiLang, Component> = {
 }
 
 const setting = useSetting()
+const i18n = useI18n()
+
+
+onMounted(
+  () => {
+    watch(
+      () => setting.ui_lang,
+      () => {
+        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['about']))
+      },
+      { immediate: true }
+    )
+  }
+)
 </script>
 
 <template>

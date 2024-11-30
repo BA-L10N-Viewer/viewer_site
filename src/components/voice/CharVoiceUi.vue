@@ -32,8 +32,7 @@ import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
-import { SiteUiLang } from '@/tool/Constant'
-import { createDictionaryWithDefault } from '@/tool/Tool'
+import { allLangcodeOfSchaleDbBySiteUiLang, SiteUiLang } from '@/tool/Constant'
 
 import PvTabs from 'primevue/tabs'
 import PvTabList from 'primevue/tablist'
@@ -42,7 +41,12 @@ import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
 import PvDivider from 'primevue/divider'
 import CharacterSheet from '@/components/CharacterSheet.vue'
-import { DirectoryDataCommonI18nFileVoiceGroup } from '@/tool/PreFetchedData'
+import {
+  DirectoryDataCommonFileIndexNpc,
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataCommonI18nFileVoiceGroup
+} from '@/tool/PreFetchedData'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 
 const props = defineProps(
   {
@@ -58,6 +62,7 @@ const i18n = useI18n()
 
 const isLoading = ref(true)
 
+const charData = Object.assign({}, DirectoryDataCommonFileIndexStu.value, DirectoryDataCommonFileIndexNpc.value)
 let dataVoiceNexon: NexonCharVoiceEntry = {} as unknown as NexonCharVoiceEntry
 let dataVoiceSdb: SchaleDbStuInfoFullVoiceline = {} as unknown as SchaleDbStuInfoFullVoiceline
 const dataVoiceI18n: Record<SiteUiLang, {}> = DirectoryDataCommonI18nFileVoiceGroup.value
@@ -133,7 +138,7 @@ async function loadAll() {
       const rawText = await httpGetAsync(`/data/common/schale_stu/${props.charId}.json`)
       if (rawText !== '') {
         try {
-          Object.assign(dataCharSdb,JSON.parse(rawText))
+          Object.assign(dataCharSdb, JSON.parse(rawText))
         } catch (e) {
           Object.assign(dataCharSdb, {
             Voicelines: {
@@ -153,7 +158,7 @@ async function loadAll() {
             Event: []
           }
         } as unknown as SchaleDbStuInfoFull)
-    })(),
+    })()
   ])
   dataVoiceSdb = dataCharSdb.Voicelines
 
@@ -179,6 +184,16 @@ onBeforeMount(async function() {
   await loadAll()
 
   isLoading.value = false
+})
+
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    (newValue) => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['voice']), charData[String(props.charId)].Name, allLangcodeOfSchaleDbBySiteUiLang[newValue])
+    },
+    { immediate: true }
+  )
 })
 </script>
 

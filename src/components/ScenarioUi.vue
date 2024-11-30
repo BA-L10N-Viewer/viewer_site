@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { onMounted, type Ref, ref, watch, provide, onUpdated, computed, shallowRef } from 'vue'
+import { onMounted, type Ref, ref, watch, provide, onUpdated, computed, shallowRef, onBeforeUnmount } from 'vue'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
@@ -44,9 +44,12 @@ import {
   DirectoryDataCommonFileIndexStu,
   DirectoryDataStoryI18nFileI18nStory
 } from '@/tool/PreFetchedData'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useI18n } from 'vue-i18n'
 
 // ------------------------------------------------
 const setting = useSetting()
+const i18n = useI18n()
 const router = useRoute()
 const screenWidth = useWindowSize().width
 
@@ -322,6 +325,9 @@ const cssWidthForThOfContent = computed(() => {
 })
 // -------------------------------------------------------------
 
+const titleChanger = ref<() => void>(() => {
+})
+
 onMounted(async () => {
   await Promise.allSettled([
     httpGetJsonAsync(scenarioData.value, `/data/story/normal/${router.params.storyId}.json`),
@@ -333,7 +339,20 @@ onMounted(async () => {
   initMlData()
   initPagination()
 
+  titleChanger.value = watch(
+    () => [setting.ui_lang, scenarioID.value, scenarioNameDesc.value[0]],
+    newValue => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['scenario']), newValue[2] as NexonL10nData, i18nLangAll.value)
+    },
+    { immediate: true, flush: 'post' }
+  )
+
   isAllDataLoaded.value = true
+})
+
+onBeforeUnmount(() => {
+  // stop watcher
+  titleChanger.value()
 })
 
 onBeforeRouteUpdate(async (to, from) => {
@@ -429,7 +448,7 @@ onBeforeRouteUpdate(async (to, from) => {
                           :next-name="scenarioRelatedStoryData.Next.Name"
                           :next-pos-string="scenarioRelatedStoryData.Next.PosString"
                           :key="scenarioID"
-                          info-pos="bottom"/>
+                          info-pos="bottom" />
   </div>
 </template>
 

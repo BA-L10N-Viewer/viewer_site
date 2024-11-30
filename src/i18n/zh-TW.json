@@ -181,7 +181,7 @@
   "btn-show-content": "顯示內容",
 
   "comp-char-voice-costume-id": "造型編號",
-  "comp-char-voice-lang-code": "語言程式碼",
+  "comp-char-voice-lang-code": "語言代號",
   "comp-char-voice-dialog-text": "語音文字",
   "comp-char-voice-nexon-event-type": "活動型別",
   "comp-char-voice-nexon-event-type-FirstTime": "首次",
@@ -218,6 +218,17 @@
   "comp-char-profile-h3-5-2": "三星角色抽卡提示語",
   "comp-char-profile-h3-5-3": "Momotalk狀態訊息",
   "comp-char-profile-h3-5-4": "愛好",
-  "comp-char-profile-generic-table-langcode": "語言程式碼",
-  "comp-char-profile-generic-table-text": "內容"
+  "comp-char-profile-generic-table-langcode": "語言代號",
+  "comp-char-profile-generic-table-text": "內容",
+
+  "app-title-full-home": "首頁",
+  "app-title-full-faq": "FAQ",
+  "app-title-full-about": "關於",
+  "app-title-prefix-scenario": "故事｜",
+  "app-title-prefix-momotalk": "Momotalk｜",
+  "app-title-prefix-voice": "人物語音｜",
+  "app-title-prefix-profile": "人物檔案｜",
+  "app-title-full-whybalv": "為什麼有這個專案",
+  "app-title-full-search-advanced": "高階搜尋",
+  "app-title-full-search-char": "人物搜尋"
 }
