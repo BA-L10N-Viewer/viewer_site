@@ -34,6 +34,8 @@ export const NexonLangMap: Record<string, string> = {
   'c_cn': 'zh_CN',
   'g_tw_cn': 'zh_CN',
   'c_cn_tw': 'zh_TW',
+  'c_zh': 'zh_CN',
+  'c_zh_tw': 'zh_TW',
   'null': ''
 }
 

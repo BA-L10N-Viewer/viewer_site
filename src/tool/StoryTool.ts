@@ -169,18 +169,7 @@ export function getScenarioExtraDataById(scenarioId: number | string) {
 }
 
 export function checkIfScenarioIdIsMain(scnearioId: number | string) {
-  const temp = String(scnearioId)
-
-  // normal
-  if (temp.length === 5) {
-    return true
-  }
-  // vol.f
-  else if (temp.startsWith('101') || temp.startsWith('102') || temp.startsWith('103') || temp.startsWith('104')) {
-    return true
-  }
-  // it's not
-  else return false
+  return inferScenarioTypeById(String(scnearioId)) === 'main'
 }
 
 export function getScenarioCharacterSmallPortraitPath(path: string): string | null {
