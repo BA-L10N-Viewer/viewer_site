@@ -131,36 +131,31 @@ watch(
 // -------------------------------------------------------------
 
 async function loadAll() {
-  let dataCharSdb: SchaleDbStuInfoFull = {} as unknown as SchaleDbStuInfoFull
+  let dataCharSdb: SchaleDbStuInfoFullVoiceline = {} as unknown as SchaleDbStuInfoFullVoiceline
   await Promise.allSettled([
     httpGetJsonAsync(dataVoiceNexon, `/data/common/voice/${props.charId}.json`),
     (async function(): Promise<void> {
-      const rawText = await httpGetAsync(`/data/common/schale_stu/${props.charId}.json`)
+      const rawText = await httpGetAsync(`/data/common/voice_schale/${props.charId}.json`)
       if (rawText !== '') {
         try {
           Object.assign(dataCharSdb, JSON.parse(rawText))
         } catch (e) {
           Object.assign(dataCharSdb, {
-            Voicelines: {
-              Normal: [],
-              Lobby: [],
-              Battle: [],
-              Event: []
-            }
-          } as unknown as SchaleDbStuInfoFull)
-        }
-      } else
-        Object.assign(dataCharSdb, {
-          Voicelines: {
             Normal: [],
             Lobby: [],
             Battle: [],
             Event: []
-          }
-        } as unknown as SchaleDbStuInfoFull)
+          })
+        }
+      } else
+        Object.assign(dataCharSdb, {
+          Normal: [],
+          Lobby: [],
+          Battle: [],
+          Event: []
+        })
     })()
   ])
-  dataVoiceSdb = dataCharSdb.Voicelines
 
   dataMtVoiceNexon.value = {
     Normal: initNexonCharVoiceNormalMtData(dataVoiceNexon.Normal || []),

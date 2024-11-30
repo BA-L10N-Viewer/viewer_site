@@ -162,7 +162,6 @@ export type SchaleDbStuInfoFull = {
   WeaponDesc: SchaleDbL10nData;
   Profile: SchaleDbL10nData;
   CharacterSSRNew: SchaleDbL10nData;
-  Voicelines: SchaleDbStuInfoFullVoiceline;
   FamilyName: SchaleDbL10nData;
   Name: SchaleDbL10nData;
 }
