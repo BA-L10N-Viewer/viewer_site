@@ -1,5 +1,5 @@
 <template>
-  <h1>免责声明 / Disclaimer</h1>
+  <h1>Disclaimer</h1>
   <p>This site is not affilicated in any forms with Blue Archive (<span lang="ja">ブルーアーカイブ</span>), Yostar, Nexon and Nexon Games.</p>
   <p>All game artwork, information and assets used in this site are the property of their respective authors, who also own the copyrights of their respective parts.</p>
   <p>This site is sorely for data display purpose and has no monetization over it.</p>
