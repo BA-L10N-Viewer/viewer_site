@@ -1,6 +1,7 @@
 import type { NexonL10nDataLang, NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { MAX_RETRY_DEPTH } from '@/tool/HttpRequest'
+import type { InjectionKey } from 'vue'
 
 type funcAsyncTypeOfPiniaWatcher = ((lang: NexonL10nDataLangOfUi) => Promise<void>) | ((lang: NexonL10nDataLang) => Promise<void>)
 type funcSyncTypeOfPiniaWatcher = ((lang: NexonL10nDataLangOfUi) => void) | ((lang: NexonL10nDataLang) => void)
@@ -86,3 +87,5 @@ export async function requestApi<ResponseType>(
     return await requestApi(url, timeout, depth + 1) as ResponseType
   }
 }
+
+export const symbolForMtProgressBool = Symbol('mt_progress_boolean') as InjectionKey<Boolean>

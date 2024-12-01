@@ -77,6 +77,7 @@ function extractHtmlImgTag(text: string) {
         <template v-if="i18nLangAll[idx] as string !== 'null'">
           <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
           <DialogueTranslated v-else :content-original="getNexonL10nData(dialogueSpeaker,i18nLangAll[idx])"
+                              :content-original-lang="i18nToUiLangAll[idx]"
                               :content-translated="ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['name']" />
         </template>
       </div>
@@ -91,6 +92,7 @@ function extractHtmlImgTag(text: string) {
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <DialogueTranslated
           :content-original="removeHtmlImgTag(convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))))"
+          :content-original-lang="i18nToUiLangAll[langIdx]"
           :content-translated="removeHtmlImgTag(convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue']))"
           :is_br="removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
         <hr class="mobile-lang-hr"

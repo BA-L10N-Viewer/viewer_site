@@ -1,14 +1,21 @@
 import { getNexonI18nDataDefault } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
-import { getStaticCdnBasepath, httpGetAsync } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import type {
   I18nBondInfoData,
   I18nStoryInfoIdToXxhash,
   I18nStoryXxhashToL10nData, IndexScenarioInfoToI18nId,
-  NexonL10nData,
-  NexonL10nDataLang
+  NexonL10nData
 } from '@/types/OutsourcedData'
 import type { Nullable } from '@/types/CommonType'
+import {
+  DirectoryDataCommonFileIndexRelatedManifestScenario,
+  DirectoryDataCommonFileIndexScenarioI18nEvent,
+  DirectoryDataCommonFileIndexScenarioI18nMain,
+  DirectoryDataStoryI18nFileI18nBond, DirectoryDataStoryI18nFileI18nEventIndex,
+  DirectoryDataStoryI18nFileI18nMainIndex, DirectoryDataStoryI18nFileI18nStory
+} from '@/tool/PreFetchedData'
+import { inferScenarioMainCategoryById, inferScenarioTypeById } from '@/tool/components/Scenario'
 
 export function checkDialogueSensei(text: string) {
   if (text === 'Answer') return true
@@ -45,7 +52,7 @@ export function convertImgToImg(text: string | Nullable) {
         const processedValue = p1.toLowerCase()
         return `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${processedValue}.png" />`
       }
-    );
+    )
   else
     return ''
 }
@@ -83,14 +90,6 @@ export function getNexonL10nDataFlattened(entry: NexonL10nData, langs: string[],
   return temp
 }
 
-export function gotoStory(router: any, storyId: String | Number) {
-  router.push({ name: 'scenario', params: { storyId: Number(storyId) } })
-}
-
-export function gotoMomotalkCharacter(router: any, charId: String | Number) {
-  router.push({ name: 'momotalk', params: { charId: Number(charId) } })
-}
-
 export function replaceStoryLineUsernameBlank(text: String) {
   const setting = useSetting()
   const username = setting.username
@@ -110,16 +109,16 @@ export async function getScenarioI18nContent(scenarioId: Number) {
 
   if (sId.length === 7) {
     // bond
-    const data: I18nBondInfoData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_bond.json'))
+    const data: I18nBondInfoData = DirectoryDataStoryI18nFileI18nBond.value
     const temp: NexonL10nData[] = data[sId]
     return temp ? temp : [defaultData, defaultData]
   } else {
-    const i18nData: I18nStoryXxhashToL10nData = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_story.json'))
+    const i18nData: I18nStoryXxhashToL10nData = DirectoryDataStoryI18nFileI18nStory.value
     let data: IndexScenarioInfoToI18nId, data2: I18nStoryInfoIdToXxhash, i18nKey: string[] | number[]
 
     // main (side, main, short (700xxxxx))
-    data = JSON.parse(await httpGetAsync('/data/common/index_scenario_i18n_main.json'))
-    data2 = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_main_index.json'))
+    data = DirectoryDataCommonFileIndexScenarioI18nMain.value
+    data2 = DirectoryDataStoryI18nFileI18nMainIndex.value
     i18nKey = data[sId]
     if (i18nKey) {
       i18nKey = [data2[i18nKey[0]], data2[i18nKey[1]]]
@@ -127,8 +126,8 @@ export async function getScenarioI18nContent(scenarioId: Number) {
     }
 
     // event
-    data = JSON.parse(await httpGetAsync('/data/common/index_scenario_i18n_event.json'))
-    data2 = JSON.parse(await httpGetAsync('/data/story/i18n/i18n_event_index.json'))
+    data = DirectoryDataCommonFileIndexScenarioI18nEvent.value //JSON.parse(await httpGetAsync('/data/common/index_scenario_i18n_event.json'))
+    data2 = DirectoryDataStoryI18nFileI18nEventIndex.value //JSON.parse(await httpGetAsync('/data/story/i18n/i18n_event_index.json'))
     i18nKey = data[sId]
     if (i18nKey) {
       i18nKey = [data2[i18nKey[0]], data2[i18nKey[1]]]
@@ -141,29 +140,52 @@ export async function getScenarioI18nContent(scenarioId: Number) {
 
 export function getScenarioExtraDataById(scenarioId: number | string) {
   const temp = String(scenarioId)
+  const dataRelatedScenario = DirectoryDataCommonFileIndexRelatedManifestScenario.value
 
-  const isAfterBattle = temp.slice(-1) === '5'
-  const actualScenarioNo = temp.length === 5 ? Number(temp.slice(2, 4)) : Number(temp.slice(3, 5))
-  return { isAfterBattle: isAfterBattle, actualScenarioNo: actualScenarioNo }
+  const type1 = inferScenarioTypeById(scenarioId)
+  let actualPos = -1
+  let isAfterBattle = false
+
+  if (type1 === 'main') {
+    if (temp.length === 8) {
+      if (temp.startsWith('90000'))
+        actualPos = dataRelatedScenario['main'][temp]?.[1] + 1 ?? dataRelatedScenario['event'][temp]?.[1] + 1 ?? -1
+      else {
+        actualPos = Number(temp.slice(5, 7))
+        isAfterBattle = temp.slice(-1) === '5'
+      }
+    } else {
+      const type2 = inferScenarioMainCategoryById(scenarioId)
+      if (type2 === 'main') {
+        actualPos = temp.length === 6 ? Number(temp.slice(3, 5)) : Number(temp.slice(2, 4))
+        isAfterBattle = temp.slice(-1) === '5'
+      } else
+        actualPos = dataRelatedScenario['main'][temp]?.[1] + 1 ?? -1
+    }
+  } else
+    actualPos = dataRelatedScenario[type1][temp]?.[1] + 1 ?? -1
+
+  return { isAfterBattle: isAfterBattle, actualScenarioNo: actualPos }
 }
 
 export function checkIfScenarioIdIsMain(scnearioId: number | string) {
-  const temp = String(scnearioId)
-
-  // normal
-  if (temp.length === 5) {return true}
-  // vol.f
-  else if (temp.startsWith("101") || temp.startsWith("102") || temp.startsWith("103") || temp.startsWith("104")) {return true}
-  // it's not
-  else return false
+  return inferScenarioTypeById(String(scnearioId)) === 'main'
 }
 
 export function getScenarioCharacterSmallPortraitPath(path: string): string | null {
   // 逆天nx代码，人物头像数据里写的与实际不符，统一为全部小写
-  const temp = path.split("/").slice(-1)[0].toLowerCase()
-  if (String(temp) === "null") {
+  const temp = path.split('/').slice(-1)[0].toLowerCase()
+  if (String(temp) === 'null') {
     return null
   }
 
-  return getStaticCdnBasepath('static') + "/ba/01_01_Character/" + temp + ".png"
+  return getStaticCdnBasepath('static') + '/ba/01_01_Character/' + temp + '.png'
+}
+
+export function getScenarioPopupFilenamePath(filename: string): string {
+  const temp = String(filename)
+  if (temp.endsWith('.png'))
+    return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}`
+  else
+    return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}.png`
 }

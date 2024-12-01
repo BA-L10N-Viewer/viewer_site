@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import { onMounted, provide, type Ref, ref, watch, nextTick } from 'vue'
+import { onMounted, provide, type Ref, ref, watch, nextTick, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { httpGetAsync, httpGetJsonAsync } from '@/tool/HttpRequest'
+import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {
@@ -28,13 +28,24 @@ import PvAccordionPanel from 'primevue/accordionpanel'
 import PvAccordionHeader from 'primevue/accordionheader'
 import PvAccordionContent from 'primevue/accordioncontent'
 import CharacterSheet from '@/components/CharacterSheet.vue'
+import {
+  DirectoryDataCommonFileIndexMomoL2d,
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataStoryI18nFileI18nBond
+} from '@/tool/PreFetchedData'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useI18n } from 'vue-i18n'
+import { allLangcodeOfSchaleDbBySiteUiLang } from '@/tool/Constant'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
 const setting = useSetting()
+const i18n = useI18n()
 
 const props = defineProps({
   charId: Number
+})
+const titleChanger = ref<() => void>(() => {
 })
 
 // ---------------------------------------
@@ -47,11 +58,11 @@ let bondL2dData: Record<string, number> = {} as unknown as Record<string, number
 
 async function loadRemoteResource() {
   await Promise.allSettled([
-    httpGetJsonAsync(mmtData, `/data/story/momotalk/${route.params.charId}.json`),
-    httpGetJsonAsync(charData, `/data/common/index_stu.json`),
-    httpGetJsonAsync(mmtI18nData, `/data/story/i18n/i18n_bond.json`),
-    httpGetJsonAsync(bondL2dData, `/data/common/index_momo_l2d.json`)
+    httpGetJsonAsync(mmtData, `/data/story/momotalk/${route.params.charId}.json`)
   ])
+  charData = DirectoryDataCommonFileIndexStu.value
+  mmtI18nData = DirectoryDataStoryI18nFileI18nBond.value
+  bondL2dData = DirectoryDataCommonFileIndexMomoL2d.value
 
   charName = charData[String(route.params.charId)]['Name']
 }
@@ -184,12 +195,26 @@ onMounted(async () => {
   await loadRemoteResource()
   initMlData()
 
+  titleChanger.value = watch(
+    () => setting.ui_lang,
+    (newValue) => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['momotalk']), charName, allLangcodeOfSchaleDbBySiteUiLang[newValue])
+    },
+    { immediate: true }
+  )
+
   isLoading.value = false
 
   // 等待DOM更新
   await nextTick()
   scrollToMmtByUrlHashtag()
 })
+
+onBeforeUnmount(
+  () => {
+    titleChanger.value()
+  }
+)
 </script>
 
 

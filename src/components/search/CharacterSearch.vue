@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { httpGetAsync } from '@/tool/HttpRequest'
 import { onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CharacterSearchEntry from '@/components/search/CharacterSearchEntry.vue'
@@ -10,6 +9,7 @@ import { countCharacterLengthBiased, preProcessStringForSearch } from '@/tool/Se
 
 import PvInputText from 'primevue/inputtext'
 import PvButton from 'primevue/button'
+import { DirectoryDataCommonFileIndexNpc, DirectoryDataCommonFileIndexStu } from '@/tool/PreFetchedData'
 
 const i18n = useI18n()
 const setting = useSetting()
@@ -21,10 +21,10 @@ const showContent = ref(false)
 const isAllDataLoaded = ref(false)
 
 let charDataRaw: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
-let charData = ref<StudentInfoDataSimpleEntry[]>([])
+const charData = ref<StudentInfoDataSimpleEntry[]>([])
 
 async function loadAllData() {
-  charDataRaw = JSON.parse(await httpGetAsync('/data/common/index_stu.json'))
+  charDataRaw = Object.assign({}, DirectoryDataCommonFileIndexNpc.value, DirectoryDataCommonFileIndexStu.value)
 }
 
 function updateCharData() {
@@ -45,9 +45,7 @@ function updateCharData() {
 }
 
 watch(
-  () => {
-    return setting.ui_lang
-  },
+  () => setting.ui_lang,
   () => {
     updateCharData()
   }
@@ -55,6 +53,7 @@ watch(
 watch(
   () => inputQuery.value,
   (newValue) => {
+    searchCache.setMomotalkSearchVars(newValue)
     showContent.value = countCharacterLengthBiased(newValue) >= 2
   }
 )
@@ -67,12 +66,6 @@ onMounted(async () => {
   inputQuery.value = searchCache.m_inputQuery
   updateCharData()
 })
-watch(
-  () => [inputQuery.value],
-  () => {
-    searchCache.setMomotalkSearchVars(inputQuery.value)
-  }
-)
 </script>
 
 <template>
@@ -97,7 +90,7 @@ watch(
     </PvButton>
     <ul class="char-list" :key="inputQuery + setting.ui_lang" v-if="showContent">
       <CharacterSearchEntry v-for="(item, idx) in charData" :key="idx" :name="item['Name']"
-                           :family_name="item['FamilyName']" :char_id="item['Id']" />
+                            :family_name="item['FamilyName']" :char_id="item['Id']" />
     </ul>
   </div>
 </template>

@@ -9,12 +9,12 @@ import {
 } from '@/tool/ConstantComputed'
 import {
   getNexonL10nData,
-  getScenarioCharacterSmallPortraitPath,
+  getScenarioCharacterSmallPortraitPath, getScenarioPopupFilenamePath,
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
 
 import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
-import type { NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
@@ -52,6 +52,10 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialoguePopupFilename: {
+    type: String,
+    required: true
   }
 })
 
@@ -65,6 +69,7 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
       <template v-if="i18nLangAll[idx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue :content-original="getNexonL10nData(dialogueCharacter,i18nLangAll[idx])"
+                                      :content-original-lang="i18nToUiLangAll[idx]"
                                       :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
                                       :style="{'color': dialogueTextColor}"
                                       :is_after_br="true" />
@@ -73,11 +78,16 @@ let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
     </template>
   </td>
   <td class="scenario-text scenario-dialogue">
+    <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
+         v-if="dialoguePopupFilename"
+         class="momotalk-dialogue-img" />
+    <br>
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
+            :content-original-lang="i18nToUiLangAll[langIdx]"
             :content-translated="ML_table[i18nLangAll[langIdx]][entry_pos]['dialogue']"
             :style="{'color': dialogueTextColor}"
             :is_after_br="true" />

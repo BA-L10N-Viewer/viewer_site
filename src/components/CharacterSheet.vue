@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { getStaticCdnBasepath, httpGetAsync, httpGetJsonAsync } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import { useRoute } from 'vue-router'
 import type { SchaleDbI18nDictData, StudentInfoDataSimple } from '@/types/OutsourcedData'
 import { useWindowSize } from '@vueuse/core'
-import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH } from '@/tool/Constant'
+import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH, CHAR_NPC_IMG_URL } from '@/tool/Constant'
 
 import PvButton from 'primevue/button'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import { useSetting } from '@/stores/setting'
+import {
+  DirectoryDataCommonFileIndexMomoL2d,
+  DirectoryDataCommonFileIndexNpc,
+  DirectoryDataCommonFileIndexStu, DirectoryDataCommonSchaleFileLocalization
+} from '@/tool/PreFetchedData'
 
 const props = defineProps({
   charId: {
@@ -29,38 +34,25 @@ let sdbStuInfoData: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimp
 let sdbLocalizationData: SchaleDbI18nDictData = {} as unknown as SchaleDbI18nDictData
 
 const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
-const isNpc = computed(() => String(props.charId) in NPC_IMG_URL)
+const isNpc = computed(() => String(props.charId) in CHAR_NPC_IMG_URL)
 
-const NPC_IMG_URL: Record<string, string> = {
-  '9009000': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_arona.png`, // Arona
-  '9009001': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_sora.png`, // Sora
-  '9009002': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_momoka.png`, // Momoka
-  '9009003': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_rin.png`, // Rin
-  '9009004': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0013.png`, // Ayumu
-  '9009005': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0035.png`  // Plana
-}
-const charImgUrl = isNpc.value ? NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
-const indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
+const charImgUrl = isNpc.value ? CHAR_NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
+let indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 const cssCharColor = computed(() => {
-  if (String(props.charId).startsWith('900'))
+  const charId = String(props.charId)
+  if (charId.startsWith('900') || charId.length !== 5)
     return 'black'
-  else if (String(props.charId).startsWith('1'))
+  else if (charId.startsWith('1'))
     return 'var(--color-ba-stu-striker)'
   else
     return 'var(--color-ba-stu-special)'
 })
 
 onMounted(async () => {
-  await Promise.allSettled([
-    (async () => {
-      const sdbStu = JSON.parse(await httpGetAsync(`/data/common/index_stu.json`))
-      const sdbNpc = JSON.parse(await httpGetAsync(`/data/common/index_npc.json`))
-      sdbStuInfoData = Object.assign({}, sdbStu, sdbNpc)
-    })(),
-    httpGetJsonAsync(sdbLocalizationData, `/data/common/schale/localization.json`),
-    httpGetJsonAsync(indexL2dData, `/data/common/index_momo_l2d.json`)
-  ])
+  sdbStuInfoData = Object.assign({}, DirectoryDataCommonFileIndexStu.value, DirectoryDataCommonFileIndexNpc.value)
+  indexL2dData = DirectoryDataCommonFileIndexMomoL2d.value
+  sdbLocalizationData = DirectoryDataCommonSchaleFileLocalization.value
 
   isLoading.value = false
 })

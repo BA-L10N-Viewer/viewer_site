@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -12,28 +13,28 @@ import { PrimeVueResolver } from '@primevue/auto-import-resolver';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueJsx(),
-    vueDevTools(),
-    AutoImport({
-      imports: ['vue', 'vue-router', 'pinia'],
-      resolvers: [
-        IconsResolver({
-          prefix: 'Icon'
-        }),
-        ElementPlusResolver()
-      ]
-    }),
-    Components({
-      resolvers: [
-        IconsResolver({
-          enabledCollections: ['ep']
-        }),
-        ElementPlusResolver()
-      ]
-    })
-  ],
+  build: {
+    sourcemap: true,
+  },
+  plugins: [vue(), vueJsx(), vueDevTools(), AutoImport({
+    imports: ['vue', 'vue-router', 'pinia'],
+    resolvers: [
+      IconsResolver({
+        prefix: 'Icon'
+      }),
+      ElementPlusResolver()
+    ]
+  }), Components({
+    resolvers: [
+      IconsResolver({
+        enabledCollections: ['ep']
+      }),
+      ElementPlusResolver()
+    ]
+  }), sentryVitePlugin({
+    org: "sctopzhang",
+    project: "ba-l10n-viewer"
+  })],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

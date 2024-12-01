@@ -1,8 +1,9 @@
-import type { NexonL10nData, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData, NexonL10nDataLangOfUi, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList, CharVoiceUiTabName } from '@/types/CharVoiceComp'
 import type { NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
 import { ref } from 'vue'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 export const MOBILE_WIDTH = 800
 export const MOBILE_WIDTH_WIDER = 1200
@@ -33,6 +34,8 @@ export const NexonLangMap: Record<string, string> = {
   'c_cn': 'zh_CN',
   'g_tw_cn': 'zh_CN',
   'c_cn_tw': 'zh_TW',
+  'c_zh': 'zh_CN',
+  'c_zh_tw': 'zh_TW',
   'null': ''
 }
 
@@ -89,14 +92,14 @@ export const nexonDataLangSelect = [
   { value: 'c_cn_tw', label: 'i18n-nexon-c-cn-tw' }
 ]
 
-export const NexonLangMapReverse: { [k: string]: string[] } = {
+export const NexonLangMapReverse = {
   'en': ['g_en'],
   'zh_TW': ['g_tw', 'c_zh', 'c_cn_tw'],
   'zh_CN': ['c_zh', 'g_tw_cn', 'c_cn'],
   'ja': ['j_ja'],
   'ko': ['j_ko'],
   'th': ['g_th']
-}
+} as const
 
 export const SchaleDbLangMap: Record<SchaleDbL10nDataLang, string> = {
   'g_en': 'en',
@@ -204,4 +207,19 @@ export const allLangcodeOfSchaleDbBySiteUiLang: Record<SiteUiLang, SchaleDbL10nD
   en: ['g_en', 'j_ja', 'j_ko', 'g_th', 'g_tw', 'c_cn', 'c_zh'],
   zh_CN: ['c_zh', 'g_tw_cn', 'c_cn', 'j_ja', 'j_ko', 'g_th', 'g_tw'],
   zh_TW: ['c_zh_tw', 'g_tw', 'c_cn_tw', 'j_ja', 'j_ko', 'g_th', 'c_zh', 'c_cn']
+}
+
+export const defaultLangForNexonL10nLang: Record<SiteUiLang, NexonL10nDataLangOfUi[]> = {
+  en: ['j_ja', 'g_ko', 'g_en', 'g_th', 'g_tw'],
+  zh_CN: ['j_ja', 'g_ko', 'g_tw_cn', 'g_en', 'g_th'],
+  zh_TW: ['j_ja', 'g_ko', 'g_tw', 'g_en', 'g_th'],
+}
+
+export const CHAR_NPC_IMG_URL: Record<string, string> = {
+  '9009000': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_arona.png`, // Arona
+  '9009001': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_sora.png`, // Sora
+  '9009002': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_momoka.png`, // Momoka
+  '9009003': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_rin.png`, // Rin
+  '9009004': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0013.png`, // Ayumu
+  '9009005': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0035.png`  // Plana
 }

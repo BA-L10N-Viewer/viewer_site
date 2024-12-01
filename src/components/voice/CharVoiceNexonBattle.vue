@@ -15,7 +15,7 @@ import { useI18n } from 'vue-i18n'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import PvTag from 'primevue/tag'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '@/tool/Constant'
+import { MOBILE_WIDTH, NexonLangMap } from '@/tool/Constant'
 
 const props = defineProps({
   dataVoice: {
@@ -69,6 +69,7 @@ onMounted(async () => {
             <template #body="slotProps">
               <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
               <DialogueTranslated
+                :content-original-lang="NexonLangMap[slotProps.data.Transcription]"
                 :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                 :content-original="slotProps.data.Transcription || 'null'" />
             </template>

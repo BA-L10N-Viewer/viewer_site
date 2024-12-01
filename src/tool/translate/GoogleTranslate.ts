@@ -46,9 +46,9 @@ class MtGoogleTranslate extends BaseMtService<GoogleTranslateResponse> {
     const ipCountryCode = getIpCountryCodeSync()
 
     if (ipCountryCode === 'CN')
-      super('https://aws-gt-api.cnfast.top/', 5000)
+      super('https://aws-gt-api.cnfast.top/', 10000)
     else
-      super('https://translate.googleapis.com', 3000)
+      super('https://translate.googleapis.com', 5000)
 
     this.isCn = ipCountryCode === 'CN'
   }

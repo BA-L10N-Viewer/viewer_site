@@ -15,7 +15,7 @@ import PvSelectButton from 'primevue/selectbutton'
 
 const screenWidth = useWindowSize().width
 const isMobileWidth = computed(() => screenWidth.value <= MOBILE_WIDTH)
-const widthForTlLangToolBtn = computed(() => !isMobileWidth.value ? '6em' : '2em')
+const widthForTlLangToolBtn = computed(() => !isMobileWidth.value ? '7em' : '2em')
 const widthForTlLangSelect = computed(() => !isMobileWidth.value ? '14em' : '3em')
 
 const setting = useSetting()
@@ -25,7 +25,7 @@ const i18n = useI18n()
 const props = defineProps({
   show_ml: {
     type: Boolean,
-    default: true // Set default value
+    default: true
   }
 })
 
@@ -110,7 +110,7 @@ watch(
               class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(1)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-1')">
@@ -119,7 +119,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(1)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -137,7 +137,7 @@ watch(
 
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(2)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-2')">
@@ -146,7 +146,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(2)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -163,7 +163,7 @@ watch(
               class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(3)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-3')">
@@ -172,7 +172,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(3)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -182,14 +182,14 @@ watch(
   </PvFluid>
   <div class="pv-fluid-spacing"></div>
   <PvFluid class="pv-fluid">
-    <span class="span-label-2">{{ $t('comp-story-i18n-select-6') }}</span>
+    <span class="span-label">{{ $t('comp-story-i18n-select-6') }}</span>
     <PvSelect v-model="setting.i18n_lang4" :options="nexonDataLangSelect"
               :optionLabel="i => i18n.t(i.label)" optionValue="value"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
-              class="pv-select-tl-lang-2" />
+              class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(4)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-4')">
@@ -198,7 +198,7 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_clear(4)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
@@ -208,14 +208,14 @@ watch(
   </PvFluid>
   <div class="pv-fluid-spacing"></div>
   <PvFluid class="pv-fluid">
-    <span class="span-label-2">{{ $t('comp-story-i18n-select-7') }}</span>
+    <span class="span-label">{{ $t('comp-story-i18n-select-7') }}</span>
     <PvSelect v-model="setting.i18n_lang5" :options="nexonDataLangSelect"
               :optionLabel="i => i18n.t(i.label)" optionValue="value"
               :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
-              class="pv-select-tl-lang-2" />
+              class="pv-select-tl-lang" />
     <PvButton class="pv-button-tl-tool"
               severity="success"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
               @click="ML_update(5)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-5')">
@@ -224,9 +224,9 @@ watch(
     </PvButton>
     <PvButton class="pv-button-tl-tool"
               severity="danger"
-              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS)"
+              :disabled="Boolean(AUTO_TRANSLATE_IN_PROGRESS) || !show_ml"
 
-              @click="ML_clear(4)"
+              @click="ML_clear(5)"
               v-tooltip.top="i18n.t('comp-story-i18n-btn-auto-6-tooltip')">
       <span class="pi pi-trash"></span>
       <span v-show="!isMobileWidth">{{ $t('comp-story-i18n-btn-auto-6') }}</span>
@@ -265,6 +265,20 @@ watch(
       </div>
     </div>
   </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid>
+    <div :style="{'text-align': 'center'}">
+      <PvSelectButton
+        v-model="setting.show_lang_zh"
+
+        :allow-empty="false"
+        :option-label="i => i18n.t(i.label)"
+        option-value="value"
+
+        :options="[{label: 'comp-story-i18n-btn-showzh', value: true}, {label: 'comp-story-i18n-btn-hidezh', value: false}]"
+      />
+    </div>
+  </PvFluid>
 </template>
 
 <style scoped>
@@ -274,10 +288,10 @@ watch(
 }
 
 /* 较长文本的label，如第四、五机翻语言 */
-.span-label-2 {
-  width: 14em;
+/* .span-label-2 {
+  width: 6em;
   font-size: 1.1em
-}
+} */
 
 .pv-select-tl-lang {
   width: calc(100% - 6em - v-bind(widthForTlLangSelect))

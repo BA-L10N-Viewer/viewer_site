@@ -60,6 +60,13 @@ export const listOfPosOfSelectedLangForMobile = computed(() => {
   return pos
 })
 
+export const langsOfSelectedLangForMobile = computed(() => {
+  const lang: NexonL10nDataLang[] = []
+  for (const pos of listOfPosOfSelectedLangForMobile.value)
+    lang.push(i18nLangAll.value[pos])
+  return lang
+})
+
 export const mtI18nLangStats: ComputedRef<[string, string, string, string, string]> = computed(() => {
   const mtPinia = useI18nTlControl()
   return [mtPinia.i18n_l1, mtPinia.i18n_l2, mtPinia.i18n_l3,

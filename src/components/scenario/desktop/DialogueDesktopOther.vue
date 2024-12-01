@@ -45,20 +45,20 @@ const props = defineProps({
   <td v-if="dialogueDataType === 'title' || dialogueDataType === 'nextEpisode'"
       :lang="dialogueLang"
       colspan="2" class="story-dialogue-center">
-    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
   <td v-else-if="dialogueDataType === 'na'" :lang="dialogueLang" colspan="2" class="story-dialogue-na">
-    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-absolute-pos="dialogueAbsolutePos"/>
   </td>
   <td v-else
       class="story-dialogue-other" :lang="dialogueLang" colspan="2">
-    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated" />
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup"
                   :dialogue-absolute-pos="dialogueAbsolutePos"/>

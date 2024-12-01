@@ -18,12 +18,12 @@ import type {
   NexonL10nDataLangOfUi
 } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
-import { httpGetSync } from '@/tool/HttpRequest'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import PvTag from 'primevue/tag'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH } from '@/tool/Constant'
+import { MOBILE_WIDTH, NexonLangMap } from '@/tool/Constant'
 import PvButton from 'primevue/button'
+import { DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nStory } from '@/tool/PreFetchedData'
 
 const props = defineProps({
   dataVoice: {
@@ -50,8 +50,8 @@ const dataForTable = computed(
 )
 
 
-const indexEventI18n: I18nStoryInfoIdToXxhash = JSON.parse(httpGetSync('/data/story/i18n/i18n_event_index.json'))
-const i18nStory: NexonL10nDataDict = JSON.parse(httpGetSync('/data/story/i18n/i18n_story.json'))
+const indexEventI18n: I18nStoryInfoIdToXxhash = DirectoryDataStoryI18nFileI18nEventIndex.value//JSON.parse(httpGetSync('/data/story/i18n/i18n_event_index.json'))
+const i18nStory: NexonL10nDataDict = DirectoryDataStoryI18nFileI18nStory.value//JSON.parse(httpGetSync('/data/story/i18n/i18n_story.json'))
 
 onMounted(async () => {
   isLoading.value = false
@@ -77,7 +77,7 @@ onMounted(async () => {
           </PvButton>
         </h3>
         <template v-for="(entryData, idx3) in groupData.Data" :key="idx3">
-          <p><b>{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;{{ idx2 + 1 }}</b></p>
+          <p><b>{{ dataCharI18n[`NX.${groupData.GroupId}`] }}&nbsp;{{ idx3 + 1 }}</b></p>
           <PvDataTable :value="entryData.Data"
                        rowGroupMode="rowspan" :groupRowsBy="['EventType']" sortMode="single" :sortOrder="1">
             <PvColumn field="EventType" :header="i18n.t('comp-char-voice-nexon-event-type')" style="width: 4em">
@@ -93,6 +93,7 @@ onMounted(async () => {
               <template #body="slotProps">
                 <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
                 <DialogueTranslated
+                  :content-original-lang="NexonLangMap[slotProps.data.Transcription]"
                   :content-translated="dataVoiceMt[`${eventData.EventId}_${slotProps.data.Id}`]?.Transcription[slotProps.data.EventType! as NexonCharVoiceEventTranscriptionType]?.[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
                   :content-original="slotProps.data.Transcription || 'null'" />
               </template>

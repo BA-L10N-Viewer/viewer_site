@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { onMounted, type Ref, ref, watch, provide, onUpdated, computed } from 'vue'
-import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
+import { onMounted, type Ref, ref, watch, provide, onUpdated, computed, shallowRef, onBeforeUnmount } from 'vue'
+import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
@@ -15,11 +15,11 @@ import {
 import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { i18nLangAll, mtI18nLangStats } from '@/tool/ConstantComputed'
+import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
-import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
+import { mtPiniaWatchCallback, symbolForMtProgressBool } from '@/tool/translate/MtUtils'
 
 import PvPaginator from 'primevue/paginator'
 import { getScenarioExtraDataById, getScenarioI18nContent } from '@/tool/StoryTool'
@@ -37,20 +37,30 @@ import {
 } from '@/tool/components/Scenario'
 import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
 import { onBeforeRouteUpdate } from 'vue-router'
+import {
+  DirectoryDataCommonFileIndexRelatedManifestParent,
+  DirectoryDataCommonFileIndexRelatedManifestScenario,
+  DirectoryDataCommonFileIndexScenarioChar,
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataStoryI18nFileI18nStory
+} from '@/tool/PreFetchedData'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useI18n } from 'vue-i18n'
 
 // ------------------------------------------------
 const setting = useSetting()
+const i18n = useI18n()
 const router = useRoute()
 const screenWidth = useWindowSize().width
 
-let scenarioData: CommonStoryDataDialog[] = [] as unknown as CommonStoryDataDialog[]
-let scenarioChar: IndexScenarioCharacterData = {} as unknown as IndexScenarioCharacterData
-let scenarioNameDesc: NexonL10nData[] = [] as unknown as NexonL10nData[]
-let bondStuInfo: StudentInfoDataSimple = {} as unknown as StudentInfoDataSimple
-let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = {} as unknown as RelatedScenarioParentInfoData
-let scenarioRelatedData: RelatedScenarioInfoData = {} as unknown as RelatedScenarioInfoData
-let i18nStoryData: I18nStoryXxhashToL10nData = {} as unknown as I18nStoryXxhashToL10nData
-let scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
+const scenarioData = ref<CommonStoryDataDialog[]>([] as unknown as CommonStoryDataDialog[])
+let scenarioChar: IndexScenarioCharacterData = DirectoryDataCommonFileIndexScenarioChar.value
+let scenarioNameDesc = ref<NexonL10nData[]>([] as unknown as NexonL10nData[])
+let bondStuInfo: StudentInfoDataSimple = DirectoryDataCommonFileIndexStu.value
+let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = DirectoryDataCommonFileIndexRelatedManifestParent.value
+let scenarioRelatedData: RelatedScenarioInfoData = DirectoryDataCommonFileIndexRelatedManifestScenario.value
+let i18nStoryData: I18nStoryXxhashToL10nData = DirectoryDataStoryI18nFileI18nStory.value
+const scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
 const isAllDataLoaded = ref(false)
 
 const scenarioID = ref(String(router.params.storyId))
@@ -154,58 +164,43 @@ function getCharName(entry: CommonStoryDataDialog) {
 
 // --------------------- PAGINATION CONFIG ---------------------
 const pagination_length = ref(0)
-const pagination_currPerSize = computed(() => setting.scenario_pagination_perPage)
 const pagination_currPage = ref(1)
 const pagination_currPage_cache = ref(1)
-
-const pagination_size = ref('')
-const pagination_layout = ref('')
-const pagination_pagerCount = ref(7)
 
 const pagination_data = ref()
 const pagination_template = computed(() => {
   const width = useWindowSize().width.value
 
-  if (width <= 640)
+  if (width <= MOBILE_WIDTH)
     return 'PrevPageLink CurrentPageReport NextPageLink'
-  else if (width <= 960)
-    return 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink'
-  else if (width <= 1300)
-    return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
+  else if (width <= MOBILE_WIDTH_WIDER)
+    return 'PrevPageLink PageLinks NextPageLink RowsPerPageDropdown'
   else
     return 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown JumpToPageInput'
 })
 
 watch(
-  () => useWindowSize().width.value,
-  (newValue) => {
-    pagination_layout.value = newValue >= MOBILE_WIDTH_WIDER ? 'total, sizes, prev, pager, next, jumper' : 'sizes, prev, pager, next'
-    pagination_size.value = newValue >= MOBILE_WIDTH_WIDER ? 'default' : 'small'
-    pagination_pagerCount.value = newValue >= MOBILE_WIDTH_WIDER ? 7 : 4
-  },
-  { immediate: true }
-)
-
-watch(
-  () => pagination_currPerSize.value,
+  () => setting.scenario_pagination_perPage,
   (newValue) => {
     updatePaginationData(newValue)
   }
 )
 
 function updatePaginationData(currPerSize: number = -1) {
-  pagination_length.value = scenarioData.length
+  pagination_length.value = scenarioData.value.length
 
-  const perSize = currPerSize === -1 ? pagination_currPerSize.value : currPerSize
-  pagination_data.value = chunk(scenarioData, perSize)
+  const perSize = currPerSize === -1 ? setting.scenario_pagination_perPage : currPerSize
+  pagination_data.value = chunk(scenarioData.value, perSize)
 }
 
 function initPagination() {
+  pagination_currPage.value = 1
+  pagination_currPage_cache.value = 1
   updatePaginationData()
 }
 
 const htmlAnchorMainTableTop: Ref<HTMLAnchorElement | null> = ref(null)
-onUpdated(() => {
+watch(pagination_currPage, () => { //onUpdated(() => {
   if (pagination_currPage.value !== pagination_currPage_cache.value) {
     pagination_currPage_cache.value = pagination_currPage.value
 
@@ -220,7 +215,7 @@ onUpdated(() => {
       console.error(`PAGINATION REPOSITION FAILED, offset = ${targetHeightOffset}`)
     }
   }
-})
+}, { flush: 'post' })
 
 // -------------------------------------------------------------
 
@@ -243,7 +238,7 @@ const ML_in_progress = ref(false)
 const ML_pinia = useI18nTlControl()
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
-  const dataLength = scenarioData!.length
+  const dataLength = scenarioData!.value.length
   const actualTable = tableDialogueTranslated.value
   const blankData = { 'name': '', 'dialogue': '' }
 
@@ -262,7 +257,7 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
-  for (const [idx, entry] of scenarioData.entries()) {
+  for (const [idx, entry] of scenarioData.value.entries()) {
     asyncPool.addTask(
       async () => {
         tableDialogueTranslated.value[baselang][idx] = await getDialogueMtTranslation(
@@ -282,6 +277,19 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 }
 
 function initMlData() {
+  tableDialogueTranslated.value = {
+    'j_ja': [],
+    'j_ko': [],
+    'g_tw': [],
+    'g_tw_cn': [],
+    'g_en': [],
+    'g_th': [],
+    'g_ja': [],
+    'g_ko': [],
+    'c_cn': [],
+    'c_cn_tw': [],
+    'null': []
+  }
   for (const lang of NexonL10nDataLangConst) {
     clearMlTranslation(lang)
   }
@@ -297,26 +305,54 @@ watch(
 
 provide('ML_clearAll', initMlData)
 provide('ML_table', tableDialogueTranslated)
-provide('ML_in_progress', ML_in_progress)
+provide(symbolForMtProgressBool, ML_in_progress.value)
 // -------------------------------------------------------------
+
+// --------------------- TABLE CSS WIDTH ---------------------
+// 控制table的width
+const isMobile = computed(() => screenWidth.value < MOBILE_WIDTH_WIDER || setting.ui_force_mobile)
+const cssWidthForThOfChar = '6em'
+const cssWidthForThOfContent = computed(() => {
+  if (isMobile.value)
+    return '100'
+  else {
+    const currLangCount = numberOfSelectedLangForDesktop.value
+    if (currLangCount !== 0)
+      return `calc(${Math.floor(100 / currLangCount)}vw - ${cssWidthForThOfChar})`
+    else
+      return '100%'
+  }
+})
+// -------------------------------------------------------------
+
+const titleChanger = ref<() => void>(() => {
+})
 
 onMounted(async () => {
   await Promise.allSettled([
-    httpGetJsonAsync(scenarioData, `/data/story/normal/${router.params.storyId}.json`),
-    httpGetJsonAsync(scenarioChar, `/data/common/index_scenario_char.json`),
-    httpGetJsonAsync(bondStuInfo, `/data/common/index_stu.json`),
-    httpGetJsonAsync(scenarioRelatedParentInfo, `/data/common/index_related_manifest_parent.json`),
-    httpGetJsonAsync(scenarioRelatedData, `/data/common/index_related_manifest_scenario.json`),
-    httpGetJsonAsync(i18nStoryData, '/data/story/i18n/i18n_story.json'),
+    httpGetJsonAsync(scenarioData.value, `/data/story/normal/${router.params.storyId}.json`),
     (async () => {
-      scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })()
   ])
   initMlData()
   initPagination()
 
+  titleChanger.value = watch(
+    () => [setting.ui_lang, scenarioID.value, scenarioNameDesc.value[0]],
+    newValue => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['scenario']), newValue[2] as NexonL10nData, i18nLangAll.value)
+    },
+    { immediate: true, flush: 'post' }
+  )
+
   isAllDataLoaded.value = true
+})
+
+onBeforeUnmount(() => {
+  // stop watcher
+  titleChanger.value()
 })
 
 onBeforeRouteUpdate(async (to, from) => {
@@ -324,9 +360,9 @@ onBeforeRouteUpdate(async (to, from) => {
 
   isAllDataLoaded.value = false
   await Promise.allSettled([
-    httpGetJsonAsync(scenarioData, `/data/story/normal/${scenarioID.value}.json`),
+    httpGetJsonAsync(scenarioData.value, `/data/story/normal/${scenarioID.value}.json`),
     (async () => {
-      scenarioNameDesc = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })()
   ])
@@ -356,7 +392,8 @@ onBeforeRouteUpdate(async (to, from) => {
                           :next-id="scenarioRelatedStoryData.Next.Id"
                           :next-name="scenarioRelatedStoryData.Next.Name"
                           :next-pos-string="scenarioRelatedStoryData.Next.PosString"
-                          :key="scenarioID" />
+                          :key="scenarioID"
+                          info-pos="top" />
     <a ref="htmlAnchorMainTableTop"></a>
     <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
            id="scnario-main-table">
@@ -371,7 +408,7 @@ onBeforeRouteUpdate(async (to, from) => {
       </tr>
       </thead>
       <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                        :entry_pos="idx + (pagination_currPage - 1) * pagination_currPerSize"
+                        :entry_pos="idx + (pagination_currPage - 1) * setting.scenario_pagination_perPage"
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
@@ -384,7 +421,7 @@ onBeforeRouteUpdate(async (to, from) => {
       </tr>
       </thead>
       <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                        :entry_pos="idx + (pagination_currPage - 1) * pagination_currPerSize"
+                        :entry_pos="idx + (pagination_currPage - 1) * setting.scenario_pagination_perPage"
                         :key="idx"
                         v-for="(entry, idx) in pagination_data[pagination_currPage - 1]" />
     </table>
@@ -410,9 +447,17 @@ onBeforeRouteUpdate(async (to, from) => {
                           :next-id="scenarioRelatedStoryData.Next.Id"
                           :next-name="scenarioRelatedStoryData.Next.Name"
                           :next-pos-string="scenarioRelatedStoryData.Next.PosString"
-                          :key="scenarioID" />
+                          :key="scenarioID"
+                          info-pos="bottom" />
   </div>
 </template>
 
 <style scoped>
+.momotalk-table th:nth-child(odd) {
+  width: v-bind(cssWidthForThOfChar)
+}
+
+.momotalk-table th:nth-child(even) {
+  width: v-bind(cssWidthForThOfContent);
+}
 </style>

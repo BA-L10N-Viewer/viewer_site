@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { NexonLangMapReverse } from '@/tool/Constant'
+import { allLangcodeOfSchaleDbBySiteUiLang, CHAR_NPC_IMG_URL, MOBILE_WIDTH } from '@/tool/Constant'
 
 import 'lazysizes'
 import { defineProps, computed, ref, type PropType } from 'vue'
-import { type SchaleDbL10nData, type SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import { type SchaleDbL10nData } from '@/types/OutsourcedData'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 import PvTag from 'primevue/tag'
+import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
+import { useWindowSize } from '@vueuse/core'
 
 const props = defineProps({
   char_id: {
@@ -24,23 +26,39 @@ const props = defineProps({
   }
 })
 
+function getImgUrlById(charId: string | number) {
+  const temp = String(charId)
+
+  if (temp in CHAR_NPC_IMG_URL)
+    return CHAR_NPC_IMG_URL[temp]
+  else
+    return `${getStaticCdnBasepath('schaledb')}/images/student/collection/${temp}.webp`
+}
+function isNpc(charId: string | number) {
+  return String(charId) in CHAR_NPC_IMG_URL
+}
+
 const setting = useSetting()
 
 const uiLang = ref(setting.ui_lang)
-const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
+const schaleDbLang = computed(() => allLangcodeOfSchaleDbBySiteUiLang[uiLang.value])
+
+const cssFontSizeForCharName = computed(() => useWindowSize().width.value < MOBILE_WIDTH ? '0.8em' : '1em')
 </script>
 
 <template>
   <li style="margin-bottom: 0.6rem">
     <PvTag severity="success">{{ char_id }}</PvTag>
     <span>&nbsp;&nbsp;</span>
-    <img class="icon-stu lazyload" :data-src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${char_id}.webp`">
+    <img class="icon-stu lazyload" :data-src="getImgUrlById(char_id)">
     <span>&nbsp;</span>
-    <span v-for="(lang, idx) in schaleDbLang" :key="idx">{{ name[lang as SchaleDbL10nDataLang] }}<span v-if="idx + 1 != schaleDbLang.length">&nbsp;/&nbsp;</span></span>
+    <span class="char-name"><NexonI18nDataOutput :data="name" :data-lang="schaleDbLang" /></span>
     <br />
     <ul style="font-size: 1.2rem">
-      <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/momotalk/${char_id}`">{{ $t('char-search-tip2') }}</RouterLink></li>
-      <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/${char_id}`">{{ $t('char-search-tip3') }}</RouterLink></li>
+      <template v-if="!isNpc(char_id)">
+        <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/momotalk/${char_id}`">{{ $t('char-search-tip2') }}</RouterLink></li>
+        <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/${char_id}`">{{ $t('char-search-tip3') }}</RouterLink></li>
+      </template>
       <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/voice/${char_id}`">{{ $t('char-search-tip4') }}</RouterLink></li>
     </ul>
   </li>
@@ -49,5 +67,8 @@ const schaleDbLang = computed(() => NexonLangMapReverse[uiLang.value])
 <style scoped>
 .icon-stu {
   height: 2em;
+}
+.char-name {
+  font-size: v-bind(cssFontSizeForCharName)
 }
 </style>

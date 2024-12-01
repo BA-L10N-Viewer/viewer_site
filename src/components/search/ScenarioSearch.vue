@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
-import { httpGetJsonAsync } from '@/tool/HttpRequest'
+import { onMounted, ref, watch, computed } from 'vue'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
@@ -25,33 +24,79 @@ import PvSelect from 'primevue/select'
 import PvFluid from 'primevue/fluid'
 import PvDivider from 'primevue/divider'
 import CharacterSheet from '@/components/CharacterSheet.vue'
+import {
+  DirectoryDataCommonFileIndexMomo, DirectoryDataCommonFileIndexMomoL2d,
+  DirectoryDataCommonFileIndexScenarioI18nEvent, DirectoryDataCommonFileIndexScenarioI18nMain,
+  DirectoryDataCommonFileIndexScenarioManifestEvent, DirectoryDataCommonFileIndexScenarioManifestMain,
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataStoryI18nFileI18nBond,
+  DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nMainIndex,
+  DirectoryDataStoryI18nFileI18nStory
+} from '@/tool/PreFetchedData'
+import ScenarioSearchChapterMetadata from '@/components/search/ScenarioSearchChapterMetadata.vue'
 
 const selectType = ref('')
 const i18n = useI18n()
 
 /* DATA */
+type ChapterMetadata = Record<'name' | 'desc', NexonL10nData>
 // general
 const cacheRecoveryMultiStage = ref<boolean>(false)
 // for event
-let dataSelectEventIndex = ref<HTMLOptionData[]>([])
+const dataSelectEventIndex = ref<HTMLOptionData[]>([])
 let dataSelectEventStory = new Map<string, { id: string; name: NexonL10nData; desc: NexonL10nData; }[]>()
-let dataSelectEventLoaded = ref(false)
+let dataSelectEventMetadata = new Map<string, ChapterMetadata>()
+const dataSelectEventLoaded = ref(false)
 // for bond
-let dataSelectCharIndex = ref<HTMLOptionData[]>([])
+const dataSelectCharIndex = ref<HTMLOptionData[]>([])
 let dataSelectMmt = new Map<string, { id: number; data: I18nBondInfoDataEntry }[]>()
-let dataSelectBondLoaded = ref(false)
-// for main/other story
-let dataStoryMainLoaded = ref(false)
+const dataSelectBondLoaded = ref(false)
 // for other (current)
-let dataSelectMainCurrIndex1 = ref<HTMLOptionData[]>([])   /* Main - Volume */
-let dataSelectMainCurrIndex2 = ref<HTMLOptionData[]>([])   /* Main - Chapter */
-let dataSelectMainCurrStory = ref<{ id: string; name: NexonL10nData; desc: NexonL10nData; }[]>([])       /* 用于最终显示故事 */
-let dataSelectMainCurrLoaded = ref(false)
+const dataSelectMainCurrIndex1 = ref<HTMLOptionData[]>([])   /* Main - Volume */
+const dataSelectMainCurrIndex2 = ref<HTMLOptionData[]>([])   /* Main - Chapter */
+const dataSelectMainCurrStory = ref<{ id: string; name: NexonL10nData; desc: NexonL10nData; }[]>([])       /* 用于最终显示故事 */
+const dataSelectMainCurrLoaded = ref(false)
 /* <select> SELECTION */
 const selectEventName = ref('')
 const selectBondChar = ref('')
 const selectMainVolume = ref('')
 const selectMainChapter = ref('')
+/* volume/chapter metadata */
+const selectMainVolumeMetadata = computed<ChapterMetadata | null>(() => {
+  if (selectMainVolume.value === '') {
+    return null
+  } else {
+    const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)]
+    return {
+      name: dataI18nStoryXxhashToL10n[
+        dataMainI18nKeyToXxhash[data.name]
+        ],
+      desc: dataI18nStoryXxhashToL10n[
+        dataMainI18nKeyToXxhash[data.desc]
+        ]
+    }
+  }
+})
+const selectMainChapterMetadata = computed<ChapterMetadata | null>(() => {
+  if (selectMainChapter.value === '')
+    return null
+  else {
+    const currType = selectType.value
+    if (currType === 'main' || currType === 'side' || currType === 'short' || currType === 'other') {
+      const data = dataMainIndexManifest[currType][Number(selectMainChapter.value)]
+      return {
+        name: dataI18nStoryXxhashToL10n[
+          dataMainI18nKeyToXxhash[data.name]
+          ],
+        desc: dataI18nStoryXxhashToL10n[
+          dataMainI18nKeyToXxhash[data.desc]
+          ]
+      }
+    } else {
+      return null
+    }
+  }
+})
 
 /* REMOTE DATA */
 let dataI18nStoryXxhashToL10n: I18nStoryXxhashToL10nData = {} as I18nStoryXxhashToL10nData
@@ -68,22 +113,21 @@ let dataMainI18nKeyToXxhash: I18nStoryInfoIdToXxhash = {} as I18nStoryInfoIdToXx
 const dataAllLoaded = ref(false)
 
 async function loadAllData() {
-  await Promise.allSettled([
-    httpGetJsonAsync(dataI18nStoryXxhashToL10n, `/data/story/i18n/i18n_story.json`),
+  dataI18nStoryXxhashToL10n = DirectoryDataStoryI18nFileI18nStory.value
 
-    httpGetJsonAsync(dataEventI18nKeyToXxhash, `/data/story/i18n/i18n_event_index.json`),
-    httpGetJsonAsync(dataEventIndexManifest, `/data/common/index_scenario_manifest_event.json`),
-    httpGetJsonAsync(dataEventScenarioIdToI18nKey, `/data/common/index_scenario_i18n_event.json`),
+  dataEventI18nKeyToXxhash = DirectoryDataStoryI18nFileI18nEventIndex.value
+  dataEventIndexManifest = DirectoryDataCommonFileIndexScenarioManifestEvent.value
+  dataEventScenarioIdToI18nKey = DirectoryDataCommonFileIndexScenarioI18nEvent.value
 
-    httpGetJsonAsync(dataBondStudentName, `/data/common/index_stu.json`),
-    httpGetJsonAsync(dataBondIndexMomotalkScenario, `/data/common/index_momo.json`),
-    httpGetJsonAsync(dataBondScenarioI18n, `/data/story/i18n/i18n_bond.json`),
-    httpGetJsonAsync(dataBondL2dData, `/data/common/index_momo_l2d.json`),
+  dataBondStudentName = DirectoryDataCommonFileIndexStu.value
+  dataBondIndexMomotalkScenario = DirectoryDataCommonFileIndexMomo.value
+  dataBondScenarioI18n = DirectoryDataStoryI18nFileI18nBond.value
+  dataBondL2dData = DirectoryDataCommonFileIndexMomoL2d.value
 
-    httpGetJsonAsync(dataMainIndexManifest, `/data/common/index_scenario_manifest_main.json`),
-    httpGetJsonAsync(dataMainScenarioIdToI18nKey, `/data/common/index_scenario_i18n_main.json`),
-    httpGetJsonAsync(dataMainI18nKeyToXxhash, `/data/story/i18n/i18n_main_index.json`)
-  ])
+  dataMainIndexManifest = DirectoryDataCommonFileIndexScenarioManifestMain.value
+  dataMainScenarioIdToI18nKey = DirectoryDataCommonFileIndexScenarioI18nMain.value
+  dataMainI18nKeyToXxhash = DirectoryDataStoryI18nFileI18nMainIndex.value
+
   dataAllLoaded.value = true
 }
 
@@ -179,13 +223,19 @@ function loadEventData() {
   // event index
   const data = dataEventIndexManifest
   let temp = []
+  let temp3 = new Map<string, ChapterMetadata>()
   for (const entry of data) {
     temp.push({
       'label': `${entry.id}: ${getNexonL10nDataFlattened(dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])], i18nLangAll.value, '/')}`,
       'value': String(entry.id)
     })
+    temp3.set(String(entry.id), {
+      name: dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.name])],
+      desc: dataI18nStoryXxhashToL10n[String(dataI18nEvent[entry.desc])]
+    })
   }
   dataSelectEventIndex.value = temp
+  dataSelectEventMetadata = temp3
 
   // event story
   const data2 = dataEventScenarioIdToI18nKey
@@ -437,7 +487,7 @@ watch(
       <PvFluid class="pv-fluid">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-1') }}</span>
         <PvSelect v-model="selectType" size="small"
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="optionsType"
@@ -448,7 +498,7 @@ watch(
       <PvFluid class="pv-fluid" v-if="selectType === 'event'">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-2') }}</span>
         <PvSelect v-model="selectEventName" size="small" filter
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="dataSelectEventIndex"
@@ -459,7 +509,7 @@ watch(
       <PvFluid class="pv-fluid" v-else-if="selectType === 'bond'">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
         <PvSelect v-model="selectBondChar" size="small" filter
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="dataSelectCharIndex"
@@ -470,7 +520,7 @@ watch(
         <PvFluid class="pv-fluid">
           <span class="search-select-span-label">{{ $t('comp-search-scenario-select-4') }}</span>
           <PvSelect v-model="selectMainVolume" size="small" filter
-                    placeholder="Select"
+                    :placeholder="i18n.t('comp-search-select-placeholder')"
                     class="search-select-pv-select"
 
                     :options="dataSelectMainCurrIndex1"
@@ -481,7 +531,7 @@ watch(
         <PvFluid class="pv-fluid">
           <span class="search-select-span-label">{{ $t('comp-search-scenario-select-5') }}</span>
           <PvSelect v-model="selectMainChapter" size="small" filter
-                    placeholder="Select"
+                    :placeholder="i18n.t('comp-search-select-placeholder')"
                     class="search-select-pv-select"
 
                     :options="dataSelectMainCurrIndex2"
@@ -492,7 +542,7 @@ watch(
       <PvFluid class="pv-fluid" v-else-if="selectType !== ''">
         <span class="search-select-span-label">{{ $t('comp-search-scenario-select-6') }}</span>
         <PvSelect v-model="selectMainChapter" size="small" filter
-                  placeholder="Select"
+                  :placeholder="i18n.t('comp-search-select-placeholder')"
                   class="search-select-pv-select"
 
                   :options="dataSelectMainCurrIndex2"
@@ -507,6 +557,8 @@ watch(
     <div v-if="selectType === 'event'">
       <div v-loading="!dataSelectEventLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-result') }}</h2>
+        <ScenarioSearchChapterMetadata :data="dataSelectEventMetadata.get(selectEventName)!"
+                                       v-if="selectEventName !== ''" />
         <div :key="uiLang + '_' + selectEventName" class="search-event">
           <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
                                     v-for="(entry, idx) in dataSelectEventStory.get(selectEventName)" :key="idx" />
@@ -529,8 +581,13 @@ watch(
     <div v-else-if="selectType === 'main'">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <div :key="uiLang + '_' + selectBondChar">
-          <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+        <ScenarioSearchChapterMetadata :data="selectMainVolumeMetadata"
+                                       v-if="selectMainVolumeMetadata" />
+        <br />
+        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata"
+                                       v-if="selectMainChapterMetadata" />
+        <div :key="uiLang + '_' + selectMainChapter">
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
                                     v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
         </div>
       </div>
@@ -538,8 +595,10 @@ watch(
     <div v-else-if="selectType !== ''">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <div :key="uiLang + '_' + selectBondChar">
-          <ScenarioSearchEntryEvent :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata"
+                                       v-if="selectMainChapterMetadata" />
+        <div :key="uiLang + '_' + selectMainChapter">
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
                                     v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
         </div>
       </div>

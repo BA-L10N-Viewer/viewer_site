@@ -66,7 +66,7 @@ const setting = useSetting()
         </div>
 
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-        <DialogueTranslated v-else :content-original="dialogueSpeaker" :content-translated="dialogueSpeakerTranslated" />
+        <DialogueTranslated v-else :content-original="dialogueSpeaker" :content-original-lang="dialogueLang" :content-translated="dialogueSpeakerTranslated" />
       </div>
     </div>
   </td>
@@ -74,6 +74,7 @@ const setting = useSetting()
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
     <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
       <DialogueTranslated :content-original="convertMmtMsgToHtml(dialogueContentDecorated)"
+                          :content-original-lang="dialogueLang"
                           :content-translated="convertMmtMsgToHtml(dialogueContentTranslated)" />
     </div>
   </td>

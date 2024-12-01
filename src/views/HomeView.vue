@@ -1,15 +1,29 @@
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { MOBILE_WIDTH } from '@/tool/Constant'
 import { useI18n } from 'vue-i18n'
+import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
+import { useSetting } from '@/stores/setting'
 
 const screenWidth = useWindowSize().width
 const isMobileWidth = computed(() => MOBILE_WIDTH >= screenWidth.value)
 
 const cssFlexRowForDiv1 = computed(() => !isMobileWidth.value ? 2 : 1)
 
+const setting = useSetting()
 const { t } = useI18n()
+
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    () => {
+      changeAppPageTitle(t(AppPageCategoryToI18nCode['home']))
+    },
+    { immediate: true }
+  )
+})
+
 </script>
 
 <template>
@@ -17,11 +31,13 @@ const { t } = useI18n()
     <div class="home-bulletin-div-group-1">
       <div class="home-bulletin-div">
         <h1>{{ $t('home-h1-1') }}</h1>
-        <p v-html="t('home-p-1')"></p>
-        <p v-html="t('home-p-2')"></p>
-        <p v-html="t('home-p-3')"></p>
+        <p v-html="t('home-p-1-1')"></p>
+        <p v-html="t('home-p-1-2')"></p>
+        <p v-html="t('home-p-1-3')"></p>
         <h1>{{ $t('home-h1-2') }}</h1>
-        <p v-html="t('home-p-4')"></p>
+        <p v-html="t('home-p-2-1')"></p>
+        <p v-html="t('home-p-2-2')"></p>
+        <p v-html="t('home-p-2-3')"></p>
       </div>
     </div>
     <div style="flex: 1">

@@ -73,17 +73,21 @@
     word-break: break-word;
 }
 
+.scenario-popup-img {
+    max-width: 20vw
+}
+
 .momotalk-dialogue-tr {
     display: table-row;
 }
 
 .momotalk-dialogue-img {
-    max-width: 15em;
+    max-width: 20vw;
 }
 
 @media screen and (max-width: 1200px) {
     .momotalk-dialogue-img {
-        max-width: 10em;
+        max-width: 45vw;
     }
 }
 

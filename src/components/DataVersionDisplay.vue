@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
 import { formatDate } from '@/tool/Tool'
-import { httpGetAsync } from '@/tool/HttpRequest'
+import { httpGetAsync, getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 const dataUpdateTime = ref(0)
 const dataUpdateTimeString = ref('')
@@ -29,10 +29,8 @@ onMounted(async () => {
   await Promise.allSettled([
     dataUpdateTime.value = Number(await httpGetAsync(`/data/MODIFIED.txt`)) * 1000,
     (async () => {
-      const ghAction = JSON.parse(await httpGetAsync('https://gapi-aws.cnfast.top/repos/BA-L10N-Viewer/viewer_site/actions/runs'))
-      const ghCommit = JSON.parse(await httpGetAsync('https://gapi-aws.cnfast.top/repos/BA-L10N-Viewer/viewer_site/commits/master'))
-
-      siteUpdatedTime.value = (new Date(ghAction['workflow_runs'][0]['updated_at'])).getTime()
+      const ghCommit = JSON.parse(await httpGetAsync(`${getStaticCdnBasepath('ghapi')}/repos/BA-L10N-Viewer/viewer_site/commits/master`))
+      siteUpdatedTime.value = (new Date(ghCommit['commit']['author']['date'])).getTime()
       siteCommitHash.value = ghCommit['sha']
     })()
   ])

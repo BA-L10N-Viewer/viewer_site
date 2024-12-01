@@ -23,6 +23,7 @@ export type NexonL10nDataLangDataOfUiDict = {
 }
 
 export type SchaleDbL10nDataLang = NexonL10nDataLang | 'c_zh' | 'c_zh_tw'
+export const SchaleDbL10nDataLang: SchaleDbL10nDataLang[] = [...NexonL10nDataLang, 'c_zh', 'c_zh_tw']
 export type SchaleDbL10nData = Record<SchaleDbL10nDataLang, string>
 
 /*  Common Story File (e.g. 1101.json)  */
@@ -161,7 +162,6 @@ export type SchaleDbStuInfoFull = {
   WeaponDesc: SchaleDbL10nData;
   Profile: SchaleDbL10nData;
   CharacterSSRNew: SchaleDbL10nData;
-  Voicelines: SchaleDbStuInfoFullVoiceline;
   FamilyName: SchaleDbL10nData;
   Name: SchaleDbL10nData;
 }
@@ -202,5 +202,5 @@ export type SchaleDbI18nDictData = {
   School: Record<string, SchaleDbL10nData>,
   Club: Record<string, SchaleDbL10nData>,
   VoiceClipGroup: Record<'Normal' | 'Lobby' | 'Battle' | 'Event', SchaleDbL10nData>,
-  VoiceClip: Record<string, string>
+  VoiceClip: Record<string, SchaleDbL10nData>
 }

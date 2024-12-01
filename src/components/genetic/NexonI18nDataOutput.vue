@@ -33,7 +33,7 @@ const props = defineProps({
 
 const dataLangProcessed = computed(() => {
   const result: string[] = []
-  const allDataKeys = Object.values(props.dataLang)
+  const allDataKeys = Object.keys(props.data)
 
   for (const lang of props.dataLang) {
     if (allDataKeys.includes(lang))

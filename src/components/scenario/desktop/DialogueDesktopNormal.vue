@@ -3,7 +3,7 @@
 import { defineProps } from 'vue'
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import DialogueIcon from '@/components/DialogueIcon.vue'
-import { getScenarioCharacterSmallPortraitPath } from '@/tool/StoryTool'
+import { getScenarioCharacterSmallPortraitPath, getScenarioPopupFilenamePath } from '@/tool/StoryTool'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
@@ -46,6 +46,10 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialoguePopupFilename: {
+    type: String,
+    required: true
   }
 })
 </script>
@@ -54,10 +58,15 @@ const props = defineProps({
   <td :lang="dialogueLang" class="scenario-speaker scenario-dialogue">
     <DialogueIcon :icon-url="getScenarioCharacterSmallPortraitPath(dialogueCharacterImage)" />
     <ScenarioTranslatedDialogue :content-original="dialogueCharacter" :content-translated="dialogueCharacterTranslated"
+                                :content-original-lang="dialogueLang"
                                 :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">
-    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-translated="dialogueContentTranslated"
+    <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
+         v-if="dialoguePopupFilename"
+         class="momotalk-dialogue-img" />
+    <br />
+    <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated"
                                 :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
                   :dialogue-selection-group="dialogueSelectionGroup"
