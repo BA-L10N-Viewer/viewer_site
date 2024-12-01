@@ -32,6 +32,7 @@
   
   <h2>数据源</h2>
   <p>部分来自<a href="https://schaledb.com/">SchaleDB</a>。</p>
+  <DataVersionDisplay :verbose="true" />
   
   <h2>联系我们</h2>
   <p>GitHub：<a href="https://github.com/BA-L10N-Viewer/">项目主页</a>、<a href="https://github.com/BA-L10N-Viewer/viewer_site/">站点Repo</a>、<a href="https://github.com/orgs/BA-L10N-Viewer/discussions/">讨论版</a></p>
@@ -40,3 +41,7 @@
   <h2>致谢</h2>
   <p>本网站部分受<a href="https://nikke.win/">NIKKE.WIN</a>启发而开发。</p>
 </template>
+
+<script setup lang="ts">
+import DataVersionDisplay from '@/components/DataVersionDisplay.vue'
+</script>

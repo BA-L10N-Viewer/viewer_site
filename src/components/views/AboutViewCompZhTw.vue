@@ -6,7 +6,7 @@
   <p>This site is not affilicated in any forms with Blue Archive, Yostar, Nexon and Nexon Games.</p>
   <p>All game artwork, information and assets used in this site are the property of their respective authors, who also own the copyrights of their respective parts.</p>
   <p>This site is sorely for data display purpose and has no monetization over it.</p>
-  
+
   <hr />
 
   <h1>本地化，重中之重</h1>
@@ -29,10 +29,11 @@
     <li><a href="https://developers.google.com/analytics/">Google Analytics</a>，用於匿名訪問資料收集</li>
     <li><a href="https://clarity.microsoft.com/">Microsoft Clarity</a>，用於訪問行為分析</li>
   </ul>
-  
+
   <h2>資料來源</h2>
   <p>部分來自<a href="https://schaledb.com/">SchaleDB</a>。</p>
-  
+  <DataVersionDisplay :verbose="true" />
+
   <h2>聯絡我們</h2>
   <p>GitHub：<a href="https://github.com/BA-L10N-Viewer/">專案主頁</a>、<a href="https://github.com/BA-L10N-Viewer/viewer_site/">站點Repo</a>、<a href="https://github.com/orgs/BA-L10N-Viewer/discussions/">討論版</a></p>
   <p>主要開發者（@sctop）：<a href="https://github.com/sctop/">GitHub</a>、<a href="https://twitter.com/KitePythonner">Twitter/X（@KitePythonner）</a>、<a href="https://space.bilibili.com/93650528/">B站（@童年是个风筝）</a></p>
@@ -40,3 +41,7 @@
   <h2>致謝</h2>
   <p>本網站部分受<a href="https://nikke.win/">NIKKE.WIN</a>啟發而開發。</p>
 </template>
+
+<script setup lang="ts">
+import DataVersionDisplay from '@/components/DataVersionDisplay.vue'
+</script>

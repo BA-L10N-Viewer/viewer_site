@@ -29,6 +29,7 @@
   
   <h2>Data Source</h2>
   <p>Part of them is from <a href="https://schaledb.com/">SchaleDB</a>.</p>
+  <DataVersionDisplay :verbose="true" />
   
   <h2>Contact Us</h2>
   <p>GitHub：<a href="https://github.com/BA-L10N-Viewer/">Project Homepage</a>、<a href="https://github.com/BA-L10N-Viewer/viewer_site/">Repo for the Site</a>、<a href="https://github.com/orgs/BA-L10N-Viewer/discussions/">Discussions</a></p>
@@ -37,3 +38,7 @@
   <h2>Acknowledgements</h2>
   <p>This site is partly inspired by <a href="https://nikke.win/">NIKKE.WIN</a>.</p>
 </template>
+
+<script setup lang="ts">
+import DataVersionDisplay from '@/components/DataVersionDisplay.vue'
+</script>

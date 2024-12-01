@@ -56,7 +56,7 @@ fetchData()
               <span>{{ $t(item.label as string) }}</span>
             </a>
           </router-link>
-          <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
+          <a v-else :href="item.url" :target="item.target" v-bind="props.action">
             <span :class="item.icon" />
             <span>{{ $t(item.label as string) }}</span>
             <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
