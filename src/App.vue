@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView, useRouter } from 'vue-router'
 import { useSetting } from '@/stores/setting'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { menubarValue } from '@/tool/Constant'
 
 import { fetchData, isFetching } from '@/tool/PreFetchedData'
@@ -27,7 +27,13 @@ const i18n = useI18n()
 
 const dialogSettingVisible = ref(false)
 
-document.getElementsByTagName('body')[0].lang = setting.ui_lang
+watch(
+  () => setting.ui_lang,
+  (newValue) => {
+    document.getElementsByTagName('body')[0].lang = newValue
+  },
+  { immediate: true }
+)
 
 fetchData()
 </script>
