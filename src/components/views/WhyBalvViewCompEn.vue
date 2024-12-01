@@ -1,8 +1,17 @@
+<script lang="ts" setup>
+import PvMessage from 'primevue/message'
+</script>
+
 <template>
-  <h1>Why BA L10N Viewer</h1>
+  <h1 class="view-h1">Why BA L10N Viewer</h1>
   <p>BA L10N Viewer (BALV), the site itself, isn't really just a gacha game hobbiest trying to practice his frontend development skills. <strong>Not at all, really.</strong></p>
   <p>Despite its simple and shabby UI and lacking a lot of functionalities, my original intent that is <em><strong>cross-language comparision</strong></em>, have never changed that much. At its core, BALV is tool dedicated for language learners and people who are curious about localization differences across different languages. But now, apparently, something more significant is happening, going on right now as I'm writing this article.</p>
   <p>The VERY BAD, VERY UNPROFESSIONAL LOCALIZATION that we're all seeing in-game.</p>
+
+  <PvMessage severity="info">However, with the awesome work by Twitter user <a href="https://x.com/TL2TJ">TL2TJ</a>, it's possible for us to fix the translation issues by OURSELVES.<br />
+  His unofficial mod for Blue Archive Global, as of the writing, is completely usable and safe, making BALV less useful right now.<br />
+  Despite this, BALV is still here to provide an easy access to in-game localization for everyone.<br />
+  <b>Have fun reading then!</b></PvMessage>
 
   <h2>Bad Localization Exists</h2>
   <p>The global version of Blue Archive, especially its English branch, has long been known to have bad, improper localization for ages. From Reddit slangs to mistranslations, to now inexplictedly and intentionally changing the whole sentence and dialogues, dissatisfaction with the localization team only grew more and more among the players.</p>
