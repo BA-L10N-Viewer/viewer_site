@@ -6,10 +6,11 @@
   <p>当遇到数据更新不及时时，以下均有可能为其原因：</p>
   <ul>
     <li>浏览器缓存未刷新（PC端按 Ctrl+F5 可强制刷新）</li>
-    <li>CloudFlare（主站）/AWS（加速站）缓存未刷新</li>
-    <ul>
-      <li>如您在使用AWS加速站（ba-l10n<b>-aws</b>.cnfast.top），请先访问<a href="https://ba-l10n.cnfast.top/">主站点</a>确认情况</li>
-    </ul>
+    <li>CloudFlare（主站）/AWS（加速站）缓存未刷新
+      <ul>
+        <li>如您在使用AWS加速站（ba-l10n<b>-aws</b>.cnfast.top），请先访问<a href="https://ba-l10n.cnfast.top/">主站点</a>确认情况</li>
+      </ul>
+    </li>
     <li>GitHub Actions脚本未正常运行，或是错过了运行实际，另见<a href="#when-update">数据更新时间</a>一节</li>
     <li>第三方数据源延迟或不可用</li>
   </ul>
@@ -34,7 +35,7 @@
   <p>根据我们的经验来看，Google翻译在源语言或目标语言不是英语时，会将英语作为中间语言进行翻译。换言之，无论是中日还是中韩互译，内容一定会先翻译成英语，而后再翻译到目标语言。</p>
   <p>考虑到Google翻译的准确性本身并不怎么高（除了或许翻译到英语时），我们建议将英语作为首要考虑语言。</p>
 
-  <h2>Q：数据更新时间？</h2>
+  <h2 id="when-update">Q：数据更新时间？</h2>
   <p>A：当前，GitHub Action会在以下时间点检查数据更新：</p>
   <ul>
     <li>UTC+8 13:00、14:00、15:00、17:00、18:00、20:00</li>
@@ -100,7 +101,7 @@
   <p>至于为什么最高仅支持五语，则是因为BA除国服外只支持五种语言（国服没有数据）；同时，如上文所述，过多的语言没有意义。</p>
   <p>然而，如您确实需要获取全部语言的本地化数据，您应考虑直接解析JSON或导出CSV（开发中）。</p>
 
-  <h2>Q：我想成为一名数据维护者！</h2>
+  <h2 id="be-a-maintainer">Q：我想成为一名数据维护者！</h2>
   <p>A：欲成为一名数据维护者，你应该至少拥有以下经验：</p>
   <ul>
     <li>基础Python编程能力（能debug最好）</li>
@@ -111,17 +112,20 @@
   </ul>
   <p>然后，请通过<RouterLink to="/about">关于页</RouterLink>上的联系方式联系。我们会简单徐文你的情况，介绍具体的安排与情况。</p>
 
-  <h2>Q：我发现了Bug！</h2>
+  <h2 id="report-bug">Q：我发现了Bug！</h2>
   <p>A：请到项目的<a href="https://github.com/orgs/BA-L10N-Viewer/discussions">讨论版</a>上报告问题。报告时，请提供：</p>
   <ul>
     <li>何处发生？（完整URL）</li>
     <li>能否复现？复现步骤？</li>
     <li>如何影响体验？</li>
-    <li>其他信息（可选，这将允许我们能够追踪到您的访问session）</li>
-    <ul>
-      <li>访问时间</li>
-      <li>使用的浏览器及其版本</li>
-    </ul>
+    <li>其他信息（可选，这将允许我们能够追踪到您的访问session）
+      <ul>
+        <li>访问时间</li>
+        <li>使用的浏览器及其版本</li>
+      </ul>
+    </li>
   </ul>
 
 </template>
+<script setup lang="ts">
+</script>
