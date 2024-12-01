@@ -82,7 +82,7 @@ const selectMainChapterMetadata = computed<ChapterMetadata | null>(() => {
     return null
   else {
     const currType = selectType.value
-    if (currType === 'main' || currType === 'side' || currType === 'short' || currType === 'other') {
+    if (currType === 'side' || currType === 'short' || currType === 'other') {
       const data = dataMainIndexManifest[currType][Number(selectMainChapter.value)]
       return {
         name: dataI18nStoryXxhashToL10n[
@@ -92,9 +92,18 @@ const selectMainChapterMetadata = computed<ChapterMetadata | null>(() => {
           dataMainI18nKeyToXxhash[data.desc]
           ]
       }
-    } else {
+    } else if (currType === 'main') {
+      const data = dataMainIndexManifest['main'][Number(selectMainVolume.value)].data[Number(selectMainChapter.value)]
+      return {
+        name: dataI18nStoryXxhashToL10n[
+          dataMainI18nKeyToXxhash[data.name]
+          ],
+        desc: dataI18nStoryXxhashToL10n[
+          dataMainI18nKeyToXxhash[data.desc]
+          ]
+      }
+    } else
       return null
-    }
   }
 })
 
