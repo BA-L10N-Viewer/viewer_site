@@ -12,7 +12,7 @@ import {
   type IndexScenarioInfoToI18nId, type SchaleDbI18nDictData
 } from '@/types/OutsourcedData'
 import { ref, shallowRef } from 'vue'
-import { httpGetJsonAsync } from './HttpRequest'
+import { httpGetJsonAsync, httpGetAsync } from './HttpRequest'
 import { AsyncTaskPool } from './AsyncTaskPool'
 import { SiteUiLang } from '@/tool/Constant'
 import { createDictionaryWithDefault } from '@/tool/Tool'
@@ -37,7 +37,7 @@ export const DirectoryDataCommonFileIndexRelatedManifestParent = shallowRef<Rela
 export const DirectoryDataCommonFileIndexRelatedManifestScenario = shallowRef<RelatedScenarioInfoData>({} as unknown as RelatedScenarioInfoData)
 export const DirectoryDataCommonSchaleFileLocalization = shallowRef<SchaleDbI18nDictData>({} as unknown as SchaleDbI18nDictData)
 
-export const DirectoryDataCommonI18nFileVoiceGroup = shallowRef<Record<SiteUiLang, {}>>(createDictionaryWithDefault(SiteUiLang, {}))
+export const DirectoryDataCommonI18nFileVoiceGroup = ref<Record<SiteUiLang, {}>>(createDictionaryWithDefault(SiteUiLang, {}))
 
 export async function fetchData() {
   isFetching.value = true
@@ -91,7 +91,8 @@ export async function fetchData() {
     await httpGetJsonAsync(DirectoryDataCommonSchaleFileLocalization.value, `/data/common/schale/localization.json`)
   })
   asyncPool.addTask(async () => {
-    await Promise.allSettled([...SiteUiLang.map(lang => httpGetJsonAsync(DirectoryDataCommonI18nFileVoiceGroup.value[lang], `/data/common/i18n/voice_group.${lang}.json`))])
+	for (const lang of SiteUiLang)
+	  DirectoryDataCommonI18nFileVoiceGroup.value[lang] = JSON.parse(await httpGetAsync(`/data/common/i18n/voice_group.${lang}.json`))
   })
   await asyncPool.runAll()
   isFetching.value = false

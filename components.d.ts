@@ -60,7 +60,4 @@ declare module 'vue' {
     WhyBalvViewCompZhCn: typeof import('./src/components/views/WhyBalvViewCompZhCn.vue')['default']
     WhyBalvViewCompZhTw: typeof import('./src/components/views/WhyBalvViewCompZhTw.vue')['default']
   }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
-  }
 }
