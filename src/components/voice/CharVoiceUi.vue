@@ -67,7 +67,7 @@ const charData = Object.assign({}, DirectoryDataCommonFileIndexStu.value, Direct
 let dataVoiceNexon: NexonCharVoiceEntry = {} as unknown as NexonCharVoiceEntry
 let dataVoiceSdb: SchaleDbStuInfoFullVoiceline = {} as unknown as SchaleDbStuInfoFullVoiceline
 const dataVoiceI18n: Record<SiteUiLang, {}> = DirectoryDataCommonI18nFileVoiceGroup.value
-const dataVoiceI18nCurr = shallowRef<{ [key: string]: string }>({})
+const dataVoiceI18nCurr = ref<{ [key: string]: string }>({})
 
 // --------------------- MT AUTO TRANSLATE ---------------------
 const mtController = {
