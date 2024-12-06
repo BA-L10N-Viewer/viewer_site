@@ -4,7 +4,8 @@ import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import type {
   I18nBondInfoData,
   I18nStoryInfoIdToXxhash,
-  I18nStoryXxhashToL10nData, IndexScenarioInfoToI18nId,
+  I18nStoryXxhashToL10nData,
+  IndexScenarioInfoToI18nId,
   NexonL10nData
 } from '@/types/OutsourcedData'
 import type { Nullable } from '@/types/CommonType'
@@ -12,8 +13,10 @@ import {
   DirectoryDataCommonFileIndexRelatedManifestScenario,
   DirectoryDataCommonFileIndexScenarioI18nEvent,
   DirectoryDataCommonFileIndexScenarioI18nMain,
-  DirectoryDataStoryI18nFileI18nBond, DirectoryDataStoryI18nFileI18nEventIndex,
-  DirectoryDataStoryI18nFileI18nMainIndex, DirectoryDataStoryI18nFileI18nStory
+  DirectoryDataStoryI18nFileI18nBond,
+  DirectoryDataStoryI18nFileI18nEventIndex,
+  DirectoryDataStoryI18nFileI18nMainIndex,
+  DirectoryDataStoryI18nFileI18nStory
 } from '@/tool/PreFetchedData'
 import { inferScenarioMainCategoryById, inferScenarioTypeById } from '@/tool/components/Scenario'
 

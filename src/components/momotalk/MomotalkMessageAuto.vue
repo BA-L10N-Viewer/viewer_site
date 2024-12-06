@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import MessageStudent from '@/components/momotalk/MessageStudent.vue'
-import { computed, type PropType, type Ref, ref, provide, inject } from 'vue'
+import { computed, inject, type PropType, provide, type Ref, ref } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'
 import MessageStudentMobile from '@/components/momotalk/MessageStudentMobile.vue'
 import { getNexonL10nData } from '@/tool/StoryTool'
-import type {
-  MomotalkStoryDataDialog, NexonL10nData,
-  NexonL10nDataLang
-} from '@/types/OutsourcedData'
+import type { MomotalkStoryDataDialog, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
 

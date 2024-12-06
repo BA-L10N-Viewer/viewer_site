@@ -4,7 +4,7 @@ import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import { useRoute } from 'vue-router'
 import type { SchaleDbI18nDictData, StudentInfoDataSimple } from '@/types/OutsourcedData'
 import { useWindowSize } from '@vueuse/core'
-import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH, CHAR_NPC_IMG_URL } from '@/tool/Constant'
+import { allLangcodeOfSchaleDbBySiteUiLang, CHAR_NPC_IMG_URL, MOBILE_WIDTH } from '@/tool/Constant'
 
 import PvButton from 'primevue/button'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
@@ -12,7 +12,8 @@ import { useSetting } from '@/stores/setting'
 import {
   DirectoryDataCommonFileIndexMomoL2d,
   DirectoryDataCommonFileIndexNpc,
-  DirectoryDataCommonFileIndexStu, DirectoryDataCommonSchaleFileLocalization
+  DirectoryDataCommonFileIndexStu,
+  DirectoryDataCommonSchaleFileLocalization
 } from '@/tool/PreFetchedData'
 
 const props = defineProps({

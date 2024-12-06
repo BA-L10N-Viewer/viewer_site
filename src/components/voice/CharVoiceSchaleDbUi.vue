@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { onMounted, type PropType, ref } from 'vue'
-import {
-  type SchaleDbStuInfoFullVoiceline,
-  SchaleDbStuInfoFullVoicelineCategory
-} from '@/types/OutsourcedData'
-import type {
-  SchaleDbStuVoicelineMtData
-} from '@/tool/CharVoiceMt'
+import { type SchaleDbStuInfoFullVoiceline, SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
+import type { SchaleDbStuVoicelineMtData } from '@/tool/CharVoiceMt'
 import CharVoiceSchaleDbContent from '@/components/voice/CharVoiceSchaleDbContent.vue'
 
 import PvTabs from 'primevue/tabs'

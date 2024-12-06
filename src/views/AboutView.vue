@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Component, watch, onMounted } from 'vue'
+import { type Component, onMounted, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import type { SiteUiLang } from '@/tool/Constant'
 import AboutViewCompEn from '@/components/views/AboutViewCompEn.vue'

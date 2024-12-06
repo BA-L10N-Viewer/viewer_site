@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { NexonCharVoiceNormal } from '@/types/OutsourcedDataVoice'
-import { inject, onMounted, type PropType, computed } from 'vue'
-import { ref } from 'vue'
+import { computed, inject, onMounted, type PropType, ref } from 'vue'
 import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 
 import PvDataTable from 'primevue/datatable'

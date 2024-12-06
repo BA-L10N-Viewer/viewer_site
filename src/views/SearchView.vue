@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ScenarioSearch from '@/components/search/ScenarioSearch.vue'
-import { watch, onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useSetting } from '@/stores/setting'
 import { useI18n } from 'vue-i18n'

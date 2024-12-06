@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { NexonCharVoiceBattle } from '@/types/OutsourcedDataVoice'
-import { computed, inject, onMounted, type PropType } from 'vue'
-import { ref } from 'vue'
+import { computed, inject, onMounted, type PropType, ref } from 'vue'
 import type { NexonCharVoiceBattleMtData } from '@/tool/CharVoiceMt'
 import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 import { i18nLangAll } from '@/tool/ConstantComputed'

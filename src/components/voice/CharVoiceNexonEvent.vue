@@ -1,22 +1,15 @@
 <script setup lang="ts">
 import type { NexonCharVoiceEvent, NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
-import { computed, inject, onMounted, type PropType } from 'vue'
-import { ref } from 'vue'
+import { computed, inject, onMounted, type PropType, ref } from 'vue'
 import type { NexonCharVoiceEventMtData } from '@/tool/CharVoiceMt'
 import { useI18n } from 'vue-i18n'
 import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
-import {
-  convertNexonCharVoiceEventCategoryForTable
-} from '@/tool/CharVoiceForTable'
+import { convertNexonCharVoiceEventCategoryForTable } from '@/tool/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
-import type {
-  I18nStoryInfoIdToXxhash,
-  NexonL10nDataDict,
-  NexonL10nDataLangOfUi
-} from '@/types/OutsourcedData'
+import type { I18nStoryInfoIdToXxhash, NexonL10nDataDict, NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import PvTag from 'primevue/tag'

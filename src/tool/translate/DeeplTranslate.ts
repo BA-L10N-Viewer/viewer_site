@@ -1,4 +1,4 @@
-import { MersenneTwister, getRandomInt } from '@/tool/Random'
+import { getRandomInt, MersenneTwister } from '@/tool/Random'
 import axios from 'axios'
 
 const _countCharacter = (str: string, char: string): number => {

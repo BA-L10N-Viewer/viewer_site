@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { type Component, watch, onMounted } from 'vue'
+import { type Component, onMounted, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
-import type { SiteUiLang } from '@/tool/Constant';
-import WhyBalvViewCompEn from '@/components/views/WhyBalvViewCompEn.vue';
-import WhyBalvViewCompZhCn from '@/components/views/WhyBalvViewCompZhCn.vue';
-import WhyBalvViewCompZhTw from '@/components/views/WhyBalvViewCompZhTw.vue';
+import type { SiteUiLang } from '@/tool/Constant'
+import WhyBalvViewCompEn from '@/components/views/WhyBalvViewCompEn.vue'
+import WhyBalvViewCompZhCn from '@/components/views/WhyBalvViewCompZhCn.vue'
+import WhyBalvViewCompZhTw from '@/components/views/WhyBalvViewCompZhTw.vue'
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useI18n } from 'vue-i18n'
 

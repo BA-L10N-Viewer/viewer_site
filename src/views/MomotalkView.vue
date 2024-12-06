@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import { onMounted, provide, type Ref, ref, watch, nextTick, onBeforeUnmount } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, provide, type Ref, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {
   I18nBondInfoData,
-  MomotalkStoryData, NexonL10nDataLang,
+  MomotalkStoryData,
+  NexonL10nDataLang,
   SchaleDbL10nData,
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'

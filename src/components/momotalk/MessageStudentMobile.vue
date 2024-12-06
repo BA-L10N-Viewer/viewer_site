@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, type PropType, inject, type Ref, ref } from 'vue'
+import { computed, inject, type PropType, type Ref, ref } from 'vue'
 import {
-  mmtMessageContentDecorator,
-  convertMmtMsgToHtml,
   checkDialogueSensei,
-  getClassDialogueSensei, getNexonL10nData
+  convertMmtMsgToHtml,
+  getClassDialogueSensei,
+  getNexonL10nData,
+  mmtMessageContentDecorator
 } from '@/tool/StoryTool'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'

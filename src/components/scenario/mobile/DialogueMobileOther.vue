@@ -9,15 +9,15 @@ import {
 } from '@/tool/ConstantComputed'
 import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
-import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
 import type {
   CommonStoryDataDialogDataType,
   CommonStoryDataDialogTextColor,
-  NexonL10nData, NexonL10nDataLang
+  NexonL10nData,
+  NexonL10nDataLang
 } from '@/types/OutsourcedData'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
-import { i18nMobileLoopIdx } from '@/tool/Constant'
 
 const props = defineProps({
   dialogueContent: {

@@ -1,11 +1,10 @@
 import type {
   NexonL10nDataLang,
   NexonL10nDataOfUi,
-  SchaleDbStuInfoFullVoicelineCategory, SchaleDbStuInfoFullVoicelineEntry
+  SchaleDbStuInfoFullVoicelineCategory,
+  SchaleDbStuInfoFullVoicelineEntry
 } from '@/types/OutsourcedData'
-import {
-  NexonL10nDataLangOfUi
-} from '@/types/OutsourcedData'
+import { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import type {
   NexonCharVoiceBattle,
   NexonCharVoiceEvent,

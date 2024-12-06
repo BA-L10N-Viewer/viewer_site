@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch, computed } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
@@ -9,13 +9,15 @@ import { useI18n } from 'vue-i18n'
 import type {
   I18nBondInfoData,
   I18nBondInfoDataEntry,
-  I18nStoryInfoIdToXxhash, I18nStoryXxhashToL10nData,
-  IndexManifestScenarioEntry,
+  I18nStoryInfoIdToXxhash,
+  I18nStoryXxhashToL10nData,
+  IndexManifestScenarioChildEntry,
   IndexManifestScenarioData,
+  IndexManifestScenarioEntry,
   IndexMomotalkData,
   IndexScenarioInfoToI18nId,
   NexonL10nData,
-  StudentInfoDataSimple, IndexManifestScenarioChildEntry
+  StudentInfoDataSimple
 } from '@/types/OutsourcedData'
 import type { HTMLOptionData } from '@/types/CommonType'
 import { useSearchVars } from '@/stores/search'
@@ -25,12 +27,16 @@ import PvFluid from 'primevue/fluid'
 import PvDivider from 'primevue/divider'
 import CharacterSheet from '@/components/CharacterSheet.vue'
 import {
-  DirectoryDataCommonFileIndexMomo, DirectoryDataCommonFileIndexMomoL2d,
-  DirectoryDataCommonFileIndexScenarioI18nEvent, DirectoryDataCommonFileIndexScenarioI18nMain,
-  DirectoryDataCommonFileIndexScenarioManifestEvent, DirectoryDataCommonFileIndexScenarioManifestMain,
+  DirectoryDataCommonFileIndexMomo,
+  DirectoryDataCommonFileIndexMomoL2d,
+  DirectoryDataCommonFileIndexScenarioI18nEvent,
+  DirectoryDataCommonFileIndexScenarioI18nMain,
+  DirectoryDataCommonFileIndexScenarioManifestEvent,
+  DirectoryDataCommonFileIndexScenarioManifestMain,
   DirectoryDataCommonFileIndexStu,
   DirectoryDataStoryI18nFileI18nBond,
-  DirectoryDataStoryI18nFileI18nEventIndex, DirectoryDataStoryI18nFileI18nMainIndex,
+  DirectoryDataStoryI18nFileI18nEventIndex,
+  DirectoryDataStoryI18nFileI18nMainIndex,
   DirectoryDataStoryI18nFileI18nStory
 } from '@/tool/PreFetchedData'
 import ScenarioSearchChapterMetadata from '@/components/search/ScenarioSearchChapterMetadata.vue'

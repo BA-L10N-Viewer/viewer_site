@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { MOBILE_WIDTH, selectAutoTranslateService, autoTranslateLanguage, nexonDataLangSelect } from '@/tool/Constant'
-import { defineProps, watch, ref, computed } from 'vue'
+import { autoTranslateLanguage, MOBILE_WIDTH, nexonDataLangSelect, selectAutoTranslateService } from '@/tool/Constant'
+import { computed, defineProps, ref, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { useI18n } from 'vue-i18n'

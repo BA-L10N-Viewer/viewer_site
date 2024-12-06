@@ -1,8 +1,7 @@
 import type { NexonL10nData, NexonL10nDataLangOfUi, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
-import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList, CharVoiceUiTabName } from '@/types/CharVoiceComp'
+import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList } from '@/types/CharVoiceComp'
 import type { NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
-import { ref } from 'vue'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 export const MOBILE_WIDTH = 800

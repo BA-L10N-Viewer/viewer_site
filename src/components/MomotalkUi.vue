@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { defineProps, type PropType, computed } from 'vue'
+import { computed, defineProps, type PropType } from 'vue'
 import MomotalkMessageAuto from '@/components/momotalk/MomotalkMessageAuto.vue'
 import { useWindowSize } from '@vueuse/core'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER } from '@/tool/Constant'
-import type {
-  MomotalkStoryDataEntry,
-  NexonL10nData
-} from '@/types/OutsourcedData'
+import type { MomotalkStoryDataEntry, NexonL10nData } from '@/types/OutsourcedData'
 import { useSetting } from '@/stores/setting'
 import { i18nLangAll, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 

@@ -3,7 +3,7 @@ import { useSetting } from '@/stores/setting'
 import { allLangcodeOfSchaleDbBySiteUiLang, CHAR_NPC_IMG_URL, MOBILE_WIDTH } from '@/tool/Constant'
 
 import 'lazysizes'
-import { defineProps, computed, ref, type PropType } from 'vue'
+import { computed, defineProps, type PropType, ref } from 'vue'
 import { type SchaleDbL10nData } from '@/types/OutsourcedData'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 

@@ -6,12 +6,13 @@ import type {
 import type {
   NexonCharVoiceBattle,
   NexonCharVoiceBattleEntry,
-  NexonCharVoiceBattleGroup, NexonCharVoiceEvent,
-  NexonCharVoiceEventEntry,
+  NexonCharVoiceBattleGroup,
+  NexonCharVoiceEvent,
   NexonCharVoiceEventGroupEntry,
   NexonCharVoiceEventTranscriptionType,
   NexonCharVoiceEventVoiceEntry,
-  NexonCharVoiceEventVoiceEntryParam, NexonCharVoiceNormal,
+  NexonCharVoiceEventVoiceEntryParam,
+  NexonCharVoiceNormal,
   NexonCharVoiceNormalEntry,
   NexonCharVoiceNormalGroup
 } from '@/types/OutsourcedDataVoice'

@@ -1,8 +1,7 @@
-import { watch } from 'vue'
 import { defineStore } from 'pinia'
-import { getUserLang, convertLangToNormal } from '../tool/BrowserTool'
+import { convertLangToNormal, getUserLang } from '@/tool/BrowserTool'
 import { defaultLangForNexonL10nLang, paginationScenarioControl, type SiteUiLang } from '@/tool/Constant'
-import type { CharVoiceUiDataSource, CharVoiceUiEventDisplayMode, CharVoiceUiTabName } from '@/types/CharVoiceComp'
+import type { CharVoiceUiDataSource } from '@/types/CharVoiceComp'
 import type { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 

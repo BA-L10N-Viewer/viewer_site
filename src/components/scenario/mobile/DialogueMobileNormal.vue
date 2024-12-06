@@ -9,11 +9,12 @@ import {
 } from '@/tool/ConstantComputed'
 import {
   getNexonL10nData,
-  getScenarioCharacterSmallPortraitPath, getScenarioPopupFilenamePath,
+  getScenarioCharacterSmallPortraitPath,
+  getScenarioPopupFilenamePath,
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
 
-import { defineProps, type PropType, inject, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'

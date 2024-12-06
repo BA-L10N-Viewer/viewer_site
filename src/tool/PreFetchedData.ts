@@ -1,15 +1,16 @@
 import {
-  type I18nStoryXxhashToL10nData,
-  type IndexScenarioCharacterData,
-  type RelatedScenarioParentInfoData,
-  type StudentInfoDataSimple,
-  type RelatedScenarioInfoData,
   type I18nBondInfoData,
   type I18nStoryInfoIdToXxhash,
+  type I18nStoryXxhashToL10nData,
   type IndexManifestScenarioData,
   type IndexManifestScenarioEntry,
   type IndexMomotalkData,
-  type IndexScenarioInfoToI18nId, type SchaleDbI18nDictData
+  type IndexScenarioCharacterData,
+  type IndexScenarioInfoToI18nId,
+  type RelatedScenarioInfoData,
+  type RelatedScenarioParentInfoData,
+  type SchaleDbI18nDictData,
+  type StudentInfoDataSimple
 } from '@/types/OutsourcedData'
 import { ref, shallowRef } from 'vue'
 import { httpGetJsonAsync } from './HttpRequest'

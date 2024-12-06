@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import StoryI18nSetting from '@/components/setting/StoryI18nSetting.vue'
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import ScenarioUi from '@/components/ScenarioUi.vue'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 

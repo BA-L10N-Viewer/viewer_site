@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { useSetting } from '@/stores/setting'
-import { onMounted, type Ref, ref, watch, provide, onUpdated, computed, shallowRef, onBeforeUnmount } from 'vue'
+import { computed, onBeforeUnmount, onMounted, provide, ref, type Ref, watch } from 'vue'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH, MOBILE_WIDTH_WIDER, paginationScenarioControl } from '@/tool/Constant'
-import { useRoute } from 'vue-router'
+import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
 import ScenarioDialogue from '@/components/scenario/ScenarioDialogue.vue'
+import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import {
   type I18nStoryXxhashToL10nData,
   type NexonL10nData,
-  NexonL10nDataLang as NexonL10nDataLangConst, type RelatedScenarioInfoData, type RelatedScenarioParentInfoData,
+  NexonL10nDataLang as NexonL10nDataLangConst,
+  type RelatedScenarioInfoData,
+  type RelatedScenarioParentInfoData,
   type StudentInfoDataSimple
 } from '@/types/OutsourcedData'
-import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
@@ -36,7 +38,6 @@ import {
   type ScenarioRelatedStoryData
 } from '@/tool/components/Scenario'
 import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
-import { onBeforeRouteUpdate } from 'vue-router'
 import {
   DirectoryDataCommonFileIndexRelatedManifestParent,
   DirectoryDataCommonFileIndexRelatedManifestScenario,

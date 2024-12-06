@@ -14,7 +14,6 @@ import router from './router'
 // PrimeVue
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
-import Lara from '@primevue/themes/lara'
 import PvTooltip from 'primevue/tooltip'
 
 // Sentry

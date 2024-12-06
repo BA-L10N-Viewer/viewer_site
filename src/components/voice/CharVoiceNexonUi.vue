@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, type PropType } from 'vue'
+import { onMounted, type PropType, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CharVoiceNexonNormal from '@/components/voice/CharVoiceNexonNormal.vue'
 import CharVoiceNexonBattle from '@/components/voice/CharVoiceNexonBattle.vue'

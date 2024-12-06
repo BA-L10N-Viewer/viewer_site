@@ -1,7 +1,4 @@
-import type {
-  SchaleDbStuInfoFullVoiceline,
-  SchaleDbStuInfoFullVoicelineCategory
-} from '@/types/OutsourcedData'
+import type { SchaleDbStuInfoFullVoiceline, SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
 import type { NexonCharVoiceEntry, NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
 import { selectCharVoiceCurrTabName } from '@/tool/Constant'
 import type { InjectionKey, Ref, ShallowRef } from 'vue'

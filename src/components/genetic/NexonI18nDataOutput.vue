@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { defineProps, computed, type PropType } from 'vue'
-import {
-  i18nLangAll,
-  i18nToUiLangAll,
-  listOfPosOfSelectedLangForMobile
-} from '@/tool/ConstantComputed'
+import { computed, defineProps, type PropType } from 'vue'
+import { i18nLangAll, i18nToUiLangAll, listOfPosOfSelectedLangForMobile } from '@/tool/ConstantComputed'
 import type { NexonL10nData, SchaleDbL10nData } from '@/types/OutsourcedData'
 import { NexonLangMap } from '@/tool/Constant'
 

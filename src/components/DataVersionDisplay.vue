@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { formatDate } from '@/tool/Tool'
-import { httpGetAsync, getStaticCdnBasepath } from '@/tool/HttpRequest'
+import { getStaticCdnBasepath, httpGetAsync } from '@/tool/HttpRequest'
 
 const dataUpdateTime = ref(0)
 const dataUpdateTimeString = ref('')

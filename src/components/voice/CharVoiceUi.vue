@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, provide, watch, ref, onBeforeMount, type Ref, shallowRef } from 'vue'
+import { onBeforeMount, onMounted, provide, ref, type Ref, shallowRef, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import CharVoiceNexonUi from '@/components/voice/CharVoiceNexonUi.vue'
 import CharVoiceSchaleDbUi from '@/components/voice/CharVoiceSchaleDbUi.vue'
@@ -7,16 +7,16 @@ import { useI18n } from 'vue-i18n'
 import type { NexonCharVoiceEntry } from '@/types/OutsourcedDataVoice'
 import {
   type NexonL10nDataLangOfUi,
-  type SchaleDbStuInfoFull,
-  type SchaleDbStuInfoFullVoiceline, SchaleDbStuInfoFullVoicelineCategory
+  type SchaleDbStuInfoFullVoiceline,
+  SchaleDbStuInfoFullVoicelineCategory
 } from '@/types/OutsourcedData'
 import { httpGetAsync, httpGetJsonAsync } from '@/tool/HttpRequest'
+import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 import {
-  symbolDataCharVoiceI18n
-} from '@/types/CharVoiceComp'
-import {
-  clearNexonCharVoiceBattleMtData, clearNexonCharVoiceEventMtData,
-  clearNexonCharVoiceNormalMtData, clearSchaleDbVoiceCategoryMtData,
+  clearNexonCharVoiceBattleMtData,
+  clearNexonCharVoiceEventMtData,
+  clearNexonCharVoiceNormalMtData,
+  clearSchaleDbVoiceCategoryMtData,
   initNexonCharVoiceBattleMtData,
   initNexonCharVoiceEventMtData,
   initNexonCharVoiceNormalMtData,
@@ -25,7 +25,8 @@ import {
   type SchaleDbStuVoicelineMtData,
   updateNexonCharVoiceBattleMtData,
   updateNexonCharVoiceEventMtData,
-  updateNexonCharVoiceNormalMtData, updateSchaleDbVoiceCategoryMtData
+  updateNexonCharVoiceNormalMtData,
+  updateSchaleDbVoiceCategoryMtData
 } from '@/tool/CharVoiceMt'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
