@@ -9,7 +9,8 @@ watch(
   () => setting.auto_i18n_lang,
   (newValue) =>  {
     currMlLang.value = newValue
-  }
+  },
+  { immediate: true }
 )
 
 const props = defineProps({
