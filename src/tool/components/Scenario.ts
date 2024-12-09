@@ -61,7 +61,7 @@ export function inferScenarioTypeById(scenarioId: number | string): ScenarioPare
 
 export function inferScenarioMainCategoryById(scenarioId: number | string): ScenarioParentDataMainCategory {
   const temp = String(scenarioId)
-  if (temp.length === 3 || (temp.startsWith("1100") && temp.length === 5))
+  if (temp.length === 3)
     return 'other'
   else if (temp.length === 4)
     return 'side'
