@@ -160,9 +160,11 @@ export function getScenarioExtraDataById(scenarioId: number | string) {
     } else {
       const type2 = inferScenarioMainCategoryById(scenarioId)
       if (type2 === 'main') {
-        actualPos = temp.length === 6 ? Number(temp.slice(3, 5)) : Number(temp.slice(2, 4))
         if (!temp.startsWith("1100")){
-          isAfterBattle = temp.slice(-1) === '5'}
+          actualPos = temp.length === 6 ? Number(temp.slice(3, 5)) : Number(temp.slice(2, 4))
+          isAfterBattle = temp.slice(-1) === '5'
+        } else {
+          actualPos = Number(temp.lengtg.slice(-1)) + 1
       } else
         actualPos = dataRelatedScenario['main'][temp]?.[1] + 1 ?? -1
     }
