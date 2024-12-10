@@ -1,4 +1,4 @@
-import type { NexonL10nData, NexonL10nDataLangOfUi, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import type { NexonL10nData, NexonL10nDataLang, NexonL10nDataLangOfUi, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList } from '@/types/CharVoiceComp'
 import type { NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'
@@ -206,6 +206,12 @@ export const allLangcodeOfSchaleDbBySiteUiLang: Record<SiteUiLang, SchaleDbL10nD
   en: ['g_en', 'j_ja', 'j_ko', 'g_th', 'g_tw', 'c_cn', 'c_zh'],
   zh_CN: ['c_zh', 'g_tw_cn', 'c_cn', 'j_ja', 'j_ko', 'g_th', 'g_tw'],
   zh_TW: ['c_zh_tw', 'g_tw', 'c_cn_tw', 'j_ja', 'j_ko', 'g_th', 'c_zh', 'c_cn']
+}
+
+export const allLangcodeOfNexonBySiteUiLang: Record<SiteUiLang, NexonL10nDataLang[]> = {
+  en: ['g_en', 'j_ja', 'j_ko', 'g_th', 'g_tw', 'c_cn'],
+  zh_CN: ['g_tw_cn', 'c_cn', 'j_ja', 'j_ko', 'g_th', 'g_tw'],
+  zh_TW: ['c_cn_tw', 'g_tw', 'c_cn_tw', 'j_ja', 'j_ko', 'g_th', 'c_cn']
 }
 
 export const defaultLangForNexonL10nLang: Record<SiteUiLang, NexonL10nDataLangOfUi[]> = {

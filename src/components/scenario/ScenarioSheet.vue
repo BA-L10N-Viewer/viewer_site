@@ -3,7 +3,7 @@ import { computed, type PropType } from 'vue'
 import type { ScenarioDataStatusType, ScenarioParentData } from '@/tool/components/Scenario'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
-import { allLangcodeOfSchaleDbBySiteUiLang, MOBILE_WIDTH } from '@/tool/Constant'
+import { allLangcodeOfSchaleDbBySiteUiLang, allLangcodeOfNexonBySiteUiLang, MOBILE_WIDTH } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import ScenarioIsAfterBattleBadge from '@/components/genetic/ScenarioIsAfterBattleBadge.vue'
@@ -90,7 +90,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
           <span>{{ parentData.Data.EventId }}</span>
           <br />
           <NexonI18nDataOutput :data="parentData.Data.EventName"
-                               :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+                               :data-lang="allLangcodeOfNexonBySiteUiLang[setting.ui_lang]" />
         </template>
         <template v-else-if="parentData.Type === 'main'">
           <span><b>{{ $t(`comp-scenario-datasheet-type-${scenarioType}`) }}</b></span>
@@ -98,7 +98,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
           <span v-if="parentData.Data.VolumeName"><b>{{ $t('comp-scenario-datasheet-parent-main-volume') }}</b>&nbsp;-&nbsp;
             <NexonI18nDataOutput
               :data="parentData.Data.VolumeName!"
-              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+              :data-lang="allLangcodeOfNexonBySiteUiLang[setting.ui_lang]" />
           </span>
           <br v-if="parentData.Data.VolumeName" />
           <span><b>{{ $t('comp-scenario-datasheet-parent-main-chapter') }}</b>&nbsp;-&nbsp;
