@@ -126,7 +126,7 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
     prevName = prevData[0]
 
     const temp = getScenarioExtraDataById(Number(prevId))
-    if (scenarioType === 'main')
+    if (scenarioType === 'main' || (scenarioID.value.startsWith("1100") && scenarioID.value.length === 5))
       prevPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
     else
       prevPosString = `${temp.actualScenarioNo}`
@@ -136,7 +136,7 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
     nextName = nextData[0]
 
     const temp = getScenarioExtraDataById(Number(nextId))
-    if (scenarioType === 'main')
+    if (scenarioType === 'main' || (scenarioID.value.startsWith("1100") && scenarioID.value.length === 5))
       nextPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
     else
       nextPosString = `${temp.actualScenarioNo}`

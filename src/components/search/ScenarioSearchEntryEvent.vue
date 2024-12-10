@@ -26,7 +26,7 @@ const storyDesc = computed(() => props.data.desc)
 const isScenarioMain = checkIfScenarioIdIsMain(props.data.id)
 let scenarioIdExtraData: ReturnType<typeof getScenarioExtraDataById>,
   scenarioIdIsAfterBattleFlag: 'A' | 'B'
-if (isScenarioMain) {
+if (isScenarioMain || (storyId.value.startsWith("1100") && storyId.value.length === 5)) {
   scenarioIdExtraData = getScenarioExtraDataById(props.data.id)
   scenarioIdIsAfterBattleFlag = !scenarioIdExtraData.isAfterBattle ? 'A' : 'B'
 } else {
