@@ -193,7 +193,18 @@ export const menubarValue = [
   {
     label: 'navi-2',
     icon: 'pi pi-info-circle',
-    route: '/about'
+    items: [
+      {
+        label: 'navi-2-1',
+        icon: 'pi pi-info-circle',
+        route: '/about'
+      },
+      {
+        label: 'navi-2-2',
+        icon: 'pi pi-code',
+        route: '/whybalv'
+      }
+    ]
   },
   {
     label: 'navi-4',
