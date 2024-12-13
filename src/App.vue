@@ -2,7 +2,7 @@
 import { RouterView, useRouter } from 'vue-router'
 import { useSetting } from '@/stores/setting'
 import { ref, watch } from 'vue'
-import { menubarValue } from '@/tool/Constant'
+import { menubarValue, MOBILE_WIDTH } from '@/tool/Constant'
 
 import { fetchData, isFetching } from '@/tool/PreFetchedData'
 
@@ -14,6 +14,7 @@ import PvDialog from 'primevue/dialog'
 import PvDivider from 'primevue/divider'
 import SettingDialog from '@/components/setting/SettingDialog.vue'
 import DataVersionDisplay from '@/components/DataVersionDisplay.vue'
+import { useWindowSize } from '@vueuse/core'
 
 const showForceLoad = ref(false)
 const isForceLoad = ref(false)
@@ -24,6 +25,8 @@ setTimeout(() => {
 const setting = useSetting()
 const router = useRouter()
 const i18n = useI18n()
+
+const screenWidth = useWindowSize().width
 
 const dialogSettingVisible = ref(false)
 
@@ -100,9 +103,13 @@ fetchData()
     </div>
   </template>
   <template v-else>
-    <div style="text-align: center; padding-top: 3vh;">
-      <img src="/assets/images/logo.png" style="height: 16vh" />
-      <h1 style="font-size: 6vh">Pre-fetching Data...<br />预获取数据中……</h1>
+    <div style="text-align: center; padding-top: 3vh; padding-left: 1em; padding-right: 1em;">
+      <img src="/assets/images/logo.png" :style="{'height': screenWidth <= MOBILE_WIDTH ? '' : '16vh', 'width': screenWidth <= MOBILE_WIDTH ? '90vw' : ''}" />
+      <h1 style="font-size: 6vh">
+        <span lang="en">Pre-Fetching data...</span>
+        <br>
+        <span lang="zh-CN">预加载数据中……</span>
+      </h1>
       <div v-show="showForceLoad">
         <PvButton @click="isForceLoad=true" severity="danger" size="large" style="font-size: 4vh;">
           {{ $t('home-pre-fetch-button') }}
