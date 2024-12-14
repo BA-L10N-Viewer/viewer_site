@@ -97,7 +97,7 @@ export function getNexonL10nDataFlattened(entry: NexonL10nData | SchaleDbL10nDat
       temp += entry[langs[0] as entryLangKeys]
     }
     if (langs.length > 1) {
-      for (const lang of langs)
+      for (const lang of langs.slice(1))
         temp += ` ${splitter} ${data[lang]}`
     }
     return temp
