@@ -279,6 +279,19 @@ watch(
       />
     </div>
   </PvFluid>
+  <div class="pv-fluid-spacing"></div>
+  <PvFluid>
+    <div :style="{'text-align': 'center'}">
+      <PvSelectButton
+        v-model="setting.show_story_desc"
+        :options="[{label: 'comp-story-i18n-btn-hidestorydesc', value: false}, {label: 'comp-story-i18n-btn-showstorydesc', value: true}]"
+
+        :option-label="i => i18n.t(i.label)"
+        option-value="value"
+        :allow-empty="false"
+      />
+    </div>
+  </PvFluid>
 </template>
 
 <style scoped>

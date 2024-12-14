@@ -4,10 +4,13 @@ import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import { checkIfScenarioIdIsMain, getScenarioExtraDataById } from '@/tool/StoryTool'
 import ScenarioIsAfterBattleBadge from '@/components/genetic/ScenarioIsAfterBattleBadge.vue'
+import { useSetting } from '@/stores/setting'
 
 import PvTag from 'primevue/tag'
 import PvButton from 'primevue/button'
 import PvDivider from 'primevue/divider'
+
+const setting = useSetting()
 
 const props = defineProps({
   data: {
@@ -51,13 +54,15 @@ if (isScenarioMain || (storyId.value.startsWith("1100") && storyId.value.length 
       {{ $t('comp-search-result-btn-view') }}
     </PvButton>
   </h3>
-  <p>{{ $t('comp-search-result-desc') }}</p>
-  <ul>
-    <NexonI18nDataOutput :data="storyDesc"
-                         html-element-name="li"
-                         :enable-text-line-clamp="true"
-    />
-  </ul>
+  <div v-show="setting.show_story_desc">
+    <p>{{ $t('comp-search-result-desc') }}</p>
+    <ul>
+      <NexonI18nDataOutput :data="storyDesc"
+                          html-element-name="li"
+                          :enable-text-line-clamp="true"
+      />
+    </ul>
+  </div>
   <PvDivider></PvDivider>
 </template>
 

@@ -20,6 +20,7 @@ export const useSetting = defineStore('setting', {
 
       'char_voice_data_source': 'nexon' as CharVoiceUiDataSource,
       'show_lang_zh': false,
+      'show_story_desc': true,
 
       'i18n_lang1': defaultLang[0] as NexonL10nDataLangOfUi,
       'i18n_lang2': defaultLang[1] as NexonL10nDataLangOfUi,

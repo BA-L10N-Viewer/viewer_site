@@ -77,6 +77,8 @@
   "comp-story-i18n-btn-showcharicon": "顯示人物頭像",
   "comp-story-i18n-btn-showzh": "顯示社群中文翻譯 (僅部分頁面；無機翻支援)",
   "comp-story-i18n-btn-hidezh": "隱藏社群中文翻譯 (僅部分頁面；無機翻支援)",
+  "comp-story-i18n-btn-hidestorydesc": "在高階搜尋頁中隱藏故事簡介",
+  "comp-story-i18n-btn-showstorydesc": "在高階搜尋頁中顯示故事簡介",
   "comp-story-i18n-TL_ip-0": "機器翻譯就緒",
   "comp-story-i18n-TL_ip-1": "正在請求機器翻譯服務伺服器……",
   "comp-story-i18n-TL_ip-2": "正在清除所有機器翻譯結果……",
