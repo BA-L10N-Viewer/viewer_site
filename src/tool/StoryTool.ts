@@ -1,12 +1,15 @@
 import { getNexonI18nDataDefault } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
-import type {
-  I18nBondInfoData,
-  I18nStoryInfoIdToXxhash,
-  I18nStoryXxhashToL10nData,
-  IndexScenarioInfoToI18nId,
-  NexonL10nData
+import {
+  NexonL10nDataLang,
+  SchaleDbL10nDataLang,
+  type I18nBondInfoData,
+  type I18nStoryInfoIdToXxhash,
+  type I18nStoryXxhashToL10nData,
+  type IndexScenarioInfoToI18nId,
+  type NexonL10nData,
+  type SchaleDbL10nData
 } from '@/types/OutsourcedData'
 import type { Nullable } from '@/types/CommonType'
 import {
@@ -73,25 +76,40 @@ export function getNexonL10nData<TypeKey extends string = string, TypeValue exte
     return '' as TypeValue
 }
 
-export function getNexonL10nDataFlattened(entry: NexonL10nData, langs: string[],
+export function removeInvalidLangCode<T extends string>(data: string[], validLangs: T[]): T[]{
+  const result: T[] = [] as unknown as T[]
+  for (const entry of data){
+    if (validLangs.indexOf(entry as T) !== -1)
+      result.push(entry as T)
+  }
+  return result
+}
+
+export function getNexonL10nDataFlattened(entry: NexonL10nData | SchaleDbL10nData, langs: string[],
                                           splitter: string = ''): string {
   // 尽管这里说是 NexonL10nData 但实际上也可以是 SchaleDbL10nData
   type entryLangKeys = keyof NexonL10nData
 
-  let temp = ''
-  if (langs.length >= 1) {
-    temp += entry[langs[0] as entryLangKeys]
-  }
-  if (langs.length > 1) {
-    for (const lang of langs) {
-      if (lang !== langs[0]) {
-        temp += ` ${splitter} ${entry[lang as entryLangKeys] ? entry[lang as entryLangKeys] : ''}`
-      }
+  const textJoiner = function join<T extends NexonL10nData | SchaleDbL10nData,
+                                   U extends keyof T>(data: T, langs: U[]): string {
+    let temp = ''
+    if (langs.length >= 1) {
+      temp += entry[langs[0] as entryLangKeys]
     }
+    if (langs.length > 1) {
+      for (const lang of langs)
+        temp += ` ${splitter} ${data[lang]}`
+    }
+    return temp
   }
-
-  return temp
+  if ('c_zh' in entry){
+    const actualLangs = removeInvalidLangCode<SchaleDbL10nDataLang>(langs, SchaleDbL10nDataLang)
+    return textJoiner<SchaleDbL10nData, SchaleDbL10nDataLang>(entry, actualLangs)
+  } else {
+    const actualLangs = removeInvalidLangCode<NexonL10nDataLang>(langs, NexonL10nDataLang)
+    return textJoiner<NexonL10nData, NexonL10nDataLang>(entry, actualLangs)}
 }
+
 
 export function replaceStoryLineUsernameBlank(text: String) {
   const setting = useSetting()
