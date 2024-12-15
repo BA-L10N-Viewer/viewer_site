@@ -7,8 +7,8 @@ import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {
   I18nBondInfoData,
-  MomotalkStoryData,
-  NexonL10nDataLang,
+  MomotalkStoryData, NexonL10nData,
+  NexonL10nDataLang, NexonL10nDataOfUi,
   SchaleDbL10nData,
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'
@@ -18,7 +18,7 @@ import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
-import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
+import { getDialogueMtTranslation, getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import { mtPiniaWatchCallback, symbolForMomotalkMtData } from '@/tool/translate/MtUtils'
 
 import PvButton from 'primevue/button'
@@ -76,10 +76,14 @@ ML_pinia.initAll()
 
 // 创建每一个mmt对话的对应表
 const tableMlMmtData: Ref<MlForMomotalk> = ref([] as any)
+const listMlMmtTitle: Ref<{ [mmtId: number]: NexonL10nDataOfUi }> = ref({})
 const ML_in_progress = ref(false)
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
   for (const [idx, mmtEntry] of mmtData.entries()) {
+    // 初始化每一个mmt title
+    listMlMmtTitle.value[mmtEntry.BondScenarioId][baselang] = ''
+
     // 初始化每一个mmt entry
     if (tableMlMmtData.value.length <= idx) {
       tableMlMmtData.value.push({
@@ -116,8 +120,18 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
   for (const [idx, mmtEntry] of mmtData.entries()) {
-    const dialogues = mmtEntry.Data
+    // 对标题的翻译
+    asyncPool.addTask(
+      async () => {
+        listMlMmtTitle.value[mmtEntry.BondScenarioId][baselang] = await getTranslation(
+          setting.auto_i18n_service,
+          mmtI18nData[mmtEntry.BondScenarioId][0][baselang],
+          actualMlLang
+        )
+      }
+    )
 
+    const dialogues = mmtEntry.Data
     for (const [idx2, dialogueEntry] of dialogues.entries()) {
       asyncPool.addTask(
         async () => {
@@ -137,6 +151,12 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 }
 
 function initMlData() {
+  for (const data of mmtData) {
+    listMlMmtTitle.value[data.BondScenarioId] = {
+      j_ja: '', j_ko: '', g_tw: '', g_tw_cn: '', g_en: '', g_th: '', g_ja: '', g_ko: '', c_cn: '', c_cn_tw: '', null: ''
+    }
+  }
+
   for (const lang of NexonL10nDataLangConst)
     clearMlTranslation(lang)
   clearMlTranslation('null' as NexonL10nDataLang)
@@ -245,8 +265,10 @@ onBeforeUnmount(
       <PvAccordionPanel v-for="(data, index) in mmtData" :key="index" :value="index">
         <PvAccordionHeader :id="`mmt-story-h2-title-${index}`">
           <div style="text-align: left; color: black; font-size: 1.2em;">
-            <MomotalkHeader :data_no="index" :data_mmtid="data.BondScenarioId"
+            <MomotalkHeader :data_no="index"
+                            :data_mmtid="data.BondScenarioId"
                             :data_l10n="mmtI18nData[data.BondScenarioId][0]"
+                            :data_l10n_mt="listMlMmtTitle[data.BondScenarioId]"
                             :is_l2d="data.BondScenarioId === bondL2dData[String(charId)]" />
             <span>&nbsp;&nbsp;</span>
           </div>

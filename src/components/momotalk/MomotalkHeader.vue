@@ -5,6 +5,7 @@ import type { NexonL10nData } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 
 import PvTag from 'primevue/tag'
+import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 
 
 const props = defineProps({
@@ -20,6 +21,10 @@ const props = defineProps({
     type: {} as PropType<NexonL10nData>,
     required: true
   },
+  data_l10n_mt: {
+    type: {} as PropType<NexonL10nData>,
+    required: true
+  },
   is_l2d: {
     type: Boolean,
     required: true
@@ -32,11 +37,6 @@ const props = defineProps({
   <span>&nbsp;&nbsp;</span>
   <span :style="is_l2d ? `color: var(--color-ba-mmt)` : ``">
     <span>{{ data_no + 1 }}.&nbsp;</span>
-    <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-      <template v-if="i18nLangAll[idx] as string !== 'null'">
-        <span :lang="i18nToUiLangAll[idx]">{{ data_l10n[i18nLangAll[idx]] }}</span>
-        <span v-if="idx + 1 < i18nDesktopLoopIdx.length">&nbsp;/&nbsp;</span>
-      </template>
-    </template>
+    <span><NexonI18nDataOutput :data="data_l10n" :data-mt="data_l10n_mt" /></span>
   </span>
 </template>
