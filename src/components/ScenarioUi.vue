@@ -56,7 +56,7 @@ import {
 } from '@/tool/PreFetchedData'
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useI18n } from 'vue-i18n'
-import PvInplace from 'primevue/Inplace'
+import PvInplace from 'primevue/inplace'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import { createDictionaryWithDefault } from '@/tool/Tool'
 
