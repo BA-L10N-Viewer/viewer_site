@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs, watch } from 'vue'
+import { computed, type PropType, ref, useAttrs, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 
 const setting = useSetting()
@@ -29,6 +29,10 @@ const props = defineProps({
   html_class: {
     type: String,
     default: ""
+  },
+  displayMode: {
+    type: String as PropType<'span' | 'square_basket'>,
+    default: 'span'
   },
   is_br: {
     type: Boolean,
@@ -64,10 +68,22 @@ defineOptions({
 </script>
 
 <template>
-  <span :lang="contentOriginalLang" :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
-  <br v-show="is_br && (isShowOriginal || !shouldDisplay)" />
-  <span :class="html_class" v-show="shouldDisplay" v-html="String(contentTranslated)" :style="actualCssStyle" :lang="currMlLang"></span>
-  <br v-show="shouldDisplay && is_after_br"/>
+  <template v-if="displayMode === 'span'">
+    <span :lang="contentOriginalLang" :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
+    <br v-show="is_br && (isShowOriginal || !shouldDisplay)" />
+    <span :class="html_class" v-show="shouldDisplay" v-html="String(contentTranslated)" :style="actualCssStyle" :lang="currMlLang"></span>
+    <br v-show="shouldDisplay && is_after_br"/>
+  </template>
+  <template v-else-if="displayMode === 'square_basket'">
+    <span :lang="contentOriginalLang" :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
+    <span>&nbsp;</span>
+    <template v-if="isShowOriginal">
+      <span :style="actualCssStyle" v-show="shouldDisplay">[<span :class="html_class" v-html="String(contentTranslated)" :lang="currMlLang"></span>]</span>
+    </template>
+    <template v-else>
+      <span :class="html_class" v-show="shouldDisplay" v-html="String(contentTranslated)" :style="actualCssStyle" :lang="currMlLang"></span>
+    </template>
+    </template>
 </template>
 
 <style scoped>

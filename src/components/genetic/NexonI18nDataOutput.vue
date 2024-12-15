@@ -3,11 +3,19 @@ import { computed, defineProps, type PropType } from 'vue'
 import { i18nLangAll, i18nToUiLangAll, listOfPosOfSelectedLangForMobile } from '@/tool/ConstantComputed'
 import type { NexonL10nData, SchaleDbL10nData } from '@/types/OutsourcedData'
 import { NexonLangMap } from '@/tool/Constant'
+import DialogueTranslated from '@/components/DialogueTranslated.vue'
 
 const props = defineProps({
   data: {
     type: {} as PropType<NexonL10nData | SchaleDbL10nData>,
     required: true
+  },
+  dataMt: {
+    type: {} as PropType<NexonL10nData | SchaleDbL10nData>,
+    default: {
+      'j_ja': '', 'j_ko': '', 'g_ja': '', 'g_ko': '', 'g_en': '', 'g_th': '', 'g_tw': '', 'g_tw_cn': '',
+      'c_cn': '', 'c_cn_tw': '', 'c_zh': '', 'c_zh_tw': ''
+    }
   },
   dataLang: {
     type: Array<string>,
@@ -49,7 +57,11 @@ const dataLangProcessed = computed(() => {
           <template v-if="i18nLangAll[langIdx] as string !== 'null'">
             <span :lang="i18nToUiLangAll[langIdx]"
                   :class="{'clamped-text': enableTextLineClamp}">
-              {{ data[i18nLangAll[langIdx]] }}
+              <DialogueTranslated
+                display-mode="square_basket"
+                :content-original="data[i18nLangAll[langIdx]]"
+                :content-original-lang="i18nToUiLangAll[langIdx]"
+                :content-translated="dataMt[i18nLangAll[langIdx]]" />
             </span>
             <span v-if="idx + 1 < listOfPosOfSelectedLangForMobile.length">&nbsp;/&nbsp;</span>
           </template>
@@ -61,7 +73,11 @@ const dataLangProcessed = computed(() => {
           <span :lang="NexonLangMap[lang]"
                 :class="{'clamped-text': enableTextLineClamp}">
             <!-- 不知道该怎么写了，any启动！ -->
-            {{ (data as any)[lang] }}
+            <DialogueTranslated
+              display-mode="square_basket"
+              :content-original="(data as any)[lang]"
+              :content-original-lang="NexonLangMap[lang]"
+              :content-translated="(dataMt as any)[lang]" />
           </span>
           <span v-if="idx + 1 < dataLangProcessed.length">&nbsp;/&nbsp;</span>
         </template>
@@ -74,7 +90,13 @@ const dataLangProcessed = computed(() => {
         <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
           <template v-if="i18nLangAll[langIdx] as string !== 'null'">
             <li :lang="i18nToUiLangAll[langIdx]">
-              <span>{{ data[i18nLangAll[langIdx]] }}</span>
+              <span>
+                <DialogueTranslated
+                  display-mode="square_basket"
+                  :content-original="data[i18nLangAll[langIdx]]"
+                  :content-original-lang="i18nToUiLangAll[langIdx]"
+                  :content-translated="dataMt[i18nLangAll[langIdx]]" />
+              </span>
             </li>
           </template>
         </template>
@@ -83,7 +105,13 @@ const dataLangProcessed = computed(() => {
       <template v-else>
         <template v-for="(lang, idx) in dataLangProcessed" :key="idx">
           <li :lang="NexonLangMap[lang]">
-            <span>{{ (data as any)[lang] }}</span>
+            <span>
+              <DialogueTranslated
+                display-mode="square_basket"
+                :content-original="(data as any)[lang]"
+                :content-original-lang="NexonLangMap[lang]"
+                :content-translated="(dataMt as any)[lang]" />
+            </span>
           </li>
         </template>
       </template>
@@ -95,6 +123,7 @@ const dataLangProcessed = computed(() => {
 span {
   display: inline-block;
 }
+
 li span {
   display: revert;
 }

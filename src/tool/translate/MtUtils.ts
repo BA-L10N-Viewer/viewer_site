@@ -1,7 +1,8 @@
 import type { NexonL10nDataLang, NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import { MAX_RETRY_DEPTH } from '@/tool/HttpRequest'
-import type { InjectionKey } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
+import type { MlForMomotalk, MlForScenario } from '@/types/MachineTranslation'
 
 type funcAsyncTypeOfPiniaWatcher = ((lang: NexonL10nDataLangOfUi) => Promise<void>) | ((lang: NexonL10nDataLang) => Promise<void>)
 type funcSyncTypeOfPiniaWatcher = ((lang: NexonL10nDataLangOfUi) => void) | ((lang: NexonL10nDataLang) => void)
@@ -88,4 +89,8 @@ export async function requestApi<ResponseType>(
   }
 }
 
-export const symbolForMtProgressBool = Symbol('mt_progress_boolean') as InjectionKey<Boolean>
+export const symbolForMomotalkMtData = Symbol('mt_data_for_momotalk') as InjectionKey<Ref<MlForMomotalk>>
+export const symbolForMomotalkEntryPos = Symbol('mmt_entry_pos') as InjectionKey<number>
+export const symbolForMomotalkEntryDialoguePos = Symbol('mmt_entry_dialogue_pos') as InjectionKey<number>
+export const symbolForScenarioMtData = Symbol('mt_data_for_scenario') as InjectionKey<Ref<MlForScenario>>
+export const symbolForMtProgressBool = Symbol('mt_progress_boolean') as InjectionKey<boolean>

@@ -20,6 +20,11 @@ import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
 import { i18nMobileLoopIdx } from '@/tool/Constant'
+import {
+  symbolForMomotalkEntryDialoguePos,
+  symbolForMomotalkEntryPos,
+  symbolForMomotalkMtData
+} from '@/tool/translate/MtUtils'
 
 const props = defineProps({
   dialogueSpeaker: {
@@ -39,14 +44,21 @@ const props = defineProps({
     required: true
   }
 })
-const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
+const currCharId = computed(() => {
+  const temp = window.location.pathname.split('/').slice(-1)[0]
+  if (temp.length === 7) {
+    // 在ScenarioUi里面嵌套的显示
+    return temp.slice(0, 5)
+  }
+  return temp
+})
 
 const setting = useSetting()
 
 // --------------------- ML SERVICE ---------------------
-let ML_table: Ref<MlForMomotalk> = ref(inject('ML_table') as any)
-const mmtEntryPos = inject('mmtEntryPos') as number
-const mmtEntryDialoguePos = inject('mmtEntryDialoguePos') as number
+let ML_table: Ref<MlForMomotalk> = inject(symbolForMomotalkMtData)!
+const mmtEntryPos = inject(symbolForMomotalkEntryPos)!
+const mmtEntryDialoguePos = inject(symbolForMomotalkEntryDialoguePos)!
 // ------------------------------------------------------
 
 // --------------------- UTILITY FUNCTION ---------------------
