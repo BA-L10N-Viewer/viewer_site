@@ -24,7 +24,7 @@ import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
 import { type MlForMomotalk, type MlForScenario } from '@/types/MachineTranslation'
-import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
+import { getDialogueMtTranslation, getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import {
   mtPiniaWatchCallback,
   symbolForMomotalkMtData,
@@ -58,6 +58,7 @@ import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleCh
 import { useI18n } from 'vue-i18n'
 import PvInplace from 'primevue/Inplace'
 import MomotalkUi from '@/components/MomotalkUi.vue'
+import { createDictionaryWithDefault } from '@/tool/Tool'
 
 // ------------------------------------------------
 const setting = useSetting()
@@ -256,11 +257,16 @@ const tableDialogueTranslated: Ref<MlForScenario> = ref({
   'null': []
 })
 const tableMmtTranslated = ref<MlForMomotalk>([] as unknown as MlForMomotalk)
+const scenarioNameDescMt = ref<NexonL10nData[]>([] as unknown as NexonL10nData[])
+
 const ML_in_progress = ref(false)
 const ML_pinia = useI18nTlControl()
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
   const blankData = { 'name': '', 'dialogue': '' }
+
+  scenarioNameDescMt.value[0][baselang] = ''
+  scenarioNameDescMt.value[1][baselang] = ''
 
   if (mmtCharId.value !== -1 && mmtDataCurrEntry.value) {
     const mmtEntry = mmtDataCurrEntry.value.Data
@@ -272,7 +278,7 @@ function clearMlTranslation(baselang: NexonL10nDataLang) {
         mmtMtEntry[baselang][i] = blankData
     }
   }
-  
+
   const dataLength = scenarioData!.value.length
   const actualTable = tableDialogueTranslated.value
   for (let i = 0; i < dataLength; i++) {
@@ -290,6 +296,18 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
+  asyncPool.addTask(async () => {
+    scenarioNameDescMt.value[0][baselang] = await getTranslation(
+      setting.auto_i18n_service,
+      scenarioNameDesc.value[0][baselang],
+      actualMlLang
+    )
+    scenarioNameDescMt.value[1][baselang] = await getTranslation(
+      setting.auto_i18n_service,
+      scenarioNameDesc.value[1][baselang],
+      actualMlLang
+    )
+  })
   if (mmtCharId.value !== -1 && mmtDataCurrEntry.value) {
     const mmtEntry = mmtDataCurrEntry.value.Data
     const mmtMtEntry = tableMmtTranslated.value[mmtDataCurrPos.value]
@@ -354,6 +372,8 @@ function initMlData(initMmt: boolean = false) {
         'null': []
       })
   }
+  scenarioNameDescMt.value = [createDictionaryWithDefault(NexonL10nDataLang, ''),
+    createDictionaryWithDefault(NexonL10nDataLang, '')]
 
   for (const lang of NexonL10nDataLang) {
     clearMlTranslation(lang)
@@ -473,7 +493,10 @@ onBeforeRouteUpdate(async (to, from) => {
   </div>
   <div v-if="isAllDataLoaded">
     <h2>{{ $t('comp-scenario-datasheet-name') }}</h2>
-    <ScenarioSheet :scenario-desc="scenarioNameDesc[1]" :scenario-name="scenarioNameDesc[0]"
+    <ScenarioSheet :scenario-desc="scenarioNameDesc[1]"
+                   :scenario-name="scenarioNameDesc[0]"
+                   :scenario-desc-mt="scenarioNameDescMt[1]"
+                   :scenario-name-mt="scenarioNameDescMt[0]"
                    :scenario-id="String(scenarioID)"
                    :parent-data="scenarioParentData"
                    :data-status="getScenarioDataStatus(scenarioData[0].Message)" />

@@ -31,6 +31,14 @@ const props = defineProps({
   scenarioDesc: {
     type: Object as PropType<NexonL10nData>,
     required: true
+  },
+  scenarioNameMt: {
+    type: Object as PropType<NexonL10nData>,
+    required: true
+  },
+  scenarioDescMt: {
+    type: Object as PropType<NexonL10nData>,
+    required: true
   }
 })
 
@@ -45,7 +53,9 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
       <td class="datasheet-title">{{ $t('comp-scenario-datasheet-item-3') }}</td>
       <td colspan="3">
         <ul style="margin: 0; padding-left: 1em;">
-          <NexonI18nDataOutput :data="scenarioName" html-element-name="li" />
+          <NexonI18nDataOutput :data="scenarioName"
+                               :data-mt="scenarioNameMt"
+                               html-element-name="li" />
         </ul>
       </td>
     </tr>
@@ -53,7 +63,10 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
       <td class="datasheet-title">{{ $t('comp-scenario-datasheet-item-4') }}</td>
       <td colspan="3">
         <ul style="margin: 0; padding-left: 1em;">
-          <NexonI18nDataOutput :data="scenarioDesc" html-element-name="li" />
+          <NexonI18nDataOutput
+            :data="scenarioDesc"
+            :data-mt="scenarioDescMt"
+            html-element-name="li" />
         </ul>
       </td>
     </tr>
