@@ -19,7 +19,7 @@ import { useSetting } from '@/stores/setting'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
-import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
+import { mtPiniaWatchCallback, symbolForMomotalkMtData } from '@/tool/translate/MtUtils'
 
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
@@ -149,9 +149,7 @@ watch(
   }
 )
 
-provide('ML_clearAll', initMlData)
-provide('ML_table', tableMlMmtData)
-provide('ML_in_progress', ML_in_progress)
+provide(symbolForMomotalkMtData, tableMlMmtData)
 
 // ---------------------------------------------------
 

@@ -13,6 +13,7 @@ import type {
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
 import type { MlForScenario } from '@/types/MachineTranslation'
+import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -35,7 +36,7 @@ const props = defineProps({
 })
 
 // --------------------- ML SERVICE ---------------------
-let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
 // ------------------------------------------------------
 
 const screenWidth = useWindowSize().width

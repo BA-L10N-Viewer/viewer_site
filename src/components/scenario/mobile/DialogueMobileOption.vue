@@ -13,6 +13,7 @@ import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
 import type { CommonStoryDataDialogTextColor, NexonL10nData } from '@/types/OutsourcedData'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
+import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
 
 const props = defineProps({
   dialogueContent: {
@@ -41,7 +42,7 @@ const props = defineProps({
   }
 })
 
-let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
 </script>
 
 <template>

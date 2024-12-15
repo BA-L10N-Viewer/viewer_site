@@ -6,11 +6,15 @@ import { onBeforeRouteUpdate, useRoute } from 'vue-router'
 import { httpGetJsonAsync } from '@/tool/HttpRequest'
 import { useWindowSize } from '@vueuse/core'
 import ScenarioDialogue from '@/components/scenario/ScenarioDialogue.vue'
-import type { CommonStoryDataDialog, IndexScenarioCharacterData, NexonL10nDataLang } from '@/types/OutsourcedData'
+import {
+  type CommonStoryDataDialog,
+  type IndexScenarioCharacterData,
+  type MomotalkStoryData, type MomotalkStoryDataEntry, NexonL10nDataLangOfUi
+} from '@/types/OutsourcedData'
 import {
   type I18nStoryXxhashToL10nData,
   type NexonL10nData,
-  NexonL10nDataLang as NexonL10nDataLangConst,
+  NexonL10nDataLang,
   type RelatedScenarioInfoData,
   type RelatedScenarioParentInfoData,
   type StudentInfoDataSimple
@@ -19,9 +23,14 @@ import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
-import type { MlForScenario } from '@/types/MachineTranslation'
+import { type MlForMomotalk, type MlForScenario } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
-import { mtPiniaWatchCallback, symbolForMtProgressBool } from '@/tool/translate/MtUtils'
+import {
+  mtPiniaWatchCallback,
+  symbolForMomotalkMtData,
+  symbolForMtProgressBool,
+  symbolForScenarioMtData
+} from '@/tool/translate/MtUtils'
 
 import PvPaginator from 'primevue/paginator'
 import { getScenarioExtraDataById, getScenarioI18nContent } from '@/tool/StoryTool'
@@ -47,6 +56,8 @@ import {
 } from '@/tool/PreFetchedData'
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useI18n } from 'vue-i18n'
+import PvInplace from 'primevue/Inplace'
+import MomotalkUi from '@/components/MomotalkUi.vue'
 
 // ------------------------------------------------
 const setting = useSetting()
@@ -108,6 +119,20 @@ const scenarioParentData = computed<ScenarioParentData>(() => {
   }
 })
 
+// ------------------------------------------------------------
+// MMT
+const mmtCharId = ref(scenarioID.value.length === 7 ? Number(scenarioID.value.slice(0, 5)) : -1)
+const mmtData = ref<MomotalkStoryData>([] as unknown as MomotalkStoryData)
+const mmtDataCurrPos = computed(() => {
+  const temp = getScenarioExtraDataById(Number(scenarioID.value))
+  return Number(temp.actualScenarioNo) - 1
+})
+const mmtDataCurrEntry = computed<MomotalkStoryDataEntry | null>(() => {
+  if (mmtDataCurrPos.value + 1 <= mmtData.value.length)
+    return mmtData.value[mmtDataCurrPos.value]
+  return null
+})
+
 async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> {
   const scenarioType = inferScenarioTypeById(scenarioID.value)
   const currData = scenarioRelatedData[scenarioType][scenarioID.value]
@@ -126,7 +151,7 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
     prevName = prevData[0]
 
     const temp = getScenarioExtraDataById(Number(prevId))
-    if (scenarioType === 'main' || (scenarioID.value.startsWith("1100") && scenarioID.value.length === 5))
+    if (scenarioType === 'main' || (scenarioID.value.startsWith('1100') && scenarioID.value.length === 5))
       prevPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
     else
       prevPosString = `${temp.actualScenarioNo}`
@@ -136,16 +161,11 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
     nextName = nextData[0]
 
     const temp = getScenarioExtraDataById(Number(nextId))
-    if (scenarioType === 'main' || (scenarioID.value.startsWith("1100") && scenarioID.value.length === 5))
+    if (scenarioType === 'main' || (scenarioID.value.startsWith('1100') && scenarioID.value.length === 5))
       nextPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
     else
       nextPosString = `${temp.actualScenarioNo}`
   }
-
-  console.log({
-    Prev: { Id: prevId, Name: prevName, PosString: prevPosString },
-    Next: { Id: nextId, Name: nextName, PosString: nextPosString }
-  })
   return {
     Prev: { Id: prevId, Name: prevName, PosString: prevPosString },
     Next: { Id: nextId, Name: nextName, PosString: nextPosString }
@@ -235,14 +255,26 @@ const tableDialogueTranslated: Ref<MlForScenario> = ref({
   'c_cn_tw': [],
   'null': []
 })
+const tableMmtTranslated = ref<MlForMomotalk>([] as unknown as MlForMomotalk)
 const ML_in_progress = ref(false)
 const ML_pinia = useI18nTlControl()
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
-  const dataLength = scenarioData!.value.length
-  const actualTable = tableDialogueTranslated.value
   const blankData = { 'name': '', 'dialogue': '' }
 
+  if (mmtCharId.value !== -1 && mmtDataCurrEntry.value) {
+    const mmtEntry = mmtDataCurrEntry.value.Data
+    const mmtMtEntry = tableMmtTranslated.value[mmtDataCurrPos.value]
+    for (let i = 0; i < mmtEntry.length; i++) {
+      if (mmtMtEntry[baselang].length <= i)
+        mmtMtEntry[baselang].push(blankData)
+      else
+        mmtMtEntry[baselang][i] = blankData
+    }
+  }
+  
+  const dataLength = scenarioData!.value.length
+  const actualTable = tableDialogueTranslated.value
   for (let i = 0; i < dataLength; i++) {
     if (actualTable[baselang].length <= i) {
       actualTable[baselang].push(blankData)
@@ -258,6 +290,22 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 
   const asyncPool = new AsyncTaskPool(8)
   const actualMlLang = setting.auto_i18n_lang
+  if (mmtCharId.value !== -1 && mmtDataCurrEntry.value) {
+    const mmtEntry = mmtDataCurrEntry.value.Data
+    const mmtMtEntry = tableMmtTranslated.value[mmtDataCurrPos.value]
+    const mmtStu = bondStuInfo[String(mmtCharId.value)]
+
+    for (const [idx, entry] of mmtEntry.entries()) {
+      asyncPool.addTask(async () => {
+        mmtMtEntry[baselang][idx] = await getDialogueMtTranslation(
+          setting.auto_i18n_service,
+          mmtStu.Name[baselang] || '',
+          entry.Message[baselang],
+          actualMlLang
+        )
+      })
+    }
+  }
   for (const [idx, entry] of scenarioData.value.entries()) {
     asyncPool.addTask(
       async () => {
@@ -273,11 +321,9 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 
   await asyncPool.runAll(ML_pinia.updateProgress)
   ML_in_progress.value = false
-
-  // console.log(tableDialogueTranslated.value[baselang])
 }
 
-function initMlData() {
+function initMlData(initMmt: boolean = false) {
   tableDialogueTranslated.value = {
     'j_ja': [],
     'j_ko': [],
@@ -291,7 +337,25 @@ function initMlData() {
     'c_cn_tw': [],
     'null': []
   }
-  for (const lang of NexonL10nDataLangConst) {
+  if (initMmt) {
+    tableMmtTranslated.value = [] as unknown as MlForMomotalk
+    for (let i = 0; i < mmtData.value.length; i++)
+      tableMmtTranslated.value.push({
+        'j_ja': [],
+        'j_ko': [],
+        'g_tw': [],
+        'g_tw_cn': [],
+        'g_en': [],
+        'g_th': [],
+        'g_ja': [],
+        'g_ko': [],
+        'c_cn': [],
+        'c_cn_tw': [],
+        'null': []
+      })
+  }
+
+  for (const lang of NexonL10nDataLang) {
     clearMlTranslation(lang)
   }
   clearMlTranslation('null' as NexonL10nDataLang)
@@ -300,12 +364,19 @@ function initMlData() {
 watch(
   mtI18nLangStats,
   async (newValue) => {
-    await mtPiniaWatchCallback(newValue, updateMlTranslation, clearMlTranslation, ML_pinia.setStatusToComplete)
+    await mtPiniaWatchCallback(
+      newValue,
+      updateMlTranslation,
+      (lang: NexonL10nDataLangOfUi) => {
+        clearMlTranslation(lang as NexonL10nDataLang)
+      },
+      ML_pinia.setStatusToComplete
+    )
   }
 )
 
-provide('ML_clearAll', initMlData)
-provide('ML_table', tableDialogueTranslated)
+provide(symbolForScenarioMtData, tableDialogueTranslated)
+provide(symbolForMomotalkMtData, tableMmtTranslated)
 provide(symbolForMtProgressBool, ML_in_progress.value)
 // -------------------------------------------------------------
 
@@ -315,7 +386,7 @@ const isMobile = computed(() => screenWidth.value < MOBILE_WIDTH_WIDER || settin
 const cssWidthForThOfChar = '6em'
 const cssWidthForThOfContent = computed(() => {
   if (isMobile.value)
-    return '100'
+    return '100%'
   else {
     const currLangCount = numberOfSelectedLangForDesktop.value
     if (currLangCount !== 0)
@@ -335,9 +406,13 @@ onMounted(async () => {
     (async () => {
       scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
+    })(),
+    (async () => {
+      if (mmtCharId.value !== -1)
+        await httpGetJsonAsync(mmtData.value, `/data/story/momotalk/${mmtCharId.value}.json`)
     })()
   ])
-  initMlData()
+  initMlData(true)
   initPagination()
 
   titleChanger.value = watch(
@@ -358,6 +433,7 @@ onBeforeUnmount(() => {
 
 onBeforeRouteUpdate(async (to, from) => {
   scenarioID.value = String(to.params.storyId)
+  const mmtCharIdNew = scenarioID.value.length === 7 ? Number(scenarioID.value.slice(0, 5)) : -1
 
   isAllDataLoaded.value = false
   await Promise.allSettled([
@@ -365,11 +441,27 @@ onBeforeRouteUpdate(async (to, from) => {
     (async () => {
       scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
+    })(),
+    (async () => {
+      if (mmtCharIdNew !== -1) {
+        if (mmtCharIdNew !== mmtCharId.value) {
+          await httpGetJsonAsync(mmtData.value, `/data/story/momotalk/${mmtCharIdNew}.json`)
+        }
+      } else {
+        mmtData.value = [] as unknown as MomotalkStoryData
+      }
     })()
   ])
 
-  initMlData()
+  if (mmtCharIdNew !== mmtCharId.value) {
+    mmtCharId.value = mmtCharIdNew
+    initMlData(true)
+  } else {
+    mmtCharId.value = mmtCharIdNew
+    initMlData(false)
+  }
   initPagination()
+
 
   isAllDataLoaded.value = true
 })
@@ -386,6 +478,22 @@ onBeforeRouteUpdate(async (to, from) => {
                    :parent-data="scenarioParentData"
                    :data-status="getScenarioDataStatus(scenarioData[0].Message)" />
     <PvDivider />
+
+    <template v-if="mmtCharId !== -1 && mmtDataCurrEntry">
+      <p>{{ $t('comp-scenario-mmt-p-tip') }}</p>
+      <PvInplace>
+        <template #display>
+          <span>{{ $t('comp-scenario-mmt-btn-show') }}</span>
+        </template>
+        <template #content>
+          <MomotalkUi
+            :data_data="mmtDataCurrEntry"
+            :data_charname="bondStuInfo[String(mmtCharId)].Name"
+            :mmt_entry_pos="mmtDataCurrPos" />
+        </template>
+      </PvInplace>
+      <PvDivider />
+    </template>
 
     <ScenarioRelatedStory :prev-id="scenarioRelatedStoryData.Prev.Id"
                           :prev-name="scenarioRelatedStoryData.Prev.Name"

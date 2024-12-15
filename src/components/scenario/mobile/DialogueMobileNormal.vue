@@ -20,6 +20,7 @@ import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { i18nMobileLoopIdx } from '@/tool/Constant'
+import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
 
 const props = defineProps({
   dialogueCharacter: {
@@ -60,7 +61,7 @@ const props = defineProps({
   }
 })
 
-let ML_table: Ref<MlForScenario> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
 </script>
 
 <template>

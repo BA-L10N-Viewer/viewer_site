@@ -9,6 +9,11 @@ import { getNexonL10nData } from '@/tool/StoryTool'
 import type { MomotalkStoryDataDialog, NexonL10nData, NexonL10nDataLang } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
+import {
+  symbolForMomotalkEntryDialoguePos,
+  symbolForMomotalkEntryPos,
+  symbolForMomotalkMtData
+} from '@/tool/translate/MtUtils'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -41,10 +46,10 @@ const charName = computed(() => props.char_name)
 const setting = useSetting()
 
 // --------------------- ML SERVICE ---------------------
-let ML_table: Ref<MlForMomotalk> = ref(inject('ML_table') as any)
+let ML_table: Ref<MlForMomotalk> = inject(symbolForMomotalkMtData)!
 
-provide('mmtEntryPos', props.mmt_entry_pos)
-provide('mmtEntryDialoguePos', props.dialog_entry_pos)
+provide(symbolForMomotalkEntryPos, props.mmt_entry_pos)
+provide(symbolForMomotalkEntryDialoguePos, props.dialog_entry_pos)
 // ------------------------------------------------------
 
 // ------------------------------------------------

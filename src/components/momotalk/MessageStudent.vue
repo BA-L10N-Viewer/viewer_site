@@ -52,7 +52,14 @@ const dialogueContentDecorated = computed(() => {
     return props.dialogueContent
   }
 })
-const currCharId = computed(() => window.location.pathname.split('/').slice(-1)[0])
+const currCharId = computed(() => {
+  const temp = window.location.pathname.split('/').slice(-1)[0]
+  if (temp.length === 7) {
+    // 在ScenarioUi里面嵌套的显示
+    return temp.slice(0, 5)
+  }
+  return temp
+})
 
 const setting = useSetting()
 </script>
