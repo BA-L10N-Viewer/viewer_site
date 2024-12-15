@@ -23,7 +23,10 @@ const props = defineProps({
   },
   data_l10n_mt: {
     type: {} as PropType<NexonL10nData>,
-    required: true
+    default: {
+      'j_ja': '', 'j_ko': '', 'g_ja': '', 'g_ko': '', 'g_en': '', 'g_th': '', 'g_tw': '', 'g_tw_cn': '',
+      'c_cn': '', 'c_cn_tw': '', 'c_zh': '', 'c_zh_tw': ''
+    }
   },
   is_l2d: {
     type: Boolean,
