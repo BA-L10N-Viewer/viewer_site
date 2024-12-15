@@ -182,6 +182,9 @@
   "comp-scenario-related-btn-prev": "上一個",
   "comp-scenario-related-btn-next": "下一個",
 
+  "comp-scenario-mmt-p-tip": "該故事與一已知Momotalk故事相關聯，您可在此頁面直接檢視。",
+  "comp-scenario-mmt-btn-view": "檢視Momotalk",
+
   "btn-show-content": "顯示內容",
 
   "comp-char-voice-costume-id": "造型編號",
