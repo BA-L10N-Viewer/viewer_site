@@ -129,7 +129,9 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
     <tr>
       <td>
         <ul style="margin: 0; padding-left: 1em;">
-          <NexonI18nDataOutput :data="scenarioName" html-element-name="li" />
+          <NexonI18nDataOutput :data="scenarioName"
+                               :data-mt="scenarioNameMt"
+                               html-element-name="li" />
         </ul>
       </td>
     </tr>
@@ -139,7 +141,10 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
     <tr>
       <td>
         <ul style="margin: 0; padding-left: 1em;">
-          <NexonI18nDataOutput :data="scenarioDesc" html-element-name="li" />
+          <NexonI18nDataOutput
+            :data="scenarioDesc"
+            :data-mt="scenarioDescMt"
+            html-element-name="li" />
         </ul>
       </td>
     </tr>
