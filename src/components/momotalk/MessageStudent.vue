@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useSetting } from '@/stores/setting'
-import { checkDialogueSensei, convertMmtMsgToHtml, getClassDialogueSensei } from '@/tool/StoryTool'
+import { checkDialogueSensei, convertMmtMsgToHtml, getClassDialogueSensei, mmtMessageContentDecorator } from '@/tool/StoryTool'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
@@ -43,15 +43,6 @@ const props = defineProps({
     required: true
   }
 })
-const dialogueContentDecorated = computed(() => {
-  if (props.dialogueType === 'Answer') {
-    return props.dialogueContent + '&nbsp;&lt;'
-  } else if (props.dialogueType === 'Feedback') {
-    return '&gt;&nbsp;' + props.dialogueContent
-  } else {
-    return props.dialogueContent
-  }
-})
 const currCharId = computed(() => {
   const temp = window.location.pathname.split('/').slice(-1)[0]
   if (temp.length === 7) {
@@ -80,9 +71,9 @@ const setting = useSetting()
   <td
     :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
     <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
-      <DialogueTranslated :content-original="convertMmtMsgToHtml(dialogueContentDecorated)"
+      <DialogueTranslated :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContent))"
                           :content-original-lang="dialogueLang"
-                          :content-translated="convertMmtMsgToHtml(dialogueContentTranslated)" />
+                          :content-translated="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContentTranslated))" />
     </div>
   </td>
 </template>

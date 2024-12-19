@@ -106,7 +106,7 @@ function extractHtmlImgTag(text: string) {
         <DialogueTranslated
           :content-original="removeHtmlImgTag(convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))))"
           :content-original-lang="i18nToUiLangAll[langIdx]"
-          :content-translated="removeHtmlImgTag(convertMmtMsgToHtml(ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue']))"
+          :content-translated="removeHtmlImgTag(convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue'])))"
           :is_br="removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
         <hr class="mobile-lang-hr"
             v-if="!(idx + 1 == numberOfSelectedLangForMobile) && removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
