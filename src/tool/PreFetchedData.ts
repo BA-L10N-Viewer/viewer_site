@@ -38,7 +38,7 @@ export const DirectoryDataCommonFileIndexRelatedManifestParent = shallowRef<Rela
 export const DirectoryDataCommonFileIndexRelatedManifestScenario = shallowRef<RelatedScenarioInfoData>({} as unknown as RelatedScenarioInfoData)
 export const DirectoryDataCommonSchaleFileLocalization = shallowRef<SchaleDbI18nDictData>({} as unknown as SchaleDbI18nDictData)
 
-export const DirectoryDataCommonI18nFileVoiceGroup = ref<Record<SiteUiLang, {}>>(createDictionaryWithDefault(SiteUiLang, {}))
+export const DirectoryDataCommonI18nFileVoiceGroup = ref<Record<SiteUiLang, {}>>(createDictionaryWithDefault(SiteUiLang, () => {return {}}))
 
 export async function fetchData() {
   isFetching.value = true
