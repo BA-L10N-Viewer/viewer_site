@@ -372,8 +372,8 @@ function initMlData(initMmt: boolean = false) {
         'null': []
       })
   }
-  scenarioNameDescMt.value = [createDictionaryWithDefault(NexonL10nDataLang, ''),
-    createDictionaryWithDefault(NexonL10nDataLang, '')]
+  scenarioNameDescMt.value = [createDictionaryWithDefault(NexonL10nDataLang, () => {return ''}),
+    createDictionaryWithDefault(NexonL10nDataLang, () => {return ''})]
 
   for (const lang of NexonL10nDataLang) {
     clearMlTranslation(lang)
