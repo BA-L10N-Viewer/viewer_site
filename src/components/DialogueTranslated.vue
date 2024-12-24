@@ -54,7 +54,6 @@ const props = defineProps({
 
 const shouldDisplay = computed(() => {
   if (props.auto_display) {
-console.log(props.contentTranslatedBlankValue)
     return Boolean(props.contentTranslated && !props.contentTranslatedBlankValue.includes(props.contentTranslated))
   }
   return true
