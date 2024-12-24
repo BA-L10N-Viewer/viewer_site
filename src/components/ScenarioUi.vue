@@ -406,7 +406,7 @@ const isMobile = computed(() => screenWidth.value < MOBILE_WIDTH_WIDER || settin
 const cssWidthForThOfChar = '6em'
 const cssWidthForThOfContent = computed(() => {
   if (isMobile.value)
-    return '100%'
+    return '100% - calc(6em)'
   else {
     const currLangCount = numberOfSelectedLangForDesktop.value
     if (currLangCount !== 0)
