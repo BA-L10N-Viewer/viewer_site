@@ -65,7 +65,7 @@ const props = defineProps({
     <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
          v-if="dialoguePopupFilename"
          class="momotalk-dialogue-img" />
-    <br />
+    <br v-if="dialoguePopupFilename" />
     <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated"
                                 :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
