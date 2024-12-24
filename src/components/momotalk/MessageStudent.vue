@@ -73,7 +73,8 @@ const setting = useSetting()
     <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
       <DialogueTranslated :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContent))"
                           :content-original-lang="dialogueLang"
-                          :content-translated="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContentTranslated))" />
+                          :content-translated="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContentTranslated))"
+                          :content-translated-blank-value="['&amp;nbsp;&amp;lt;', '&amp;gt;&amp;nbsp;', '> ', ' <']" />
     </div>
   </td>
 </template>

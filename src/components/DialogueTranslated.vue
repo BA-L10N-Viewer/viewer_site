@@ -26,6 +26,10 @@ const props = defineProps({
     type: String,
     required: true
   },
+  contentTranslatedBlankValue: {
+    type: Array<string>,
+    default: ['']
+  },
   html_class: {
     type: String,
     default: ""
@@ -50,7 +54,8 @@ const props = defineProps({
 
 const shouldDisplay = computed(() => {
   if (props.auto_display) {
-    return Boolean(props.contentTranslated)
+console.log(props.contentTranslatedBlankValue)
+    return Boolean(props.contentTranslated && !props.contentTranslatedBlankValue.includes(props.contentTranslated))
   }
   return true
 })
