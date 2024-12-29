@@ -9,6 +9,10 @@ const props = defineProps({
   data: {
     type: Object as PropType<Record<'name' | 'desc', NexonL10nData>>,
     required: true
+  },
+  dataMt: {
+    type: Object as PropType<Record<'name' | 'desc', NexonL10nData>>,
+    required: true
   }
 })
 
@@ -21,7 +25,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
       <td class="datasheet-title-desktop datasheet-title">{{ $t('comp-search-scenario-datasheet-item-1') }}</td>
       <td>
         <ul class="datasheet-data-ul">
-          <NexonI18nDataOutput :data="data.name" html-element-name="li" />
+          <NexonI18nDataOutput :data="data.name" :data-mt="dataMt.name" html-element-name="li" />
         </ul>
       </td>
     </tr>
@@ -29,7 +33,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
       <td class="datasheet-title-desktop datasheet-title">{{ $t('comp-search-scenario-datasheet-item-2') }}</td>
       <td>
         <ul class="datasheet-data-ul">
-          <NexonI18nDataOutput :data="data.desc" html-element-name="li" />
+          <NexonI18nDataOutput :data="data.desc" :data-mt="dataMt.desc" html-element-name="li" />
         </ul>
       </td>
     </tr>
@@ -41,7 +45,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
     <tr>
       <td>
         <ul class="datasheet-data-ul">
-          <NexonI18nDataOutput :data="data.name" html-element-name="li" />
+          <NexonI18nDataOutput :data="data.name" :data-mt="dataMt.name" html-element-name="li" />
         </ul>
       </td>
     </tr>
@@ -51,7 +55,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
     <tr>
       <td>
         <ul class="datasheet-data-ul">
-          <NexonI18nDataOutput :data="data.desc" html-element-name="li" />
+          <NexonI18nDataOutput :data="data.desc" :data-mt="dataMt.desc" html-element-name="li" />
         </ul>
       </td>
     </tr>

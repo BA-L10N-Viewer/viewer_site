@@ -3,7 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import ScenarioSearchEntryBond from '@/components/search/ScenarioSearchEntryBond.vue'
 import { getNexonL10nDataFlattened } from '@/tool/StoryTool'
-import { i18nLangAll } from '@/tool/ConstantComputed'
+import { i18nLangAll, mtI18nLangStats } from '@/tool/ConstantComputed'
 import ScenarioSearchEntryEvent from '@/components/search/ScenarioSearchEntryEvent.vue'
 import { useI18n } from 'vue-i18n'
 import type {
@@ -17,8 +17,10 @@ import type {
   IndexMomotalkData,
   IndexScenarioInfoToI18nId,
   NexonL10nData,
+  NexonL10nDataOfUi,
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'
+import { NexonL10nDataLangOfUi } from '@/types/OutsourcedData'
 import type { HTMLOptionData } from '@/types/CommonType'
 import { useSearchVars } from '@/stores/search'
 
@@ -40,12 +42,18 @@ import {
   DirectoryDataStoryI18nFileI18nStory
 } from '@/tool/PreFetchedData'
 import ScenarioSearchChapterMetadata from '@/components/search/ScenarioSearchChapterMetadata.vue'
+import { useI18nTlControl } from '@/stores/i18nTlControl'
+import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
+import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
+import { createDictionaryWithDefault } from '@/tool/Tool'
+import { getTranslation } from '@/tool/translate/MtDispatcher'
 
 const selectType = ref('')
 const i18n = useI18n()
 
 /* DATA */
 type ChapterMetadata = Record<'name' | 'desc', NexonL10nData>
+type ChapterMetadataMt = Record<'name' | 'desc', NexonL10nDataOfUi>
 // general
 const cacheRecoveryMultiStage = ref<boolean>(false)
 // for event
@@ -382,24 +390,165 @@ function loadMainOtherDataStory() {
   dataSelectMainCurrLoaded.value = true
 }
 
+function dataMtGetDefaultData() {
+  return {
+    name: createDictionaryWithDefault(NexonL10nDataLangOfUi, () => ''),
+    desc: createDictionaryWithDefault(NexonL10nDataLangOfUi, () => '')
+  } //as ChapterMetadata
+}
+
+const dataMt = {
+  eventMetadata: ref<ChapterMetadataMt>(dataMtGetDefaultData()),
+  eventStory: ref<ChapterMetadataMt[]>([] as unknown as ChapterMetadataMt[]),
+  bondStory: ref<ChapterMetadataMt[]>([] as unknown as ChapterMetadataMt[]),
+  mainVolumeMetadata: ref<ChapterMetadataMt>(dataMtGetDefaultData()),
+  mainChapterMetadata: ref<ChapterMetadataMt>(dataMtGetDefaultData()),
+  mainStory: ref<ChapterMetadataMt[]>([] as unknown as ChapterMetadataMt[]),
+  GetDefaultData: dataMtGetDefaultData
+}
+
+// 机翻数据变量
+const dataMtControl = {
+  inProgress: ref(false),
+  pinia: useI18nTlControl()
+}
+
+const dataMtFunc = {
+  _getDataList(length=0){
+    const temp: ChapterMetadataMt[] = []
+    for (let i = 0; i < length; i++)
+      temp.push(dataMt.GetDefaultData())
+    return temp
+  },
+  resetEventData(listLength=0){
+    dataMt.eventMetadata.value = dataMt.GetDefaultData()
+    dataMt.eventStory.value = this._getDataList(listLength)
+  },
+  resetBondData(listLength=0){
+    dataMt.bondStory.value = this._getDataList(listLength)
+  },
+  resetMainVolume(){
+    dataMt.mainVolumeMetadata.value = dataMt.GetDefaultData()
+  },
+  resetMainChapter(listLength=0){
+    dataMt.mainChapterMetadata.value = dataMt.GetDefaultData()
+    dataMt.mainStory.value = this._getDataList(listLength)
+  }
+}
+
+// 清空机翻数据
+function clearMtData(baselang: NexonL10nDataLangOfUi) {
+  const resetEntry = (entry: ChapterMetadataMt) => {
+    entry.name[baselang] = ''
+    entry.desc[baselang] = ''
+  }
+  const resetEntryList = (entrylist: ChapterMetadataMt[]) => {
+    for (const entry of entrylist) resetEntry(entry)
+  }
+  resetEntry(dataMt.eventMetadata.value)
+  resetEntryList(dataMt.eventStory.value)
+  resetEntryList(dataMt.bondStory.value)
+  resetEntry(dataMt.mainVolumeMetadata.value)
+  resetEntry(dataMt.mainChapterMetadata.value)
+  resetEntryList(dataMt.mainStory.value)
+}
+
+// 更新机翻数据
+async function updateMtData(baselang: NexonL10nDataLangOfUi) {
+  if (baselang === 'null') return 
+  dataMtControl.inProgress = ref(false)
+  clearMtData(baselang)
+
+  const asyncPool = new AsyncTaskPool(8)
+  const actualMtLang = setting.auto_i18n_lang
+  const currMtService = setting.auto_i18n_service
+
+  const updateNameDescTranslation = (
+    oriName: NexonL10nData,
+    oriDesc: NexonL10nData,
+    target: ChapterMetadataMt) => {
+      const inner = async () => {
+        target.name[baselang] = await getTranslation(currMtService, oriName[baselang], actualMtLang)
+        target.desc[baselang] = await getTranslation(currMtService, oriDesc[baselang], actualMtLang)
+      }
+      return inner
+  }
+
+  if (selectType.value === 'event' && selectEventName.value !== '') {
+    const currMD = dataSelectEventMetadata.get(selectEventName.value)
+    if (currMD)
+      asyncPool.addTask(updateNameDescTranslation(currMD.name, currMD.desc, dataMt.eventMetadata.value))
+
+    const currStory = dataSelectEventStory.get(selectEventName.value)
+    if (currStory)
+      for (const [idx, entry] of currStory.entries())
+        asyncPool.addTask(updateNameDescTranslation(entry.name, entry.desc, dataMt.eventStory.value[idx]))
+  } else if (selectType.value === 'bond' && selectBondChar.value !== '') {
+    const currStory = dataSelectMmt.get(selectBondChar.value)
+    if (currStory)
+      for (const [idx, entry] of currStory.entries())
+        asyncPool.addTask(updateNameDescTranslation(entry.data[0], entry.data[1], dataMt.bondStory.value[idx]))
+  } else if (selectType.value !== ''){
+    if (selectType.value === 'main' && selectMainVolume.value !== ''){
+      const MD = selectMainVolumeMetadata.value
+      if (MD)
+        asyncPool.addTask(updateNameDescTranslation(MD.name, MD.desc, dataMt.mainVolumeMetadata.value))
+    }
+    if (selectMainChapter.value !== ''){
+      const MD = selectMainChapterMetadata.value
+      if (MD)
+        asyncPool.addTask(updateNameDescTranslation(MD.name, MD.desc, dataMt.mainChapterMetadata.value))
+      const story = dataSelectMainCurrStory.value
+      for (const [idx, entry] of story.entries())
+        asyncPool.addTask(updateNameDescTranslation(entry.name, entry.desc,
+                                                    dataMt.mainStory.value[idx]))
+    }
+  }
+  await asyncPool.runAll(dataMtControl.pinia.updateProgress)
+  dataMtControl.inProgress.value = false
+}
+
+// 机翻的数据watcher
+watch(
+  () => [selectEventName.value, selectBondChar.value],
+  ([n1, n2], oldValues) => {
+    const [o1, o2] = oldValues || ['', ''];
+    if (n1 === '') dataMtFunc.resetEventData();
+    else if (n1 !== o1 && n1 !== '') {
+      const currEvent = dataSelectEventStory.get(n1);
+      if (currEvent) dataMtFunc.resetEventData(currEvent.length);
+    }
+    if (n2 === '') dataMtFunc.resetBondData();
+    else if (n2 !== o2 && n2 !== '') {
+      const currChar = dataSelectMmt.get(n2);
+      if (currChar) dataMtFunc.resetBondData(currChar.length);
+    }
+  },
+  { immediate: true }
+)
+
+// Pinia状态watcher
+watch(mtI18nLangStats,
+  async(newValue) => {
+    await mtPiniaWatchCallback(newValue,
+      updateMtData, clearMtData,
+      dataMtControl.pinia.setStatusToComplete
+    )
+  }
+)
+
 // <select> value
 watch(
   () => selectType.value,
   (newValue) => {
-    if (newValue === 'event') {
-      loadEventData()
-    } else if (newValue === 'bond') {
-      loadBondData()
+    if (!cacheRecoveryMultiStage.value) {
+      clearMainData()
+      dataSelectMainCurrLoaded.value = false
+    }
+    if (newValue === 'main') {
+      loadMainMainData1()
     } else {
-      if (!cacheRecoveryMultiStage.value) {
-        clearMainData()
-        dataSelectMainCurrLoaded.value = false
-      }
-      if (newValue === 'main') {
-        loadMainMainData1()
-      } else {
-        loadMainOtherData()
-      }
+      loadMainOtherData()
     }
   }
 )
@@ -437,7 +586,7 @@ watch(
       selectMainChapter.value = ''
     }
     cacheRecoveryMultiStage.value = false
-
+    dataMtFunc.resetMainVolume()
     if (newValue !== '') loadMainMainData2()
     else {
       dataSelectMainCurrIndex2.value = []
@@ -457,8 +606,10 @@ watch(
         loadMainOtherDataStory()
         cacheRecoveryMultiStage.value = false
       }
+      dataMtFunc.resetMainChapter(dataSelectMainCurrStory.value.length)
     } else {
       dataSelectMainCurrStory.value = []
+      dataMtFunc.resetMainChapter()
     }
     dataSelectMainCurrLoaded.value = true
   }
@@ -467,7 +618,8 @@ watch(
 /* 搜索内容缓存 (instance 级) */
 onMounted(async () => {
   await loadAllData()
-
+  loadEventData()
+  loadBondData()
   if (searchCache.n_selectMainVolume !== '' || searchCache.n_selectMainChapter !== '') {
     cacheRecoveryMultiStage.value = true
   }
@@ -572,10 +724,10 @@ watch(
     <div v-if="selectType === 'event'">
       <div v-loading="!dataSelectEventLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-result') }}</h2>
-        <ScenarioSearchChapterMetadata :data="dataSelectEventMetadata.get(selectEventName)!"
+        <ScenarioSearchChapterMetadata :data="dataSelectEventMetadata.get(selectEventName)!" :data-mt="dataMt.eventMetadata.value"
                                        v-if="selectEventName !== ''" />
         <div :key="uiLang + '_' + selectEventName" class="search-event">
-          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry" :data-mt="dataMt.eventStory.value[idx]"
                                     v-for="(entry, idx) in dataSelectEventStory.get(selectEventName)" :key="idx" />
         </div>
       </div>
@@ -586,7 +738,8 @@ watch(
         <template v-if="selectBondChar">
           <CharacterSheet :is-mmt="false" :char-id="selectBondChar" />
           <div :key="uiLang + '_' + selectBondChar">
-            <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1" :data="entry"
+            <ScenarioSearchEntryBond :char_id="selectBondChar" :data_no="idx + 1"
+                                     :data="entry" :data-mt="dataMt.bondStory.value[idx].name"
                                      :is-l2d="entry.id === dataBondL2dData[selectBondChar]"
                                      v-for="(entry, idx) in dataSelectMmt.get(selectBondChar)" :key="idx" />
           </div>
@@ -596,13 +749,13 @@ watch(
     <div v-else-if="selectType === 'main'">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <ScenarioSearchChapterMetadata :data="selectMainVolumeMetadata"
+        <ScenarioSearchChapterMetadata :data="selectMainVolumeMetadata" :data-mt="dataMt.mainVolumeMetadata.value"
                                        v-if="selectMainVolumeMetadata" />
         <br />
-        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata"
+        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata" :data-mt="dataMt.mainChapterMetadata.value"
                                        v-if="selectMainChapterMetadata" />
         <div :key="uiLang + '_' + selectMainChapter">
-          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry" :data-mt="dataMt.mainStory.value[idx]"
                                     v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
         </div>
       </div>
@@ -610,10 +763,10 @@ watch(
     <div v-else-if="selectType !== ''">
       <div v-loading="!dataSelectMainCurrLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-select-result') }}</h2>
-        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata"
+        <ScenarioSearchChapterMetadata :data="selectMainChapterMetadata" :data-mt="dataMt.mainChapterMetadata.value"
                                        v-if="selectMainChapterMetadata" />
         <div :key="uiLang + '_' + selectMainChapter">
-          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry"
+          <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry" :data-mt="dataMt.mainStory.value[idx]"
                                     v-for="(entry, idx) in dataSelectMainCurrStory" :key="idx" />
         </div>
       </div>
