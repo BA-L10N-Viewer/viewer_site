@@ -397,7 +397,7 @@ watch(
 
 provide(symbolForScenarioMtData, tableDialogueTranslated)
 provide(symbolForMomotalkMtData, tableMmtTranslated)
-provide(symbolForMtProgressBool, ML_in_progress.value)
+provide(symbolForMtProgressBool, ML_in_progress)
 // -------------------------------------------------------------
 
 // --------------------- TABLE CSS WIDTH ---------------------

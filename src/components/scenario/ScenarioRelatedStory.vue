@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, type PropType } from 'vue'
+import { inject, ref, type PropType } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 
 import PvFluid from 'primevue/fluid'
@@ -38,7 +38,7 @@ const props = defineProps({
   }
 })
 
-const isMtInProgress = inject(symbolForMtProgressBool) ?? false
+const isMtInProgress = inject(symbolForMtProgressBool) ?? ref(false)
 </script>
 
 <template>
