@@ -62,10 +62,11 @@ const props = defineProps({
                                 :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">
-    <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
-         v-if="dialoguePopupFilename"
-         class="momotalk-dialogue-img" />
-    <br v-if="dialoguePopupFilename" />
+    <template v-if="dialoguePopupFilename">
+      <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
+           class="momotalk-dialogue-img" />
+      <br />
+    </template>
     <ScenarioTranslatedDialogue :content-original="dialogueContent" :content-original-lang="dialogueLang" :content-translated="dialogueContentTranslated"
                                 :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
