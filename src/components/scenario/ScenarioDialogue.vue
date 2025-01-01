@@ -10,6 +10,7 @@ import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
+import DialogueCmdEntry from '@/components/scenario/DialogueCmdEntry.vue'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -75,11 +76,15 @@ const setting = useSetting()
   <tr v-else>
     <template v-if="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
       <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'">{{ data_dialog.Payload.Type }}</td>
+        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'">
+          <DialogueCmdEntry :data-entry="data_dialog" />
+        </td>
       </template>
     </template>
     <template v-else>
-      <td colspan="2">{{ data_dialog.Payload.Type }}</td>
+      <td colspan="2">
+        <DialogueCmdEntry :data-entry="data_dialog" />
+      </td>
     </template>
   </tr>
 </template>

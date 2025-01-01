@@ -261,6 +261,6 @@ export type CommonStoryExtBgmData = { [key: string]: CommonStoryExtBgmDataEntry 
 export const symbolForCommonStoryExtBgmData = Symbol('CommonStoryExtBgmData') as InjectionKey<Ref<CommonStoryExtBgmData>>
 
 /* data/common/i18n/*.json */
-export type DirectoryDataCommonI18nFiles = Record<SiteUiLang, {}>
-export const symbolForDirectoryDataCommonI18nFileScenarioSound = Symbol('DirectoryDataCommonI18nFileScenarioSound') as InjectionKey<Ref<DirectoryDataCommonI18nFiles>>
-export const symbolForDirectoryDataCommonI18nFileScenarioBgm = Symbol('DirectoryDataCommonI18nFileScenarioBgm') as InjectionKey<Ref<DirectoryDataCommonI18nFiles>>
+export type DirectoryDataCommonI18nFiles<T> = Record<SiteUiLang, T>
+export const symbolForDirectoryDataCommonI18nFileScenarioSound = Symbol('DirectoryDataCommonI18nFileScenarioSound') as InjectionKey<Ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>>
+export const symbolForDirectoryDataCommonI18nFileScenarioBgm = Symbol('DirectoryDataCommonI18nFileScenarioBgm') as InjectionKey<Ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>>
