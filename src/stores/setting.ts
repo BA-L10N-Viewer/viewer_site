@@ -33,6 +33,7 @@ export const useSetting = defineStore('setting', {
       'auto_i18n_showauto': false,
 
       'scenario_pagination_perPage': paginationScenarioControl.perPageDefault,
+      'scenario_display_mode': 1,
 
       'temp': 'get_this_done'
     }

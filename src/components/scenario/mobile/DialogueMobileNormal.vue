@@ -72,7 +72,7 @@ let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue :content-original="getNexonL10nData(dialogueCharacter,i18nLangAll[idx])"
                                       :content-original-lang="i18nToUiLangAll[idx]"
-                                      :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
+                                      :content-translated="ML_table[i18nLangAll[idx]].get(String(entry_pos))?.['name'] || ''"
                                       :style="{'color': dialogueTextColor}"
                                       :is_after_br="true" />
         </span>
@@ -91,7 +91,7 @@ let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
             :content-original-lang="i18nToUiLangAll[langIdx]"
-            :content-translated="ML_table[i18nLangAll[langIdx]][entry_pos]['dialogue']"
+            :content-translated="ML_table[i18nLangAll[langIdx]].get(String(entry_pos))?.['dialogue'] || ''"
             :style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>
