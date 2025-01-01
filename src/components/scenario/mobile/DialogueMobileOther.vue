@@ -9,7 +9,7 @@ import {
 } from '@/tool/ConstantComputed'
 import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
-import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref } from 'vue'
 import type {
   CommonStoryDataDialogDataType,
   CommonStoryDataDialogTextColor,
@@ -72,7 +72,7 @@ const htmlTdClassName = (() => {
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
             :content-original-lang="i18nToUiLangAll[langIdx]"
-            :content-translated="ML_table[i18nLangAll[langIdx] as NexonL10nDataLang][entry_pos]['dialogue']"
+            :content-translated="ML_table[i18nLangAll[langIdx] as NexonL10nDataLang].get(String(entry_pos))?.['dialogue'] || ''"
             :is_after_br="true" />
         </span>
         <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />

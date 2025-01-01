@@ -1,3 +1,6 @@
+import type { InjectionKey, Ref } from 'vue'
+import type { SiteUiLang } from '@/tool/Constant'
+
 export const NexonL10nDataLang: NexonL10nDataLang[] = ['j_ja', 'j_ko', 'g_tw', 'g_tw_cn', 'g_en', 'g_th', 'g_ja', 'g_ko', 'c_cn', 'c_cn_tw']
 export type NexonL10nDataLang =
   'j_ja'
@@ -38,6 +41,7 @@ export type CommonStoryDataDialogDataType =
   | 'speaker'
 export type CommonStoryDataDialogTextColor = 'black' | '#4EA24E' | '#59ADF8' | '#FF3333' | '#FF7800' | '#800000'
 export type CommonStoryDataDialog = {
+  ActualPos: number;
   AbsolutePos: number;
   SelectionGroup: number;
   SelectionToGroup: number;
@@ -51,6 +55,37 @@ export type CommonStoryDataDialog = {
   BGName: number;
   ShowTextColor: CommonStoryDataDialogTextColor;
 }
+export type CommonStoryDataCmdPayloadBg = {
+  Type: 'bg';
+  Id: number;
+}
+export type CommonStoryDataCmdPayloadBgm = {
+  Type: 'bgm';
+  Id: number;
+}
+export type CommonStoryDataCmdPayloadSound = {
+  Type: 'sound';
+  Id: string;
+}
+export type CommonStoryDataCmdPayloadSoundPopup = {
+  Type: 'sound_popup';
+  Data: [string, string];
+}
+export type CommonStoryDataCmdPayload =
+  CommonStoryDataCmdPayloadBg
+  | CommonStoryDataCmdPayloadBgm
+  | CommonStoryDataCmdPayloadSound
+  | CommonStoryDataCmdPayloadSoundPopup
+export type CommonStoryDataCmdPayloadType = CommonStoryDataCmdPayload['Type']
+export type CommonStoryDataCmd = {
+  ActualPos: number;
+  AbsolutePos: number;
+  DataType: 'cmd';
+  Payload: CommonStoryDataCmdPayload;
+}
+export type CommonStoryDataEntry = CommonStoryDataDialog | CommonStoryDataCmd
+export type CommonStoryDataEntryDataType = CommonStoryDataEntry['DataType']
+export type CommonStoryData = CommonStoryDataEntry[]
 
 /* Bond Name/Desc (i18n_bond.json) */
 export type I18nBondInfoDataEntry = [NexonL10nData, NexonL10nData]
@@ -204,3 +239,28 @@ export type SchaleDbI18nDictData = {
   VoiceClipGroup: Record<'Normal' | 'Lobby' | 'Battle' | 'Event', SchaleDbL10nData>,
   VoiceClip: Record<string, SchaleDbL10nData>
 }
+
+/* data/story/ext/bg.json */
+export type CommonStoryExtBgDataEntry = {
+  Name: number;
+  BGFileName: string;
+  BGType: 'Image' | 'BlurRT';
+}
+export type CommonStoryExtBgData = { [key: string]: CommonStoryExtBgDataEntry }
+export const symbolForCommonStoryExtBgData = Symbol('CommonStoryExtBgData') as InjectionKey<Ref<CommonStoryExtBgData>>
+
+/* data/story/ext/bgm.json */
+export type CommonStoryExtBgmDataEntry = {
+  Id: number;
+  Path: string;
+  LoopStartTime: number;
+  LoopEndTime: number;
+  LoopTransitionTime: number;
+}
+export type CommonStoryExtBgmData = { [key: string]: CommonStoryExtBgmDataEntry }
+export const symbolForCommonStoryExtBgmData = Symbol('CommonStoryExtBgmData') as InjectionKey<Ref<CommonStoryExtBgmData>>
+
+/* data/common/i18n/*.json */
+export type DirectoryDataCommonI18nFiles = Record<SiteUiLang, {}>
+export const symbolForDirectoryDataCommonI18nFileScenarioSound = Symbol('DirectoryDataCommonI18nFileScenarioSound') as InjectionKey<Ref<DirectoryDataCommonI18nFiles>>
+export const symbolForDirectoryDataCommonI18nFileScenarioBgm = Symbol('DirectoryDataCommonI18nFileScenarioBgm') as InjectionKey<Ref<DirectoryDataCommonI18nFiles>>

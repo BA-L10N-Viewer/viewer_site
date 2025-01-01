@@ -13,7 +13,7 @@ import {
   type StudentInfoDataSimple
 } from '@/types/OutsourcedData'
 import { ref, shallowRef } from 'vue'
-import { httpGetJsonAsync, httpGetAsync } from './HttpRequest'
+import { httpGetAsync, httpGetJsonAsync } from './HttpRequest'
 import { AsyncTaskPool } from './AsyncTaskPool'
 import { SiteUiLang } from '@/tool/Constant'
 import { createDictionaryWithDefault } from '@/tool/Tool'

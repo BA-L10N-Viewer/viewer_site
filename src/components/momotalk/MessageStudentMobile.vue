@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, type PropType, type Ref, ref } from 'vue'
+import { computed, inject, type PropType, type Ref } from 'vue'
 import {
   checkDialogueSensei,
   convertMmtMsgToHtml,

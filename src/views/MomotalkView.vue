@@ -7,8 +7,9 @@ import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {
   I18nBondInfoData,
-  MomotalkStoryData, NexonL10nData,
-  NexonL10nDataLang, NexonL10nDataOfUi,
+  MomotalkStoryData,
+  NexonL10nDataLang,
+  NexonL10nDataOfUi,
   SchaleDbL10nData,
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'
@@ -191,7 +192,7 @@ function scrollToDesignatedElement(eleId: string) {
   if (targetEle) {
     const targetHeightOffset = targetEle.getBoundingClientRect().y - 70
     window.scrollBy({
-      left: 0, top: targetHeightOffset, behavior: 'smooth'
+      left: 0, top: targetHeightOffset, behavior: 'instant'
     })
 
     // console.log(targetHeightOffset)

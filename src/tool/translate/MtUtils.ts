@@ -93,4 +93,4 @@ export const symbolForMomotalkMtData = Symbol('mt_data_for_momotalk') as Injecti
 export const symbolForMomotalkEntryPos = Symbol('mmt_entry_pos') as InjectionKey<number>
 export const symbolForMomotalkEntryDialoguePos = Symbol('mmt_entry_dialogue_pos') as InjectionKey<number>
 export const symbolForScenarioMtData = Symbol('mt_data_for_scenario') as InjectionKey<Ref<MlForScenario>>
-export const symbolForMtProgressBool = Symbol('mt_progress_boolean') as InjectionKey<boolean>
+export const symbolForMtProgressBool = Symbol('mt_progress_boolean') as InjectionKey<Ref<boolean>>

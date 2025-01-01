@@ -1,4 +1,9 @@
-import type { NexonL10nData, NexonL10nDataLang, NexonL10nDataLangOfUi, SchaleDbL10nDataLang } from '@/types/OutsourcedData'
+import type {
+  NexonL10nData,
+  NexonL10nDataLang,
+  NexonL10nDataLangOfUi,
+  SchaleDbL10nDataLang
+} from '@/types/OutsourcedData'
 import type { MtServiceName } from '@/tool/translate/MtDispatcher'
 import type { CharVoiceUiDataSource, CharVoiceUiTabAvailabilityList } from '@/types/CharVoiceComp'
 import type { NexonCharVoiceEventTranscriptionType } from '@/types/OutsourcedDataVoice'

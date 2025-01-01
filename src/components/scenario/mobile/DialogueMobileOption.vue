@@ -9,7 +9,7 @@ import {
 } from '@/tool/ConstantComputed'
 import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
-import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref } from 'vue'
 import type { CommonStoryDataDialogTextColor, NexonL10nData } from '@/types/OutsourcedData'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
@@ -53,7 +53,7 @@ let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
             :content-original-lang="i18nToUiLangAll[langIdx]"
-            :content-translated="ML_table[i18nLangAll[langIdx]][entry_pos]['dialogue']"
+            :content-translated="ML_table[i18nLangAll[langIdx]].get(String(entry_pos))?.['dialogue'] || ''"
             :style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>

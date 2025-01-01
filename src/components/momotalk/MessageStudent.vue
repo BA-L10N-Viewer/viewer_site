@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useSetting } from '@/stores/setting'
-import { checkDialogueSensei, convertMmtMsgToHtml, getClassDialogueSensei, mmtMessageContentDecorator } from '@/tool/StoryTool'
+import {
+  checkDialogueSensei,
+  convertMmtMsgToHtml,
+  getClassDialogueSensei,
+  mmtMessageContentDecorator
+} from '@/tool/StoryTool'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'

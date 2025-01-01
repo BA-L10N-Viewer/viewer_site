@@ -31,13 +31,14 @@ export class AsyncTaskPool {
 
   addTask(task: () => Promise<void>) {
     this.taskQueue.push(task)
-    this.runNextTask()
   }
 
   async runAll(onProgress?: (completed: number, total: number) => void) {
     const totalTasks = this.taskQueue.length
 
     while (this.taskQueue.length > 0 || this.currentTasks > 0) {
+      this.runNextTask()
+
       if (onProgress) {
         onProgress(this.completedTasks, totalTasks) // Report progress
       }

@@ -14,7 +14,7 @@ import {
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
 
-import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
@@ -72,7 +72,7 @@ let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
         <span :lang="i18nToUiLangAll[idx]">
           <ScenarioTranslatedDialogue :content-original="getNexonL10nData(dialogueCharacter,i18nLangAll[idx])"
                                       :content-original-lang="i18nToUiLangAll[idx]"
-                                      :content-translated="ML_table[i18nLangAll[idx]][entry_pos]['name']"
+                                      :content-translated="ML_table[i18nLangAll[idx]].get(String(entry_pos))?.['name'] || ''"
                                       :style="{'color': dialogueTextColor}"
                                       :is_after_br="true" />
         </span>
@@ -80,17 +80,18 @@ let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
     </template>
   </td>
   <td class="scenario-text scenario-dialogue">
-    <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
-         v-if="dialoguePopupFilename"
-         class="momotalk-dialogue-img" />
-    <br v-if="dialoguePopupFilename" />
+    <template v-if="dialoguePopupFilename">
+      <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
+           class="momotalk-dialogue-img" />
+      <br />
+    </template>
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">
           <ScenarioTranslatedDialogue
             :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
             :content-original-lang="i18nToUiLangAll[langIdx]"
-            :content-translated="ML_table[i18nLangAll[langIdx]][entry_pos]['dialogue']"
+            :content-translated="ML_table[i18nLangAll[langIdx]].get(String(entry_pos))?.['dialogue'] || ''"
             :style="{'color': dialogueTextColor}"
             :is_after_br="true" />
         </span>

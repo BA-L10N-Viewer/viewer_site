@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, onMounted, provide, ref, type Ref, shallowRef, watch } from 'vue'
+import { onBeforeMount, onMounted, provide, ref, type Ref, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import CharVoiceNexonUi from '@/components/voice/CharVoiceNexonUi.vue'
 import CharVoiceSchaleDbUi from '@/components/voice/CharVoiceSchaleDbUi.vue'
