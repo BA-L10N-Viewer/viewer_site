@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, type PropType } from 'vue'
+import { type PropType } from 'vue'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import { checkIfScenarioIdIsMain, getScenarioExtraDataById } from '@/tool/StoryTool'

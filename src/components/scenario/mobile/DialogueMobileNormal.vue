@@ -14,7 +14,7 @@ import {
   replaceStoryLineUsernameBlank
 } from '@/tool/StoryTool'
 
-import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'

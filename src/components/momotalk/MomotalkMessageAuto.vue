@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MessageStudent from '@/components/momotalk/MessageStudent.vue'
-import { computed, inject, type PropType, provide, type Ref, ref } from 'vue'
+import { computed, inject, type PropType, provide, type Ref } from 'vue'
 import { useSetting } from '@/stores/setting'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH } from '@/tool/Constant'
 import { useWindowSize } from '@vueuse/core'

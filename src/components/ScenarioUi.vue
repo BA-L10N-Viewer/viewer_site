@@ -19,33 +19,26 @@ import {
   type CommonStoryExtBgData,
   type CommonStoryExtBgmData,
   type DirectoryDataCommonI18nFiles,
+  type I18nStoryXxhashToL10nData,
   type IndexScenarioCharacterData,
   type MomotalkStoryData,
   type MomotalkStoryDataEntry,
+  type NexonL10nData,
+  NexonL10nDataLang,
   NexonL10nDataLangOfUi,
+  type RelatedScenarioInfoData,
+  type RelatedScenarioParentInfoData,
+  type StudentInfoDataSimple,
   symbolForCommonStoryExtBgData,
   symbolForCommonStoryExtBgmData,
   symbolForDirectoryDataCommonI18nFileScenarioBgm,
   symbolForDirectoryDataCommonI18nFileScenarioSound
 } from '@/types/OutsourcedData'
-import {
-  type I18nStoryXxhashToL10nData,
-  type NexonL10nData,
-  NexonL10nDataLang,
-  type RelatedScenarioInfoData,
-  type RelatedScenarioParentInfoData,
-  type StudentInfoDataSimple
-} from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
-import {
-  type MlForMomotalk,
-  type MlForScenario,
-  type MlForScenarioLang,
-  type NexonL10nDataMlDataEntry
-} from '@/types/MachineTranslation'
+import { type MlForMomotalk, type MlForScenario, type NexonL10nDataMlDataEntry } from '@/types/MachineTranslation'
 import { getDialogueMtTranslation, getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
 import {
   mtPiniaWatchCallback,

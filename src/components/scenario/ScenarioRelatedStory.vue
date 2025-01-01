@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref, type PropType } from 'vue'
+import { inject, type PropType, ref } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
 
 import PvFluid from 'primevue/fluid'

@@ -7,8 +7,9 @@ import MomotalkHeader from '@/components/momotalk/MomotalkHeader.vue'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import type {
   I18nBondInfoData,
-  MomotalkStoryData, NexonL10nData,
-  NexonL10nDataLang, NexonL10nDataOfUi,
+  MomotalkStoryData,
+  NexonL10nDataLang,
+  NexonL10nDataOfUi,
   SchaleDbL10nData,
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'

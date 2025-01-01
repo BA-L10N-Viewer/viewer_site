@@ -2,14 +2,14 @@ import { getNexonI18nDataDefault } from '@/tool/Constant'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import {
-  NexonL10nDataLang,
-  SchaleDbL10nDataLang,
   type I18nBondInfoData,
   type I18nStoryInfoIdToXxhash,
   type I18nStoryXxhashToL10nData,
   type IndexScenarioInfoToI18nId,
   type NexonL10nData,
-  type SchaleDbL10nData
+  NexonL10nDataLang,
+  type SchaleDbL10nData,
+  SchaleDbL10nDataLang
 } from '@/types/OutsourcedData'
 import type { Nullable } from '@/types/CommonType'
 import {

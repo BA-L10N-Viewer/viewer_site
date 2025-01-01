@@ -9,7 +9,7 @@ import {
 } from '@/tool/ConstantComputed'
 import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
 
-import { defineProps, inject, type PropType, type Ref, ref } from 'vue'
+import { defineProps, inject, type PropType, type Ref } from 'vue'
 import type { CommonStoryDataDialogTextColor, NexonL10nData } from '@/types/OutsourcedData'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'

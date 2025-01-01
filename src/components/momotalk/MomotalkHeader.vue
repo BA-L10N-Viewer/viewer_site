@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { i18nDesktopLoopIdx } from '@/tool/Constant'
 import { defineProps, type PropType } from 'vue'
 import type { NexonL10nData } from '@/types/OutsourcedData'
-import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 
 import PvTag from 'primevue/tag'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'

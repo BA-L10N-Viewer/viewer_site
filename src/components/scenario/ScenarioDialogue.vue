@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { inject, type PropType, type Ref, ref } from 'vue'
+import { inject, type PropType, type Ref } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { i18nDesktopLoopIdx, MOBILE_WIDTH_WIDER } from '@/tool/Constant'
 import { getNexonL10nData } from '@/tool/StoryTool'
 import DialogueDesktopAuto from '@/components/scenario/desktop/DialogueDesktopAuto.vue'
 import DialogueMobileAuto from '@/components/scenario/mobile/DialogueMobileAuto.vue'
-import type {
-  CommonStoryDataDialog,
-  CommonStoryDataDialogDataType, CommonStoryDataEntry, CommonStoryDataEntryDataType,
-  IndexScenarioCharacterDataEntry
-} from '@/types/OutsourcedData'
+import type { CommonStoryDataEntry, IndexScenarioCharacterDataEntry } from '@/types/OutsourcedData'
 import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
 import type { MlForScenario } from '@/types/MachineTranslation'
