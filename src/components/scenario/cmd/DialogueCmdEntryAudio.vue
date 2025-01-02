@@ -235,7 +235,7 @@ onBeforeUnmount(() => {
     <div class="timeline" ref="htmlDivTimeline">
       <div class="progress" ref="htmlDivProgress"></div>
     </div>
-    <div class="controls" style="padding-top:20px">
+    <div class="controls">
       <div class="play-container">
         <div :class="['toggle-play', audioIsPauseButton ? 'pause' : 'play']" ref="htmlDivTogglePlay"></div>
       </div>
