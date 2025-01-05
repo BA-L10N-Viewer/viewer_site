@@ -76,13 +76,13 @@ const setting = useSetting()
   <tr v-else>
     <template v-if="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
       <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'">
+        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'" class="scenario-dialogue">
           <DialogueCmdEntry :data-entry="data_dialog" />
         </td>
       </template>
     </template>
     <template v-else>
-      <td colspan="2">
+      <td colspan="2" class="scenario-dialogue">
         <DialogueCmdEntry :data-entry="data_dialog" />
       </td>
     </template>

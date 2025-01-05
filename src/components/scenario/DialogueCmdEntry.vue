@@ -11,6 +11,7 @@ import {
 import DialogueCmdEntryAudio from '@/components/scenario/cmd/DialogueCmdEntryAudio.vue'
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
+import { getScenarioPopupFilenamePath } from '@/tool/StoryTool'
 
 const props = defineProps({
   dataEntry: {
@@ -26,9 +27,9 @@ const catalogBgm = inject(symbolForCommonStoryExtBgmData)!
 
 const currSiteLang = useSetting().ui_lang
 
-function queryBgm(id: string): [CommonStoryExtBgmDataEntry | null, string] {
-  const catalogEntry = catalogBgm.value[id]
-  const i18nEntry = i18nBgm.value[currSiteLang][id]
+function queryBgm(id: number): [CommonStoryExtBgmDataEntry | null, string] {
+  const catalogEntry = catalogBgm.value[String(id)]
+  const i18nEntry = i18nBgm.value[currSiteLang][String(id)]
   if (catalogEntry && i18nEntry) {
     return [catalogEntry, i18nEntry]
   } else {
@@ -39,6 +40,35 @@ function queryBgm(id: string): [CommonStoryExtBgmDataEntry | null, string] {
     return [null, '']
   }
 }
+
+function queryBgmPath(id: number): string {
+  const catalogEntry = catalogBgm.value[String(id)]
+
+  if (catalogEntry) {
+    return catalogEntry.Path.split('/').slice(-1)[0].toLowerCase() + '.ogg'
+  } else {
+    return ''
+  }
+}
+
+function queryBgmLoopPara(id: number): [number, number] {
+  const catalogEntry = catalogBgm.value[String(id)]
+
+  if (catalogEntry) {
+    return [catalogEntry.LoopStartTime, catalogEntry.LoopEndTime]
+  } else {
+    return [0, 999999]
+  }
+}
+
+function queryBg(id: number): string {
+  const catalogEntry = catalogBg.value[id]
+  if (catalogEntry) {
+    return catalogEntry.BGFileName.split('/').slice(-1)[0].toLowerCase() + '.jpg'
+  } else {
+    return ''
+  }
+}
 </script>
 
 <template>
@@ -46,9 +76,32 @@ function queryBgm(id: string): [CommonStoryExtBgmDataEntry | null, string] {
     <DialogueCmdEntryAudio :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Id] || dataEntry.Payload.Id"
                            :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Id.toLowerCase()}.wav`"
                            :audio-loop-start="0"
-                           :audio-loop-end="0" />
+                           :audio-loop-end="999999" />
   </template>
-
+  <template v-else-if="dataEntry.Payload.Type === 'sound_popup'">
+    <img :src="getScenarioPopupFilenamePath(dataEntry.Payload.Data[1])"
+         class="momotalk-dialogue-img" />
+    <br />
+    <DialogueCmdEntryAudio :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[1]] || dataEntry.Payload.Data[1]"
+                           :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[1].toLowerCase()}.wav`"
+                           :audio-loop-start="0"
+                           :audio-loop-end="999999" />
+  </template>
+  <template v-else-if="dataEntry.Payload.Type === 'bg'">
+    <div style="text-align: center">
+      <img :src="`${getStaticCdnBasepath('static')}/ba/03_01_Background/${queryBg(dataEntry.Payload.Id)}`"
+           class="momotalk-dialogue-img" :title="queryBg(dataEntry.Payload.Id)" />
+      <br />
+    </div>
+  </template>
+  <template v-else-if="dataEntry.Payload.Type === 'bgm'">
+    <DialogueCmdEntryAudio :audio-display-name="queryBgm(dataEntry.Payload.Id)[1] || queryBgmPath(dataEntry.Payload.Id)"
+                           :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_BGM/${queryBgmPath(dataEntry.Payload.Id)}`"
+                           :audio-loop-start="queryBgmLoopPara(dataEntry.Payload.Id)[0]"
+                           :audio-loop-end="queryBgmLoopPara(dataEntry.Payload.Id)[1]"
+                           v-if="dataEntry.Payload.Id !== 999"/>
+    <p v-else><b>{{ $t('comp-scenario-dialogue-cmd-bgm-999') }}</b></p>
+  </template>
 </template>
 
 <style scoped>

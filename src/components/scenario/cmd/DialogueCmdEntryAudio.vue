@@ -18,6 +18,10 @@ const props = defineProps({
   audioLoopEnd: {
     type: Number,
     required: true
+  },
+  audioShouldLoop: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -35,7 +39,7 @@ const audioTotalTimeDisplay = ref('0:00')
 const audioCurrProgressBar = ref(0)
 */
 const audioIsPauseButton = ref(false)
-const audioShouldLoop = true
+const audioShouldLoop = props.audioShouldLoop
 
 const audioCurrTime = ref(0)
 const audioCurrTimeSetInterval = ref<number | null>(null)
