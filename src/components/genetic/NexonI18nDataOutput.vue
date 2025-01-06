@@ -4,6 +4,9 @@ import { i18nLangAll, i18nToUiLangAll, listOfPosOfSelectedLangForMobile } from '
 import type { NexonL10nData, SchaleDbL10nData } from '@/types/OutsourcedData'
 import { NexonLangMap } from '@/tool/Constant'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
+import { useSetting } from '@/stores/setting'
+
+const setting = useSetting()
 
 const props = defineProps({
   data: {
@@ -95,8 +98,11 @@ const dataLangProcessed = computed(() => {
                   display-mode="square_basket"
                   :content-original="data[i18nLangAll[langIdx]]"
                   :content-original-lang="i18nToUiLangAll[langIdx]"
-                  :content-translated="dataMt[i18nLangAll[langIdx]]" />
+                  :content-translated="setting.auto_i18n_showauto ? dataMt[i18nLangAll[langIdx]] : ''" />
               </span>
+              <ul v-show="dataMt[i18nLangAll[langIdx]] !== '' && !setting.auto_i18n_showauto" class="datasheet-data-ul">
+                <li :lang="setting.auto_i18n_lang"><span v-html="dataMt[i18nLangAll[langIdx]]" /></li>
+              </ul>
             </li>
           </template>
         </template>
@@ -106,11 +112,16 @@ const dataLangProcessed = computed(() => {
         <template v-for="(lang, idx) in dataLangProcessed" :key="idx">
           <li :lang="NexonLangMap[lang]">
             <span>
-              <DialogueTranslated
-                display-mode="square_basket"
-                :content-original="(data as any)[lang]"
-                :content-original-lang="NexonLangMap[lang]"
-                :content-translated="(dataMt as any)[lang]" />
+              <span>
+                <DialogueTranslated
+                  display-mode="square_basket"
+                  :content-original="data[i18nLangAll[langIdx]]"
+                  :content-original-lang="i18nToUiLangAll[langIdx]"
+                  :content-translated="!setting.auto_i18n_showauto ? dataMt[i18nLangAll[langIdx]] : ''" />
+              </span>
+              <ul v-show="dataMt[i18nLangAll[langIdx]] !== '' && !setting.auto_i18n_showauto" class="datasheet-data-ul">
+                <li :lang="setting.auto_i18n_lang"><span v-html="dataMt[i18nLangAll[langIdx]]" /></li>
+              </ul>
             </span>
           </li>
         </template>
@@ -135,5 +146,10 @@ li span {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.datasheet-data-ul {
+  margin: 0;
+  padding: 0 0 0 1em;
 }
 </style>
