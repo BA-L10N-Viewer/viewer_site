@@ -235,7 +235,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="audio-player">
+  <div class="audio-player" style="margin: 4px 4px;">
     <div class="timeline" ref="htmlDivTimeline">
       <div class="progress" ref="htmlDivProgress"></div>
     </div>
