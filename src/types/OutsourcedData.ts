@@ -56,7 +56,7 @@ export type CommonStoryDataDialog = {
   ShowTextColor: CommonStoryDataDialogTextColor;
 }
 export type CommonStoryDataCmdPayloadBg = {
-  Type: 'bg';
+  Type: 'bg' | 'spine_img';
   Id: number;
 }
 export type CommonStoryDataCmdPayloadBgm = {

@@ -484,7 +484,7 @@ async function loadScenarioData(storyId: string | number) {
   scenarioDataText.value = [] as CommonStoryDataDialog[]
   for (const entry of temp) {
     if (entry.DataType === 'cmd') {
-      if (entry.Payload.Type === 'bg') {
+      if (entry.Payload.Type === 'bg' || entry.Payload.Type === 'spine_img') {
         const currBg = DirectoryDataStoryExtFileBg.value[String(entry.Payload.Id)]
         if (currBg)
           scenarioDataRaw.value.push(entry)
