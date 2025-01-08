@@ -115,12 +115,12 @@ const dataLangProcessed = computed(() => {
               <span>
                 <DialogueTranslated
                   display-mode="square_basket"
-                  :content-original="data[i18nLangAll[langIdx]]"
-                  :content-original-lang="i18nToUiLangAll[langIdx]"
-                  :content-translated="!setting.auto_i18n_showauto ? dataMt[i18nLangAll[langIdx]] : ''" />
+                  :content-original="data[i18nLangAll[idx]]"
+                  :content-original-lang="i18nToUiLangAll[idx]"
+                  :content-translated="!setting.auto_i18n_showauto ? dataMt[i18nLangAll[idx]] : ''" />
               </span>
-              <ul v-show="dataMt[i18nLangAll[langIdx]] !== '' && !setting.auto_i18n_showauto" class="datasheet-data-ul">
-                <li :lang="setting.auto_i18n_lang"><span v-html="dataMt[i18nLangAll[langIdx]]" /></li>
+              <ul v-show="dataMt[i18nLangAll[idx]] !== '' && !setting.auto_i18n_showauto" class="datasheet-data-ul">
+                <li :lang="setting.auto_i18n_lang"><span v-html="dataMt[i18nLangAll[idx]]" /></li>
               </ul>
             </span>
           </li>
