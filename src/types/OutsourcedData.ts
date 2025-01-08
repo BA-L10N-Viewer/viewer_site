@@ -56,7 +56,7 @@ export type CommonStoryDataDialog = {
   ShowTextColor: CommonStoryDataDialogTextColor;
 }
 export type CommonStoryDataCmdPayloadBg = {
-  Type: 'bg' | 'spine_img';
+  Type: 'bg';
   Id: number;
 }
 export type CommonStoryDataCmdPayloadBgm = {
@@ -244,7 +244,7 @@ export type SchaleDbI18nDictData = {
 export type CommonStoryExtBgDataEntry = {
   Name: number;
   BGFileName: string;
-  BGType: 'Image' | 'BlurRT';
+  BGType: 'Image' | 'BlurRT' | 'SpineImage';
 }
 export type CommonStoryExtBgData = { [key: string]: CommonStoryExtBgDataEntry }
 export const symbolForCommonStoryExtBgData = Symbol('CommonStoryExtBgData') as InjectionKey<Ref<CommonStoryExtBgData>>
