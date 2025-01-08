@@ -138,7 +138,7 @@ const scenarioParentData = computed<ScenarioParentData>(() => {
   }
 })
 
-const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFiles>(
+const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>(
   createDictionaryWithDefault(
     SiteUiLang,
     () => {
@@ -146,7 +146,7 @@ const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFile
     }
   )
 )
-const DirectoryDataCommonI18nFileScenarioBgm = ref<DirectoryDataCommonI18nFiles>(
+const DirectoryDataCommonI18nFileScenarioBgm = ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>(
   createDictionaryWithDefault(SiteUiLang,
     () => {
       return {}
