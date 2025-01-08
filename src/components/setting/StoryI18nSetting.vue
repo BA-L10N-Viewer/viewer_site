@@ -29,6 +29,8 @@ const props = defineProps({
   }
 })
 
+const scenarioDisplayMode = ref(setting.scenario_display_mode)
+
 const ML_pinia = useI18nTlControl()
 
 function ML_update(idx: number) {
@@ -292,6 +294,17 @@ watch(
       />
     </div>
   </PvFluid>
+  <PvDivider />
+  <PvSelectButton
+    v-model="setting.scenario_display_mode"
+    :option-label="i => i18n.t(i.label)"
+    option-value="value"
+    :options="[{label: 'comp-setting-scenario-mode-0',
+                value: 0},
+               {label: 'comp-setting-scenario-mode-1',
+                value: 1}]"
+    :allow-empty="false" />
+  <p><b>{{ $t('comp-setting-scenario-mode-tip') }}</b></p>
 </template>
 
 <style scoped>

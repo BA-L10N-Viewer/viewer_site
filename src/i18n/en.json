@@ -186,6 +186,15 @@
   "comp-scenario-mmt-p-tip": "This story is related to a known Momotalk, and you can view that Momotalk in this page.",
   "comp-scenario-mmt-btn-show": "View Momotalk",
 
+  "comp-scenario-mode-switch-0": "Detailed Mode(cmd included)",
+  "comp-scenario-mode-switch-1": "Text-Only Mode",
+  "comp-scenario-mode-switch-tip": "Note: The pagination data for two modes is seperated and the mode switches will not affect the default setting (please set it in the setting dialog)",
+  "comp-scenario-mode-switch-data-tip": "Note: Due to the limition of scripts and automation, as well as the content progress differences between servers, the command part data is JP-based, and therefore, inconsistencies between JP and Global data may present.",
+
+  "comp-setting-scenario-mode-0": "Scenario View Default Detailed Mode(cmd)",
+  "comp-setting-scenario-mode-1": "Scenario View Default Text-Only Mode",
+  "comp-setting-scenario-mode-tip": "Note: Changes will take affect when you enter the scenario view again.",
+
   "btn-show-content": "Show Content",
 
   "comp-char-voice-costume-id": "Costume #",
