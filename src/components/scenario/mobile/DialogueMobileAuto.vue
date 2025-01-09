@@ -50,6 +50,10 @@ const props = defineProps({
   dialoguePopupFilename: {
     type: String,
     required: true
+  },
+  dialogueSoundFilename: {
+    type: String,
+    required: true
   }
 })
 </script>
@@ -62,6 +66,7 @@ const props = defineProps({
                         :dialogue-absolute-pos="dialogueAbsolutePos"
                         :dialogue-popup-filename="dialoguePopupFilename"
                         :entry_pos="entry_pos"
+                        :dialogue-sound-filename="dialogueSoundFilename"
                         v-if="dialogueDataType === 'speaker'" />
   <DialogueMobileOption :dialogue-selection-to-group="dialogueSelectionToGroup"
                         :dialogue-selection-group="dialogueSelectionGroup"
@@ -69,6 +74,7 @@ const props = defineProps({
                         :dialogue-text-color="dialogueTextColor"
                         :entry_pos="entry_pos"
                         :dialogue-absolute-pos="dialogueAbsolutePos"
+                        :dialogue-sound-filename="dialogueSoundFilename"
                         v-else-if="dialogueDataType === 'option'" />
   <DialogueMobileOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
                        :dialogue-selection-group="dialogueSelectionGroup" :dialogueContent="dialogueContent"

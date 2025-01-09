@@ -21,6 +21,8 @@ import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { i18nMobileLoopIdx } from '@/tool/Constant'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
+import DialogueCmdEntry from '@/components/scenario/DialogueCmdEntry.vue'
+import { symbolForScenarioUiDataDisplayType } from '@/tool/components/Scenario'
 
 const props = defineProps({
   dialogueCharacter: {
@@ -58,10 +60,15 @@ const props = defineProps({
   dialoguePopupFilename: {
     type: String,
     required: true
+  },
+  dialogueSoundFilename: {
+    type: String,
+    required: true
   }
 })
 
 let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
+const scenarioDisplayMode = inject(symbolForScenarioUiDataDisplayType)!
 </script>
 
 <template>
@@ -80,6 +87,9 @@ let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
     </template>
   </td>
   <td class="scenario-text scenario-dialogue">
+    <template v-if="dialogueSoundFilename !== '' && scenarioDisplayMode === 0">
+      <DialogueCmdEntry :data-entry="{ActualPos: -1, AbsolutePos: dialogueAbsolutePos, DataType: 'cmd', Payload: {Type: 'sound', Id: dialogueSoundFilename}}" />
+    </template>
     <template v-if="dialoguePopupFilename">
       <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
            class="momotalk-dialogue-img" />

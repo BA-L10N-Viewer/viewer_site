@@ -59,7 +59,8 @@ import {
   type ScenarioParentDataBond,
   type ScenarioParentDataEvent,
   type ScenarioParentDataMain,
-  type ScenarioRelatedStoryData
+  type ScenarioRelatedStoryData,
+  symbolForScenarioUiDataDisplayType
 } from '@/tool/components/Scenario'
 import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
 import {
@@ -161,6 +162,7 @@ provide(symbolForCommonStoryExtBgData, DirectoryDataStoryExtFileBg)
 provide(symbolForCommonStoryExtBgmData, DirectoryDataStoryExtFileBgm)
 provide(symbolForDirectoryDataCommonI18nFileScenarioSound, DirectoryDataCommonI18nFileScenarioSound)
 provide(symbolForDirectoryDataCommonI18nFileScenarioBgm, DirectoryDataCommonI18nFileScenarioBgm)
+provide(symbolForScenarioUiDataDisplayType, scenarioDisplayMode)
 
 // ------------------------------------------------------------
 // MMT

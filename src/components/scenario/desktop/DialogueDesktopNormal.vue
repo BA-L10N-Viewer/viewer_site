@@ -1,10 +1,12 @@
 <script setup lang="ts">
 /* speaker */
-import { defineProps } from 'vue'
+import { defineProps, inject } from 'vue'
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import DialogueIcon from '@/components/DialogueIcon.vue'
 import { getScenarioCharacterSmallPortraitPath, getScenarioPopupFilenamePath } from '@/tool/StoryTool'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
+import DialogueCmdEntry from '@/components/scenario/DialogueCmdEntry.vue'
+import { symbolForScenarioUiDataDisplayType } from '@/tool/components/Scenario'
 
 const props = defineProps({
   dialogueLang: {
@@ -50,8 +52,14 @@ const props = defineProps({
   dialoguePopupFilename: {
     type: String,
     required: true
+  },
+  dialogueSoundFilename: {
+    type: String,
+    required: true
   }
 })
+
+const scenarioDisplayMode = inject(symbolForScenarioUiDataDisplayType)!
 </script>
 
 <template>
@@ -62,6 +70,9 @@ const props = defineProps({
                                 :style="{'color': dialogueTextColor}" />
   </td>
   <td :lang="dialogueLang" class="scenario-text scenario-dialogue">
+    <template v-if="dialogueSoundFilename !== '' && scenarioDisplayMode === 0">
+      <DialogueCmdEntry :data-entry="{ActualPos: -1, AbsolutePos: dialogueAbsolutePos, DataType: 'cmd', Payload: {Type: 'sound', Id: dialogueSoundFilename}}" />
+    </template>
     <template v-if="dialoguePopupFilename">
       <img :src="getScenarioPopupFilenamePath(dialoguePopupFilename)"
            class="momotalk-dialogue-img" />
