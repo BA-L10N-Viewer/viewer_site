@@ -77,6 +77,16 @@
     max-width: 20vw
 }
 
+.scenario-bg-img {
+    max-width: 40vw;
+}
+
+@media only screen and (max-width: 800px) {
+    .scenario-bg-img {
+        max-width: 80vw;
+    }
+}
+
 .momotalk-dialogue-tr {
     display: table-row;
 }

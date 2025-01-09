@@ -80,7 +80,7 @@ function queryBg(id: number): string {
   </template>
   <template v-else-if="dataEntry.Payload.Type === 'sound_popup'">
     <img :src="getScenarioPopupFilenamePath(dataEntry.Payload.Data[1])"
-         class="momotalk-dialogue-img" />
+         class="scenario-bg-img" />
     <br />
     <DialogueCmdEntryAudio :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[1]] || dataEntry.Payload.Data[1]"
                            :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[1].toLowerCase()}.wav`"
@@ -90,7 +90,7 @@ function queryBg(id: number): string {
   <template v-else-if="dataEntry.Payload.Type === 'bg'">
     <div style="text-align: center">
       <img :src="`${getStaticCdnBasepath('static')}/ba/03_01_Background/${queryBg(dataEntry.Payload.Id)}`"
-           class="momotalk-dialogue-img" :title="queryBg(dataEntry.Payload.Id)" />
+           class="scenario-bg-img" :title="queryBg(dataEntry.Payload.Id)" />
       <br />
     </div>
   </template>
