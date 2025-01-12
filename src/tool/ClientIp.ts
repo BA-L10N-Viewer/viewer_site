@@ -73,6 +73,10 @@ export async function getIpCountryCode() {
 }
 
 export function getIpCountryCodeSync() {
+  if (document.location.hostname === 'ba-l10n-aws.cnfast.top') {
+    return 'CN'
+  }
+
   const data = getIpDetailSync()
   if (typeof data !== 'string') {
     return data['location']['country_code']
