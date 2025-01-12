@@ -1,0 +1,28 @@
+name: 'Type-check the code so i dont mess up'
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+  pull_request:
+
+concurrency:
+  group: 'type-check'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      # Node
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - name: Install npm Packages
+        run: npm ci
+      - name: Build the site
+        run: npm run type-check
