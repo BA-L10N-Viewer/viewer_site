@@ -208,8 +208,7 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
 }
 
 export function getScenarioPopupFilenamePath(filename: string): string {
-  const temp = String(filename)
-  if (temp.endsWith('.png'))
+  if (filename.endsWith('.png'))
     return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}`
   else
     return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}.png`

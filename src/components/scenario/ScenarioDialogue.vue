@@ -10,6 +10,7 @@ import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
+import DialogueCmdEntry from '@/components/scenario/DialogueCmdEntry.vue'
 
 // --------------------- 初始化 ---------------------
 const props = defineProps({
@@ -54,6 +55,7 @@ const setting = useSetting()
                                :dialogue-content-translated="ML_table[i18nLangAll[idx]].get(String(entry_pos))?.['dialogue'] || ''"
                                :dialogue-absolute-pos="data_dialog.AbsolutePos"
                                :dialogue-popup-filename="data_dialog.PopupFileName"
+                               :dialogue-sound-filename="data_dialog.Sound"
 
                                v-if="i18nLangAll[idx] as string !== 'null'" />
         </template>
@@ -69,17 +71,22 @@ const setting = useSetting()
                           :dialogue-text-color="data_dialog.ShowTextColor"
                           :dialogue-absolute-pos="data_dialog.AbsolutePos"
                           :dialogue-popup-filename="data_dialog.PopupFileName"
+                          :dialogue-sound-filename="data_dialog.Sound"
                           :entry_pos="entry_pos" />
     </template>
   </tr>
   <tr v-else>
     <template v-if="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
       <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'">{{ data_dialog.Payload.Type }}</td>
+        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'" class="scenario-dialogue">
+          <DialogueCmdEntry :data-entry="data_dialog" />
+        </td>
       </template>
     </template>
     <template v-else>
-      <td colspan="2">{{ data_dialog.Payload.Type }}</td>
+      <td colspan="2" class="scenario-dialogue">
+        <DialogueCmdEntry :data-entry="data_dialog" />
+      </td>
     </template>
   </tr>
 </template>

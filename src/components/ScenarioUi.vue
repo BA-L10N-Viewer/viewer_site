@@ -59,7 +59,8 @@ import {
   type ScenarioParentDataBond,
   type ScenarioParentDataEvent,
   type ScenarioParentDataMain,
-  type ScenarioRelatedStoryData
+  type ScenarioRelatedStoryData,
+  symbolForScenarioUiDataDisplayType
 } from '@/tool/components/Scenario'
 import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue'
 import {
@@ -72,6 +73,7 @@ import {
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useI18n } from 'vue-i18n'
 import PvInplace from 'primevue/inplace'
+import PvSelectButton from 'primevue/selectbutton'
 import MomotalkUi from '@/components/MomotalkUi.vue'
 import { createDictionaryWithDefault } from '@/tool/Tool'
 
@@ -138,7 +140,7 @@ const scenarioParentData = computed<ScenarioParentData>(() => {
   }
 })
 
-const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFiles>(
+const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>(
   createDictionaryWithDefault(
     SiteUiLang,
     () => {
@@ -146,7 +148,7 @@ const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFile
     }
   )
 )
-const DirectoryDataCommonI18nFileScenarioBgm = ref<DirectoryDataCommonI18nFiles>(
+const DirectoryDataCommonI18nFileScenarioBgm = ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>(
   createDictionaryWithDefault(SiteUiLang,
     () => {
       return {}
@@ -160,6 +162,7 @@ provide(symbolForCommonStoryExtBgData, DirectoryDataStoryExtFileBg)
 provide(symbolForCommonStoryExtBgmData, DirectoryDataStoryExtFileBgm)
 provide(symbolForDirectoryDataCommonI18nFileScenarioSound, DirectoryDataCommonI18nFileScenarioSound)
 provide(symbolForDirectoryDataCommonI18nFileScenarioBgm, DirectoryDataCommonI18nFileScenarioBgm)
+provide(symbolForScenarioUiDataDisplayType, scenarioDisplayMode)
 
 // ------------------------------------------------------------
 // MMT
@@ -486,7 +489,7 @@ async function loadScenarioData(storyId: string | number) {
     if (entry.DataType === 'cmd') {
       if (entry.Payload.Type === 'bg') {
         const currBg = DirectoryDataStoryExtFileBg.value[String(entry.Payload.Id)]
-        if (currBg)
+        if (currBg && (currBg.BGType === 'Image' || currBg.BGType === 'SpineImage'))
           scenarioDataRaw.value.push(entry)
       } else {
         scenarioDataRaw.value.push(entry)
@@ -549,6 +552,7 @@ onBeforeRouteUpdate(async (to, from) => {
   const mmtCharIdNew = scenarioID.value.length === 7 ? Number(scenarioID.value.slice(0, 5)) : -1
 
   isAllDataLoaded.value = false
+  scenarioDisplayMode.value = setting.scenario_display_mode
   await Promise.allSettled([
     loadScenarioData(scenarioID.value),
     (async () => {
@@ -610,6 +614,19 @@ onBeforeRouteUpdate(async (to, from) => {
       </PvInplace>
       <PvDivider />
     </template>
+
+    <PvSelectButton
+      v-model="scenarioDisplayMode"
+      :option-label="i => i18n.t(i.label)"
+      option-value="value"
+      :options="[{label: 'comp-scenario-mode-switch-0',
+                  value: 0},
+                {label: 'comp-scenario-mode-switch-1',
+                  value: 1}]"
+      :allow-empty="false" />
+    <p><b>{{ $t('comp-scenario-mode-switch-tip') }}</b></p>
+    <p><b style="color: red;">{{ $t('comp-scenario-mode-switch-data-tip') }}</b></p>
+    <PvDivider />
 
     <ScenarioRelatedStory :prev-id="scenarioRelatedStoryData.Prev.Id"
                           :prev-name="scenarioRelatedStoryData.Prev.Name"

@@ -179,11 +179,21 @@
 
   "comp-scenario-dialogue-info-btn-baio-popup": "前往碧蓝档案剧情站的对应故事",
   "comp-scenario-dialogue-info-btn-baio-not-supported": "blue-archive.io (碧蓝档案剧情站) 暂未支持该类型故事！",
+  "comp-scenario-dialogue-cmd-bgm-999": "背景音乐已静音",
   "comp-scenario-related-btn-prev": "上一个",
   "comp-scenario-related-btn-next": "下一个",
 
   "comp-scenario-mmt-p-tip": "该故事与一已知Momotalk故事相关联，您可在此页面直接查看。",
   "comp-scenario-mmt-btn-show": "查看Momotalk",
+
+  "comp-scenario-mode-switch-0": "极详细模式（含命令）",
+  "comp-scenario-mode-switch-1": "纯文本模式",
+  "comp-scenario-mode-switch-tip": "注：两个模式的分页进度互不关联，且此处更改的模式不会保存到默认设置（请在设置对话框中单独设置）",
+  "comp-scenario-mode-switch-data-tip": "注意：由于脚本自动化的限制及服务器进度差异，故事命令部分数据均基于日服数据，因此可能与国际服部分数据不同或脱节",
+
+  "comp-setting-scenario-mode-0": "故事页默认极详细（含命令）",
+  "comp-setting-scenario-mode-1": "故事页默认纯文本",
+  "comp-setting-scenario-mode-tip": "注：修改后需重新进入故事页才可生效",
 
   "btn-show-content": "显示内容",
 

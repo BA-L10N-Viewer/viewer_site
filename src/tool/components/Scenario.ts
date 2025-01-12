@@ -1,6 +1,8 @@
 import type { NexonL10nData } from '@/types/OutsourcedData'
+import type { InjectionKey, Ref } from 'vue'
 
 export type ScenarioDataStatusType = 'released' | 'unreleased' | 'unknown'
+export const symbolForScenarioUiDataDisplayType = Symbol('scenario_ui_display_type') as InjectionKey<Ref<number>>
 
 /* PARENT DATA */
 export type ScenarioParentDataEvent = {

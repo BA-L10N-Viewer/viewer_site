@@ -1,8 +1,10 @@
 <script setup lang="ts">
 /* option */
-import { defineProps } from 'vue'
+import { defineProps, inject } from 'vue'
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
+import DialogueCmdEntry from '@/components/scenario/DialogueCmdEntry.vue'
+import { symbolForScenarioUiDataDisplayType } from '@/tool/components/Scenario'
 
 const props = defineProps({
   dialogueLang: {
@@ -32,13 +34,22 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialogueSoundFilename: {
+    type: String,
+    required: true
   }
 })
+
+const scenarioDisplayMode = inject(symbolForScenarioUiDataDisplayType)!
 </script>
 
 
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2" :lang="dialogueLang">
+    <template v-if="dialogueSoundFilename !== '' && scenarioDisplayMode === 0">
+      <DialogueCmdEntry :data-entry="{ActualPos: -1, AbsolutePos: dialogueAbsolutePos, DataType: 'cmd', Payload: {Type: 'sound', Id: dialogueSoundFilename}}" />
+    </template>
     <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent" :content-original-lang="dialogueLang"
                                 :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
     <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"

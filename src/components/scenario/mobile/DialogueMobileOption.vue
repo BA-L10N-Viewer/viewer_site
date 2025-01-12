@@ -14,6 +14,8 @@ import type { CommonStoryDataDialogTextColor, NexonL10nData } from '@/types/Outs
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
+import DialogueCmdEntry from '@/components/scenario/DialogueCmdEntry.vue'
+import { symbolForScenarioUiDataDisplayType } from '@/tool/components/Scenario'
 
 const props = defineProps({
   dialogueContent: {
@@ -39,14 +41,22 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialogueSoundFilename: {
+    type: String,
+    required: true
   }
 })
 
 let ML_table: Ref<MlForScenario> = inject(symbolForScenarioMtData)!
+const scenarioDisplayMode = inject(symbolForScenarioUiDataDisplayType)!
 </script>
 
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2">
+    <template v-if="dialogueSoundFilename !== '' && scenarioDisplayMode === 0">
+      <DialogueCmdEntry :data-entry="{ActualPos: -1, AbsolutePos: dialogueAbsolutePos, DataType: 'cmd', Payload: {Type: 'sound', Id: dialogueSoundFilename}}" />
+    </template>
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="i18nLangAll[langIdx] as string !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">
