@@ -35,6 +35,11 @@ const router = createRouter({
       component: () => import('@/views/WhyBalvView.vue')
     },
     {
+      path: '/misakiii',
+      name: 'misakiii',
+      component: () => import('@/views/MisakiiiView.vue')
+    },
+    {
       path: '/momotalk/:charId',
       name: 'momotalk',
       component: () => import('../views/MomotalkView.vue'),
