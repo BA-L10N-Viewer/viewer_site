@@ -47,6 +47,7 @@ import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { createDictionaryWithDefault } from '@/tool/Tool'
 import { getTranslation } from '@/tool/translate/MtDispatcher'
+import PvMessage from 'primevue/message'
 
 const selectType = ref('')
 const i18n = useI18n()
@@ -414,23 +415,23 @@ const dataMtControl = {
 }
 
 const dataMtFunc = {
-  _getDataList(length=0){
+  _getDataList(length = 0) {
     const temp: ChapterMetadataMt[] = []
     for (let i = 0; i < length; i++)
       temp.push(dataMt.GetDefaultData())
     return temp
   },
-  resetEventData(listLength=0){
+  resetEventData(listLength = 0) {
     dataMt.eventMetadata.value = dataMt.GetDefaultData()
     dataMt.eventStory.value = this._getDataList(listLength)
   },
-  resetBondData(listLength=0){
+  resetBondData(listLength = 0) {
     dataMt.bondStory.value = this._getDataList(listLength)
   },
-  resetMainVolume(){
+  resetMainVolume() {
     dataMt.mainVolumeMetadata.value = dataMt.GetDefaultData()
   },
-  resetMainChapter(listLength=0){
+  resetMainChapter(listLength = 0) {
     dataMt.mainChapterMetadata.value = dataMt.GetDefaultData()
     dataMt.mainStory.value = this._getDataList(listLength)
   }
@@ -455,7 +456,7 @@ function clearMtData(baselang: NexonL10nDataLangOfUi) {
 
 // 更新机翻数据
 async function updateMtData(baselang: NexonL10nDataLangOfUi) {
-  if (baselang === 'null') return 
+  if (baselang === 'null') return
   dataMtControl.inProgress = ref(false)
   clearMtData(baselang)
 
@@ -467,11 +468,11 @@ async function updateMtData(baselang: NexonL10nDataLangOfUi) {
     oriName: NexonL10nData,
     oriDesc: NexonL10nData,
     target: ChapterMetadataMt) => {
-      const inner = async () => {
-        target.name[baselang] = await getTranslation(currMtService, oriName[baselang], actualMtLang)
-        target.desc[baselang] = await getTranslation(currMtService, oriDesc[baselang], actualMtLang)
-      }
-      return inner
+    const inner = async () => {
+      target.name[baselang] = await getTranslation(currMtService, oriName[baselang], actualMtLang)
+      target.desc[baselang] = await getTranslation(currMtService, oriDesc[baselang], actualMtLang)
+    }
+    return inner
   }
 
   if (selectType.value === 'event' && selectEventName.value !== '') {
@@ -488,20 +489,20 @@ async function updateMtData(baselang: NexonL10nDataLangOfUi) {
     if (currStory)
       for (const [idx, entry] of currStory.entries())
         asyncPool.addTask(updateNameDescTranslation(entry.data[0], entry.data[1], dataMt.bondStory.value[idx]))
-  } else if (selectType.value !== ''){
-    if (selectType.value === 'main' && selectMainVolume.value !== ''){
+  } else if (selectType.value !== '') {
+    if (selectType.value === 'main' && selectMainVolume.value !== '') {
       const MD = selectMainVolumeMetadata.value
       if (MD)
         asyncPool.addTask(updateNameDescTranslation(MD.name, MD.desc, dataMt.mainVolumeMetadata.value))
     }
-    if (selectMainChapter.value !== ''){
+    if (selectMainChapter.value !== '') {
       const MD = selectMainChapterMetadata.value
       if (MD)
         asyncPool.addTask(updateNameDescTranslation(MD.name, MD.desc, dataMt.mainChapterMetadata.value))
       const story = dataSelectMainCurrStory.value
       for (const [idx, entry] of story.entries())
         asyncPool.addTask(updateNameDescTranslation(entry.name, entry.desc,
-                                                    dataMt.mainStory.value[idx]))
+          dataMt.mainStory.value[idx]))
     }
   }
   await asyncPool.runAll(dataMtControl.pinia.updateProgress)
@@ -512,16 +513,16 @@ async function updateMtData(baselang: NexonL10nDataLangOfUi) {
 watch(
   () => [selectEventName.value, selectBondChar.value],
   ([n1, n2], oldValues) => {
-    const [o1, o2] = oldValues || ['', ''];
-    if (n1 === '') dataMtFunc.resetEventData();
+    const [o1, o2] = oldValues || ['', '']
+    if (n1 === '') dataMtFunc.resetEventData()
     else if (n1 !== o1 && n1 !== '') {
-      const currEvent = dataSelectEventStory.get(n1);
-      if (currEvent) dataMtFunc.resetEventData(currEvent.length);
+      const currEvent = dataSelectEventStory.get(n1)
+      if (currEvent) dataMtFunc.resetEventData(currEvent.length)
     }
-    if (n2 === '') dataMtFunc.resetBondData();
+    if (n2 === '') dataMtFunc.resetBondData()
     else if (n2 !== o2 && n2 !== '') {
-      const currChar = dataSelectMmt.get(n2);
-      if (currChar) dataMtFunc.resetBondData(currChar.length);
+      const currChar = dataSelectMmt.get(n2)
+      if (currChar) dataMtFunc.resetBondData(currChar.length)
     }
   },
   { immediate: true }
@@ -529,7 +530,7 @@ watch(
 
 // Pinia状态watcher
 watch(mtI18nLangStats,
-  async(newValue) => {
+  async (newValue) => {
     await mtPiniaWatchCallback(newValue,
       updateMtData, clearMtData,
       dataMtControl.pinia.setStatusToComplete
@@ -673,16 +674,27 @@ watch(
                   optionValue="value"
         />
       </PvFluid>
-      <PvFluid class="pv-fluid" v-else-if="selectType === 'bond'">
-        <span class="search-select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
-        <PvSelect v-model="selectBondChar" size="small" filter
-                  :placeholder="i18n.t('comp-search-select-placeholder')"
-                  class="search-select-pv-select"
+      <template v-else-if="selectType === 'bond'">
+        <PvFluid class="pv-fluid">
+          <span class="search-select-span-label">{{ $t('comp-search-scenario-select-3') }}</span>
+          <PvSelect v-model="selectBondChar" size="small" filter
+                    :placeholder="i18n.t('comp-search-select-placeholder')"
+                    class="search-select-pv-select"
 
-                  :options="dataSelectCharIndex"
-                  optionLabel="label"
-                  optionValue="value" />
-      </PvFluid>
+                    :options="dataSelectCharIndex"
+                    optionLabel="label"
+                    optionValue="value" />
+        </PvFluid>
+
+        <template v-if="selectBondChar === '10041'">
+          <div class="pv-fluid-spacing"></div>
+          <!-- REMINDED: INVASIVE CODE INSERTION -->
+          <PvMessage severity="info" icon="pi pi-external-link">
+            <span>Yay!&nbsp;<RouterLink to="/misakiii"><span style="text-decoration-line: underline">Misakiii!</span></RouterLink>
+            </span>
+          </PvMessage>
+        </template>
+      </template>
       <template v-else-if="selectType === 'main'">
         <PvFluid class="pv-fluid">
           <span class="search-select-span-label">{{ $t('comp-search-scenario-select-4') }}</span>
@@ -724,7 +736,8 @@ watch(
     <div v-if="selectType === 'event'">
       <div v-loading="!dataSelectEventLoaded" :key="uiLang">
         <h2>{{ $t('comp-search-scenario-result') }}</h2>
-        <ScenarioSearchChapterMetadata :data="dataSelectEventMetadata.get(selectEventName)!" :data-mt="dataMt.eventMetadata.value"
+        <ScenarioSearchChapterMetadata :data="dataSelectEventMetadata.get(selectEventName)!"
+                                       :data-mt="dataMt.eventMetadata.value"
                                        v-if="selectEventName !== ''" />
         <div :key="uiLang + '_' + selectEventName" class="search-event">
           <ScenarioSearchEntryEvent :data_no="idx + 1" :data="entry" :data-mt="dataMt.eventStory.value[idx]"
