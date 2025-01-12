@@ -22,6 +22,22 @@ const props = defineProps({
   audioShouldLoop: {
     type: Boolean,
     default: true
+  },
+  playerIsPauseButton: {
+    type: Boolean,
+    default: false
+  },
+  playerNoProgress: {
+    type: Boolean,
+    default: false
+  },
+  playerNoTime: {
+    type: Boolean,
+    default: false
+  },
+  playerNoVolume: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -38,7 +54,7 @@ const audioCurrTimeDisplay = ref('0:00')
 const audioTotalTimeDisplay = ref('0:00')
 const audioCurrProgressBar = ref(0)
 */
-const audioIsPauseButton = ref(false)
+const audioIsPauseButton = ref(props.playerIsPauseButton)
 const audioShouldLoop = props.audioShouldLoop
 
 const audioCurrTime = ref(0)
@@ -225,7 +241,11 @@ function audioInit() {
 }
 
 onMounted(() => {
-  audioInit()
+  if (audioDataSrc !== '')
+    audioInit()
+  else {
+    htmlDivCurrent.value!.innerHTML = 'N/A'
+  }
 })
 
 onBeforeUnmount(() => {

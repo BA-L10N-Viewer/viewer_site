@@ -12,6 +12,7 @@ import DialogueCmdEntryAudio from '@/components/scenario/cmd/DialogueCmdEntryAud
 import { useSetting } from '@/stores/setting'
 import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 import { getScenarioPopupFilenamePath } from '@/tool/StoryTool'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   dataEntry: {
@@ -19,6 +20,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const i18n = useI18n()
 
 const i18nBgm = inject(symbolForDirectoryDataCommonI18nFileScenarioBgm)!
 const i18nSound = inject(symbolForDirectoryDataCommonI18nFileScenarioSound)!
@@ -76,16 +79,18 @@ function queryBg(id: number): string {
     <DialogueCmdEntryAudio :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Id] || dataEntry.Payload.Id"
                            :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Id.toLowerCase()}.wav`"
                            :audio-loop-start="0"
-                           :audio-loop-end="999999" />
+                           :audio-loop-end="999999"
+                           :audio-should-loop="false" />
   </template>
   <template v-else-if="dataEntry.Payload.Type === 'sound_popup'">
     <img :src="getScenarioPopupFilenamePath(dataEntry.Payload.Data[1])"
          class="scenario-bg-img" />
     <br />
-    <DialogueCmdEntryAudio :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[1]] || dataEntry.Payload.Data[1]"
-                           :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[1].toLowerCase()}.wav`"
-                           :audio-loop-start="0"
-                           :audio-loop-end="999999" />
+    <DialogueCmdEntryAudio
+      :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[1]] || dataEntry.Payload.Data[1]"
+      :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[1].toLowerCase()}.wav`"
+      :audio-loop-start="0"
+      :audio-loop-end="999999" />
   </template>
   <template v-else-if="dataEntry.Payload.Type === 'bg'">
     <div style="text-align: center">
@@ -99,8 +104,12 @@ function queryBg(id: number): string {
                            :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_BGM/${queryBgmPath(dataEntry.Payload.Id)}`"
                            :audio-loop-start="queryBgmLoopPara(dataEntry.Payload.Id)[0]"
                            :audio-loop-end="queryBgmLoopPara(dataEntry.Payload.Id)[1]"
-                           v-if="dataEntry.Payload.Id !== 999"/>
-    <p v-else><b>{{ $t('comp-scenario-dialogue-cmd-bgm-999') }}</b></p>
+                           v-if="dataEntry.Payload.Id !== 999" />
+    <DialogueCmdEntryAudio :audio-loop-end="0"
+                           :audio-loop-start="0"
+                           :audio-display-name="i18n.t('comp-scenario-dialogue-cmd-bgm-999')"
+                           audio-src=""
+                           v-else />
   </template>
 </template>
 
