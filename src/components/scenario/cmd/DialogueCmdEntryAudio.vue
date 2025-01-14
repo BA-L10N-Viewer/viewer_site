@@ -255,22 +255,22 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="audio-player" style="margin: 4px 4px;">
-    <div class="timeline" ref="htmlDivTimeline">
+  <div class="audio-player" :style="{margin: '4px 4px', 'padding-top': playerNoProgress ? '20px' : ''}">
+    <div class="timeline" ref="htmlDivTimeline" v-show="!playerNoProgress">
       <div class="progress" ref="htmlDivProgress"></div>
     </div>
     <div class="controls">
       <div class="play-container">
         <div :class="['toggle-play', audioIsPauseButton ? 'pause' : 'play']" ref="htmlDivTogglePlay"></div>
       </div>
-      <div class="time" ref="htmlDivTime">
+      <div class="time" ref="htmlDivTime" v-show="!playerNoTime">
         <div class="current" ref="htmlDivCurrent">Loading...</div>
         <div class="divider" ref="htmlDivDivider"></div>
         <div class="length" ref="htmlDivLength"></div>
       </div>
       <div class="name">{{ audioNameDisplay }}
       </div>
-      <div class="volume-container">
+      <div class="volume-container" v-show="!playerNoVolume">
         <div class="volume-button" ref="htmlDivVolumeButton">
           <div class="volume icon-volume-medium" ref="htmlDivVolume"></div>
         </div>
