@@ -286,7 +286,7 @@ onBeforeUnmount(() => {
 .audio-player {
   height: 50px;
   width: 100%;
-  max-width: 600px;
+  max-width: 80vw;
   background: #444;
   border-radius: 5px;
   border: 1px solid #444;

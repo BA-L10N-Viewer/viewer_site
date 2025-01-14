@@ -6,7 +6,7 @@ import { getNexonL10nData } from '@/tool/StoryTool'
 import DialogueDesktopAuto from '@/components/scenario/desktop/DialogueDesktopAuto.vue'
 import DialogueMobileAuto from '@/components/scenario/mobile/DialogueMobileAuto.vue'
 import type { CommonStoryDataEntry, IndexScenarioCharacterDataEntry } from '@/types/OutsourcedData'
-import { i18nLangAll, i18nToUiLangAll } from '@/tool/ConstantComputed'
+import { i18nLangAll, i18nToUiLangAll, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
 import { useSetting } from '@/stores/setting'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
@@ -77,11 +77,9 @@ const setting = useSetting()
   </tr>
   <tr v-else>
     <template v-if="(screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile) && ML_table">
-      <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-        <td colspan="2" v-if="i18nLangAll[idx] as string !== 'null'" class="scenario-dialogue">
-          <DialogueCmdEntry :data-entry="data_dialog" />
-        </td>
-      </template>
+      <td :colspan="numberOfSelectedLangForDesktop * 2" class="scenario-dialogue">
+        <DialogueCmdEntry :data-entry="data_dialog" />
+      </td>
     </template>
     <template v-else>
       <td colspan="2" class="scenario-dialogue">
