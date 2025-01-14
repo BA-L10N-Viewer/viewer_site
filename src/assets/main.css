@@ -36,8 +36,7 @@
 }
 
 .momotalk-table thead th, .momotalk-table td {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding: 8px;
 }
 
 .momotalk-table > thead {
