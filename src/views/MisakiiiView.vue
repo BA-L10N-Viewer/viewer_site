@@ -24,7 +24,7 @@ onMounted(
     watch(
       () => setting.ui_lang,
       () => {
-        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['about']))
+        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['misakiii']))
       },
       { immediate: true }
     )

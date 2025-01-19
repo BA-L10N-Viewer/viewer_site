@@ -12,8 +12,9 @@ export type AppPageCategory =
   | 'whybalv'
   | 'search_advanced'
   | 'search_char'
+  | 'misakiii'
 
-export const AppPageCategory = ['home', 'faq', 'about', 'scenario', 'momotalk', 'voice', 'profile', 'whybalv', 'search_advanced', 'search_char']
+export const AppPageCategory = ['home', 'faq', 'about', 'scenario', 'momotalk', 'voice', 'profile', 'whybalv', 'search_advanced', 'search_char', 'misakiii']
 
 export const AppPageCategoryToI18nCode: Record<AppPageCategory, string> = {
   'home': 'app-title-full-home',
@@ -25,7 +26,8 @@ export const AppPageCategoryToI18nCode: Record<AppPageCategory, string> = {
   'profile': 'app-title-prefix-profile',
   'whybalv': 'app-title-full-whybalv',
   'search_advanced': 'app-title-full-search-advanced',
-  'search_char': 'app-title-full-search-char'
+  'search_char': 'app-title-full-search-char',
+  'misakiii': 'app-title-full-misakiii',
 }
 
 export function getAppPageTitle<T extends (NexonL10nData | SchaleDbL10nData)>(
