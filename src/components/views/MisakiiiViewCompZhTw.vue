@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PvMessage from 'primevue/message'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 </script>
 
 <template>
@@ -11,7 +12,13 @@ import PvMessage from 'primevue/message'
   <PvMessage severity="secondary" style="margin-top: 1em">
     <span>如未註明，否則本版翻譯中使用的人、地名翻譯使用日服社群版翻譯。</span>
   </PvMessage>
-  <p>哇，真沒想到你居然真的會好奇到願意點開那個連結。那既然你已經在這了，也許你可以坐和放寬一下，聽我瞎雞兒扯一點東西，然後再繼續工作吧？當然了，你也可以隨時返回到上一頁繼續。</p><br/>
+  <PvMessage severity="error" style="margin-top: 1em">
+    <span>如未註明，否則本文中談論的是<RouterLink to="/character/10041">這個美咲</RouterLink>，不是<RouterLink to="/character/10080">那個“美咲”</RouterLink>。</span>
+  </PvMessage>
+  <br />
+  <CharacterSheet :is-mmt="false" char-id="10041" />
+  <p>哇，真沒想到你居然真的會好奇到願意點開那個連結。那既然你已經在這了，也許你可以坐和放寬一下，聽我瞎雞兒扯一點東西，然後再繼續工作吧？當然了，你也可以隨時返回到上一頁繼續。</p>
+  <br />
   <p style="font-size: 1.1em"><i>致我摯愛的少女，阿里烏斯小隊的<b>戒野美咲</b></i></p>
   <p>至今我都可以清晰記起第一次遇見美咲的情景。那會還是《伊甸條約》尚未簽訂的時候，也是整個小隊首次出場之時。我對她的第一印象除了“性情憂鬱”以外便無太多，因為這樣的角色確實不算少見——但這倒也不是說我就對她之後試圖跳橋自殺一事有所心理準備。</p>
   <p>頗為可惜的是，當時的我其實並未看出美咲的獨特魅力，也並未意識到我與她在個人經歷上的內在聯絡（儘管原因大相徑庭）。畢竟，BA這遊戲並不是以黑暗苦難的故事為主，而且像優香、日奈、未花這樣的高人氣角色也確實存在，於是大家自然就更沒有理由去喜歡那些人氣不高的角色（例如鈴美），更別提像美咲這種還陰陰鬱鬱的角色了。</p>

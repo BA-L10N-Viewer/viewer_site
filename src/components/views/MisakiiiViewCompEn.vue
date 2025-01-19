@@ -1,10 +1,17 @@
 <script setup lang="ts">
-
+import PvMessage from 'primevue/message'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 </script>
 
 <template>
   <h1 class="view-h1">Misakiii!</h1>
+  <PvMessage severity="error">
+    <span>Unless specified, we're talking about <RouterLink to="/character/10041">this Misaki</RouterLink>, not <RouterLink to="/character/10080">that Misaki</RouterLink>.</span>
+  </PvMessage>
+  <br />
+  <CharacterSheet :is-mmt="false" char-id="10041" />
   <p>Oh wow, wasn't really expecting that you'd be actually curious enough to click on that link. Now that you're here, maybe you can take a rest and hear me rambling for a while before continuing your journey? Of course, you can go back ay any time if you want.</p>
+  <br />
   <p style="font-size: 1.1em"><i>To my beloved girl, <b>Imashino Misaki</b> of the Arius Squad. You always have my back.</i></p>
   <p>The first time I encountered Misaki, as far as I can tell, will lead us back to the conflicts of the Eden Treaty, when the whole squad was introduced for the first time as well. Being "depressed" and "low-spirited" would be my first impression on her, but that's not saying I was well prepared for her attempted suicide on that bridge later in the story.</p>
   <p>Much to my regret however, I didn't really see the her unique charm as a character, and wasn't really able to recognize the internal <i>connections</i> in terms of personal stories (albeit for very different reasons.) After all, Blue Archive isn't a game where dark, cruel stories are served as the main dishes (and even that's actually the case, it'd certainly be a good ending for each student), and in a world where exceptionally charming characters like Yuuka, Hina, Mika, etc. exist, it even make it harder for people to choose characters much less popular, not to mention a groomy one like Misaki.</p>

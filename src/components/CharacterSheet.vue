@@ -27,7 +27,6 @@ const props = defineProps({
   }
 })
 
-const route = useRoute()
 const setting = useSetting()
 const isLoading = ref(true)
 

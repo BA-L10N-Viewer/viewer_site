@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PvMessage from 'primevue/message'
+import CharacterSheet from '@/components/CharacterSheet.vue'
 </script>
 
 <template>
@@ -11,6 +12,11 @@ import PvMessage from 'primevue/message'
   <PvMessage severity="secondary" style="margin-top: 1em">
     <span>如未注明，否则本版翻译中使用的人、地名翻译使用日服社区版翻译。</span>
   </PvMessage>
+  <PvMessage severity="error" style="margin-top: 1em">
+    <span>如未注明，否则本文中谈论的是<RouterLink to="/character/10041">这个美咲</RouterLink>，不是<RouterLink to="/character/10080">那个“美咲”</RouterLink>。</span>
+  </PvMessage>
+  <br />
+  <CharacterSheet :is-mmt="false" char-id="10041" />
   <p>哇，真没想到你居然真的会好奇到愿意点开那个链接。那既然你已经在这了，也许你可以坐和放宽一下，听我瞎鸡儿扯一点东西，然后再继续工作吧？当然了，你也可以随时返回到上一页继续。</p><br/>
   <p style="font-size: 1.1em"><i>致我挚爱的少女，阿里乌斯小队的<b>戒野美咲</b></i></p>
   <p>至今我都可以清晰记起第一次遇见美咲的情景。那会还是《伊甸条约》尚未签订的时候，也是整个小队首次出场之时。我对她的第一印象除了“性情忧郁”以外便无太多，因为这样的角色确实不算少见——但这倒也不是说我就对她之后试图跳桥自杀一事有所心理准备。</p>
