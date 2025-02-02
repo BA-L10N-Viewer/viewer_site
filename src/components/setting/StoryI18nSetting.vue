@@ -42,14 +42,14 @@ function ML_clear(idx: number) {
   ML_pinia.setStatusClear(`i18n_l${idx}`)
 }
 
-const AUTO_TRANSLATE = true
-const AUTO_TRANSLATE_IN_PROGRESS = ref(0)
-const AUTO_TRANSLATE_PROGRESS = ref<MlProgessInfo>({ completed: -1, total: -1 })
+const AUTO_TRANSLATE_PROGRESS = ref<MlProgessInfo>(ML_pinia.progress)
 const AUTO_TRANSLATE_PROGRESS_PERCENTAGE = computed(() => {
   const progress = AUTO_TRANSLATE_PROGRESS.value
   const percentage = progress.completed / progress.total * 100
   return parseFloat(percentage.toFixed(2))
 })
+
+const AUTO_TRANSLATE_IN_PROGRESS = ref(AUTO_TRANSLATE_PROGRESS.value.completed != AUTO_TRANSLATE_PROGRESS.value.total ? 1 : 0)
 
 watch(
   () => [ML_pinia.i18n_l1, ML_pinia.i18n_l2, ML_pinia.i18n_l3, ML_pinia.i18n_l4, ML_pinia.i18n_l5],
@@ -68,7 +68,8 @@ watch(
   ML_pinia.progress,
   (newValue) => {
     AUTO_TRANSLATE_PROGRESS.value = newValue
-  }
+  },
+  { immediate: true }
 )
 </script>
 
