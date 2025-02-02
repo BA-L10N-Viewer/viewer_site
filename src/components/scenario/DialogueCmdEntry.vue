@@ -87,8 +87,8 @@ function queryBg(id: number): string {
         class="scenario-bg-img" />
     <br />
     <DialogueCmdEntryAudio
-      :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[1]] || dataEntry.Payload.Data[1]"
-      :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[1].toLowerCase()}.wav`"
+      :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[0]] || dataEntry.Payload.Data[0]"
+      :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[0].toLowerCase()}.wav`"
       :audio-loop-start="0"
       :audio-loop-end="999999" />
   </template>
