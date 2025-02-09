@@ -41,6 +41,8 @@ const props = defineProps({
   }
 })
 
+const howler = ref<null | Howl>(null)
+
 const audioNameDisplay = props.audioDisplayName
 const audioDataSrc = props.audioSrc
 
@@ -236,14 +238,17 @@ function audioInit() {
     playButton.parentElement!.addEventListener('click', function() {
       howler.pause()
     })
-    return
+    return {howler}
   }
+
+  return {howler}
 }
 
 onMounted(() => {
-  if (audioDataSrc !== '')
-    audioInit()
-  else {
+  if (audioDataSrc !== '') {
+    const temp = audioInit()
+    howler.value = temp.howler
+  } else {
     htmlDivCurrent.value!.innerHTML = 'N/A'
   }
 })
@@ -251,6 +256,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (audioCurrTimeSetInterval.value)
     clearInterval(audioCurrTimeSetInterval.value)
+  if (howler.value) {
+    howler.value.stop()
+    howler.value = null
+  }
 })
 </script>
 
