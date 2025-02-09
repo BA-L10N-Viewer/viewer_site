@@ -669,17 +669,30 @@ onBeforeRouteUpdate(async (to, from) => {
     </table>
 
     <br />
-    <PvPaginator
+    <PvPaginator v-show="scenarioDisplayMode === 0"
       :rows="setting.scenario_pagination_perPage"
-      :total-records="pagination_length_curr"
+      :total-records="pagination_length[0]"
       :rowsPerPageOptions="paginationScenarioControl.perPage"
       :template="pagination_template"
 
-      @page="value => {pagination_currPage_curr = value.page + 1}"
+      @page="value => {pagination_currPage[0] = value.page + 1}"
       @update:rows="value => {setting.scenario_pagination_perPage = value}"
     >
       <template #end>
-        Total: {{ pagination_length }}
+        Total: {{ pagination_length[0] }}
+      </template>
+    </PvPaginator>
+    <PvPaginator v-show="scenarioDisplayMode === 1"
+                 :rows="setting.scenario_pagination_perPage"
+                 :total-records="pagination_length[1]"
+                 :rowsPerPageOptions="paginationScenarioControl.perPage"
+                 :template="pagination_template"
+
+                 @page="value => {pagination_currPage[1] = value.page + 1}"
+                 @update:rows="value => {setting.scenario_pagination_perPage = value}"
+    >
+      <template #end>
+        Total: {{ pagination_length[1] }}
       </template>
     </PvPaginator>
     <br />
