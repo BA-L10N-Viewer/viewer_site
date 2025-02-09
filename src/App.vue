@@ -4,7 +4,7 @@ import { useSetting } from '@/stores/setting'
 import { ref, watch } from 'vue'
 import { menubarValue, MOBILE_WIDTH } from '@/tool/Constant'
 
-import { fetchData, isFetching } from '@/tool/PreFetchedData'
+import { isFetching } from '@/tool/PreFetchedData'
 
 import { useI18n } from 'vue-i18n'
 
@@ -37,8 +37,6 @@ watch(
   },
   { immediate: true }
 )
-
-fetchData()
 </script>
 
 <template>
