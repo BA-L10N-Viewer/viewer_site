@@ -73,7 +73,7 @@ const cssWidthForThOfContent = computed(() => {
                          :data_dialog="entry" :data_char="''" :char_name="charName"
                          :bond_story_id="mmtData['BondScenarioId']" />
   </table>
-  <table class="momotalk-table" v-if="screenWidth < MOBILE_WIDTH || setting.ui_force_mobile">
+  <table class="momotalk-table" v-else>
     <thead>
     <tr>
       <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>

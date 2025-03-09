@@ -637,7 +637,7 @@ onBeforeRouteUpdate(async (to, from) => {
                           :key="scenarioID"
                           info-pos="top" />
     <a ref="htmlAnchorMainTableTop"></a>
-    <table class="momotalk-table" v-show="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
+    <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
            id="scnario-main-table">
       <thead>
       <tr>
@@ -654,7 +654,7 @@ onBeforeRouteUpdate(async (to, from) => {
                         :key="idx"
                         v-for="(entry, idx) in pagination_data_curr[pagination_currPage_curr - 1]" />
     </table>
-    <table class="momotalk-table" v-show="screenWidth < MOBILE_WIDTH_WIDER || setting.ui_force_mobile"
+    <table class="momotalk-table" v-else
            id="scnario-main-table">
       <thead>
       <tr>
