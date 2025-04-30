@@ -212,6 +212,7 @@
   "char-voice-ui-select-tab-battle": "戰鬥",
   "char-voice-ui-select-tab-event": "活動",
   "char-voice-ui-select-source-schaledb": "SchaleDB",
+  "char-voice-ui-detail-dialog-title": "語音組含義",
 
   "comp-data-version-data": "資料更新時間",
   "comp-data-version-site": "網站更新時間",

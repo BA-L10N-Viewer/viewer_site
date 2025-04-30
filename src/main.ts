@@ -15,6 +15,7 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import Aura from '@primevue/themes/aura'
 import PvTooltip from 'primevue/tooltip'
+import DialogService from 'primevue/dialogservice'
 
 // Sentry
 import * as Sentry from '@sentry/vue'
@@ -35,14 +36,14 @@ import { fetchData } from './tool/PreFetchedData'
 
 const app = createApp(App)
 
-if (document.location.host === 'ba-l10n.cnfast.top' || document.location.host === 'ba-l10n-aws.cnfast.top') {
+if (
+  document.location.host === 'ba-l10n.cnfast.top' ||
+  document.location.host === 'ba-l10n-aws.cnfast.top'
+) {
   Sentry.init({
     app,
     dsn: 'https://92794d37ef29d2d9ed0e739a418add68@o4508351878529024.ingest.us.sentry.io/4508351880232960',
-    integrations: [
-      Sentry.browserTracingIntegration({ router }),
-      Sentry.replayIntegration()
-    ],
+    integrations: [Sentry.browserTracingIntegration({ router }), Sentry.replayIntegration()],
     // Tracing
     tracesSampleRate: 1.0, //  Capture 100% of the transactions
     // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
@@ -60,9 +61,9 @@ const i18n = createI18n({
   locale: 'zh_CN',
   fallbackLng: 'en',
   messages: {
-    'zh_CN': i18n_zh_CN,
-    'zh_TW': i18n_zh_TW,
-    'en': i18n_en
+    zh_CN: i18n_zh_CN,
+    zh_TW: i18n_zh_TW,
+    en: i18n_en
   }
 })
 
@@ -97,6 +98,7 @@ app.use(PrimeVue, {
     }
   }
 })
+app.use(DialogService)
 app.directive('tooltip', PvTooltip)
 
 const settingStore = useSetting()
@@ -105,6 +107,5 @@ settingStore.init_watcher()
 useSearchVars().clear()
 
 app.mount('#app')
-
 
 fetchData()

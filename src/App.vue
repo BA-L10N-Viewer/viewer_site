@@ -8,6 +8,7 @@ import { isFetching } from '@/tool/PreFetchedData'
 
 import { useI18n } from 'vue-i18n'
 
+import DynamicDialog from 'primevue/dynamicdialog'
 import PvMenubar from 'primevue/menubar'
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
@@ -40,21 +41,25 @@ watch(
 </script>
 
 <template>
+  <DynamicDialog />
   <template v-if="!isFetching || isForceLoad">
     <Teleport to="body">
-      <PvDialog v-model:visible="dialogSettingVisible" modal :header="i18n.t('navi-3')" :closable="true"
-                :draggable="false" :dismissableMask="true"
-                style="width: 90%">
+      <PvDialog
+        v-model:visible="dialogSettingVisible"
+        modal
+        :header="i18n.t('navi-3')"
+        :closable="true"
+        :draggable="false"
+        :dismissableMask="true"
+        style="width: 90%"
+      >
         <SettingDialog />
       </PvDialog>
     </Teleport>
     <Teleport to="body">
       <PvMenubar :model="menubarValue" style="position: fixed; top: 0; width: 100%">
         <template #start>
-          <img
-            src="/assets/images/logo.png"
-            id="app-top-navi-logo"
-          />
+          <img src="/assets/images/logo.png" id="app-top-navi-logo" />
         </template>
         <template #item="{ item, props, hasSubmenu }">
           <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
@@ -80,8 +85,8 @@ watch(
     </Teleport>
 
     <div id="actual-body">
-      <div style="height: 100%;">
-        <span style="display: none">{{ $i18n.locale = setting.ui_lang }}</span>
+      <div style="height: 100%">
+        <span style="display: none">{{ ($i18n.locale = setting.ui_lang) }}</span>
         <RouterView />
       </div>
 
@@ -89,10 +94,16 @@ watch(
 
       <footer style="text-align: right">
         <small>Copyright &copy; BALV 2024 All rights reserved.</small><br />
-        <small>We do not own any in-game data. See <a href="javascript: void 0" @click="router.push({name: 'about'})">here</a>
-          for details.</small><br />
-        <small>Powered by <a href="https://python.org">Python</a> and <a href="https://vuejs.org/">Vue.JS</a>, with CDN
-          from <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small><br />
+        <small
+          >We do not own any in-game data. See
+          <a href="javascript: void 0" @click="router.push({ name: 'about' })">here</a> for
+          details.</small
+        ><br />
+        <small
+          >Powered by <a href="https://python.org">Python</a> and
+          <a href="https://vuejs.org/">Vue.JS</a>, with CDN from
+          <a href="https://aws.amazon.com/cloudfront/">AWS CloudFront</a>.</small
+        ><br />
         <small>
           <DataVersionDisplay :verbose="false" />
         </small>
@@ -101,15 +112,21 @@ watch(
     </div>
   </template>
   <template v-else>
-    <div style="text-align: center; padding-top: 3vh; padding-left: 1em; padding-right: 1em;">
-      <img src="/assets/images/logo.png" :style="{'height': screenWidth <= MOBILE_WIDTH ? '' : '16vh', 'width': screenWidth <= MOBILE_WIDTH ? '90vw' : ''}" />
+    <div style="text-align: center; padding-top: 3vh; padding-left: 1em; padding-right: 1em">
+      <img
+        src="/assets/images/logo.png"
+        :style="{
+          height: screenWidth <= MOBILE_WIDTH ? '' : '16vh',
+          width: screenWidth <= MOBILE_WIDTH ? '90vw' : ''
+        }"
+      />
       <h1 style="font-size: 6vh">
         <span lang="en">Pre-Fetching data...</span>
-        <br>
+        <br />
         <span lang="zh-CN">预加载数据中……</span>
       </h1>
       <div v-show="showForceLoad">
-        <PvButton @click="isForceLoad=true" severity="danger" size="large" style="font-size: 4vh;">
+        <PvButton @click="isForceLoad = true" severity="danger" size="large" style="font-size: 4vh">
           {{ $t('home-pre-fetch-button') }}
         </PvButton>
         <br /><br /><br /><br />

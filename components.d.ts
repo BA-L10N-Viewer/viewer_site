@@ -15,6 +15,7 @@ declare module 'vue' {
     CharacterSearchEntry: typeof import('./src/components/search/CharacterSearchEntry.vue')['default']
     CharacterSheet: typeof import('./src/components/CharacterSheet.vue')['default']
     CharProfileTable: typeof import('./src/components/profile/CharProfileTable.vue')['default']
+    CharVoiceDetailDialog: typeof import('./src/components/voice/CharVoiceDetailDialog.vue')['default']
     CharVoiceNexonBattle: typeof import('./src/components/voice/CharVoiceNexonBattle.vue')['default']
     CharVoiceNexonEvent: typeof import('./src/components/voice/CharVoiceNexonEvent.vue')['default']
     CharVoiceNexonNormal: typeof import('./src/components/voice/CharVoiceNexonNormal.vue')['default']

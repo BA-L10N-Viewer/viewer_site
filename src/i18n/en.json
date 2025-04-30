@@ -212,6 +212,7 @@
   "char-voice-ui-select-tab-battle": "Battle",
   "char-voice-ui-select-tab-event": "Event",
   "char-voice-ui-select-source-schaledb": "SchaleDB",
+  "char-voice-ui-detail-dialog-title": "Voice Group Explanation",
 
   "comp-data-version-data": "Data Update Time",
   "comp-data-version-site": "Site Update Time",
