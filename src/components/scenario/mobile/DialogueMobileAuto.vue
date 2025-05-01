@@ -58,6 +58,10 @@ const props = defineProps({
   dialogueSoundFilename: {
     type: String,
     required: true
+  },
+  dialogueScript: {
+    type: String,
+    required: true
   }
 })
 </script>
@@ -91,10 +95,11 @@ const props = defineProps({
     :dialogue-data-type="dialogueDataType"
     :dialogue-selection-to-group="dialogueSelectionToGroup"
     :dialogue-selection-group="dialogueSelectionGroup"
-    :dialogueContent="dialogueContent"
+    :dialogue-content="dialogueContent"
     :dialogue-text-color="dialogueTextColor"
     :entry_pos="entry_pos"
     :dialogue-absolute-pos="dialogueAbsolutePos"
+    :dialogue-script="dialogueScript"
     v-else
   />
 </template>

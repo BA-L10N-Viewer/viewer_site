@@ -19,6 +19,8 @@ import type {
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
+import { DirectoryDataCommonFileIndexVideo } from '@/tool/PreFetchedData'
+import { getStaticCdnBasepath } from '@/tool/HttpRequest'
 
 const props = defineProps({
   dialogueContent: {
@@ -48,6 +50,10 @@ const props = defineProps({
   dialogueAbsolutePos: {
     type: Number,
     required: true
+  },
+  dialogueScript: {
+    type: String,
+    required: true
   }
 })
 
@@ -62,32 +68,75 @@ const htmlTdClassName = (() => {
     return { 'story-dialogue-other': true }
   }
 })()
+
+function getVideoPaths(vid: string | number, lang: NexonL10nDataLang) {
+  const video = DirectoryDataCommonFileIndexVideo.value[String(vid)]
+  if (video) {
+    const paths = video.PathByLang[lang]
+    return [
+      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[0]}.mp4`,
+      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[1]}.ogg`
+    ]
+  } else {
+    return ['', '']
+  }
+}
+function getVideoId() {
+  // 直接从 dialogueContent 里面取得
+  const regex = new RegExp('#video;(\\d+)', 'im')
+  const result = regex.exec(props.dialogueScript)
+  if (result) {
+    return result[1]
+  } else {
+    return ''
+  }
+}
 </script>
 
 <template>
-  <td colspan="2" :class="htmlTdClassName">
+  <td colspan="2" :class="htmlTdClassName" v-if="dialogueDataType !== 'video'">
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
-      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+      <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">
           <ScenarioTranslatedDialogue
-            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
+            :content-original="
+              replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent, i18nLangAll[langIdx]))
+            "
             :content-original-lang="i18nToUiLangAll[langIdx]"
-            :content-translated="ML_table[i18nLangAll[langIdx] as NexonL10nDataLang].get(String(entry_pos))?.['dialogue'] || ''"
-            :is_after_br="true" />
+            :content-translated="
+              ML_table[i18nLangAll[langIdx] as NexonL10nDataLang].get(String(entry_pos))?.[
+                'dialogue'
+              ] || ''
+            "
+            :is_after_br="true"
+          />
         </span>
         <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />
       </template>
     </template>
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
-                  :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
+    <DialogueInfo
+      :dialogue-selection-to-group="dialogueSelectionToGroup"
+      :dialogue-selection-group="dialogueSelectionGroup"
+      :dialogue-absolute-pos="dialogueAbsolutePos"
+    />
+  </td>
+  <td colspan="2" v-else>
+    <template v-for="langIdx in listOfPosOfSelectedLangForMobile" :key="langIdx">
+      <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
+        <video controls class="scenario-bg-img">
+          <source :src="getVideoPaths(getVideoId(), i18nLangAll[langIdx])[0]" type="video/mp4" />
+          <source :src="getVideoPaths(getVideoId(), i18nLangAll[langIdx])[1]" type="audio/ogg" />
+        </video>
+        <br />
+      </template>
+    </template>
   </td>
 </template>
 
 <style scoped>
 td {
   color: white;
-  background-color: #2C4563;
+  background-color: #2c4563;
 }
 
 .story-dialogue-center {

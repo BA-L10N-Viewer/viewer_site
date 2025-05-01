@@ -54,6 +54,7 @@ export type CommonStoryDataDialogDataType =
   | 'na'
   | 'option'
   | 'speaker'
+  | 'video' // 暂时解决方案，我不想再改代码了
 export type CommonStoryDataDialogTextColor =
   | 'black'
   | '#4EA24E'
@@ -92,11 +93,16 @@ export type CommonStoryDataCmdPayloadSoundPopup = {
   Type: 'sound_popup'
   Data: [string, string]
 }
+export type CommonStoryDataCmdPayloadVideo = {
+  Type: 'video'
+  Id: string
+}
 export type CommonStoryDataCmdPayload =
   | CommonStoryDataCmdPayloadBg
   | CommonStoryDataCmdPayloadBgm
   | CommonStoryDataCmdPayloadSound
   | CommonStoryDataCmdPayloadSoundPopup
+  | CommonStoryDataCmdPayloadVideo
 export type CommonStoryDataCmdPayloadType = CommonStoryDataCmdPayload['Type']
 export type CommonStoryDataCmd = {
   ActualPos: number
@@ -305,3 +311,11 @@ export const symbolForDirectoryDataCommonI18nFileScenarioSound = Symbol(
 export const symbolForDirectoryDataCommonI18nFileScenarioBgm = Symbol(
   'DirectoryDataCommonI18nFileScenarioBgm'
 ) as InjectionKey<Ref<DirectoryDataCommonI18nFiles<{ [p: string]: string }>>>
+
+/* data/common/index_video.json */
+export type CommonVideoDataEntryPathByLang = Record<SchaleDbL10nDataLang, [string, string]>
+export type CommonVideoDataEntry = {
+  Id: number
+  PathByLang: CommonVideoDataEntryPathByLang
+}
+export type CommonVideoData = { [p: string]: CommonVideoDataEntry }

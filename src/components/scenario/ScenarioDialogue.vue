@@ -56,7 +56,8 @@ const setting = useSetting()
             :dialogue-character-nickname="
               getNexonL10nData(data_char.Nickname || {}, i18nLangAll[idx])
             "
-            :dialogue-lang="i18nToUiLangAll[idx]"
+            :dialogue-lang="i18nLangAll[idx]"
+            :dialogue-lang-html="i18nToUiLangAll[idx]"
             :dialogue-character-image="data_char.SmallPortrait"
             :dialogue-text-color="data_dialog.ShowTextColor"
             :dialogue-character-translated="
@@ -71,6 +72,7 @@ const setting = useSetting()
             :dialogue-absolute-pos="data_dialog.AbsolutePos"
             :dialogue-popup-filename="data_dialog.PopupFileName"
             :dialogue-sound-filename="data_dialog.Sound"
+            :dialogue-script="data_dialog.Script"
             v-if="(i18nLangAll[idx] as string) !== 'null'"
           />
         </template>
@@ -89,6 +91,7 @@ const setting = useSetting()
         :dialogue-absolute-pos="data_dialog.AbsolutePos"
         :dialogue-popup-filename="data_dialog.PopupFileName"
         :dialogue-sound-filename="data_dialog.Sound"
+        :dialogue-script="data_dialog.Script"
         :entry_pos="entry_pos"
       />
     </template>

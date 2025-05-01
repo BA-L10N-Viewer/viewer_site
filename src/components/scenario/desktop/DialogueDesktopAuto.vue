@@ -11,6 +11,10 @@ const props = defineProps({
     type: String,
     required: true
   },
+  dialogueLangHtml: {
+    type: String,
+    required: true
+  },
   dialogueCharacter: {
     type: String,
     required: true
@@ -66,6 +70,10 @@ const props = defineProps({
   dialogueSoundFilename: {
     type: String,
     required: true
+  },
+  dialogueScript: {
+    type: String,
+    required: true
   }
 })
 
@@ -80,7 +88,7 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
     :dialogue-character="dialogueCharacter"
     :dialogue-character-nickname="dialogueCharacterNickname"
     :dialogue-character-image="dialogueCharacterImage"
-    :dialogue-lang="dialogueLang"
+    :dialogue-lang="dialogueLangHtml"
     :dialogue-text-color="dialogueTextColor"
     :dialogue-character-translated="dialogueCharacterTranslated"
     :dialogue-character-nickname-translated="dialogueCharacterNicknameTranslated"
@@ -94,7 +102,7 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
     :dialogue-selection-to-group="dialogueSelectionToGroup"
     :dialogue-selection-group="dialogueSelectionGroup"
     :dialogue-content="dialogueContent2"
-    :dialogue-lang="dialogueLang"
+    :dialogue-lang="dialogueLangHtml"
     :dialogue-text-color="dialogueTextColor"
     :dialogue-content-translated="dialogueContentTranslated"
     :dialogue-absolute-pos="dialogueAbsolutePos"
@@ -107,9 +115,11 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
     :dialogue-selection-group="dialogueSelectionGroup"
     :dialogue-content="dialogueContent2"
     :dialogue-lang="dialogueLang"
+    :dialogue-lang-html="dialogueLangHtml"
     :dialogue-text-color="dialogueTextColor"
     :dialogue-content-translated="dialogueContentTranslated"
     :dialogue-absolute-pos="dialogueAbsolutePos"
+    :dialogue-script="dialogueScript"
     v-else
   />
 </template>
