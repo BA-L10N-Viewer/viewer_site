@@ -28,9 +28,6 @@ const props = defineProps({
     required: true
   }
 })
-const pvDialog = useDialog()
-
-const componentDialogVoiceDetail = defineAsyncComponent(() => import('./CharVoiceDetailDialog.vue'))
 
 const i18n = useI18n()
 
@@ -45,6 +42,8 @@ const dataForTable = computed(() =>
   convertNexonCharVoiceNormalCategoryForTable(props.dataVoice, i18nLangAll.value)
 )
 
+const componentDialogVoiceDetail = defineAsyncComponent(() => import('./CharVoiceDetailDialog.vue'))
+const pvDialog = useDialog()
 function showVoiceDetailDialog(data: string) {
   pvDialog.open(componentDialogVoiceDetail, {
     props: {
