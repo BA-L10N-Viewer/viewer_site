@@ -185,12 +185,12 @@
 
   "comp-scenario-mmt-p-tip": "該故事與一已知Momotalk故事相關聯，您可在此頁面直接檢視。",
   "comp-scenario-mmt-btn-show": "檢視Momotalk",
-  
+
   "comp-scenario-mode-switch-0": "極詳細模式（含命令）",
   "comp-scenario-mode-switch-1": "純文字模式",
   "comp-scenario-mode-switch-tip": "注：兩個模式的分頁進度互不關聯，且此處更改的模式不會儲存到預設設定（請在設定對話方塊中單獨設定）",
   "comp-scenario-mode-switch-data-tip": "注意：由於指令碼自動化的限制及伺服器進度差異，故事命令部分資料均基於日服資料，因此可能與國際服部分資料不同或脫節",
-  
+
   "comp-setting-scenario-mode-0": "故事頁預設極詳細（含命令）",
   "comp-setting-scenario-mode-1": "故事頁預設純文字",
   "comp-setting-scenario-mode-tip": "注：修改後需重新進入故事頁才可生效",
@@ -213,6 +213,12 @@
   "char-voice-ui-select-tab-event": "活動",
   "char-voice-ui-select-source-schaledb": "SchaleDB",
   "char-voice-ui-detail-dialog-title": "語音組含義",
+  "char-voice-ui-detail-dialog-title-2": "語音觸發條件",
+  "char-voice-detail-dialog-voice-condition": "語音觸發條件",
+  "char-voice-detail-dialog-voice-value": "語音觸發條件值",
+  "char-voice-detail-dialog-voice-condition-day": "活動進行的天數",
+  "char-voice-detail-dialog-voice-condition-close": "當活動結束後",
+  "char-voice-deatil-dialog-voice-condition-minigamedreammakerday": "Dream Maker活動小遊戲內天數",
 
   "comp-data-version-data": "資料更新時間",
   "comp-data-version-site": "網站更新時間",

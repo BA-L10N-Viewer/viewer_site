@@ -213,6 +213,12 @@
   "char-voice-ui-select-tab-event": "Event",
   "char-voice-ui-select-source-schaledb": "SchaleDB",
   "char-voice-ui-detail-dialog-title": "Voice Group Explanation",
+  "char-voice-ui-detail-dialog-title-2": "Voice Trigger Condition",
+  "char-voice-detail-dialog-voice-condition": "Voice Trigger Condition",
+  "char-voice-detail-dialog-voice-value": "Voice Trigger Condition Value",
+  "char-voice-detail-dialog-voice-condition-day": "By the running days of a event",
+  "char-voice-detail-dialog-voice-condition-close": "When the event ends",
+  "char-voice-deatil-dialog-voice-condition-minigamedreammakerday": "Event minigame \"Dream Maker\" in-game days",
 
   "comp-data-version-data": "Data Update Time",
   "comp-data-version-site": "Site Update Time",

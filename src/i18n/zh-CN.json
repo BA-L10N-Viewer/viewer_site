@@ -213,6 +213,12 @@
   "char-voice-ui-select-tab-event": "活动",
   "char-voice-ui-select-source-schaledb": "SchaleDB",
   "char-voice-ui-detail-dialog-title": "语音组含义",
+  "char-voice-ui-detail-dialog-title-2": "语音触发条件",
+  "char-voice-detail-dialog-voice-condition": "语音触发条件",
+  "char-voice-detail-dialog-voice-value": "语音触发条件值",
+  "char-voice-detail-dialog-voice-condition-day": "活动进行的天数",
+  "char-voice-detail-dialog-voice-condition-close": "当活动结束后",
+  "char-voice-deatil-dialog-voice-condition-minigamedreammakerday": "Dream Maker活动小游戏内天数",
 
   "comp-data-version-data": "数据更新时间",
   "comp-data-version-site": "网站更新时间",
