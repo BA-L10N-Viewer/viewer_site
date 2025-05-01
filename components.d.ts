@@ -52,6 +52,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ScenarioDialogue: typeof import('./src/components/scenario/ScenarioDialogue.vue')['default']
+    ScenarioDialogueCharacterDialog: typeof import('./src/components/scenario/ScenarioDialogueCharacterDialog.vue')['default']
+    ScenarioDialogueNickname: typeof import('./src/components/scenario/ScenarioDialogueNickname.vue')['default']
     ScenarioIsAfterBattleBadge: typeof import('./src/components/genetic/ScenarioIsAfterBattleBadge.vue')['default']
     ScenarioRelatedStory: typeof import('./src/components/scenario/ScenarioRelatedStory.vue')['default']
     ScenarioSearch: typeof import('./src/components/search/ScenarioSearch.vue')['default']

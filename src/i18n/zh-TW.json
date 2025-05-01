@@ -191,6 +191,13 @@
   "comp-scenario-mode-switch-tip": "注：兩個模式的分頁進度互不關聯，且此處更改的模式不會儲存到預設設定（請在設定對話方塊中單獨設定）",
   "comp-scenario-mode-switch-data-tip": "注意：由於指令碼自動化的限制及伺服器進度差異，故事命令部分資料均基於日服資料，因此可能與國際服部分資料不同或脫節",
 
+  "comp-scenario-character-dialog-title": "人物詳細資訊",
+  "scenario-character-dialog-desktop-name": "名字",
+  "scenario-character-dialog-desktop-nickname": "歸屬/暱稱",
+  "scenario-character-dialog-mobile-table-lang": "語言程式碼",
+  "scenario-character-dialog-mobile-table-name": "名字",
+  "scenario-character-dialog-mobile-table-nickname": "歸屬/暱稱",
+
   "comp-setting-scenario-mode-0": "故事頁預設極詳細（含命令）",
   "comp-setting-scenario-mode-1": "故事頁預設純文字",
   "comp-setting-scenario-mode-tip": "注：修改後需重新進入故事頁才可生效",

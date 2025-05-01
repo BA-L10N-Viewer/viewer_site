@@ -19,6 +19,14 @@ const props = defineProps({
     type: String,
     required: true
   },
+  dialogueCharacterNickname: {
+    type: String,
+    required: true
+  },
+  dialogueCharacterNicknameTranslated: {
+    type: String,
+    required: true
+  },
   dialogueCharacterImage: {
     type: String,
     required: true
@@ -65,34 +73,45 @@ const dialogueContent2 = computed(() => replaceStoryLineUsernameBlank(props.dial
 </script>
 
 <template>
-  <DialogueDesktopNormal :dialogue-selection-to-group="dialogueSelectionToGroup"
-                         :dialogue-selection-group="dialogueSelectionGroup"
-                         :dialogue-content="dialogueContent2" :dialogue-character="dialogueCharacter"
-                         :dialogue-character-image="dialogueCharacterImage"
-                         :dialogue-lang="dialogueLang" :dialogue-text-color="dialogueTextColor"
-                         :dialogue-character-translated="dialogueCharacterTranslated"
-                         :dialogue-content-translated="dialogueContentTranslated"
-                         :dialogue-absolute-pos="dialogueAbsolutePos"
-                         :dialogue-popup-filename="dialoguePopupFilename"
-                         :dialogue-sound-filename="dialogueSoundFilename"
-                         v-if="dialogueDataType === 'speaker'" />
-  <DialogueDesktopOption :dialogue-selection-to-group="dialogueSelectionToGroup"
-                         :dialogue-selection-group="dialogueSelectionGroup"
-                         :dialogue-content="dialogueContent2" :dialogue-lang="dialogueLang"
-                         :dialogue-text-color="dialogueTextColor"
-                         :dialogue-content-translated="dialogueContentTranslated"
-                         :dialogue-absolute-pos="dialogueAbsolutePos"
-                         :dialogue-sound-filename="dialogueSoundFilename"
-                         v-else-if="dialogueDataType === 'option'" />
-  <DialogueDesktopOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
-                        :dialogue-selection-group="dialogueSelectionGroup" :dialogue-content="dialogueContent2"
-                        :dialogue-lang="dialogueLang"
-                        :dialogue-text-color="dialogueTextColor"
-                        :dialogue-content-translated="dialogueContentTranslated"
-                        :dialogue-absolute-pos="dialogueAbsolutePos"
-                        v-else />
+  <DialogueDesktopNormal
+    :dialogue-selection-to-group="dialogueSelectionToGroup"
+    :dialogue-selection-group="dialogueSelectionGroup"
+    :dialogue-content="dialogueContent2"
+    :dialogue-character="dialogueCharacter"
+    :dialogue-character-nickname="dialogueCharacterNickname"
+    :dialogue-character-image="dialogueCharacterImage"
+    :dialogue-lang="dialogueLang"
+    :dialogue-text-color="dialogueTextColor"
+    :dialogue-character-translated="dialogueCharacterTranslated"
+    :dialogue-character-nickname-translated="dialogueCharacterNicknameTranslated"
+    :dialogue-content-translated="dialogueContentTranslated"
+    :dialogue-absolute-pos="dialogueAbsolutePos"
+    :dialogue-popup-filename="dialoguePopupFilename"
+    :dialogue-sound-filename="dialogueSoundFilename"
+    v-if="dialogueDataType === 'speaker'"
+  />
+  <DialogueDesktopOption
+    :dialogue-selection-to-group="dialogueSelectionToGroup"
+    :dialogue-selection-group="dialogueSelectionGroup"
+    :dialogue-content="dialogueContent2"
+    :dialogue-lang="dialogueLang"
+    :dialogue-text-color="dialogueTextColor"
+    :dialogue-content-translated="dialogueContentTranslated"
+    :dialogue-absolute-pos="dialogueAbsolutePos"
+    :dialogue-sound-filename="dialogueSoundFilename"
+    v-else-if="dialogueDataType === 'option'"
+  />
+  <DialogueDesktopOther
+    :dialogue-data-type="dialogueDataType"
+    :dialogue-selection-to-group="dialogueSelectionToGroup"
+    :dialogue-selection-group="dialogueSelectionGroup"
+    :dialogue-content="dialogueContent2"
+    :dialogue-lang="dialogueLang"
+    :dialogue-text-color="dialogueTextColor"
+    :dialogue-content-translated="dialogueContentTranslated"
+    :dialogue-absolute-pos="dialogueAbsolutePos"
+    v-else
+  />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

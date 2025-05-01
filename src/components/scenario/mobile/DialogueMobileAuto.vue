@@ -15,6 +15,10 @@ const props = defineProps({
     type: {} as PropType<NexonL10nData>,
     required: true
   },
+  dialogueCharacterNickname: {
+    type: {} as PropType<NexonL10nData>,
+    required: true
+  },
   dialogueCharacterImage: {
     type: String,
     required: true
@@ -59,31 +63,40 @@ const props = defineProps({
 </script>
 
 <template>
-  <DialogueMobileNormal :dialogue-selection-to-group="dialogueSelectionToGroup"
-                        :dialogue-selection-group="dialogueSelectionGroup"
-                        :dialogue-content="dialogueContent" :dialogue-character="dialogueCharacter"
-                        :dialogue-text-color="dialogueTextColor" :dialogue-character-image="dialogueCharacterImage"
-                        :dialogue-absolute-pos="dialogueAbsolutePos"
-                        :dialogue-popup-filename="dialoguePopupFilename"
-                        :entry_pos="entry_pos"
-                        :dialogue-sound-filename="dialogueSoundFilename"
-                        v-if="dialogueDataType === 'speaker'" />
-  <DialogueMobileOption :dialogue-selection-to-group="dialogueSelectionToGroup"
-                        :dialogue-selection-group="dialogueSelectionGroup"
-                        :dialogueContent="dialogueContent"
-                        :dialogue-text-color="dialogueTextColor"
-                        :entry_pos="entry_pos"
-                        :dialogue-absolute-pos="dialogueAbsolutePos"
-                        :dialogue-sound-filename="dialogueSoundFilename"
-                        v-else-if="dialogueDataType === 'option'" />
-  <DialogueMobileOther :dialogue-data-type="dialogueDataType" :dialogue-selection-to-group="dialogueSelectionToGroup"
-                       :dialogue-selection-group="dialogueSelectionGroup" :dialogueContent="dialogueContent"
-                       :dialogue-text-color="dialogueTextColor"
-                       :entry_pos="entry_pos"
-                       :dialogue-absolute-pos="dialogueAbsolutePos"
-                       v-else />
+  <DialogueMobileNormal
+    :dialogue-selection-to-group="dialogueSelectionToGroup"
+    :dialogue-selection-group="dialogueSelectionGroup"
+    :dialogue-content="dialogueContent"
+    :dialogue-character="dialogueCharacter"
+    :dialogue-character-nickname="dialogueCharacterNickname"
+    :dialogue-text-color="dialogueTextColor"
+    :dialogue-character-image="dialogueCharacterImage"
+    :dialogue-absolute-pos="dialogueAbsolutePos"
+    :dialogue-popup-filename="dialoguePopupFilename"
+    :entry_pos="entry_pos"
+    :dialogue-sound-filename="dialogueSoundFilename"
+    v-if="dialogueDataType === 'speaker'"
+  />
+  <DialogueMobileOption
+    :dialogue-selection-to-group="dialogueSelectionToGroup"
+    :dialogue-selection-group="dialogueSelectionGroup"
+    :dialogueContent="dialogueContent"
+    :dialogue-text-color="dialogueTextColor"
+    :entry_pos="entry_pos"
+    :dialogue-absolute-pos="dialogueAbsolutePos"
+    :dialogue-sound-filename="dialogueSoundFilename"
+    v-else-if="dialogueDataType === 'option'"
+  />
+  <DialogueMobileOther
+    :dialogue-data-type="dialogueDataType"
+    :dialogue-selection-to-group="dialogueSelectionToGroup"
+    :dialogue-selection-group="dialogueSelectionGroup"
+    :dialogueContent="dialogueContent"
+    :dialogue-text-color="dialogueTextColor"
+    :entry_pos="entry_pos"
+    :dialogue-absolute-pos="dialogueAbsolutePos"
+    v-else
+  />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

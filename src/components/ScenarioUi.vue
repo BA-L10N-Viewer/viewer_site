@@ -36,10 +36,22 @@ import {
 } from '@/types/OutsourcedData'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { i18nLangAll, mtI18nLangStats, numberOfSelectedLangForDesktop } from '@/tool/ConstantComputed'
+import {
+  i18nLangAll,
+  mtI18nLangStats,
+  numberOfSelectedLangForDesktop
+} from '@/tool/ConstantComputed'
 import { chunk } from 'lodash'
-import { type MlForMomotalk, type MlForScenario, type NexonL10nDataMlDataEntry } from '@/types/MachineTranslation'
-import { getDialogueMtTranslation, getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
+import {
+  type MlForMomotalk,
+  type MlForScenario,
+  type NexonL10nDataMlDataEntry
+} from '@/types/MachineTranslation'
+import {
+  getDialogueMtTranslation,
+  getTranslation,
+  type MtServiceName
+} from '@/tool/translate/MtDispatcher'
 import {
   mtPiniaWatchCallback,
   symbolForMomotalkMtData,
@@ -90,10 +102,14 @@ const scenarioDataText = ref<CommonStoryDataDialog[]>([] as unknown as CommonSto
 let scenarioChar: IndexScenarioCharacterData = DirectoryDataCommonFileIndexScenarioChar.value
 let scenarioNameDesc = ref<NexonL10nData[]>([] as unknown as NexonL10nData[])
 let bondStuInfo: StudentInfoDataSimple = DirectoryDataCommonFileIndexStu.value
-let scenarioRelatedParentInfo: RelatedScenarioParentInfoData = DirectoryDataCommonFileIndexRelatedManifestParent.value
-let scenarioRelatedData: RelatedScenarioInfoData = DirectoryDataCommonFileIndexRelatedManifestScenario.value
+let scenarioRelatedParentInfo: RelatedScenarioParentInfoData =
+  DirectoryDataCommonFileIndexRelatedManifestParent.value
+let scenarioRelatedData: RelatedScenarioInfoData =
+  DirectoryDataCommonFileIndexRelatedManifestScenario.value
 let i18nStoryData: I18nStoryXxhashToL10nData = DirectoryDataStoryI18nFileI18nStory.value
-const scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>({} as unknown as ScenarioRelatedStoryData)
+const scenarioRelatedStoryData = ref<ScenarioRelatedStoryData>(
+  {} as unknown as ScenarioRelatedStoryData
+)
 const isAllDataLoaded = ref(false)
 
 const scenarioID = ref(String(router.params.storyId))
@@ -134,26 +150,30 @@ const scenarioParentData = computed<ScenarioParentData>(() => {
       Type: type1,
       Data: {
         EventId: scenarioRelatedData['event'][scenarioID.value][2][0],
-        EventName: i18nStoryData[scenarioRelatedParentInfo[`event_${scenarioRelatedData['event'][scenarioID.value][2][0]}`][0]]
+        EventName:
+          i18nStoryData[
+            scenarioRelatedParentInfo[
+              `event_${scenarioRelatedData['event'][scenarioID.value][2][0]}`
+            ][0]
+          ]
       }
     } as ScenarioParentDataEvent
   }
 })
 
-const DirectoryDataCommonI18nFileScenarioSound = ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>(
-  createDictionaryWithDefault(
-    SiteUiLang,
-    () => {
-      return {}
-    }
-  )
+const DirectoryDataCommonI18nFileScenarioSound = ref<
+  DirectoryDataCommonI18nFiles<{ [p: string]: string }>
+>(
+  createDictionaryWithDefault(SiteUiLang, () => {
+    return {}
+  })
 )
-const DirectoryDataCommonI18nFileScenarioBgm = ref<DirectoryDataCommonI18nFiles<{[p: string]: string}>>(
-  createDictionaryWithDefault(SiteUiLang,
-    () => {
-      return {}
-    }
-  )
+const DirectoryDataCommonI18nFileScenarioBgm = ref<
+  DirectoryDataCommonI18nFiles<{ [p: string]: string }>
+>(
+  createDictionaryWithDefault(SiteUiLang, () => {
+    return {}
+  })
 )
 const DirectoryDataStoryExtFileBg = ref<CommonStoryExtBgData>({} as CommonStoryExtBgData)
 const DirectoryDataStoryExtFileBgm = ref<CommonStoryExtBgmData>({} as CommonStoryExtBgmData)
@@ -173,8 +193,7 @@ const mmtDataCurrPos = computed(() => {
   return Number(temp.actualScenarioNo) - 1
 })
 const mmtDataCurrEntry = computed<MomotalkStoryDataEntry | null>(() => {
-  if (mmtDataCurrPos.value + 1 <= mmtData.value.length)
-    return mmtData.value[mmtDataCurrPos.value]
+  if (mmtDataCurrPos.value + 1 <= mmtData.value.length) return mmtData.value[mmtDataCurrPos.value]
   return null
 })
 
@@ -192,24 +211,28 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
   let nextPosString: string | null = null
 
   if (prevId) {
-    prevData = await getScenarioI18nContent(Number(prevId)) as NexonL10nData[]
+    prevData = (await getScenarioI18nContent(Number(prevId))) as NexonL10nData[]
     prevName = prevData[0]
 
     const temp = getScenarioExtraDataById(Number(prevId))
-    if (scenarioType === 'main' || (scenarioID.value.startsWith('1100') && scenarioID.value.length === 5))
+    if (
+      scenarioType === 'main' ||
+      (scenarioID.value.startsWith('1100') && scenarioID.value.length === 5)
+    )
       prevPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
-    else
-      prevPosString = `${temp.actualScenarioNo}`
+    else prevPosString = `${temp.actualScenarioNo}`
   }
   if (nextId) {
-    nextData = await getScenarioI18nContent(Number(nextId)) as NexonL10nData[]
+    nextData = (await getScenarioI18nContent(Number(nextId))) as NexonL10nData[]
     nextName = nextData[0]
 
     const temp = getScenarioExtraDataById(Number(nextId))
-    if (scenarioType === 'main' || (scenarioID.value.startsWith('1100') && scenarioID.value.length === 5))
+    if (
+      scenarioType === 'main' ||
+      (scenarioID.value.startsWith('1100') && scenarioID.value.length === 5)
+    )
       nextPosString = `${temp.actualScenarioNo}-${temp.isAfterBattle ? 'B' : 'A'}`
-    else
-      nextPosString = `${temp.actualScenarioNo}`
+    else nextPosString = `${temp.actualScenarioNo}`
   }
   return {
     Prev: { Id: prevId, Name: prevName, PosString: prevPosString },
@@ -218,8 +241,7 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
 }
 
 function getCharName(entry: CommonStoryDataEntry) {
-  if (entry.DataType === 'cmd')
-    return scenarioChar['-1']
+  if (entry.DataType === 'cmd') return scenarioChar['-1']
 
   const charId = String(entry.CharacterId)
   if (charId !== '-1') {
@@ -233,39 +255,39 @@ function getCharName(entry: CommonStoryDataEntry) {
 
 // --------------------- PAGINATION CONFIG ---------------------
 const pagination_length = ref([0, 0] as [number, number])
-const pagination_length_curr = computed(() => scenarioDisplayMode.value === 1 ? pagination_length.value[1] : pagination_length.value[0])
+const pagination_length_curr = computed(() =>
+  scenarioDisplayMode.value === 1 ? pagination_length.value[1] : pagination_length.value[0]
+)
 const pagination_currPage = ref([1, 1] as [number, number])
 const pagination_currPage_curr = computed({
-  get: () => scenarioDisplayMode.value === 1 ? pagination_currPage.value[1] : pagination_currPage.value[0],
+  get: () =>
+    scenarioDisplayMode.value === 1 ? pagination_currPage.value[1] : pagination_currPage.value[0],
   set: (value: number) => {
-    if (scenarioDisplayMode.value === 1)
-      pagination_currPage.value[1] = value
-    else
-      pagination_currPage.value[0] = value
+    if (scenarioDisplayMode.value === 1) pagination_currPage.value[1] = value
+    else pagination_currPage.value[0] = value
   }
 })
 const pagination_currPage_cache = ref([1, 1] as [number, number])
 const pagination_currPage_cache_curr = computed({
-  get: () => scenarioDisplayMode.value === 1 ? pagination_currPage_cache.value[1] : pagination_currPage_cache.value[0],
+  get: () =>
+    scenarioDisplayMode.value === 1
+      ? pagination_currPage_cache.value[1]
+      : pagination_currPage_cache.value[0],
   set: (value: number) => {
-    if (scenarioDisplayMode.value === 1)
-      pagination_currPage_cache.value[1] = value
-    else
-      pagination_currPage_cache.value[0] = value
+    if (scenarioDisplayMode.value === 1) pagination_currPage_cache.value[1] = value
+    else pagination_currPage_cache.value[0] = value
   }
 })
 
-const pagination_data = [
-  ref([] as CommonStoryDataEntry[][]),
-  ref([] as CommonStoryDataDialog[][])
-]
-const pagination_data_curr = computed(() => scenarioDisplayMode.value === 1 ? pagination_data[1].value : pagination_data[0].value)
+const pagination_data = [ref([] as CommonStoryDataEntry[][]), ref([] as CommonStoryDataDialog[][])]
+const pagination_data_curr = computed(() =>
+  scenarioDisplayMode.value === 1 ? pagination_data[1].value : pagination_data[0].value
+)
 
 const pagination_template = computed(() => {
   const width = useWindowSize().width.value
 
-  if (width <= MOBILE_WIDTH)
-    return 'PrevPageLink CurrentPageReport NextPageLink'
+  if (width <= MOBILE_WIDTH) return 'PrevPageLink CurrentPageReport NextPageLink'
   else if (width <= MOBILE_WIDTH_WIDER)
     return 'PrevPageLink PageLinks NextPageLink RowsPerPageDropdown'
   else
@@ -294,22 +316,27 @@ function initPagination() {
 }
 
 const htmlAnchorMainTableTop: Ref<HTMLAnchorElement | null> = ref(null)
-watch(pagination_currPage_curr, () => { //onUpdated(() => {
-  if (pagination_currPage_cache_curr.value !== pagination_currPage_curr.value) {
-    pagination_currPage_cache_curr.value = pagination_currPage_curr.value
+watch(
+  pagination_currPage_curr,
+  () => {
+    //onUpdated(() => {
+    if (pagination_currPage_cache_curr.value !== pagination_currPage_curr.value) {
+      pagination_currPage_cache_curr.value = pagination_currPage_curr.value
 
-    const targetHeightOffset = htmlAnchorMainTableTop.value?.getBoundingClientRect().y
-    if (targetHeightOffset) {
-      window.scrollBy({
-        left: 0,
-        top: targetHeightOffset - 70,
-        behavior: 'smooth'
-      })
-    } else {
-      console.error(`PAGINATION REPOSITION FAILED, offset = ${targetHeightOffset}`)
+      const targetHeightOffset = htmlAnchorMainTableTop.value?.getBoundingClientRect().y
+      if (targetHeightOffset) {
+        window.scrollBy({
+          left: 0,
+          top: targetHeightOffset - 70,
+          behavior: 'smooth'
+        })
+      } else {
+        console.error(`PAGINATION REPOSITION FAILED, offset = ${targetHeightOffset}`)
+      }
     }
-  }
-}, { flush: 'post' })
+  },
+  { flush: 'post' }
+)
 
 // -------------------------------------------------------------
 
@@ -328,7 +355,7 @@ const ML_in_progress = ref(false)
 const ML_pinia = useI18nTlControl()
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
-  const blankData = { 'name': '', 'dialogue': '' }
+  const blankData = { name: '', dialogue: '', nickname: '' }
 
   scenarioNameDescMt.value[0][baselang] = ''
   scenarioNameDescMt.value[1][baselang] = ''
@@ -337,10 +364,8 @@ function clearMlTranslation(baselang: NexonL10nDataLang) {
     const mmtEntry = mmtDataCurrEntry.value.Data
     const mmtMtEntry = tableMmtTranslated.value[mmtDataCurrPos.value]
     for (let i = 0; i < mmtEntry.length; i++) {
-      if (mmtMtEntry[baselang].length <= i)
-        mmtMtEntry[baselang].push(blankData)
-      else
-        mmtMtEntry[baselang][i] = blankData
+      if (mmtMtEntry[baselang].length <= i) mmtMtEntry[baselang].push(blankData)
+      else mmtMtEntry[baselang][i] = blankData
     }
   }
 
@@ -378,6 +403,7 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
         mmtMtEntry[baselang][idx] = await getDialogueMtTranslation(
           setting.auto_i18n_service,
           mmtStu.Name[baselang] || '',
+          '',
           entry.Message[baselang],
           actualMlLang
         )
@@ -385,19 +411,18 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
     }
   }
   for (const entry of scenarioDataText.value) {
-    asyncPool.addTask(
-      async () => {
-        tableDialogueTranslated.value[baselang].set(
-          String(entry.ActualPos),
-          await getDialogueMtTranslation(
-            setting.auto_i18n_service as MtServiceName,
-            getCharName(entry).Name[baselang],
-            entry.Message[baselang],
-            actualMlLang
-          )
+    asyncPool.addTask(async () => {
+      tableDialogueTranslated.value[baselang].set(
+        String(entry.ActualPos),
+        await getDialogueMtTranslation(
+          setting.auto_i18n_service as MtServiceName,
+          getCharName(entry).Name[baselang],
+          getCharName(entry).Nickname[baselang],
+          entry.Message[baselang],
+          actualMlLang
         )
-      }
-    )
+      )
+    })
   }
 
   await asyncPool.runAll(ML_pinia.updateProgress)
@@ -414,25 +439,27 @@ function initMlData(initMmt: boolean = false) {
     tableMmtTranslated.value = [] as unknown as MlForMomotalk
     for (let i = 0; i < mmtData.value.length; i++)
       tableMmtTranslated.value.push({
-        'j_ja': [],
-        'j_ko': [],
-        'g_tw': [],
-        'g_tw_cn': [],
-        'g_en': [],
-        'g_th': [],
-        'g_ja': [],
-        'g_ko': [],
-        'c_cn': [],
-        'c_cn_tw': [],
-        'null': []
+        j_ja: [],
+        j_ko: [],
+        g_tw: [],
+        g_tw_cn: [],
+        g_en: [],
+        g_th: [],
+        g_ja: [],
+        g_ko: [],
+        c_cn: [],
+        c_cn_tw: [],
+        null: []
       })
   }
-  scenarioNameDescMt.value = [createDictionaryWithDefault(NexonL10nDataLang, () => {
-    return ''
-  }),
+  scenarioNameDescMt.value = [
     createDictionaryWithDefault(NexonL10nDataLang, () => {
       return ''
-    })]
+    }),
+    createDictionaryWithDefault(NexonL10nDataLang, () => {
+      return ''
+    })
+  ]
 
   for (const lang of NexonL10nDataLang) {
     clearMlTranslation(lang)
@@ -440,19 +467,16 @@ function initMlData(initMmt: boolean = false) {
   clearMlTranslation('null' as NexonL10nDataLang)
 }
 
-watch(
-  mtI18nLangStats,
-  async (newValue) => {
-    await mtPiniaWatchCallback(
-      newValue,
-      updateMlTranslation,
-      (lang: NexonL10nDataLangOfUi) => {
-        clearMlTranslation(lang as NexonL10nDataLang)
-      },
-      ML_pinia.setStatusToComplete
-    )
-  }
-)
+watch(mtI18nLangStats, async (newValue) => {
+  await mtPiniaWatchCallback(
+    newValue,
+    updateMlTranslation,
+    (lang: NexonL10nDataLangOfUi) => {
+      clearMlTranslation(lang as NexonL10nDataLang)
+    },
+    ML_pinia.setStatusToComplete
+  )
+})
 
 provide(symbolForScenarioMtData, tableDialogueTranslated)
 provide(symbolForMomotalkMtData, tableMmtTranslated)
@@ -464,20 +488,17 @@ provide(symbolForMtProgressBool, ML_in_progress)
 const isMobile = computed(() => screenWidth.value < MOBILE_WIDTH_WIDER || setting.ui_force_mobile)
 const cssWidthForThOfChar = '6em'
 const cssWidthForThOfContent = computed(() => {
-  if (isMobile.value)
-    return '100% - calc(6em)'
+  if (isMobile.value) return '100% - calc(6em)'
   else {
     const currLangCount = numberOfSelectedLangForDesktop.value
     if (currLangCount !== 0)
       return `calc(${Math.floor(100 / currLangCount)}vw - ${cssWidthForThOfChar})`
-    else
-      return '100%'
+    else return '100%'
   }
 })
 // -------------------------------------------------------------
 
-const titleChanger = ref<() => void>(() => {
-})
+const titleChanger = ref<() => void>(() => {})
 
 async function loadScenarioData(storyId: string | number) {
   const temp: CommonStoryData = JSON.parse(await httpGetAsync(`/data/story/normal/${storyId}.json`))
@@ -504,21 +525,29 @@ async function loadScenarioData(storyId: string | number) {
 onMounted(async () => {
   await Promise.allSettled([
     /* /data/common/i18n/scenario_sound.*.json */
-    (async() => {
+    (async () => {
       for (const lang of SiteUiLang)
-        await httpGetJsonAsync(DirectoryDataCommonI18nFileScenarioSound.value[lang], `/data/common/i18n/scenario_sound.${lang}.json`)
+        await httpGetJsonAsync(
+          DirectoryDataCommonI18nFileScenarioSound.value[lang],
+          `/data/common/i18n/scenario_sound.${lang}.json`
+        )
     })(),
     /* /data/common/i18n/scenario_bgm.*.json */
-    (async() => {
+    (async () => {
       for (const lang of SiteUiLang)
-        await httpGetJsonAsync(DirectoryDataCommonI18nFileScenarioBgm.value[lang], `/data/common/i18n/scenario_bgm.${lang}.json`)
+        await httpGetJsonAsync(
+          DirectoryDataCommonI18nFileScenarioBgm.value[lang],
+          `/data/common/i18n/scenario_bgm.${lang}.json`
+        )
     })(),
     /* Scenario External Data */
     httpGetJsonAsync(DirectoryDataStoryExtFileBg.value, `/data/story/ext/bg.json`),
     httpGetJsonAsync(DirectoryDataStoryExtFileBgm.value, `/data/story/ext/bgm.json`),
     /* Scenario Metadata */
     (async () => {
-      scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioNameDesc.value = (await getScenarioI18nContent(
+        Number(scenarioID.value)
+      )) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })(),
     /* Momotalk Data */
@@ -533,8 +562,12 @@ onMounted(async () => {
 
   titleChanger.value = watch(
     () => [setting.ui_lang, scenarioID.value, scenarioNameDesc.value[0]],
-    newValue => {
-      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['scenario']), newValue[2] as NexonL10nData, i18nLangAll.value)
+    (newValue) => {
+      changeAppPageTitle(
+        i18n.t(AppPageCategoryToI18nCode['scenario']),
+        newValue[2] as NexonL10nData,
+        i18nLangAll.value
+      )
     },
     { immediate: true, flush: 'post' }
   )
@@ -556,7 +589,9 @@ onBeforeRouteUpdate(async (to, from) => {
   await Promise.allSettled([
     loadScenarioData(scenarioID.value),
     (async () => {
-      scenarioNameDesc.value = await getScenarioI18nContent(Number(scenarioID.value)) as NexonL10nData[]
+      scenarioNameDesc.value = (await getScenarioI18nContent(
+        Number(scenarioID.value)
+      )) as NexonL10nData[]
       scenarioRelatedStoryData.value = await getScenarioRelatedStoryData()
     })(),
     (async () => {
@@ -579,7 +614,6 @@ onBeforeRouteUpdate(async (to, from) => {
   }
   initPagination()
 
-
   isAllDataLoaded.value = true
 })
 </script>
@@ -590,13 +624,15 @@ onBeforeRouteUpdate(async (to, from) => {
   </div>
   <div v-if="isAllDataLoaded">
     <h2>{{ $t('comp-scenario-datasheet-name') }}</h2>
-    <ScenarioSheet :scenario-desc="scenarioNameDesc[1]"
-                   :scenario-name="scenarioNameDesc[0]"
-                   :scenario-desc-mt="scenarioNameDescMt[1]"
-                   :scenario-name-mt="scenarioNameDescMt[0]"
-                   :scenario-id="String(scenarioID)"
-                   :parent-data="scenarioParentData"
-                   :data-status="getScenarioDataStatus(scenarioDataText[0].Message)" />
+    <ScenarioSheet
+      :scenario-desc="scenarioNameDesc[1]"
+      :scenario-name="scenarioNameDesc[0]"
+      :scenario-desc-mt="scenarioNameDescMt[1]"
+      :scenario-name-mt="scenarioNameDescMt[0]"
+      :scenario-id="String(scenarioID)"
+      :parent-data="scenarioParentData"
+      :data-status="getScenarioDataStatus(scenarioDataText[0].Message)"
+    />
     <PvDivider />
 
     <template v-if="mmtCharId !== -1 && mmtDataCurrEntry">
@@ -609,7 +645,8 @@ onBeforeRouteUpdate(async (to, from) => {
           <MomotalkUi
             :data_data="mmtDataCurrEntry"
             :data_charname="bondStuInfo[String(mmtCharId)].Name"
-            :mmt_entry_pos="mmtDataCurrPos" />
+            :mmt_entry_pos="mmtDataCurrPos"
+          />
         </template>
       </PvInplace>
       <PvDivider />
@@ -617,99 +654,130 @@ onBeforeRouteUpdate(async (to, from) => {
 
     <PvSelectButton
       v-model="scenarioDisplayMode"
-      :option-label="i => i18n.t(i.label)"
+      :option-label="(i) => i18n.t(i.label)"
       option-value="value"
-      :options="[{label: 'comp-scenario-mode-switch-0',
-                  value: 0},
-                {label: 'comp-scenario-mode-switch-1',
-                  value: 1}]"
-      :allow-empty="false" />
-    <p><b>{{ $t('comp-scenario-mode-switch-tip') }}</b></p>
-    <p><b style="color: red;">{{ $t('comp-scenario-mode-switch-data-tip') }}</b></p>
+      :options="[
+        { label: 'comp-scenario-mode-switch-0', value: 0 },
+        { label: 'comp-scenario-mode-switch-1', value: 1 }
+      ]"
+      :allow-empty="false"
+    />
+    <p>
+      <b>{{ $t('comp-scenario-mode-switch-tip') }}</b>
+    </p>
+    <p>
+      <b style="color: red">{{ $t('comp-scenario-mode-switch-data-tip') }}</b>
+    </p>
     <PvDivider />
 
-    <ScenarioRelatedStory :prev-id="scenarioRelatedStoryData.Prev.Id"
-                          :prev-name="scenarioRelatedStoryData.Prev.Name"
-                          :prev-pos-string="scenarioRelatedStoryData.Prev.PosString"
-                          :next-id="scenarioRelatedStoryData.Next.Id"
-                          :next-name="scenarioRelatedStoryData.Next.Name"
-                          :next-pos-string="scenarioRelatedStoryData.Next.PosString"
-                          :key="scenarioID"
-                          info-pos="top" />
+    <ScenarioRelatedStory
+      :prev-id="scenarioRelatedStoryData.Prev.Id"
+      :prev-name="scenarioRelatedStoryData.Prev.Name"
+      :prev-pos-string="scenarioRelatedStoryData.Prev.PosString"
+      :next-id="scenarioRelatedStoryData.Next.Id"
+      :next-name="scenarioRelatedStoryData.Next.Name"
+      :next-pos-string="scenarioRelatedStoryData.Next.PosString"
+      :key="scenarioID"
+      info-pos="top"
+    />
     <a ref="htmlAnchorMainTableTop"></a>
-    <table class="momotalk-table" v-if="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
-           id="scnario-main-table">
+    <table
+      class="momotalk-table"
+      v-if="screenWidth >= MOBILE_WIDTH_WIDER && !setting.ui_force_mobile"
+      id="scnario-main-table"
+    >
       <thead>
-      <tr>
-        <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
-          <template v-if="i18nLangAll[idx] as string !== 'null'">
-            <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-            <th scope="col">{{ $t(`comp-mmt-ui-table-th-l${idx + 1}`) }}</th>
+        <tr>
+          <template v-for="idx in i18nDesktopLoopIdx" :key="idx">
+            <template v-if="(i18nLangAll[idx] as string) !== 'null'">
+              <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+              <th scope="col">{{ $t(`comp-mmt-ui-table-th-l${idx + 1}`) }}</th>
+            </template>
           </template>
-        </template>
-      </tr>
+        </tr>
       </thead>
-      <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                        :entry_pos="entry.ActualPos"
-                        :key="idx"
-                        v-for="(entry, idx) in pagination_data_curr[pagination_currPage_curr - 1]" />
+      <ScenarioDialogue
+        :data_type="entry.DataType"
+        :data_char="getCharName(entry)"
+        :data_dialog="entry"
+        :entry_pos="entry.ActualPos"
+        :key="idx"
+        v-for="(entry, idx) in pagination_data_curr[pagination_currPage_curr - 1]"
+      />
     </table>
-    <table class="momotalk-table" v-else
-           id="scnario-main-table">
+    <table class="momotalk-table" v-else id="scnario-main-table">
       <thead>
-      <tr>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
-        <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
-      </tr>
+        <tr>
+          <th scope="col">{{ $t('comp-mmt-ui-table-th-speaker') }}</th>
+          <th scope="col">{{ $t('comp-mmt-ui-table-th-l4') }}</th>
+        </tr>
       </thead>
-      <ScenarioDialogue :data_type="entry.DataType" :data_char="getCharName(entry)" :data_dialog="entry"
-                        :entry_pos="entry.ActualPos"
-                        :key="idx"
-                        v-for="(entry, idx) in pagination_data_curr[pagination_currPage_curr - 1]" />
+      <ScenarioDialogue
+        :data_type="entry.DataType"
+        :data_char="getCharName(entry)"
+        :data_dialog="entry"
+        :entry_pos="entry.ActualPos"
+        :key="idx"
+        v-for="(entry, idx) in pagination_data_curr[pagination_currPage_curr - 1]"
+      />
     </table>
 
     <br />
-    <PvPaginator v-show="scenarioDisplayMode === 0"
+    <PvPaginator
+      v-show="scenarioDisplayMode === 0"
       :rows="setting.scenario_pagination_perPage"
       :total-records="pagination_length[0]"
       :rowsPerPageOptions="paginationScenarioControl.perPage"
       :template="pagination_template"
-
-      @page="value => {pagination_currPage[0] = value.page + 1}"
-      @update:rows="value => {setting.scenario_pagination_perPage = value}"
+      @page="
+        (value) => {
+          pagination_currPage[0] = value.page + 1
+        }
+      "
+      @update:rows="
+        (value) => {
+          setting.scenario_pagination_perPage = value
+        }
+      "
     >
-      <template #end>
-        Total: {{ pagination_length[0] }}
-      </template>
+      <template #end> Total: {{ pagination_length[0] }} </template>
     </PvPaginator>
-    <PvPaginator v-show="scenarioDisplayMode === 1"
-                 :rows="setting.scenario_pagination_perPage"
-                 :total-records="pagination_length[1]"
-                 :rowsPerPageOptions="paginationScenarioControl.perPage"
-                 :template="pagination_template"
-
-                 @page="value => {pagination_currPage[1] = value.page + 1}"
-                 @update:rows="value => {setting.scenario_pagination_perPage = value}"
+    <PvPaginator
+      v-show="scenarioDisplayMode === 1"
+      :rows="setting.scenario_pagination_perPage"
+      :total-records="pagination_length[1]"
+      :rowsPerPageOptions="paginationScenarioControl.perPage"
+      :template="pagination_template"
+      @page="
+        (value) => {
+          pagination_currPage[1] = value.page + 1
+        }
+      "
+      @update:rows="
+        (value) => {
+          setting.scenario_pagination_perPage = value
+        }
+      "
     >
-      <template #end>
-        Total: {{ pagination_length[1] }}
-      </template>
+      <template #end> Total: {{ pagination_length[1] }} </template>
     </PvPaginator>
     <br />
-    <ScenarioRelatedStory :prev-id="scenarioRelatedStoryData.Prev.Id"
-                          :prev-name="scenarioRelatedStoryData.Prev.Name"
-                          :prev-pos-string="scenarioRelatedStoryData.Prev.PosString"
-                          :next-id="scenarioRelatedStoryData.Next.Id"
-                          :next-name="scenarioRelatedStoryData.Next.Name"
-                          :next-pos-string="scenarioRelatedStoryData.Next.PosString"
-                          :key="scenarioID"
-                          info-pos="bottom" />
+    <ScenarioRelatedStory
+      :prev-id="scenarioRelatedStoryData.Prev.Id"
+      :prev-name="scenarioRelatedStoryData.Prev.Name"
+      :prev-pos-string="scenarioRelatedStoryData.Prev.PosString"
+      :next-id="scenarioRelatedStoryData.Next.Id"
+      :next-name="scenarioRelatedStoryData.Next.Name"
+      :next-pos-string="scenarioRelatedStoryData.Next.PosString"
+      :key="scenarioID"
+      info-pos="bottom"
+    />
   </div>
 </template>
 
 <style scoped>
 .momotalk-table th:nth-child(odd) {
-  width: v-bind(cssWidthForThOfChar)
+  width: v-bind(cssWidthForThOfChar);
 }
 
 .momotalk-table th:nth-child(even) {

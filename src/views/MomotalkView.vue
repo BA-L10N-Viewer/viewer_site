@@ -19,7 +19,11 @@ import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
-import { getDialogueMtTranslation, getTranslation, type MtServiceName } from '@/tool/translate/MtDispatcher'
+import {
+  getDialogueMtTranslation,
+  getTranslation,
+  type MtServiceName
+} from '@/tool/translate/MtDispatcher'
 import { mtPiniaWatchCallback, symbolForMomotalkMtData } from '@/tool/translate/MtUtils'
 
 import PvButton from 'primevue/button'
@@ -47,8 +51,7 @@ const i18n = useI18n()
 const props = defineProps({
   charId: Number
 })
-const titleChanger = ref<() => void>(() => {
-})
+const titleChanger = ref<() => void>(() => {})
 
 // ---------------------------------------
 const isLoading = ref(true)
@@ -88,28 +91,27 @@ function clearMlTranslation(baselang: NexonL10nDataLang) {
     // 初始化每一个mmt entry
     if (tableMlMmtData.value.length <= idx) {
       tableMlMmtData.value.push({
-        'j_ja': [],
-        'j_ko': [],
-        'g_tw': [],
-        'g_tw_cn': [],
-        'g_en': [],
-        'g_th': [],
-        'g_ja': [],
-        'g_ko': [],
-        'c_cn': [],
-        'c_cn_tw': [],
-        'null': []
+        j_ja: [],
+        j_ko: [],
+        g_tw: [],
+        g_tw_cn: [],
+        g_en: [],
+        g_th: [],
+        g_ja: [],
+        g_ko: [],
+        c_cn: [],
+        c_cn_tw: [],
+        null: []
       })
     }
 
     // 初始化每一个mmt dialogue entry
     for (let idx2 = 0; idx2 < mmtEntry.Data.length; idx2++) {
-      const blankMlData = { 'name': '', 'dialogue': '' }
+      const blankMlData = { name: '', nickname: '', dialogue: '' }
 
       if (tableMlMmtData.value[idx][baselang].length <= idx2)
         tableMlMmtData.value[idx][baselang].push(blankMlData)
-      else
-        tableMlMmtData.value[idx][baselang][idx2] = blankMlData
+      else tableMlMmtData.value[idx][baselang][idx2] = blankMlData
     }
   }
 }
@@ -122,28 +124,25 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
   const actualMlLang = setting.auto_i18n_lang
   for (const [idx, mmtEntry] of mmtData.entries()) {
     // 对标题的翻译
-    asyncPool.addTask(
-      async () => {
-        listMlMmtTitle.value[mmtEntry.BondScenarioId][baselang] = await getTranslation(
-          setting.auto_i18n_service,
-          mmtI18nData[mmtEntry.BondScenarioId][0][baselang],
-          actualMlLang
-        )
-      }
-    )
+    asyncPool.addTask(async () => {
+      listMlMmtTitle.value[mmtEntry.BondScenarioId][baselang] = await getTranslation(
+        setting.auto_i18n_service,
+        mmtI18nData[mmtEntry.BondScenarioId][0][baselang],
+        actualMlLang
+      )
+    })
 
     const dialogues = mmtEntry.Data
     for (const [idx2, dialogueEntry] of dialogues.entries()) {
-      asyncPool.addTask(
-        async () => {
-          tableMlMmtData.value[idx][baselang][idx2] = await getDialogueMtTranslation(
-            setting.auto_i18n_service as MtServiceName,
-            charName[baselang] || '',
-            dialogueEntry.Message[baselang],
-            actualMlLang
-          )
-        }
-      )
+      asyncPool.addTask(async () => {
+        tableMlMmtData.value[idx][baselang][idx2] = await getDialogueMtTranslation(
+          setting.auto_i18n_service as MtServiceName,
+          charName[baselang] || '',
+          '',
+          dialogueEntry.Message[baselang],
+          actualMlLang
+        )
+      })
     }
   }
 
@@ -154,21 +153,32 @@ async function updateMlTranslation(baselang: NexonL10nDataLang) {
 function initMlData() {
   for (const data of mmtData) {
     listMlMmtTitle.value[data.BondScenarioId] = {
-      j_ja: '', j_ko: '', g_tw: '', g_tw_cn: '', g_en: '', g_th: '', g_ja: '', g_ko: '', c_cn: '', c_cn_tw: '', null: ''
+      j_ja: '',
+      j_ko: '',
+      g_tw: '',
+      g_tw_cn: '',
+      g_en: '',
+      g_th: '',
+      g_ja: '',
+      g_ko: '',
+      c_cn: '',
+      c_cn_tw: '',
+      null: ''
     }
   }
 
-  for (const lang of NexonL10nDataLangConst)
-    clearMlTranslation(lang)
+  for (const lang of NexonL10nDataLangConst) clearMlTranslation(lang)
   clearMlTranslation('null' as NexonL10nDataLang)
 }
 
-watch(
-  mtI18nLangStats,
-  async (newValue) => {
-    await mtPiniaWatchCallback(newValue, updateMlTranslation, clearMlTranslation, ML_pinia.setStatusToComplete)
-  }
-)
+watch(mtI18nLangStats, async (newValue) => {
+  await mtPiniaWatchCallback(
+    newValue,
+    updateMlTranslation,
+    clearMlTranslation,
+    ML_pinia.setStatusToComplete
+  )
+})
 
 provide(symbolForMomotalkMtData, tableMlMmtData)
 
@@ -192,7 +202,9 @@ function scrollToDesignatedElement(eleId: string) {
   if (targetEle) {
     const targetHeightOffset = targetEle.getBoundingClientRect().y - 70
     window.scrollBy({
-      left: 0, top: targetHeightOffset, behavior: 'instant'
+      left: 0,
+      top: targetHeightOffset,
+      behavior: 'instant'
     })
 
     // console.log(targetHeightOffset)
@@ -200,8 +212,7 @@ function scrollToDesignatedElement(eleId: string) {
 }
 
 async function scrollToMmtByUrlHashtag() {
-  if (urlHashStoryId !== -1)
-    mmtStatus.value.push(urlHashStoryId)
+  if (urlHashStoryId !== -1) mmtStatus.value.push(urlHashStoryId)
 
   // 等待Accordion显示
   await nextTick()
@@ -218,7 +229,11 @@ onMounted(async () => {
   titleChanger.value = watch(
     () => setting.ui_lang,
     (newValue) => {
-      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['momotalk']), charName, allLangcodeOfSchaleDbBySiteUiLang[newValue])
+      changeAppPageTitle(
+        i18n.t(AppPageCategoryToI18nCode['momotalk']),
+        charName,
+        allLangcodeOfSchaleDbBySiteUiLang[newValue]
+      )
     },
     { immediate: true }
   )
@@ -230,13 +245,10 @@ onMounted(async () => {
   scrollToMmtByUrlHashtag()
 })
 
-onBeforeUnmount(
-  () => {
-    titleChanger.value()
-  }
-)
+onBeforeUnmount(() => {
+  titleChanger.value()
+})
 </script>
-
 
 <template>
   <div v-if="isLoading">
@@ -244,16 +256,21 @@ onBeforeUnmount(
   </div>
   <div v-if="!isLoading">
     <Teleport to="body">
-      <div style="position: fixed; right: 5%; bottom: 10%;">
+      <div style="position: fixed; right: 5%; bottom: 10%">
         <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
           <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
           <span>L10N</span>
         </PvButton>
       </div>
 
-      <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
-                :draggable="false" :dismissableMask="true"
-                style="width: 90%">
+      <PvDialog
+        v-model:visible="showI18nSettingDialog"
+        modal
+        :closable="true"
+        :draggable="false"
+        :dismissableMask="true"
+        style="width: 90%"
+      >
         <StoryI18nSetting />
       </PvDialog>
     </Teleport>
@@ -265,12 +282,14 @@ onBeforeUnmount(
     <PvAccordion :value="mmtStatus" multiple>
       <PvAccordionPanel v-for="(data, index) in mmtData" :key="index" :value="index">
         <PvAccordionHeader :id="`mmt-story-h2-title-${index}`">
-          <div style="text-align: left; color: black; font-size: 1.2em;">
-            <MomotalkHeader :data_no="index"
-                            :data_mmtid="data.BondScenarioId"
-                            :data_l10n="mmtI18nData[data.BondScenarioId][0]"
-                            :data_l10n_mt="listMlMmtTitle[data.BondScenarioId]"
-                            :is_l2d="data.BondScenarioId === bondL2dData[String(charId)]" />
+          <div style="text-align: left; color: black; font-size: 1.2em">
+            <MomotalkHeader
+              :data_no="index"
+              :data_mmtid="data.BondScenarioId"
+              :data_l10n="mmtI18nData[data.BondScenarioId][0]"
+              :data_l10n_mt="listMlMmtTitle[data.BondScenarioId]"
+              :is_l2d="data.BondScenarioId === bondL2dData[String(charId)]"
+            />
             <span>&nbsp;&nbsp;</span>
           </div>
         </PvAccordionHeader>
