@@ -3,10 +3,10 @@
 import DialogueInfo from '@/components/scenario/DialogueInfo.vue'
 
 import { defineProps } from 'vue'
-import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
+import { getScenarioVideoPaths, extractVideoIdFromScript } from '@/tool/StoryTool'
 import type { NexonL10nDataLang } from '@/types/OutsourcedData'
-import { DirectoryDataCommonFileIndexVideo } from '@/tool/PreFetchedData'
-import { getStaticCdnBasepath } from '@/tool/HttpRequest'
+import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
+import DialogueCmdEntryVideo from '@/components/scenario/cmd/DialogueCmdEntryVideo.vue'
 
 const props = defineProps({
   dialogueLang: {
@@ -50,29 +50,6 @@ const props = defineProps({
     required: true
   }
 })
-
-function getVideoPaths(vid: string | number, lang: NexonL10nDataLang) {
-  const video = DirectoryDataCommonFileIndexVideo.value[vid]
-  if (video) {
-    const paths = video.PathByLang[lang]
-    return [
-      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[0]}.mp4`,
-      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[1]}.ogg`
-    ]
-  } else {
-    return ['', '']
-  }
-}
-function getVideoId() {
-  // 直接从 dialogueContent 里面取得
-  const regex = new RegExp('#video;(\\d+)', 'im')
-  const result = regex.exec(props.dialogueScript)
-  if (result) {
-    return result[1]
-  } else {
-    return ''
-  }
-}
 </script>
 
 <template>
@@ -111,16 +88,14 @@ function getVideoId() {
     />
   </td>
   <td v-else-if="dialogueDataType === 'video'" colspan="2">
-    <video controls class="scenario-bg-img">
-      <source
-        :src="getVideoPaths(getVideoId(), dialogueLang as NexonL10nDataLang)[0]"
-        type="video/mp4"
-      />
-      <source
-        :src="getVideoPaths(getVideoId(), dialogueLang as NexonL10nDataLang)[1]"
-        type="audio/ogg"
-      />
-    </video>
+    <DialogueCmdEntryVideo
+      :data="
+        getScenarioVideoPaths(
+          extractVideoIdFromScript(props.dialogueScript),
+          props.dialogueLang as NexonL10nDataLang
+        )
+      "
+    />
   </td>
   <td v-else class="story-dialogue-other" :lang="dialogueLangHtml" colspan="2">
     <ScenarioTranslatedDialogue

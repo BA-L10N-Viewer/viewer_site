@@ -7,7 +7,12 @@ import {
   listOfPosOfSelectedLangForMobile,
   numberOfSelectedLangForMobile
 } from '@/tool/ConstantComputed'
-import { getNexonL10nData, replaceStoryLineUsernameBlank } from '@/tool/StoryTool'
+import {
+  getNexonL10nData,
+  replaceStoryLineUsernameBlank,
+  getScenarioVideoPaths,
+  extractVideoIdFromScript
+} from '@/tool/StoryTool'
 
 import { defineProps, inject, type PropType, type Ref } from 'vue'
 import type {
@@ -19,8 +24,7 @@ import type {
 import ScenarioTranslatedDialogue from '@/components/DialogueTranslated.vue'
 import type { MlForScenario } from '@/types/MachineTranslation'
 import { symbolForScenarioMtData } from '@/tool/translate/MtUtils'
-import { DirectoryDataCommonFileIndexVideo } from '@/tool/PreFetchedData'
-import { getStaticCdnBasepath } from '@/tool/HttpRequest'
+import DialogueCmdEntryVideo from '@/components/scenario/cmd/DialogueCmdEntryVideo.vue'
 
 const props = defineProps({
   dialogueContent: {
@@ -68,29 +72,6 @@ const htmlTdClassName = (() => {
     return { 'story-dialogue-other': true }
   }
 })()
-
-function getVideoPaths(vid: string | number, lang: NexonL10nDataLang) {
-  const video = DirectoryDataCommonFileIndexVideo.value[String(vid)]
-  if (video) {
-    const paths = video.PathByLang[lang]
-    return [
-      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[0]}.mp4`,
-      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[1]}.ogg`
-    ]
-  } else {
-    return ['', '']
-  }
-}
-function getVideoId() {
-  // 直接从 dialogueContent 里面取得
-  const regex = new RegExp('#video;(\\d+)', 'im')
-  const result = regex.exec(props.dialogueScript)
-  if (result) {
-    return result[1]
-  } else {
-    return ''
-  }
-}
 </script>
 
 <template>
@@ -123,10 +104,14 @@ function getVideoId() {
   <td colspan="2" v-else>
     <template v-for="langIdx in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
-        <video controls class="scenario-bg-img">
-          <source :src="getVideoPaths(getVideoId(), i18nLangAll[langIdx])[0]" type="video/mp4" />
-          <source :src="getVideoPaths(getVideoId(), i18nLangAll[langIdx])[1]" type="audio/ogg" />
-        </video>
+        <DialogueCmdEntryVideo
+          :data="
+            getScenarioVideoPaths(
+              extractVideoIdFromScript(props.dialogueScript),
+              i18nLangAll[langIdx]
+            )
+          "
+        />
         <br />
       </template>
     </template>

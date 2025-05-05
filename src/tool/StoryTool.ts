@@ -16,6 +16,7 @@ import {
   DirectoryDataCommonFileIndexRelatedManifestScenario,
   DirectoryDataCommonFileIndexScenarioI18nEvent,
   DirectoryDataCommonFileIndexScenarioI18nMain,
+  DirectoryDataCommonFileIndexVideo,
   DirectoryDataStoryI18nFileI18nBond,
   DirectoryDataStoryI18nFileI18nEventIndex,
   DirectoryDataStoryI18nFileI18nMainIndex,
@@ -44,10 +45,8 @@ export function mmtMessageContentDecorator(dialogueType: string, dialogueContent
 }
 
 export function convertNewlineToBr(text: string | Nullable): string {
-  if (text)
-    return text.replace(/\[\\n\]/g, '<br />')
-  else
-    return ''
+  if (text) return text.replace(/\[\\n\]/g, '<br />')
+  else return ''
 }
 
 export function convertImgToImg(text: string | Nullable) {
@@ -59,8 +58,7 @@ export function convertImgToImg(text: string | Nullable) {
         return `<img class="momotalk-dialogue-img" src="${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${processedValue}.png" />`
       }
     )
-  else
-    return ''
+  else return ''
 }
 
 export function convertMmtMsgToHtml(text: string | Nullable) {
@@ -68,48 +66,52 @@ export function convertMmtMsgToHtml(text: string | Nullable) {
 }
 
 // 等下，泛型还能这么写？？？？
-export function getNexonL10nData<TypeKey extends string = string, TypeValue extends unknown = string>(entry: Record<TypeKey, TypeValue>, key: TypeKey): TypeValue {
-  if (key in entry)
-    return entry[key]
-  else
-    // I approved this and if anything goes wrong I'll handle it
-    return '' as TypeValue
+export function getNexonL10nData<
+  TypeKey extends string = string,
+  TypeValue extends unknown = string
+>(entry: Record<TypeKey, TypeValue>, key: TypeKey): TypeValue {
+  if (key in entry) return entry[key]
+  // I approved this and if anything goes wrong I'll handle it
+  else return '' as TypeValue
 }
 
-export function removeInvalidLangCode<T extends string>(data: string[], validLangs: T[]): T[]{
+export function removeInvalidLangCode<T extends string>(data: string[], validLangs: T[]): T[] {
   const result: T[] = [] as unknown as T[]
-  for (const entry of data){
-    if (validLangs.indexOf(entry as T) !== -1)
-      result.push(entry as T)
+  for (const entry of data) {
+    if (validLangs.indexOf(entry as T) !== -1) result.push(entry as T)
   }
   return result
 }
 
-export function getNexonL10nDataFlattened(entry: NexonL10nData | SchaleDbL10nData, langs: string[],
-                                          splitter: string = ''): string {
+export function getNexonL10nDataFlattened(
+  entry: NexonL10nData | SchaleDbL10nData,
+  langs: string[],
+  splitter: string = ''
+): string {
   // 尽管这里说是 NexonL10nData 但实际上也可以是 SchaleDbL10nData
   type entryLangKeys = keyof NexonL10nData
 
-  const textJoiner = function join<T extends NexonL10nData | SchaleDbL10nData,
-                                   U extends keyof T>(data: T, langs: U[]): string {
+  const textJoiner = function join<T extends NexonL10nData | SchaleDbL10nData, U extends keyof T>(
+    data: T,
+    langs: U[]
+  ): string {
     let temp = ''
     if (langs.length >= 1) {
       temp += entry[langs[0] as entryLangKeys]
     }
     if (langs.length > 1) {
-      for (const lang of langs.slice(1))
-        temp += ` ${splitter} ${data[lang]}`
+      for (const lang of langs.slice(1)) temp += ` ${splitter} ${data[lang]}`
     }
     return temp
   }
-  if ('c_zh' in entry){
+  if ('c_zh' in entry) {
     const actualLangs = removeInvalidLangCode<SchaleDbL10nDataLang>(langs, SchaleDbL10nDataLang)
     return textJoiner<SchaleDbL10nData, SchaleDbL10nDataLang>(entry, actualLangs)
   } else {
     const actualLangs = removeInvalidLangCode<NexonL10nDataLang>(langs, NexonL10nDataLang)
-    return textJoiner<NexonL10nData, NexonL10nDataLang>(entry, actualLangs)}
+    return textJoiner<NexonL10nData, NexonL10nDataLang>(entry, actualLangs)
+  }
 }
-
 
 export function replaceStoryLineUsernameBlank(text: String) {
   const setting = useSetting()
@@ -135,7 +137,9 @@ export async function getScenarioI18nContent(scenarioId: Number) {
     return temp ? temp : [defaultData, defaultData]
   } else {
     const i18nData: I18nStoryXxhashToL10nData = DirectoryDataStoryI18nFileI18nStory.value
-    let data: IndexScenarioInfoToI18nId, data2: I18nStoryInfoIdToXxhash, i18nKey: string[] | number[]
+    let data: IndexScenarioInfoToI18nId,
+      data2: I18nStoryInfoIdToXxhash,
+      i18nKey: string[] | number[]
 
     // main (side, main, short (700xxxxx))
     data = DirectoryDataCommonFileIndexScenarioI18nMain.value
@@ -170,7 +174,10 @@ export function getScenarioExtraDataById(scenarioId: number | string) {
   if (type1 === 'main') {
     if (temp.length === 8) {
       if (temp.startsWith('90000'))
-        actualPos = dataRelatedScenario['main'][temp]?.[1] + 1 ?? dataRelatedScenario['event'][temp]?.[1] + 1 ?? -1
+        actualPos =
+          dataRelatedScenario['main'][temp]?.[1] + 1 ??
+          dataRelatedScenario['event'][temp]?.[1] + 1 ??
+          -1
       else {
         actualPos = Number(temp.slice(5, 7))
         isAfterBattle = temp.slice(-1) === '5'
@@ -178,17 +185,15 @@ export function getScenarioExtraDataById(scenarioId: number | string) {
     } else {
       const type2 = inferScenarioMainCategoryById(scenarioId)
       if (type2 === 'main') {
-        if (!temp.startsWith("1100")){
+        if (!temp.startsWith('1100')) {
           actualPos = temp.length === 6 ? Number(temp.slice(3, 5)) : Number(temp.slice(2, 4))
           isAfterBattle = temp.slice(-1) === '5'
         } else {
           actualPos = Number(temp.slice(-1)) + 1
         }
-      } else
-        actualPos = dataRelatedScenario['main'][temp]?.[1] + 1 ?? -1
+      } else actualPos = dataRelatedScenario['main'][temp]?.[1] + 1 ?? -1
     }
-  } else
-    actualPos = dataRelatedScenario[type1][temp]?.[1] + 1 ?? -1
+  } else actualPos = dataRelatedScenario[type1][temp]?.[1] + 1 ?? -1
 
   return { isAfterBattle: isAfterBattle, actualScenarioNo: actualPos }
 }
@@ -210,6 +215,31 @@ export function getScenarioCharacterSmallPortraitPath(path: string): string | nu
 export function getScenarioPopupFilenamePath(filename: string): string {
   if (filename.endsWith('.png'))
     return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}`
-  else
-    return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}.png`
+  else return `${getStaticCdnBasepath('static')}/ba/04_04_ScenarioImage/${filename}.png`
+}
+
+export function getScenarioVideoPaths(
+  vid: string | number,
+  lang: NexonL10nDataLang
+): [string, string] {
+  const video = DirectoryDataCommonFileIndexVideo.value[String(vid)]
+  if (video) {
+    const paths = video.PathByLang[lang]
+    return [
+      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[0]}.mp4`,
+      `${getStaticCdnBasepath('static')}/ba/Scenario_Video/${paths[1]}.ogg`
+    ]
+  } else {
+    return ['', '']
+  }
+}
+
+export function extractVideoIdFromScript(script: string) {
+  const regex = new RegExp('#video.*?;(\\d+)', 'im')
+  const result = regex.exec(script)
+  if (result) {
+    return result[1]
+  } else {
+    return ''
+  }
 }
