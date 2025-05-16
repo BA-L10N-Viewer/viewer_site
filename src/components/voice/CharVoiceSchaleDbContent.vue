@@ -10,7 +10,7 @@ import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
 import { useWindowSize } from '@vueuse/core'
-import { MOBILE_WIDTH, NexonLangMapReverse } from '@/tool/Constant'
+import { MOBILE_WIDTH, NexonLangMapReverse, NexonLangMap } from '@/tool/Constant'
 import { DirectoryDataCommonSchaleFileLocalization } from '@/tool/PreFetchedData'
 import { useSetting } from '@/stores/setting'
 
@@ -82,7 +82,7 @@ onMounted(async () => {
           <template #body="slotProps">
             <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
             <DialogueTranslated
-              :content-original-lang="slotProps.data.TranscriptionLang"
+              :content-original-lang="NexonLangMap[slotProps.data.TranscriptionLang]"
               :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
               :content-original="slotProps.data.Transcription || 'null'" />
           </template>
