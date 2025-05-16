@@ -108,7 +108,7 @@ onMounted(async () => {
               }}</PvTag
               >&nbsp;
               <DialogueTranslated
-                :content-original-lang="NexonLangMap[slotProps.data.Transcription]"
+                :content-original-lang="NexonLangMap[slotProps.data.TranscriptionLang]"
                 :content-translated="
                   dataVoiceMt[slotProps.data.Id]?.Transcription[
                     slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi

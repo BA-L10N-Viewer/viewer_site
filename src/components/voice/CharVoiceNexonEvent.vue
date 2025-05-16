@@ -179,7 +179,7 @@ onMounted(async () => {
                 }}</PvTag
                 >&nbsp;
                 <DialogueTranslated
-                  :content-original-lang="NexonLangMap[slotProps.data.Transcription]"
+                  :content-original-lang="NexonLangMap[slotProps.data.TranscriptionLang]"
                   :content-translated="
                     dataVoiceMt[`${eventData.EventId}_${slotProps.data.Id}`]?.Transcription[
                       slotProps.data.EventType! as NexonCharVoiceEventTranscriptionType

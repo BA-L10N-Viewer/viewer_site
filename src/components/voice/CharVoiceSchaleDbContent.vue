@@ -82,7 +82,7 @@ onMounted(async () => {
           <template #body="slotProps">
             <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
             <DialogueTranslated
-              :content-original-lang="slotProps.data.Transcription"
+              :content-original-lang="slotProps.data.TranscriptionLang"
               :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
               :content-original="slotProps.data.Transcription || 'null'" />
           </template>
