@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <video controls class="scenario-bg-img">
+  <video controls>
     <source :src="props.data[0]" type="video/mp4" />
     <source :src="props.data[1]" type="audio/ogg" />
   </video>
