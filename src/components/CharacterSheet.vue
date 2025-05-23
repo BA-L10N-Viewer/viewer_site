@@ -36,7 +36,7 @@ let sdbLocalizationData: SchaleDbI18nDictData = {} as unknown as SchaleDbI18nDic
 const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
 const isNpc = computed(() => String(props.charId) in CHAR_NPC_IMG_URL)
 
-const charImgUrl = isNpc.value ? CHAR_NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
+const charImgUrl = computed(() => isNpc.value ? CHAR_NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`)
 let indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 const cssCharColor = computed(() => {
@@ -80,7 +80,7 @@ onMounted(async () => {
       </tr>
       <tr>
         <td style="text-align: center; width: 8em;" rowspan="3">
-          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" :key="charId" />
+          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" />
           <br />
           <span :style="{'color': cssCharColor}"><b>{{ charId }}</b></span>
         </td>
@@ -126,7 +126,7 @@ onMounted(async () => {
       </tr>
       <tr>
         <td style="text-align: center;">
-          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" :key="charId" />
+          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" />
           <br />
           <span :style="{'color': cssCharColor}"><b>{{ charId }}</b></span>
         </td>
