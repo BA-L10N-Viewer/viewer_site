@@ -112,7 +112,7 @@ const htmlTdClassName = (() => {
             )
           "
         />
-        <br />
+        <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />
       </template>
     </template>
   </td>
