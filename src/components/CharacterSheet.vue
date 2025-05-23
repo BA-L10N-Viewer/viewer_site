@@ -80,7 +80,7 @@ onMounted(async () => {
       </tr>
       <tr>
         <td style="text-align: center; width: 8em;" rowspan="3">
-          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" />
+          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" :key="charId" />
           <br />
           <span :style="{'color': cssCharColor}"><b>{{ charId }}</b></span>
         </td>
@@ -126,7 +126,7 @@ onMounted(async () => {
       </tr>
       <tr>
         <td style="text-align: center;">
-          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" />
+          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" :key="charId" />
           <br />
           <span :style="{'color': cssCharColor}"><b>{{ charId }}</b></span>
         </td>
