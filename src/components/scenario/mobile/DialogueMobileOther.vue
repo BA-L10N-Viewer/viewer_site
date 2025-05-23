@@ -102,7 +102,7 @@ const htmlTdClassName = (() => {
     />
   </td>
   <td colspan="2" v-else>
-    <template v-for="langIdx in listOfPosOfSelectedLangForMobile" :key="langIdx">
+    <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
       <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
         <DialogueCmdEntryVideo
           :data="
