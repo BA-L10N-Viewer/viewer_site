@@ -2,9 +2,9 @@
 import { type Component, onMounted, watch } from 'vue'
 import { useSetting } from '@/stores/setting'
 import type { SiteUiLang } from '@/tool/Constant'
-import AboutViewCompEn from '@/components/views/AboutViewCompEn.vue'
-import AboutViewCompZhCn from '@/components/views/AboutViewCompZhCn.vue'
-import AboutViewCompZhTw from '@/components/views/AboutViewCompZhTw.vue'
+import AboutViewCompEn from '@/views/langs/AboutViewCompEn.vue'
+import AboutViewCompZhCn from '@/views/langs/AboutViewCompZhCn.vue'
+import AboutViewCompZhTw from '@/views/langs/AboutViewCompZhTw.vue'
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useI18n } from 'vue-i18n'
 

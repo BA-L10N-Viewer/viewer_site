@@ -4,9 +4,9 @@ import { useI18n } from 'vue-i18n'
 import { type Component, onMounted, watch } from 'vue'
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import type { SiteUiLang } from '@/tool/Constant'
-import MisakiiiViewCompEn from '@/components/views/MisakiiiViewCompEn.vue'
-import MisakiiiViewCompZhCn from '@/components/views/MisakiiiViewCompZhCn.vue'
-import MisakiiiViewCompZhTw from '@/components/views/MisakiiiViewCompZhTw.vue'
+import MisakiiiViewCompEn from '@/views/langs/MisakiiiViewCompEn.vue'
+import MisakiiiViewCompZhCn from '@/views/langs/MisakiiiViewCompZhCn.vue'
+import MisakiiiViewCompZhTw from '@/views/langs/MisakiiiViewCompZhTw.vue'
 
 const allComps: Record<SiteUiLang, Component> = {
   en: MisakiiiViewCompEn,
