@@ -1,245 +1,266 @@
 @import './base.css';
 
 #app-main {
-    height: 100%;
+  height: 100%;
 }
 
 #app-top-navi-logo {
-    height: 2.5em;
+  height: 2.5em;
 }
 
 /* Momotalk */
 /* (Partially borrowed from blue-archive.io) */
 .momotalk-div {
-    max-width: 44em;
-    overflow: hidden;
+  max-width: 44em;
+  overflow: hidden;
 
-    margin-left: calc(50vw - 22em);
-    margin-right: calc(50vw - 22em);
+  margin-left: calc(50vw - 22em);
+  margin-right: calc(50vw - 22em);
 }
 
 @media only screen and (max-width: 700px) {
-    .momotalk-div {
-        margin-left: revert;
-        margin-right: revert;
-        width: calc(100vw - 2em);
-        max-width: 100%;
-    }
+  .momotalk-div {
+    margin-left: revert;
+    margin-right: revert;
+    width: calc(100vw - 2em);
+    max-width: 100%;
+  }
 }
 
 .momotalk-table {
-    width: 100%;
+  width: 100%;
 }
 
-.momotalk-table, .momotalk-table thead th, .momotalk-table td {
-    border: 1px solid black;
+.momotalk-table,
+.momotalk-table thead th,
+.momotalk-table td {
+  border: 1px solid black;
 }
 
-.momotalk-table thead th, .momotalk-table td {
-    padding: 8px;
+.momotalk-table thead th,
+.momotalk-table td {
+  padding: 8px;
 }
 
 .momotalk-table > thead {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .momotalk-header {
-    background-color: var(--color-ba-mmt);
-    display: block;
-    width: 100%;
+  background-color: var(--color-ba-mmt);
+  display: block;
+  width: 100%;
 
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .momotalk-header-p {
-    padding: 5px 0;
-    font-size: 1.5em;
-    font-weight: bold;
-    margin: 0;
+  padding: 5px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0;
 }
 
-.momotalk-speaker, .scenario-speaker {
-    width: 6em;
-    text-align: center;
+.momotalk-speaker,
+.scenario-speaker {
+  width: 6em;
+  text-align: center;
 }
 
-.momotalk-text, .scenario-text {
-    max-width: 20em
+.momotalk-text,
+.scenario-text {
+  max-width: 20em;
 }
 
-.momotalk-dialogue, .scenario-dialogue {
-    padding: 3px;
-    word-break: break-word;
+.momotalk-dialogue,
+.scenario-dialogue {
+  padding: 3px;
+  word-break: break-word;
 }
 
 .scenario-popup-img {
-    max-width: 20vw
+  max-width: 20vw;
 }
 
 .scenario-bg-img {
-    max-width: calc(33vw - 8em);
+  max-width: calc(33vw - 8em);
 }
 
 @media only screen and (max-width: 800px) {
-    .scenario-bg-img {
-        max-width: 80vw;
-    }
+  .scenario-bg-img {
+    max-width: 80vw;
+  }
 }
 
 .momotalk-dialogue-tr {
-    display: table-row;
+  display: table-row;
 }
 
 .momotalk-dialogue-img {
-    max-width: 20vw;
+  max-width: 20vw;
 }
 
 @media screen and (max-width: 1200px) {
-    .momotalk-dialogue-img {
-        max-width: 45vw;
-    }
+  .momotalk-dialogue-img {
+    max-width: 45vw;
+  }
 }
 
 .view-h1 {
-    font-size: 2em;
+  font-size: 2em;
 }
 
 /* DialogueStudentXxx */
 .momotalk-dialogue-text-green {
-    color: rgba(34, 139, 34);
+  color: rgba(34, 139, 34);
 }
 
 .momotalk-dialogue-text-blue {
-    color: rgba(18, 138, 250);
+  color: rgba(18, 138, 250);
 }
 
 .momotalk-dialogue-sensei {
-    text-align: right;
-    font-weight: bold;
+  text-align: right;
+  font-weight: bold;
 }
 
 .momotalk-dialogue-sensei-td {
-    border-width: 3px;
+  border-width: 3px;
 }
-
 
 /**/
 .scenario-cmd-title {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
 
 .scenario-cmd-title-sub {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 .scenario-cmd-next-episode {
-    font-size: 1.4em;
+  font-size: 1.4em;
 }
 
 .scenario-cmd-next-episode-sub {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 /* Ruby */
-ruby {font-size: 1.0em}
-rt {font-size:0.8em}
+ruby {
+  font-size: 1em;
+}
+rt {
+  font-size: 0.8em;
+}
 
 /**/
 .mobile-lang-hr {
-    width: calc(100% - 5px);
-    color: rgb(250, 250, 250);
-    margin-right: 5px;
+  width: calc(100% - 5px);
+  color: rgb(250, 250, 250);
+  margin-right: 5px;
 }
 
 /* 对所有设置的统一CSS */
 .setting-row {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 @media screen and (max-width: 700px) {
-    .setting-row-connect-to-next {
-        margin-bottom: 0 !important;
-    }
+  .setting-row-connect-to-next {
+    margin-bottom: 0 !important;
+  }
 }
 
-.setting-row button, .setting-row .el-select {
-    margin-bottom: 5px;
+.setting-row button,
+.setting-row .el-select {
+  margin-bottom: 5px;
 }
 
 .btn-auto-translate {
-    text-align: center;
-    width: calc(100% - 5px);
+  text-align: center;
+  width: calc(100% - 5px);
 }
 
 .char-voice-group-h3 {
-    font-size: 1.3em;
+  font-size: 1.3em;
 }
 
 #actual-body {
-    /* Mimics the el-container behavior */
-    margin-top: 60px;
-    padding: 20px;
+  /* Mimics the el-container behavior */
+  margin-top: 60px;
+  padding: 20px;
 }
 
 /* PvFluid 常用css classes */
 .pv-fluid {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .pv-fluid-spacing {
-    height: 8px;
+  height: 8px;
 }
 
 /* 搜索页 */
 .search-select-span-label {
-    width: 6rem;
+  width: 6rem;
 }
 
 .search-select-pv-select {
-    width: calc(100% - 6rem)
+  width: calc(100% - 6rem);
 }
 
 .search-h1 {
-    font-size: 4rem;
-    text-align: center
+  font-size: 4rem;
+  text-align: center;
 }
 
 .search-h1 > i {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 
 @media screen and (max-width: 700px) {
-    .search-h1 {
-        font-size: 3rem;
-    }
+  .search-h1 {
+    font-size: 3rem;
+  }
 
-    .search-h1 > i {
-        font-size: 3rem;
-    }
+  .search-h1 > i {
+    font-size: 3rem;
+  }
 
-    .search-select-div {
-        width: 100%;
-        margin: revert;
-    }
+  .search-select-div {
+    width: 100%;
+    margin: revert;
+  }
+}
+
+/* <ul> <ol> */
+.ul-compact,
+.ol-compact {
+  padding-left: 2em !important;
+}
+
+.ul-compact .ul-compact {
+  margin-top: 0em;
+  margin-bottom: 0em;
 }
 
 /* Datasheets */
-table[class~=datasheet] {
-    width: 100%;
-    border: 1px solid grey;
-    border-collapse: collapse;
+table[class~='datasheet'] {
+  width: 100%;
+  border: 1px solid grey;
+  border-collapse: collapse;
 }
-table[class~=datasheet] td {
-    border: 1px solid #e5e7eb;
+table[class~='datasheet'] td {
+  border: 1px solid #e5e7eb;
 }
-table[class~=datasheet] td {
-    padding: 8px 11px;
+table[class~='datasheet'] td {
+  padding: 8px 11px;
 }
-table[class~=datasheet] .datasheet-title {
-    color: #606266;
-    background-color: #f5f7fa;
-    font-weight: 700;
-    text-align: center;
-    width: 4em;
+table[class~='datasheet'] .datasheet-title {
+  color: #606266;
+  background-color: #f5f7fa;
+  font-weight: 700;
+  text-align: center;
+  width: 4em;
 }

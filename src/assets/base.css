@@ -2,8 +2,8 @@
 
 /* Blue Archive Color (SchaleDB, etc.) */
 :root {
-  --color-ba-logo: #128AFA;
-  --color-ba-mmt: #F19EAA;
+  --color-ba-logo: #128afa;
+  --color-ba-mmt: #f19eaa;
   --color-ba-stu-striker: #cc1a25;
   --color-ba-stu-special: #006bff;
 
@@ -16,15 +16,44 @@
 }
 
 /* Fonts */
-*:lang(zh_CN), *:lang(zh_cn) {font-family: "Noto Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif}
-*:lang(zh_TW), *:lang(zh_tw) {font-family: "Noto Sans TC", "Microsoft JhengHei UI", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif}
-*:lang(en), *:lang(fr), *:lang(de), *:lang(it), *:lang(ru), *:lang(vi), *:lang(pt), *:lang(pt-PT) {font-family: "Noto Sans", "Roboto", sans-serif}
-*:lang(jp), *:lang(ja) {font-family: "Noto Sans JP", sans-serif}
-*:lang(kr), *:lang(ko) {font-family: "Noto Sans KR", sans-serif}
-*:lang(th) {font-family: "Noto Sans Thai", sans-serif}
+*:lang(zh_CN),
+*:lang(zh_cn) {
+  font-family: 'Noto Sans SC', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
+}
+*:lang(zh_TW),
+*:lang(zh_tw) {
+  font-family: 'Noto Sans TC', 'Microsoft JhengHei UI', 'Microsoft YaHei', 'Helvetica Neue',
+    Helvetica, Arial, sans-serif;
+}
+*:lang(en),
+*:lang(fr),
+*:lang(de),
+*:lang(it),
+*:lang(ru),
+*:lang(vi),
+*:lang(pt),
+*:lang(pt-PT) {
+  font-family: 'Noto Sans', 'Roboto', sans-serif;
+}
+*:lang(jp),
+*:lang(ja) {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+*:lang(kr),
+*:lang(ko) {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+*:lang(th) {
+  font-family: 'Noto Sans Thai', sans-serif;
+}
 
 /* Bootstrap (partially adopted) */
-a {color: var(--color-bs-primary)}
+a {
+  color: var(--color-bs-primary);
+}
 
 /* Command */
-cmd-char {display: none}
+cmd-char {
+  display: none;
+}
