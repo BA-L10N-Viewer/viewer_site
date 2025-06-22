@@ -1,26 +1,32 @@
 import { MAX_RETRY_DEPTH } from '@/tool/HttpRequest'
 
 export type MyipLaResponse = {
-  ip: string;
+  ip: string
   location: {
-    city: string; country_code: string;
-    latitude: string; longitude: string;
-    province: string;
+    city: string
+    country_code: string
+    latitude: string
+    longitude: string
+    province: string
   }
 }
 export const MyipLaResponseBlank = {
   ip: '1.1.1.1',
   location: {
-    city: 'unknown', country_code: 'unknown',
-    latitude: '0.0', longitude: '0.0',
+    city: 'unknown',
+    country_code: 'unknown',
+    latitude: '0.0',
+    longitude: '0.0',
     province: 'unknown'
   }
 }
 
-export async function getIpDetail(lang: string = 'en', dataType: string = 'json',
-                                  depth: number = 0): Promise<MyipLaResponse | string> {
-  if (depth > MAX_RETRY_DEPTH)
-    return MyipLaResponseBlank
+export async function getIpDetail(
+  lang: string = 'en',
+  dataType: string = 'json',
+  depth: number = 0
+): Promise<MyipLaResponse | string> {
+  if (depth > MAX_RETRY_DEPTH) return MyipLaResponseBlank
 
   const url = `https://api.myip.la/${lang}?${dataType}`
   try {
@@ -37,10 +43,12 @@ export async function getIpDetail(lang: string = 'en', dataType: string = 'json'
   }
 }
 
-export function getIpDetailSync(lang: string = 'en', dataType: string = 'json',
-                                depth: number = 0): MyipLaResponse | string {
-  if (depth > MAX_RETRY_DEPTH)
-    return MyipLaResponseBlank
+export function getIpDetailSync(
+  lang: string = 'en',
+  dataType: string = 'json',
+  depth: number = 0
+): MyipLaResponse | string {
+  if (depth > MAX_RETRY_DEPTH) return MyipLaResponseBlank
 
   const url = `https://api.myip.la/${lang}?${dataType}`
 

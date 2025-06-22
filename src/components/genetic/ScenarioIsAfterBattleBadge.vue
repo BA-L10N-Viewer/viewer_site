@@ -12,20 +12,21 @@ const props = defineProps({
 })
 
 const isScenarioMain = checkIfScenarioIdIsMain(props.storyId)
-let scenarioIdExtraData : ReturnType<typeof getScenarioExtraDataById>
+let scenarioIdExtraData: ReturnType<typeof getScenarioExtraDataById>
 if (isScenarioMain) {
   scenarioIdExtraData = getScenarioExtraDataById(props.storyId)
-}
-else {
-  scenarioIdExtraData = {isAfterBattle: false, actualScenarioNo: -1}
+} else {
+  scenarioIdExtraData = { isAfterBattle: false, actualScenarioNo: -1 }
 }
 </script>
 
 <template>
-  <PvTag severity="success" v-if="isScenarioMain && !scenarioIdExtraData.isAfterBattle">{{ $t('comp-search-result-main-before-battle') }}</PvTag>
-  <PvTag severity="danger" v-else-if="isScenarioMain">{{ $t('comp-search-result-main-after-battle') }}</PvTag>
+  <PvTag severity="success" v-if="isScenarioMain && !scenarioIdExtraData.isAfterBattle">{{
+    $t('comp-search-result-main-before-battle')
+  }}</PvTag>
+  <PvTag severity="danger" v-else-if="isScenarioMain">{{
+    $t('comp-search-result-main-after-battle')
+  }}</PvTag>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

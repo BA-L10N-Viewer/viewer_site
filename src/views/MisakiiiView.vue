@@ -8,7 +8,6 @@ import MisakiiiViewCompEn from '@/components/views/MisakiiiViewCompEn.vue'
 import MisakiiiViewCompZhCn from '@/components/views/MisakiiiViewCompZhCn.vue'
 import MisakiiiViewCompZhTw from '@/components/views/MisakiiiViewCompZhTw.vue'
 
-
 const allComps: Record<SiteUiLang, Component> = {
   en: MisakiiiViewCompEn,
   zh_CN: MisakiiiViewCompZhCn,
@@ -18,18 +17,15 @@ const allComps: Record<SiteUiLang, Component> = {
 const setting = useSetting()
 const i18n = useI18n()
 
-
-onMounted(
-  () => {
-    watch(
-      () => setting.ui_lang,
-      () => {
-        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['misakiii']))
-      },
-      { immediate: true }
-    )
-  }
-)
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    () => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['misakiii']))
+    },
+    { immediate: true }
+  )
+})
 </script>
 
 <template>

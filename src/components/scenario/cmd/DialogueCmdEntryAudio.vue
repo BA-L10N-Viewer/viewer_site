@@ -120,11 +120,11 @@ function audioInit() {
     src: [audioDataSrc],
     html5: true,
     onpause: pauseAudioIcon,
-    onplay: function() {
+    onplay: function () {
       playButton.classList.remove('play')
       playButton.classList.add('pause')
     },
-    onend: function() {
+    onend: function () {
       if (audioShouldLoop) {
         howler.seek(0)
         howler.play()
@@ -132,17 +132,17 @@ function audioInit() {
         pauseAudioIcon()
       }
     },
-    onload: function() {
+    onload: function () {
       if (audioTime) {
         audioCurrentTime.innerText = '0:00'
         audioDivider.innerText = '/'
         audioLength.innerText = getTimeCodeFromNum(String(howler.duration()))
       }
     },
-    onloaderror: function() {
+    onloaderror: function () {
       audioCurrentTime.innerText = 'Failed to load'
     },
-    onvolume: function() {
+    onvolume: function () {
       if (volumePercentage) {
         volumePercentage.style.width = howler.volume() * 100 + '%'
       }
@@ -155,16 +155,13 @@ function audioInit() {
   }, 100)
 
   if (audioShouldLoop && audioDataLoopEnd !== 0) {
-    watch(
-      audioCurrTime,
-      () => {
-        checkBGMLoop(howler)
-      }
-    )
+    watch(audioCurrTime, () => {
+      checkBGMLoop(howler)
+    })
   }
 
   let lastSeek = 0
-  const updateProgress = function() {
+  const updateProgress = function () {
     const seek = howler.seek()
     if (seek === lastSeek) {
       return
@@ -172,7 +169,7 @@ function audioInit() {
     lastSeek = seek
 
     if (progressBar) {
-      progressBar.style.width = (seek / howler.duration() * 100) + '%'
+      progressBar.style.width = (seek / howler.duration()) * 100 + '%'
     }
     if (audioCurrentTime) {
       audioCurrentTime.innerText = getTimeCodeFromNum(String(seek))
@@ -182,16 +179,13 @@ function audioInit() {
 
   // update progress in every set interval
   if ((audioShouldLoop && audioDataLoopEnd !== 0) || progressBar || audioCurrentTime) {
-    watch(
-      audioCurrTime,
-      () => {
-        updateProgress()
-      }
-    )
+    watch(audioCurrTime, () => {
+      updateProgress()
+    })
   }
 
   // controls playing and pausing
-  playButton.parentElement!.addEventListener('click', function() {
+  playButton.parentElement!.addEventListener('click', function () {
     if (howler.playing()) {
       howler.pause()
     } else {
@@ -201,16 +195,16 @@ function audioInit() {
 
   // seek whenever the timeline is clicked
   if (timeline) {
-    timeline.addEventListener('click', e => {
+    timeline.addEventListener('click', (e) => {
       const timelineWidth = window.getComputedStyle(timeline).width
-      const timeToSeek = e.offsetX / parseInt(timelineWidth) * howler.duration()
+      const timeToSeek = (e.offsetX / parseInt(timelineWidth)) * howler.duration()
       howler.seek(timeToSeek)
     })
   }
 
   // controls volume button: either mute or unmute
   if (volumeButton) {
-    volumeButton.addEventListener('click', function() {
+    volumeButton.addEventListener('click', function () {
       if (muted) {
         howler.mute(false)
         volumeButtonIcon.classList.remove('icon-muted')
@@ -226,7 +220,7 @@ function audioInit() {
 
   // controls volume slider
   if (volumeSlider) {
-    volumeSlider.addEventListener('click', e => {
+    volumeSlider.addEventListener('click', (e) => {
       const sliderWidth = window.getComputedStyle(volumeSlider).width
       const newVolume = e.offsetX / parseInt(sliderWidth)
       howler.volume(newVolume)
@@ -235,13 +229,13 @@ function audioInit() {
 
   // control pause behavior
   if (audioIsPauseButton.value) {
-    playButton.parentElement!.addEventListener('click', function() {
+    playButton.parentElement!.addEventListener('click', function () {
       howler.pause()
     })
-    return {howler}
+    return { howler }
   }
 
-  return {howler}
+  return { howler }
 }
 
 onMounted(() => {
@@ -254,8 +248,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  if (audioCurrTimeSetInterval.value)
-    clearInterval(audioCurrTimeSetInterval.value)
+  if (audioCurrTimeSetInterval.value) clearInterval(audioCurrTimeSetInterval.value)
   if (howler.value) {
     howler.value.stop()
     howler.value = null
@@ -264,21 +257,26 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="audio-player" :style="{margin: '4px 4px', 'padding-top': playerNoProgress ? '20px' : ''}">
+  <div
+    class="audio-player"
+    :style="{ margin: '4px 4px', 'padding-top': playerNoProgress ? '20px' : '' }"
+  >
     <div class="timeline" ref="htmlDivTimeline" v-show="!playerNoProgress">
       <div class="progress" ref="htmlDivProgress"></div>
     </div>
     <div class="controls">
       <div class="play-container">
-        <div :class="['toggle-play', audioIsPauseButton ? 'pause' : 'play']" ref="htmlDivTogglePlay"></div>
+        <div
+          :class="['toggle-play', audioIsPauseButton ? 'pause' : 'play']"
+          ref="htmlDivTogglePlay"
+        ></div>
       </div>
       <div class="time" ref="htmlDivTime" v-show="!playerNoTime">
         <div class="current" ref="htmlDivCurrent">Loading...</div>
         <div class="divider" ref="htmlDivDivider"></div>
         <div class="length" ref="htmlDivLength"></div>
       </div>
-      <div class="name">{{ audioNameDisplay }}
-      </div>
+      <div class="name">{{ audioNameDisplay }}</div>
       <div class="volume-container" v-show="!playerNoVolume">
         <div class="volume-button" ref="htmlDivVolumeButton">
           <div class="volume icon-volume-medium" ref="htmlDivVolume"></div>
@@ -376,7 +374,7 @@ onBeforeUnmount(() => {
   top: 0;
   left: 0;
   background: white;
-  content: "";
+  content: '';
   height: 15px;
   width: 3px;
 }
@@ -386,7 +384,7 @@ onBeforeUnmount(() => {
   top: 0;
   right: 8px;
   background: white;
-  content: "";
+  content: '';
   height: 15px;
   width: 3px;
 }
@@ -435,7 +433,7 @@ onBeforeUnmount(() => {
   text-indent: -9999px;
   direction: ltr;
   box-sizing: border-box;
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 .audio-player .controls .volume-container .volume-button .icon-volume-medium::before {
@@ -475,7 +473,7 @@ onBeforeUnmount(() => {
   text-indent: -9999px;
   direction: ltr;
   box-sizing: border-box;
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 .audio-player .controls .volume-container .volume-button .icon-muted:before {

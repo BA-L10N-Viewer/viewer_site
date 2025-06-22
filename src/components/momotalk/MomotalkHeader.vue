@@ -5,7 +5,6 @@ import type { NexonL10nData } from '@/types/OutsourcedData'
 import PvTag from 'primevue/tag'
 import NexonI18nDataOutput from '@/components/genetic/NexonI18nDataOutput.vue'
 
-
 const props = defineProps({
   data_no: {
     type: Number,
@@ -22,8 +21,18 @@ const props = defineProps({
   data_l10n_mt: {
     type: {} as PropType<NexonL10nData>,
     default: {
-      'j_ja': '', 'j_ko': '', 'g_ja': '', 'g_ko': '', 'g_en': '', 'g_th': '', 'g_tw': '', 'g_tw_cn': '',
-      'c_cn': '', 'c_cn_tw': '', 'c_zh': '', 'c_zh_tw': ''
+      j_ja: '',
+      j_ko: '',
+      g_ja: '',
+      g_ko: '',
+      g_en: '',
+      g_th: '',
+      g_tw: '',
+      g_tw_cn: '',
+      c_cn: '',
+      c_cn_tw: '',
+      c_zh: '',
+      c_zh_tw: ''
     }
   },
   is_l2d: {

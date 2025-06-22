@@ -8,23 +8,19 @@ import { useI18n } from 'vue-i18n'
 const setting = useSetting()
 const i18n = useI18n()
 
-onMounted(
-  () => {
-    watch(
-      () => setting.ui_lang,
-      () => {
-        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['search_char']))
-      },
-      { immediate: true }
-    )
-  }
-)
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    () => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['search_char']))
+    },
+    { immediate: true }
+  )
+})
 </script>
 
 <template>
   <CharacterSearch />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

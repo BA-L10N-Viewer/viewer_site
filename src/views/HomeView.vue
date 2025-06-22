@@ -9,7 +9,7 @@ import { useSetting } from '@/stores/setting'
 const screenWidth = useWindowSize().width
 const isMobileWidth = computed(() => MOBILE_WIDTH >= screenWidth.value)
 
-const cssFlexRowForDiv1 = computed(() => !isMobileWidth.value ? 2 : 1)
+const cssFlexRowForDiv1 = computed(() => (!isMobileWidth.value ? 2 : 1))
 
 const setting = useSetting()
 const { t } = useI18n()
@@ -23,11 +23,10 @@ onMounted(() => {
     { immediate: true }
   )
 })
-
 </script>
 
 <template>
-  <div :style="isMobileWidth? '' :'display: flex'">
+  <div :style="isMobileWidth ? '' : 'display: flex'">
     <div class="home-bulletin-div-group-1">
       <div class="home-bulletin-div">
         <h1>{{ $t('home-h1-1') }}</h1>
@@ -43,9 +42,15 @@ onMounted(() => {
     <div style="flex: 1">
       <div class="home-bulletin-div">
         <h2>AWS CDN Info</h2>
-        <p>For <b>users in China Mainland</b>, you can visit the AWS-accelerated site at <a
-          href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a> for better experience.</p>
-        <p><b>中国大陆地区用户</b>可访问本站的AWS加速版（<a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a>）以获得更好体验。
+        <p>
+          For <b>users in China Mainland</b>, you can visit the AWS-accelerated site at
+          <a href="https://ba-l10n-aws.cnfast.top/">https://ba-l10n-aws.cnfast.top/</a> for better
+          experience.
+        </p>
+        <p>
+          <b>中国大陆地区用户</b>可访问本站的AWS加速版（<a href="https://ba-l10n-aws.cnfast.top/"
+            >https://ba-l10n-aws.cnfast.top/</a
+          >）以获得更好体验。
         </p>
       </div>
     </div>
@@ -62,6 +67,6 @@ onMounted(() => {
 }
 
 .home-bulletin-div-group-1 {
-  flex: v-bind(cssFlexRowForDiv1)
+  flex: v-bind(cssFlexRowForDiv1);
 }
 </style>

@@ -36,10 +36,8 @@ function queryBgm(id: number): [CommonStoryExtBgmDataEntry | null, string] {
   if (catalogEntry && i18nEntry) {
     return [catalogEntry, i18nEntry]
   } else {
-    if (catalogEntry)
-      return [catalogEntry, '']
-    if (i18nEntry)
-      return [null, i18nEntry]
+    if (catalogEntry) return [catalogEntry, '']
+    if (i18nEntry) return [null, i18nEntry]
     return [null, '']
   }
 }
@@ -76,47 +74,56 @@ function queryBg(id: number): string {
 
 <template>
   <template v-if="dataEntry.Payload.Type === 'sound'">
-    <DialogueCmdEntryAudio :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Id] || dataEntry.Payload.Id"
-                          :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Id.toLowerCase()}.wav`"
-                          :audio-loop-start="0"
-                          :audio-loop-end="999999"
-                          :audio-should-loop="false" />
+    <DialogueCmdEntryAudio
+      :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Id] || dataEntry.Payload.Id"
+      :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Id.toLowerCase()}.wav`"
+      :audio-loop-start="0"
+      :audio-loop-end="999999"
+      :audio-should-loop="false"
+    />
   </template>
   <template v-else-if="dataEntry.Payload.Type === 'sound_popup'">
-    <img :src="getScenarioPopupFilenamePath(dataEntry.Payload.Data[1])"
-        class="scenario-bg-img" />
+    <img :src="getScenarioPopupFilenamePath(dataEntry.Payload.Data[1])" class="scenario-bg-img" />
     <br />
     <DialogueCmdEntryAudio
-      :audio-display-name="i18nSound[currSiteLang][dataEntry.Payload.Data[0]] || dataEntry.Payload.Data[0]"
+      :audio-display-name="
+        i18nSound[currSiteLang][dataEntry.Payload.Data[0]] || dataEntry.Payload.Data[0]
+      "
       :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_Sound/${dataEntry.Payload.Data[0].toLowerCase()}.wav`"
       :audio-loop-start="0"
-      :audio-loop-end="999999" />
+      :audio-loop-end="999999"
+    />
   </template>
   <template v-else-if="dataEntry.Payload.Type === 'bg'">
     <div style="text-align: center">
-      <img :src="`${getStaticCdnBasepath('static')}/ba/03_01_Background/${queryBg(dataEntry.Payload.Id)}`"
-           class="scenario-bg-img" :title="queryBg(dataEntry.Payload.Id)" />
+      <img
+        :src="`${getStaticCdnBasepath('static')}/ba/03_01_Background/${queryBg(dataEntry.Payload.Id)}`"
+        class="scenario-bg-img"
+        :title="queryBg(dataEntry.Payload.Id)"
+      />
       <br />
     </div>
   </template>
   <template v-else-if="dataEntry.Payload.Type === 'bgm'">
-    <DialogueCmdEntryAudio :audio-display-name="queryBgm(dataEntry.Payload.Id)[1] || queryBgmPath(dataEntry.Payload.Id)"
-                           :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_BGM/${queryBgmPath(dataEntry.Payload.Id)}`"
-                           :audio-loop-start="queryBgmLoopPara(dataEntry.Payload.Id)[0]"
-                           :audio-loop-end="queryBgmLoopPara(dataEntry.Payload.Id)[1]"
-                           v-if="dataEntry.Payload.Id !== 999" />
-    <DialogueCmdEntryAudio :audio-loop-end="0"
-                           :audio-loop-start="0"
-                           :audio-display-name="i18n.t('comp-scenario-dialogue-cmd-bgm-999')"
-                           audio-src=""
-                           :player-is-pause-button="true"
-                           :player-no-progress="true"
-                           :player-no-time="true"
-                           :player-no-volume="true"
-                           v-else />
+    <DialogueCmdEntryAudio
+      :audio-display-name="queryBgm(dataEntry.Payload.Id)[1] || queryBgmPath(dataEntry.Payload.Id)"
+      :audio-src="`${getStaticCdnBasepath('static')}/ba/Audio_BGM/${queryBgmPath(dataEntry.Payload.Id)}`"
+      :audio-loop-start="queryBgmLoopPara(dataEntry.Payload.Id)[0]"
+      :audio-loop-end="queryBgmLoopPara(dataEntry.Payload.Id)[1]"
+      v-if="dataEntry.Payload.Id !== 999"
+    />
+    <DialogueCmdEntryAudio
+      :audio-loop-end="0"
+      :audio-loop-start="0"
+      :audio-display-name="i18n.t('comp-scenario-dialogue-cmd-bgm-999')"
+      audio-src=""
+      :player-is-pause-button="true"
+      :player-no-progress="true"
+      :player-no-time="true"
+      :player-no-volume="true"
+      v-else
+    />
   </template>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -41,11 +41,12 @@ if (props.iconType === 'char_icon') {
 </script>
 
 <template>
-  <img v-if="iconUrl !== null && isShowIcon" :src="iconUrl as string"
-       :style="`width: ${iconWidth}; height: ${iconHeight};`">
+  <img
+    v-if="iconUrl !== null && isShowIcon"
+    :src="iconUrl as string"
+    :style="`width: ${iconWidth}; height: ${iconHeight};`"
+  />
   <br v-if="autoBr && isShowIcon" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

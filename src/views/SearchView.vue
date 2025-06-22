@@ -12,31 +12,34 @@ const i18n = useI18n()
 
 const showI18nSettingDialog = ref(false)
 
-onMounted(
-  () => {
-    watch(
-      () => setting.ui_lang,
-      () => {
-        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['search_advanced']))
-      },
-      { immediate: true }
-    )
-  }
-)
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    () => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['search_advanced']))
+    },
+    { immediate: true }
+  )
+})
 </script>
 
 <template>
   <Teleport to="body">
-    <div style="position: fixed; right: 5%; bottom: 10%;">
+    <div style="position: fixed; right: 5%; bottom: 10%">
       <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
         <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
         <span>L10N</span>
       </PvButton>
     </div>
 
-    <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
-              :draggable="false" :dismissableMask="true"
-              style="width: 90%">
+    <PvDialog
+      v-model:visible="showI18nSettingDialog"
+      modal
+      :closable="true"
+      :draggable="false"
+      :dismissableMask="true"
+      style="width: 90%"
+    >
       <StoryI18nSetting />
     </PvDialog>
   </Teleport>

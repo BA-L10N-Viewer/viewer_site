@@ -27,10 +27,14 @@ watch(
 
 onMounted(async () => {
   await Promise.allSettled([
-    dataUpdateTime.value = Number(await httpGetAsync(`/data/MODIFIED.txt`)) * 1000,
+    (dataUpdateTime.value = Number(await httpGetAsync(`/data/MODIFIED.txt`)) * 1000),
     (async () => {
-      const ghCommit = JSON.parse(await httpGetAsync(`${getStaticCdnBasepath('ghapi')}/repos/BA-L10N-Viewer/viewer_site/commits/master`))
-      siteUpdatedTime.value = (new Date(ghCommit['commit']['author']['date'])).getTime()
+      const ghCommit = JSON.parse(
+        await httpGetAsync(
+          `${getStaticCdnBasepath('ghapi')}/repos/BA-L10N-Viewer/viewer_site/commits/master`
+        )
+      )
+      siteUpdatedTime.value = new Date(ghCommit['commit']['author']['date']).getTime()
       siteCommitHash.value = ghCommit['sha']
     })()
   ])
@@ -42,17 +46,19 @@ onMounted(async () => {
 <template>
   <template v-if="verbose">
     <p>{{ $t('comp-data-version-data') }} - {{ dataUpdateTimeString }}</p>
-    <p>{{ $t('comp-data-version-site') }} - {{ siteUpdatedTimeString }} [<a
-      :href="`https://github.com/BA-L10N-Viewer/viewer_site/commit/${siteCommitHash}`">{{ siteCommitHash.slice(0, 8)
-      }}</a>]
+    <p>
+      {{ $t('comp-data-version-site') }} - {{ siteUpdatedTimeString }} [<a
+        :href="`https://github.com/BA-L10N-Viewer/viewer_site/commit/${siteCommitHash}`"
+        >{{ siteCommitHash.slice(0, 8) }}</a
+      >]
     </p>
   </template>
   <template v-else>
-    <span>{{ $t('comp-data-version-info') }} - {{ dataUpdateTimeString.slice(0, 10) }} /
-      {{ siteUpdatedTimeString.slice(0, 10) }}</span>
+    <span
+      >{{ $t('comp-data-version-info') }} - {{ dataUpdateTimeString.slice(0, 10) }} /
+      {{ siteUpdatedTimeString.slice(0, 10) }}</span
+    >
   </template>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

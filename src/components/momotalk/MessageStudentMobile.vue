@@ -70,8 +70,7 @@ function removeHtmlImgTag(text: string) {
 function extractHtmlImgTag(text: string) {
   const regexImg = /<img.*?\/?>/gi
   const result = text.match(regexImg)
-  if (result && result.length !== 0)
-    return result.join('<br />') + '<br />'
+  if (result && result.length !== 0) return result.join('<br />') + '<br />'
   return ''
 }
 
@@ -80,37 +79,83 @@ function extractHtmlImgTag(text: string) {
 
 <template>
   <td class="momotalk-dialogue momotalk-speaker">
-    <div :class="{'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType)}">
-      <div v-if="!checkDialogueSensei(dialogueType)" style="text-align: center;">
-        <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
+    <div :class="{ 'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType) }">
+      <div v-if="!checkDialogueSensei(dialogueType)" style="text-align: center">
+        <DialogueIcon
+          :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`"
+        />
       </div>
 
-      <div v-for="idx in i18nMobileLoopIdx" :key="idx"
-           :lang="i18nToUiLangAll[idx]">
-        <template v-if="i18nLangAll[idx] as string !== 'null'">
+      <div v-for="idx in i18nMobileLoopIdx" :key="idx" :lang="i18nToUiLangAll[idx]">
+        <template v-if="(i18nLangAll[idx] as string) !== 'null'">
           <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-          <DialogueTranslated v-else :content-original="getNexonL10nData(dialogueSpeaker,i18nLangAll[idx])"
-                              :content-original-lang="i18nToUiLangAll[idx]"
-                              :content-translated="ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['name']" />
+          <DialogueTranslated
+            v-else
+            :content-original="getNexonL10nData(dialogueSpeaker, i18nLangAll[idx])"
+            :content-original-lang="i18nToUiLangAll[idx]"
+            :content-translated="
+              ML_table[mmtEntryPos][i18nLangAll[idx]][mmtEntryDialoguePos]['name']
+            "
+          />
         </template>
       </div>
     </div>
   </td>
   <td
-    :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
-    <div v-html="extractHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja')))"></div>
-    <div v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx"
-         :class="getClassDialogueSensei(dialogueType)"
-         :lang="i18nToUiLangAll[langIdx]">
-      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+    :class="[
+      'momotalk-dialogue',
+      'momotalk-text',
+      'momotalk-char',
+      `momotalk-dialogue-text-${dialogueBgColor}`,
+      `${getClassDialogueSensei(dialogueType)}-td`
+    ]"
+  >
+    <div
+      v-html="extractHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja')))"
+    ></div>
+    <div
+      v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile"
+      :key="langIdx"
+      :class="getClassDialogueSensei(dialogueType)"
+      :lang="i18nToUiLangAll[langIdx]"
+    >
+      <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
         <DialogueTranslated
-          :content-original="removeHtmlImgTag(convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))))"
+          :content-original="
+            removeHtmlImgTag(
+              convertMmtMsgToHtml(
+                mmtMessageContentDecorator(
+                  dialogueType,
+                  getNexonL10nData(dialogueContent, i18nLangAll[langIdx])
+                )
+              )
+            )
+          "
           :content-original-lang="i18nToUiLangAll[langIdx]"
-          :content-translated="removeHtmlImgTag(convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue'])))"
+          :content-translated="
+            removeHtmlImgTag(
+              convertMmtMsgToHtml(
+                mmtMessageContentDecorator(
+                  dialogueType,
+                  ML_table[mmtEntryPos][i18nLangAll[langIdx]][mmtEntryDialoguePos]['dialogue']
+                )
+              )
+            )
+          "
           :content-translated-blank-value="['&amp;nbsp;&amp;lt;', '&amp;gt;&amp;nbsp;', '> ', ' <']"
-          :is_br="removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
-        <hr class="mobile-lang-hr"
-            v-if="!(idx + 1 == numberOfSelectedLangForMobile) && removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !== '<br />'" />
+          :is_br="
+            removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !==
+            '<br />'
+          "
+        />
+        <hr
+          class="mobile-lang-hr"
+          v-if="
+            !(idx + 1 == numberOfSelectedLangForMobile) &&
+            removeHtmlImgTag(convertMmtMsgToHtml(getNexonL10nData(dialogueContent, 'j_ja'))) !==
+              '<br />'
+          "
+        />
       </template>
     </div>
   </td>

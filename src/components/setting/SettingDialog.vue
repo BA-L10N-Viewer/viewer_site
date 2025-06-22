@@ -12,19 +12,32 @@ const setting = useSetting()
 <template>
   <h2>{{ $t('view-setting-h2-1') }}</h2>
   <label for="username">{{ $t('view-setting-p-1') }}</label>
-  <PvInputText id="username" type="text" v-model="setting.username" aria-describedby="username-help" />
+  <PvInputText
+    id="username"
+    type="text"
+    v-model="setting.username"
+    aria-describedby="username-help"
+  />
 
   <p>{{ $t('view-setting-p-2') }}</p>
-  <PvSelect v-model="setting.ui_lang" :options="siteUiLangSelect" optionLabel="label" optionValue="value"
-            checkmark :highlightOnSelect="false" size="small" />
+  <PvSelect
+    v-model="setting.ui_lang"
+    :options="siteUiLangSelect"
+    optionLabel="label"
+    optionValue="value"
+    checkmark
+    :highlightOnSelect="false"
+    size="small"
+  />
 
   <p>{{ $t('view-setting-p-3') }}</p>
-  <PvSelect v-model="setting.scenario_pagination_perPage" :options="paginationScenarioControl.perPage"></PvSelect>
+  <PvSelect
+    v-model="setting.scenario_pagination_perPage"
+    :options="paginationScenarioControl.perPage"
+  ></PvSelect>
 
   <h2>{{ $t('view-setting-h2-2') }}</h2>
   <StoryI18nSetting :show_ml="false" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

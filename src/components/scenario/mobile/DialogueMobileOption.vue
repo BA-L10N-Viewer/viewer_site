@@ -55,30 +55,44 @@ const scenarioDisplayMode = inject(symbolForScenarioUiDataDisplayType)!
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2">
     <template v-if="dialogueSoundFilename !== '' && scenarioDisplayMode === 0">
-      <DialogueCmdEntry :data-entry="{ActualPos: -1, AbsolutePos: dialogueAbsolutePos, DataType: 'cmd', Payload: {Type: 'sound', Id: dialogueSoundFilename}}" />
+      <DialogueCmdEntry
+        :data-entry="{
+          ActualPos: -1,
+          AbsolutePos: dialogueAbsolutePos,
+          DataType: 'cmd',
+          Payload: { Type: 'sound', Id: dialogueSoundFilename }
+        }"
+      />
     </template>
     <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="langIdx">
-      <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+      <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
         <span :lang="i18nToUiLangAll[langIdx]">
           <ScenarioTranslatedDialogue
-            :content-original="replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent,i18nLangAll[langIdx]))"
+            :content-original="
+              replaceStoryLineUsernameBlank(getNexonL10nData(dialogueContent, i18nLangAll[langIdx]))
+            "
             :content-original-lang="i18nToUiLangAll[langIdx]"
-            :content-translated="ML_table[i18nLangAll[langIdx]].get(String(entry_pos))?.['dialogue'] || ''"
-            :style="{'color': dialogueTextColor}"
-            :is_after_br="true" />
+            :content-translated="
+              ML_table[i18nLangAll[langIdx]].get(String(entry_pos))?.['dialogue'] || ''
+            "
+            :style="{ color: dialogueTextColor }"
+            :is_after_br="true"
+          />
         </span>
         <hr class="mobile-lang-hr" v-if="!(idx + 1 === numberOfSelectedLangForMobile)" />
       </template>
     </template>
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
-                  :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
+    <DialogueInfo
+      :dialogue-selection-to-group="dialogueSelectionToGroup"
+      :dialogue-selection-group="dialogueSelectionGroup"
+      :dialogue-absolute-pos="dialogueAbsolutePos"
+    />
   </td>
 </template>
 
 <style scoped>
 .story-dialogue-option {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   text-align: right;
 }
 

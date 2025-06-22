@@ -7,7 +7,7 @@ const setting = useSetting()
 const currMlLang = ref<string>('')
 watch(
   () => setting.auto_i18n_lang,
-  (newValue) =>  {
+  (newValue) => {
     currMlLang.value = newValue
   },
   { immediate: true }
@@ -32,7 +32,7 @@ const props = defineProps({
   },
   html_class: {
     type: String,
-    default: ""
+    default: ''
   },
   displayMode: {
     type: String as PropType<'span' | 'square_basket'>,
@@ -49,12 +49,15 @@ const props = defineProps({
   auto_display: {
     type: Boolean,
     default: true
-  },
+  }
 })
 
 const shouldDisplay = computed(() => {
   if (props.auto_display) {
-    return Boolean(props.contentTranslated && !props.contentTranslatedBlankValue.includes(props.contentTranslated))
+    return Boolean(
+      props.contentTranslated &&
+        !props.contentTranslatedBlankValue.includes(props.contentTranslated)
+    )
   }
   return true
 })
@@ -73,23 +76,48 @@ defineOptions({
 
 <template>
   <template v-if="displayMode === 'span'">
-    <span :lang="contentOriginalLang" :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
+    <span
+      :lang="contentOriginalLang"
+      :class="html_class"
+      v-show="isShowOriginal || !shouldDisplay"
+      v-html="String(contentOriginal)"
+      :style="$attrs['style'] as {}"
+    ></span>
     <br v-show="is_br && (isShowOriginal || !shouldDisplay)" />
-    <span :class="html_class" v-show="shouldDisplay" v-html="String(contentTranslated)" :style="actualCssStyle" :lang="currMlLang"></span>
-    <br v-show="shouldDisplay && is_after_br"/>
+    <span
+      :class="html_class"
+      v-show="shouldDisplay"
+      v-html="String(contentTranslated)"
+      :style="actualCssStyle"
+      :lang="currMlLang"
+    ></span>
+    <br v-show="shouldDisplay && is_after_br" />
   </template>
   <template v-else-if="displayMode === 'square_basket'">
-    <span :lang="contentOriginalLang" :class="html_class" v-show="isShowOriginal || !shouldDisplay" v-html="String(contentOriginal)" :style="$attrs['style'] as {}"></span>
+    <span
+      :lang="contentOriginalLang"
+      :class="html_class"
+      v-show="isShowOriginal || !shouldDisplay"
+      v-html="String(contentOriginal)"
+      :style="$attrs['style'] as {}"
+    ></span>
     <span>&nbsp;</span>
     <template v-if="isShowOriginal">
-      <span :style="actualCssStyle" v-show="shouldDisplay">[<span :class="html_class" v-html="String(contentTranslated)" :lang="currMlLang"></span>]</span>
+      <span :style="actualCssStyle" v-show="shouldDisplay"
+        >[<span :class="html_class" v-html="String(contentTranslated)" :lang="currMlLang"></span
+        >]</span
+      >
     </template>
     <template v-else>
-      <span :class="html_class" v-show="shouldDisplay" v-html="String(contentTranslated)" :style="actualCssStyle" :lang="currMlLang"></span>
+      <span
+        :class="html_class"
+        v-show="shouldDisplay"
+        v-html="String(contentTranslated)"
+        :style="actualCssStyle"
+        :lang="currMlLang"
+      ></span>
     </template>
-    </template>
+  </template>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

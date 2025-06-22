@@ -13,24 +13,27 @@ const router = useRoute()
 
 <template>
   <Teleport to="body">
-    <div style="position: fixed; right: 5%; bottom: 10%;">
+    <div style="position: fixed; right: 5%; bottom: 10%">
       <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
         <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
         <span>L10N</span>
       </PvButton>
     </div>
 
-    <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
-              :draggable="false" :dismissableMask="true"
-              style="width: 90%">
+    <PvDialog
+      v-model:visible="showI18nSettingDialog"
+      modal
+      :closable="true"
+      :draggable="false"
+      :dismissableMask="true"
+      style="width: 90%"
+    >
       <StoryI18nSetting />
     </PvDialog>
   </Teleport>
 
   <h1 class="view-h1">{{ $t('char-voice-ui-h1') }}</h1>
-  <CharVoiceUi :char-id="String(router.params.charId)"/>
+  <CharVoiceUi :char-id="String(router.params.charId)" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

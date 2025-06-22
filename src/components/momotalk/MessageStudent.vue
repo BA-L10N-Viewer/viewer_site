@@ -62,24 +62,47 @@ const setting = useSetting()
 
 <template>
   <td class="momotalk-dialogue momotalk-speaker">
-    <div :class="{'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType)}">
+    <div :class="{ 'momotalk-dialogue-sensei': checkDialogueSensei(dialogueType) }">
       <div :lang="dialogueLang">
-        <div v-if="!checkDialogueSensei(dialogueType) && dialogueSpeaker" style="text-align: center;">
-          <DialogueIcon :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`" />
+        <div
+          v-if="!checkDialogueSensei(dialogueType) && dialogueSpeaker"
+          style="text-align: center"
+        >
+          <DialogueIcon
+            :icon-url="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${currCharId}.webp`"
+          />
         </div>
 
         <span v-if="checkDialogueSensei(dialogueType)">{{ setting.username }}</span>
-        <DialogueTranslated v-else :content-original="dialogueSpeaker" :content-original-lang="dialogueLang" :content-translated="dialogueSpeakerTranslated" />
+        <DialogueTranslated
+          v-else
+          :content-original="dialogueSpeaker"
+          :content-original-lang="dialogueLang"
+          :content-translated="dialogueSpeakerTranslated"
+        />
       </div>
     </div>
   </td>
   <td
-    :class="['momotalk-dialogue', 'momotalk-text', 'momotalk-char', `momotalk-dialogue-text-${dialogueBgColor}`, `${getClassDialogueSensei(dialogueType)}-td`]">
+    :class="[
+      'momotalk-dialogue',
+      'momotalk-text',
+      'momotalk-char',
+      `momotalk-dialogue-text-${dialogueBgColor}`,
+      `${getClassDialogueSensei(dialogueType)}-td`
+    ]"
+  >
     <div :class="getClassDialogueSensei(dialogueType)" :lang="dialogueLang">
-      <DialogueTranslated :content-original="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContent))"
-                          :content-original-lang="dialogueLang"
-                          :content-translated="convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContentTranslated))"
-                          :content-translated-blank-value="['&amp;nbsp;&amp;lt;', '&amp;gt;&amp;nbsp;', '> ', ' <']" />
+      <DialogueTranslated
+        :content-original="
+          convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContent))
+        "
+        :content-original-lang="dialogueLang"
+        :content-translated="
+          convertMmtMsgToHtml(mmtMessageContentDecorator(dialogueType, dialogueContentTranslated))
+        "
+        :content-translated-blank-value="['&amp;nbsp;&amp;lt;', '&amp;gt;&amp;nbsp;', '> ', ' <']"
+      />
     </div>
   </td>
 </template>

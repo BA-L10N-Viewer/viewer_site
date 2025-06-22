@@ -29,10 +29,8 @@ const i18n = useI18n()
 const currLangs = computed(() => {
   const langs: SchaleDbL10nDataLang[] = [...langsOfSelectedLangForMobile.value]
   if (setting.show_lang_zh) {
-    if (setting.ui_lang === 'zh_TW')
-      langs.push('c_zh_tw')
-    else
-      langs.push('c_zh')
+    if (setting.ui_lang === 'zh_TW') langs.push('c_zh_tw')
+    else langs.push('c_zh')
   }
   return langs
 })
@@ -54,24 +52,28 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
 
 <template>
   <PvDataTable :value="currTableData" class="data-generic-table">
-    <PvColumn field="Lang"
-              :header="i18n.t('comp-char-profile-generic-table-langcode')"
-              style="width: 5em"
-              v-if="!isMobile" />
-    <PvColumn field="Text"
-              :header="i18n.t('comp-char-profile-generic-table-text')"
-              style="width: calc(100% - 7em)">
+    <PvColumn
+      field="Lang"
+      :header="i18n.t('comp-char-profile-generic-table-langcode')"
+      style="width: 5em"
+      v-if="!isMobile"
+    />
+    <PvColumn
+      field="Text"
+      :header="i18n.t('comp-char-profile-generic-table-text')"
+      style="width: calc(100% - 7em)"
+    >
       <template #body="slotProps">
-        <PvTag severity="info" value="Info" v-if="isMobile">{{slotProps.data.Lang}}</PvTag>
+        <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.Lang }}</PvTag>
         <span v-if="isMobile">&nbsp;</span>
-        <DialogueTranslated :content-original="convertNewlineToBr(slotProps.data.Text)"
-                            :content-original-lang="NexonLangMap[slotProps.data.Lang]"
-                            :content-translated="convertNewlineToBr(slotProps.data.TextMt)" />
+        <DialogueTranslated
+          :content-original="convertNewlineToBr(slotProps.data.Text)"
+          :content-original-lang="NexonLangMap[slotProps.data.Lang]"
+          :content-translated="convertNewlineToBr(slotProps.data.TextMt)"
+        />
       </template>
     </PvColumn>
   </PvDataTable>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

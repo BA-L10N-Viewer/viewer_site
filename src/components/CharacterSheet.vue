@@ -36,21 +36,26 @@ let sdbLocalizationData: SchaleDbI18nDictData = {} as unknown as SchaleDbI18nDic
 const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
 const isNpc = computed(() => String(props.charId) in CHAR_NPC_IMG_URL)
 
-const charImgUrl = computed(() => isNpc.value ? CHAR_NPC_IMG_URL[String(props.charId)] : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`)
+const charImgUrl = computed(() =>
+  isNpc.value
+    ? CHAR_NPC_IMG_URL[String(props.charId)]
+    : `${getStaticCdnBasepath('schaledb')}/images/student/collection/${String(props.charId)}.webp`
+)
 let indexL2dData: Record<string, number> = {} as unknown as Record<string, number>
 
 const cssCharColor = computed(() => {
   const charId = String(props.charId)
-  if (charId.startsWith('900') || charId.length !== 5)
-    return 'black'
-  else if (charId.startsWith('1'))
-    return 'var(--color-ba-stu-striker)'
-  else
-    return 'var(--color-ba-stu-special)'
+  if (charId.startsWith('900') || charId.length !== 5) return 'black'
+  else if (charId.startsWith('1')) return 'var(--color-ba-stu-striker)'
+  else return 'var(--color-ba-stu-special)'
 })
 
 onMounted(async () => {
-  sdbStuInfoData = Object.assign({}, DirectoryDataCommonFileIndexStu.value, DirectoryDataCommonFileIndexNpc.value)
+  sdbStuInfoData = Object.assign(
+    {},
+    DirectoryDataCommonFileIndexStu.value,
+    DirectoryDataCommonFileIndexNpc.value
+  )
   indexL2dData = DirectoryDataCommonFileIndexMomoL2d.value
   sdbLocalizationData = DirectoryDataCommonSchaleFileLocalization.value
 
@@ -70,31 +75,40 @@ onMounted(async () => {
         <td>
           <template v-if="!isNpc">
             <span>{{ indexL2dData[String(charId)] }}&nbsp;&nbsp;</span>
-            <PvButton as="RouterLink" :to="`/scenario/${indexL2dData[String(charId)]}`"
-                      size="small"
-                      v-if="isMmt">
+            <PvButton
+              as="RouterLink"
+              :to="`/scenario/${indexL2dData[String(charId)]}`"
+              size="small"
+              v-if="isMmt"
+            >
               {{ $t('comp-char-datasheet-enter-l2d') }}
             </PvButton>
           </template>
         </td>
       </tr>
       <tr>
-        <td style="text-align: center; width: 8em;" rowspan="3">
-          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" />
+        <td style="text-align: center; width: 8em" rowspan="3">
+          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px" />
           <br />
-          <span :style="{'color': cssCharColor}"><b>{{ charId }}</b></span>
+          <span :style="{ color: cssCharColor }"
+            ><b>{{ charId }}</b></span
+          >
         </td>
         <td class="datasheet-title">
           <span>{{ $t('comp-char-datasheet-item-3') }}</span>
         </td>
         <td>
           <template v-if="!isNpc">
-            <NexonI18nDataOutput :data="sdbStuInfoData[String(charId)]['FamilyName']"
-                                 :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+            <NexonI18nDataOutput
+              :data="sdbStuInfoData[String(charId)]['FamilyName']"
+              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+            />
             <br />
           </template>
-          <NexonI18nDataOutput :data="sdbStuInfoData[String(charId)]['Name']"
-                               :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+          <NexonI18nDataOutput
+            :data="sdbStuInfoData[String(charId)]['Name']"
+            :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+          />
         </td>
       </tr>
       <tr>
@@ -103,8 +117,10 @@ onMounted(async () => {
         </td>
         <td>
           <template v-if="!isNpc">
-            <NexonI18nDataOutput :data="sdbLocalizationData['School'][sdbStuInfoData[String(charId)]['School']]"
-                                 :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+            <NexonI18nDataOutput
+              :data="sdbLocalizationData['School'][sdbStuInfoData[String(charId)]['School']]"
+              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+            />
           </template>
         </td>
       </tr>
@@ -114,8 +130,10 @@ onMounted(async () => {
         </td>
         <td>
           <template v-if="!isNpc">
-            <NexonI18nDataOutput :data="sdbLocalizationData['Club'][sdbStuInfoData[String(charId)]['Club']]"
-                                 :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+            <NexonI18nDataOutput
+              :data="sdbLocalizationData['Club'][sdbStuInfoData[String(charId)]['Club']]"
+              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+            />
           </template>
         </td>
       </tr>
@@ -125,10 +143,12 @@ onMounted(async () => {
         <td class="datasheet-title">{{ $t('comp-char-datasheet-item-1') }}</td>
       </tr>
       <tr>
-        <td style="text-align: center;">
-          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px;" />
+        <td style="text-align: center">
+          <img :src="charImgUrl" style="width: 8em; margin-bottom: 6px" />
           <br />
-          <span :style="{'color': cssCharColor}"><b>{{ charId }}</b></span>
+          <span :style="{ color: cssCharColor }"
+            ><b>{{ charId }}</b></span
+          >
         </td>
       </tr>
       <template v-if="!isNpc">
@@ -138,9 +158,12 @@ onMounted(async () => {
         <tr>
           <td style="text-align: center">
             <span>{{ indexL2dData[String(charId)] }}&nbsp;&nbsp;</span>
-            <PvButton as="RouterLink" :to="`/scenario/${indexL2dData[String(charId)]}`"
-                      size="small"
-                      v-if="isMmt">
+            <PvButton
+              as="RouterLink"
+              :to="`/scenario/${indexL2dData[String(charId)]}`"
+              size="small"
+              v-if="isMmt"
+            >
               {{ $t('comp-char-datasheet-enter-l2d') }}
             </PvButton>
           </td>
@@ -154,12 +177,16 @@ onMounted(async () => {
       <tr>
         <td>
           <template v-if="!isNpc">
-            <NexonI18nDataOutput :data="sdbStuInfoData[String(charId)]['FamilyName']"
-                                 :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+            <NexonI18nDataOutput
+              :data="sdbStuInfoData[String(charId)]['FamilyName']"
+              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+            />
             <br />
           </template>
-          <NexonI18nDataOutput :data="sdbStuInfoData[String(charId)]['Name']"
-                               :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+          <NexonI18nDataOutput
+            :data="sdbStuInfoData[String(charId)]['Name']"
+            :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+          />
         </td>
       </tr>
       <template v-if="!isNpc">
@@ -170,8 +197,10 @@ onMounted(async () => {
         </tr>
         <tr>
           <td>
-            <NexonI18nDataOutput :data="sdbLocalizationData['School'][sdbStuInfoData[String(charId)]['School']]"
-                                 :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+            <NexonI18nDataOutput
+              :data="sdbLocalizationData['School'][sdbStuInfoData[String(charId)]['School']]"
+              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+            />
           </td>
         </tr>
         <tr>
@@ -181,8 +210,10 @@ onMounted(async () => {
         </tr>
         <tr>
           <td>
-            <NexonI18nDataOutput :data="sdbLocalizationData['Club'][sdbStuInfoData[String(charId)]['Club']]"
-                                 :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]" />
+            <NexonI18nDataOutput
+              :data="sdbLocalizationData['Club'][sdbStuInfoData[String(charId)]['Club']]"
+              :data-lang="allLangcodeOfSchaleDbBySiteUiLang[setting.ui_lang]"
+            />
           </td>
         </tr>
       </template>

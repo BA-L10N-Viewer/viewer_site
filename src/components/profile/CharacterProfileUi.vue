@@ -50,36 +50,40 @@ const mtControl = {
 }
 
 const charDataMtKey: (keyof MlForCharProfile)[] = [
-  'FamilyName', 'Name',
-  'WeaponName', 'WeaponDesc',
-  'School', 'Club',
-  'Profile', 'CharacterSSRNew', 'Hobby', 'StatusMessage'
+  'FamilyName',
+  'Name',
+  'WeaponName',
+  'WeaponDesc',
+  'School',
+  'Club',
+  'Profile',
+  'CharacterSSRNew',
+  'Hobby',
+  'StatusMessage'
 ] as const
 
 function clearMtTranslation(baselang: SchaleDbL10nDataLang | 'null') {
-  if (baselang === 'null')
-    return
+  if (baselang === 'null') return
 
   for (const key of charDataMtKey)
     charDataMt.value[key] = {
-      'j_ja': '',
-      'j_ko': '',
-      'g_ja': '',
-      'g_ko': '',
-      'g_en': '',
-      'g_tw': '',
-      'g_tw_cn': '',
-      'g_th': '',
-      'c_cn': '',
-      'c_cn_tw': '',
-      'c_zh': '',
-      'c_zh_tw': ''
+      j_ja: '',
+      j_ko: '',
+      g_ja: '',
+      g_ko: '',
+      g_en: '',
+      g_tw: '',
+      g_tw_cn: '',
+      g_th: '',
+      c_cn: '',
+      c_cn_tw: '',
+      c_zh: '',
+      c_zh_tw: ''
     }
 }
 
 async function updateMtTranslation(baselang: SchaleDbL10nDataLang | 'null') {
-  if (baselang === 'null')
-    return
+  if (baselang === 'null') return
 
   mtControl.inProgress.value = true
   clearMtTranslation(baselang)
@@ -112,16 +116,17 @@ async function updateMtTranslation(baselang: SchaleDbL10nDataLang | 'null') {
 }
 
 function initMtData() {
-  for (const lang of SchaleDbL10nDataLang)
-    clearMtTranslation(lang)
+  for (const lang of SchaleDbL10nDataLang) clearMtTranslation(lang)
 }
 
-watch(
-  mtI18nLangStats,
-  async (newValue) => {
-    await mtPiniaWatchCallback(newValue, updateMtTranslation, clearMtTranslation, mtControl.piniaMt.setStatusToComplete)
-  }
-)
+watch(mtI18nLangStats, async (newValue) => {
+  await mtPiniaWatchCallback(
+    newValue,
+    updateMtTranslation,
+    clearMtTranslation,
+    mtControl.piniaMt.setStatusToComplete
+  )
+})
 
 // --------------------------------------------------
 
@@ -134,10 +139,8 @@ onMounted(async () => {
 })
 
 function getDataByKey(key: keyof MlForCharProfile) {
-  if (key === 'School' || key === 'Club')
-    return sdbL10nData[key][charData[key]]
-  else
-    return charData[key]
+  if (key === 'School' || key === 'Club') return sdbL10nData[key][charData[key]]
+  else return charData[key]
 }
 </script>
 
@@ -148,73 +151,74 @@ function getDataByKey(key: keyof MlForCharProfile) {
   <div v-else>
     <h2>{{ $t('comp-char-profile-h2-0') }}</h2>
     <p>
-      <RouterLink :to="`/character/voice/${charId}`">{{ $t('comp-char-profile-p-0-1') }}</RouterLink>
+      <RouterLink :to="`/character/voice/${charId}`">{{
+        $t('comp-char-profile-p-0-1')
+      }}</RouterLink>
     </p>
     <h2>{{ $t('comp-char-profile-h2-1') }}</h2>
     <table class="datasheet table-datasheet">
       <tr>
         <td>
-          <img class="table-portrait"
-               :src="`${getStaticCdnBasepath('schaledb')}/images/student/portrait/${charId}.webp`" />
+          <img
+            class="table-portrait"
+            :src="`${getStaticCdnBasepath('schaledb')}/images/student/portrait/${charId}.webp`"
+          />
         </td>
       </tr>
       <tr>
         <td>
-          <img class="table-portrait-icon"
-               :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${charId}.webp`" />
+          <img
+            class="table-portrait-icon"
+            :src="`${getStaticCdnBasepath('schaledb')}/images/student/collection/${charId}.webp`"
+          />
         </td>
       </tr>
       <tr>
         <td>
-          <p><b>{{ charId }}</b></p>
+          <p>
+            <b>{{ charId }}</b>
+          </p>
         </td>
       </tr>
     </table>
 
     <h2>{{ $t('comp-char-profile-h2-2') }}</h2>
     <h3>{{ $t('comp-char-profile-h3-2-1') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.FamilyName"
-                      :data="getDataByKey('FamilyName')" />
+    <CharProfileTable :data-mt="charDataMt.FamilyName" :data="getDataByKey('FamilyName')" />
     <h3>{{ $t('comp-char-profile-h3-2-2') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.Name"
-                      :data="getDataByKey('Name')" />
+    <CharProfileTable :data-mt="charDataMt.Name" :data="getDataByKey('Name')" />
 
     <h2>{{ $t('comp-char-profile-h2-3') }}</h2>
     <h3>{{ $t('comp-char-profile-h3-3-1') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.School"
-                      :data="getDataByKey('School')" />
+    <CharProfileTable :data-mt="charDataMt.School" :data="getDataByKey('School')" />
     <h3>{{ $t('comp-char-profile-h3-3-2') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.Club"
-                      :data="getDataByKey('Club')" />
+    <CharProfileTable :data-mt="charDataMt.Club" :data="getDataByKey('Club')" />
 
     <h2>{{ $t('comp-char-profile-h2-5') }}</h2>
     <h3>{{ $t('comp-char-profile-h3-5-1') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.Profile"
-                      :data="getDataByKey('Profile')" />
+    <CharProfileTable :data-mt="charDataMt.Profile" :data="getDataByKey('Profile')" />
     <h3>{{ $t('comp-char-profile-h3-5-2') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.CharacterSSRNew"
-                      :data="getDataByKey('CharacterSSRNew')" />
+    <CharProfileTable
+      :data-mt="charDataMt.CharacterSSRNew"
+      :data="getDataByKey('CharacterSSRNew')"
+    />
     <h3>{{ $t('comp-char-profile-h3-5-3') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.StatusMessage"
-                      :data="getDataByKey('StatusMessage')" />
+    <CharProfileTable :data-mt="charDataMt.StatusMessage" :data="getDataByKey('StatusMessage')" />
     <h3>{{ $t('comp-char-profile-h3-5-4') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.Hobby"
-                      :data="getDataByKey('Hobby')" />
+    <CharProfileTable :data-mt="charDataMt.Hobby" :data="getDataByKey('Hobby')" />
 
     <h2>{{ $t('comp-char-profile-h2-4') }}</h2>
     <h3>{{ $t('comp-char-profile-h3-4-1') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.WeaponName"
-                      :data="getDataByKey('WeaponName')" />
+    <CharProfileTable :data-mt="charDataMt.WeaponName" :data="getDataByKey('WeaponName')" />
     <h3>{{ $t('comp-char-profile-h3-4-2') }}</h3>
-    <CharProfileTable :data-mt="charDataMt.WeaponDesc"
-                      :data="getDataByKey('WeaponDesc')" />
+    <CharProfileTable :data-mt="charDataMt.WeaponDesc" :data="getDataByKey('WeaponDesc')" />
   </div>
 </template>
 
 <style scoped>
 .table-datasheet {
   text-align: center;
-  width: 40vw
+  width: 40vw;
 }
 
 .table-portrait {

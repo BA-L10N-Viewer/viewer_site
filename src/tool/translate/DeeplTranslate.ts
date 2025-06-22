@@ -20,7 +20,7 @@ const deeplX = {
   deeplAPI: 'https://www2.deepl.com/jsonrpc',
   headers: {
     'Content-Type': 'application/json',
-    'Accept': '*/*',
+    Accept: '*/*',
     'x-app-os-name': 'iOS',
     'x-app-os-version': '16.3.0',
     'Accept-Language': 'en-US,en;q=0.9',
@@ -29,7 +29,7 @@ const deeplX = {
     'User-Agent': 'DeepL-iOS/2.9.1 iOS 16.3.0 (iPhone13,2)',
     'x-app-build': '510265',
     'x-app-version': '2.9.1',
-    'Connection': 'keep-alive'
+    Connection: 'keep-alive'
   },
   getICount: (text: string): number => {
     return _countCharacter(text, 'i')
@@ -50,29 +50,32 @@ const deeplX = {
   }
 }
 
-export const translate = async (text: string,
-                                sourceLang: string = 'auto', targetLang = 'en',
-                                numberAlternative: number = 0) => {
+export const translate = async (
+  text: string,
+  sourceLang: string = 'auto',
+  targetLang = 'en',
+  numberAlternative: number = 0
+) => {
   const iCount = deeplX.getICount(text)
   const id = deeplX.getRandomNumber()
 
   const numberAlternative_ = Math.max(Math.min(3, numberAlternative), 0)
 
   const postData = {
-    'jsonrpc': '2.0',
-    'method': 'LMT_handle_texts',
-    'id': id,
-    'params': {
-      'texts': [{ 'text': text, 'requestAlternatives': numberAlternative_ }],
-      'splitting': 'newlines',
-      'lang': {
-        'source_lang_user_selected': sourceLang,
-        'target_lang': targetLang
+    jsonrpc: '2.0',
+    method: 'LMT_handle_texts',
+    id: id,
+    params: {
+      texts: [{ text: text, requestAlternatives: numberAlternative_ }],
+      splitting: 'newlines',
+      lang: {
+        source_lang_user_selected: sourceLang,
+        target_lang: targetLang
       },
-      'timestamp': deeplX.getTimestamp(iCount),
-      'commonJobParams': {
-        'wasSpoken': false,
-        'transcribe_as': ''
+      timestamp: deeplX.getTimestamp(iCount),
+      commonJobParams: {
+        wasSpoken: false,
+        transcribe_as: ''
       }
     }
   }
@@ -85,7 +88,7 @@ export const translate = async (text: string,
   }
 
   try {
-    const res = await axios.post(deeplX.deeplAPI, postDataStr, { 'headers': deeplX.headers })
+    const res = await axios.post(deeplX.deeplAPI, postDataStr, { headers: deeplX.headers })
     if (res.status !== 200) {
       return `Error [${res.status}]`
     } else {

@@ -29,10 +29,8 @@ const props = defineProps({
 function getImgUrlById(charId: string | number) {
   const temp = String(charId)
 
-  if (temp in CHAR_NPC_IMG_URL)
-    return CHAR_NPC_IMG_URL[temp]
-  else
-    return `${getStaticCdnBasepath('schaledb')}/images/student/collection/${temp}.webp`
+  if (temp in CHAR_NPC_IMG_URL) return CHAR_NPC_IMG_URL[temp]
+  else return `${getStaticCdnBasepath('schaledb')}/images/student/collection/${temp}.webp`
 }
 function isNpc(charId: string | number) {
   return String(charId) in CHAR_NPC_IMG_URL
@@ -43,23 +41,34 @@ const setting = useSetting()
 const uiLang = ref(setting.ui_lang)
 const schaleDbLang = computed(() => allLangcodeOfSchaleDbBySiteUiLang[uiLang.value])
 
-const cssFontSizeForCharName = computed(() => useWindowSize().width.value < MOBILE_WIDTH ? '0.8em' : '1em')
+const cssFontSizeForCharName = computed(() =>
+  useWindowSize().width.value < MOBILE_WIDTH ? '0.8em' : '1em'
+)
 </script>
 
 <template>
   <li style="margin-bottom: 0.6rem">
     <PvTag severity="success">{{ char_id }}</PvTag>
     <span>&nbsp;&nbsp;</span>
-    <img class="icon-stu lazyload" :data-src="getImgUrlById(char_id)">
+    <img class="icon-stu lazyload" :data-src="getImgUrlById(char_id)" />
     <span>&nbsp;</span>
     <span class="char-name"><NexonI18nDataOutput :data="name" :data-lang="schaleDbLang" /></span>
     <br />
     <ul style="font-size: 1.2rem">
       <template v-if="!isNpc(char_id)">
-        <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/momotalk/${char_id}`">{{ $t('char-search-tip2') }}</RouterLink></li>
-        <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/${char_id}`">{{ $t('char-search-tip3') }}</RouterLink></li>
+        <li>
+          {{ $t('char-search-tip1')
+          }}<RouterLink :to="`/momotalk/${char_id}`">{{ $t('char-search-tip2') }}</RouterLink>
+        </li>
+        <li>
+          {{ $t('char-search-tip1')
+          }}<RouterLink :to="`/character/${char_id}`">{{ $t('char-search-tip3') }}</RouterLink>
+        </li>
       </template>
-      <li>{{ $t('char-search-tip1') }}<RouterLink :to="`/character/voice/${char_id}`">{{ $t('char-search-tip4') }}</RouterLink></li>
+      <li>
+        {{ $t('char-search-tip1')
+        }}<RouterLink :to="`/character/voice/${char_id}`">{{ $t('char-search-tip4') }}</RouterLink>
+      </li>
     </ul>
   </li>
 </template>
@@ -69,6 +78,6 @@ const cssFontSizeForCharName = computed(() => useWindowSize().width.value < MOBI
   height: 2em;
 }
 .char-name {
-  font-size: v-bind(cssFontSizeForCharName)
+  font-size: v-bind(cssFontSizeForCharName);
 }
 </style>

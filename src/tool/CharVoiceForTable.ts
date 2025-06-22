@@ -19,37 +19,39 @@ import type {
 import { convertNewlineToBr, getNexonL10nData } from '@/tool/StoryTool'
 
 /* -----------------------------------------------------
-*  CHARACTER VOICE (ENTRY)
-*  ENTRY (X) > GROUP ( ) > DATA ( )
-*  ----------------------------------------------------- */
+ *  CHARACTER VOICE (ENTRY)
+ *  ENTRY (X) > GROUP ( ) > DATA ( )
+ *  ----------------------------------------------------- */
 
 export type NexonCharVoiceTableTranscription = {
-  Transcription: string;
+  Transcription: string
   TranscriptionLang: NexonL10nDataLang
 }
 
 export type NexonCharVoiceNormalEntryForTable = {
-  Id: string;
-  CostumePos: number;
+  Id: string
+  CostumePos: number
 } & NexonCharVoiceTableTranscription
 export type NexonCharVoiceBattleEntryForTable = {
-  Id: string;
+  Id: string
 } & NexonCharVoiceTableTranscription
 export type NexonCharVoiceEventEntryForTable = {
-  Id: string;
+  Id: string
   EventType: NexonCharVoiceEventTranscriptionType
 } & NexonCharVoiceTableTranscription
 export type SchaleDbVoiceEntryForTable = {
-  Id: string;
-  Transcription: string;
+  Id: string
+  Transcription: string
   TranscriptionLang: NexonL10nDataLang
 }
 
-export function convertNexonCharVoiceNormalEntryForTable(entry: NexonCharVoiceNormalEntry, langs: NexonL10nDataLangOfUi[]) {
+export function convertNexonCharVoiceNormalEntryForTable(
+  entry: NexonCharVoiceNormalEntry,
+  langs: NexonL10nDataLangOfUi[]
+) {
   const temp: NexonCharVoiceNormalEntryForTable[][] = []
   for (const lang of langs) {
-    if (lang === 'null')
-      continue
+    if (lang === 'null') continue
 
     const texts = entry.Transcription[lang]
     if (texts) {
@@ -71,16 +73,17 @@ export function convertNexonCharVoiceNormalEntryForTable(entry: NexonCharVoiceNo
   }
 
   let result: NexonCharVoiceNormalEntryForTable[] = []
-  for (const entryList of temp)
-    result = result.concat(entryList)
+  for (const entryList of temp) result = result.concat(entryList)
   return result
 }
 
-export function convertNexonCharVoiceBattleEntryForTable(entry: NexonCharVoiceBattleEntry, langs: NexonL10nDataLangOfUi[]) {
+export function convertNexonCharVoiceBattleEntryForTable(
+  entry: NexonCharVoiceBattleEntry,
+  langs: NexonL10nDataLangOfUi[]
+) {
   const result: NexonCharVoiceBattleEntryForTable[] = []
   for (const lang of langs) {
-    if (lang === 'null')
-      continue
+    if (lang === 'null') continue
 
     const text = getNexonL10nData(entry.Transcription, lang)
     result.push({
@@ -93,21 +96,24 @@ export function convertNexonCharVoiceBattleEntryForTable(entry: NexonCharVoiceBa
   return result
 }
 
-export function convertNexonCharVoiceEventEntryForTable(entry: NexonCharVoiceEventVoiceEntry, langs: NexonL10nDataLangOfUi[]) {
+export function convertNexonCharVoiceEventEntryForTable(
+  entry: NexonCharVoiceEventVoiceEntry,
+  langs: NexonL10nDataLangOfUi[]
+) {
   const temp: Record<NexonCharVoiceEventTranscriptionType, NexonCharVoiceEventEntryForTable[]> = {
-    FirstTime: [], Rerun: [], Immortalized: []
+    FirstTime: [],
+    Rerun: [],
+    Immortalized: []
   }
 
   for (const transcription of entry.Transcription) {
     const currType = transcription.Type
     const currTexts = transcription.Data
     for (const lang of langs) {
-      if (lang === 'null')
-        continue
+      if (lang === 'null') continue
 
       let currText = ''
-      if (lang in currTexts)
-        currText = currTexts[lang].join('<br />')
+      if (lang in currTexts) currText = currTexts[lang].join('<br />')
       temp[currType].push({
         Id: entry.Id,
         EventType: currType,
@@ -121,15 +127,16 @@ export function convertNexonCharVoiceEventEntryForTable(entry: NexonCharVoiceEve
   return result
 }
 
-export function convertSchaleDbVoiceEntryForTable(entry: SchaleDbStuInfoFullVoicelineEntry, langs: NexonL10nDataLangOfUi[]) {
+export function convertSchaleDbVoiceEntryForTable(
+  entry: SchaleDbStuInfoFullVoicelineEntry,
+  langs: NexonL10nDataLangOfUi[]
+) {
   const result: SchaleDbVoiceEntryForTable[] = []
   for (const lang of langs) {
-    if (lang === 'null')
-      continue
+    if (lang === 'null') continue
 
     let text = ''
-    if (lang in entry.Transcription)
-      text = entry.Transcription[lang]
+    if (lang in entry.Transcription) text = entry.Transcription[lang]
     result.push({
       Id: entry.Group,
       Transcription: convertNewlineToBr(text),
@@ -140,41 +147,50 @@ export function convertSchaleDbVoiceEntryForTable(entry: SchaleDbStuInfoFullVoic
 }
 
 /* -----------------------------------------------------
-*  CHARACTER VOICE (GROUP)
-*  ENTRY ( ) > GROUP (X) > DATA ( )
-*  ----------------------------------------------------- */
+ *  CHARACTER VOICE (GROUP)
+ *  ENTRY ( ) > GROUP (X) > DATA ( )
+ *  ----------------------------------------------------- */
 
 export type NexonCharVoiceNormalGroupEntryForTable = {
-  GroupId: string;
+  GroupId: string
   Data: NexonCharVoiceNormalEntryForTable[][]
 }
 export type NexonCharVoiceBattleGroupEntryForTable = {
-  GroupId: string;
+  GroupId: string
   Data: NexonCharVoiceBattleEntryForTable[][]
 }
 export type NexonCharVoiceEventGroupEntryForTable = {
-  GroupId: string;
+  GroupId: string
   Data: {
-    Param: NexonCharVoiceEventVoiceEntryParam;
-    Data: NexonCharVoiceEventEntryForTable[];
+    Param: NexonCharVoiceEventVoiceEntryParam
+    Data: NexonCharVoiceEventEntryForTable[]
   }[]
 }
 
-export function convertNexonCharVoiceNormalGroupEntryForTable(entry: NexonCharVoiceNormalGroup, langs: NexonL10nDataLangOfUi[]): NexonCharVoiceNormalGroupEntryForTable {
+export function convertNexonCharVoiceNormalGroupEntryForTable(
+  entry: NexonCharVoiceNormalGroup,
+  langs: NexonL10nDataLangOfUi[]
+): NexonCharVoiceNormalGroupEntryForTable {
   const temp: NexonCharVoiceNormalEntryForTable[][] = []
   for (const voiceEntry of entry.Data)
     temp.push(convertNexonCharVoiceNormalEntryForTable(voiceEntry, langs))
   return { GroupId: entry.GroupId, Data: temp }
 }
 
-export function convertNexonCharVoiceBattleGroupEntryForTable(entry: NexonCharVoiceBattleGroup, langs: NexonL10nDataLangOfUi[]): NexonCharVoiceBattleGroupEntryForTable {
+export function convertNexonCharVoiceBattleGroupEntryForTable(
+  entry: NexonCharVoiceBattleGroup,
+  langs: NexonL10nDataLangOfUi[]
+): NexonCharVoiceBattleGroupEntryForTable {
   const temp: NexonCharVoiceBattleEntryForTable[][] = []
   for (const voiceEntry of entry.Data)
     temp.push(convertNexonCharVoiceBattleEntryForTable(voiceEntry, langs))
   return { GroupId: entry.GroupId, Data: temp }
 }
 
-export function convertNexonCharVoiceEventGroupEntryForTable(entry: NexonCharVoiceEventGroupEntry, langs: NexonL10nDataLangOfUi[]): NexonCharVoiceEventGroupEntryForTable {
+export function convertNexonCharVoiceEventGroupEntryForTable(
+  entry: NexonCharVoiceEventGroupEntry,
+  langs: NexonL10nDataLangOfUi[]
+): NexonCharVoiceEventGroupEntryForTable {
   const temp = []
   for (const voiceEntry of entry.Data) {
     temp.push({
@@ -186,15 +202,14 @@ export function convertNexonCharVoiceEventGroupEntryForTable(entry: NexonCharVoi
 }
 
 /* -----------------------------------------------------
-*  CHARACTER VOICE (GROUP)
-*  ENTRY ( ) > GROUP ( ) > DATA (X)
-*  ----------------------------------------------------- */
+ *  CHARACTER VOICE (GROUP)
+ *  ENTRY ( ) > GROUP ( ) > DATA (X)
+ *  ----------------------------------------------------- */
 
 function checkIfAllLangsAreNull(langs: NexonL10nDataLangOfUi[]) {
   for (const i of langs) {
     if (i) {
-      if (i !== 'null')
-        return false
+      if (i !== 'null') return false
     }
   }
   return true
@@ -202,12 +217,17 @@ function checkIfAllLangsAreNull(langs: NexonL10nDataLangOfUi[]) {
 
 export type NexonCharVoiceNormalCategoryForTable = NexonCharVoiceNormalGroupEntryForTable[]
 export type NexonCharVoiceBattleCategoryForTable = NexonCharVoiceBattleGroupEntryForTable[]
-export type NexonCharVoiceEventCategoryForTable = { EventId: string; Data: NexonCharVoiceEventGroupEntryForTable[] }[]
+export type NexonCharVoiceEventCategoryForTable = {
+  EventId: string
+  Data: NexonCharVoiceEventGroupEntryForTable[]
+}[]
 export type SchaleDbVoiceCategoryForTable = SchaleDbVoiceEntryForTable[][]
 
-export function convertNexonCharVoiceNormalCategoryForTable(entry: NexonCharVoiceNormal, langs: NexonL10nDataLangOfUi[]) {
-  if (checkIfAllLangsAreNull(langs))
-    return []
+export function convertNexonCharVoiceNormalCategoryForTable(
+  entry: NexonCharVoiceNormal,
+  langs: NexonL10nDataLangOfUi[]
+) {
+  if (checkIfAllLangsAreNull(langs)) return []
 
   const result: NexonCharVoiceNormalCategoryForTable = []
   for (const voiceGroup of entry)
@@ -215,9 +235,11 @@ export function convertNexonCharVoiceNormalCategoryForTable(entry: NexonCharVoic
   return result
 }
 
-export function convertNexonCharVoiceBattleCategoryForTable(entry: NexonCharVoiceBattle, langs: NexonL10nDataLangOfUi[]) {
-  if (checkIfAllLangsAreNull(langs))
-    return []
+export function convertNexonCharVoiceBattleCategoryForTable(
+  entry: NexonCharVoiceBattle,
+  langs: NexonL10nDataLangOfUi[]
+) {
+  if (checkIfAllLangsAreNull(langs)) return []
 
   const result: NexonCharVoiceBattleCategoryForTable = []
   for (const voiceGroup of entry)
@@ -225,26 +247,29 @@ export function convertNexonCharVoiceBattleCategoryForTable(entry: NexonCharVoic
   return result
 }
 
-export function convertNexonCharVoiceEventCategoryForTable(entry: NexonCharVoiceEvent, langs: NexonL10nDataLangOfUi[]) {
-  if (checkIfAllLangsAreNull(langs))
-    return []
+export function convertNexonCharVoiceEventCategoryForTable(
+  entry: NexonCharVoiceEvent,
+  langs: NexonL10nDataLangOfUi[]
+) {
+  if (checkIfAllLangsAreNull(langs)) return []
 
   const result: NexonCharVoiceEventCategoryForTable = []
   for (const entryEvent of entry) {
     const temp = []
     for (const voiceGroup of entryEvent.Data)
       temp.push(convertNexonCharVoiceEventGroupEntryForTable(voiceGroup, langs))
-    result.push({EventId: entryEvent.EventId, Data: temp})
+    result.push({ EventId: entryEvent.EventId, Data: temp })
   }
   return result
 }
 
-export function convertSchaleDbVoiceCategoryForTable(entry: SchaleDbStuInfoFullVoicelineEntry[], langs: NexonL10nDataLangOfUi[]) {
-  if (checkIfAllLangsAreNull(langs))
-    return []
+export function convertSchaleDbVoiceCategoryForTable(
+  entry: SchaleDbStuInfoFullVoicelineEntry[],
+  langs: NexonL10nDataLangOfUi[]
+) {
+  if (checkIfAllLangsAreNull(langs)) return []
 
   const result: SchaleDbVoiceCategoryForTable = []
-  for (const voiceGroup of entry)
-    result.push(convertSchaleDbVoiceEntryForTable(voiceGroup, langs))
+  for (const voiceGroup of entry) result.push(convertSchaleDbVoiceEntryForTable(voiceGroup, langs))
   return result
 }

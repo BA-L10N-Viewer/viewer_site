@@ -17,23 +17,19 @@ const allComps: Record<SiteUiLang, Component> = {
 const setting = useSetting()
 const i18n = useI18n()
 
-onMounted(
-  () => {
-    watch(
-      () => setting.ui_lang,
-      () => {
-        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['whybalv']))
-      },
-      { immediate: true }
-    )
-  }
-)
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    () => {
+      changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['whybalv']))
+    },
+    { immediate: true }
+  )
+})
 </script>
 
 <template>
   <component :is="allComps[setting.ui_lang]" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

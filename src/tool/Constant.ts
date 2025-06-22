@@ -15,11 +15,16 @@ export const SITE_VERSION = '20240727'
 
 export const searchCascaderModeOptions = [
   {
-    value: 'story', label: 'Story', children: []
+    value: 'story',
+    label: 'Story',
+    children: []
   },
   { value: 'mmt', label: 'Momotalk', children: [] },
   {
-    value: 'reverse', label: 'Reverse Search', disabled: true, children: [
+    value: 'reverse',
+    label: 'Reverse Search',
+    disabled: true,
+    children: [
       { value: 'track', label: 'Track', children: [] },
       { value: 'character', label: 'Character', children: [] },
       { value: 'background', label: 'Background', children: [] }
@@ -28,27 +33,27 @@ export const searchCascaderModeOptions = [
 ]
 
 export const NexonLangMap: Record<string, string> = {
-  'g_en': 'en',
-  'g_tw': 'zh_TW',
-  'g_ko': 'ko',
-  'g_ja': 'ja',
-  'g_th': 'th',
-  'j_ja': 'ja',
-  'j_ko': 'ko',
-  'c_cn': 'zh_CN',
-  'g_tw_cn': 'zh_CN',
-  'c_cn_tw': 'zh_TW',
-  'c_zh': 'zh_CN',
-  'c_zh_tw': 'zh_TW',
-  'null': ''
+  g_en: 'en',
+  g_tw: 'zh_TW',
+  g_ko: 'ko',
+  g_ja: 'ja',
+  g_th: 'th',
+  j_ja: 'ja',
+  j_ko: 'ko',
+  c_cn: 'zh_CN',
+  g_tw_cn: 'zh_CN',
+  c_cn_tw: 'zh_TW',
+  c_zh: 'zh_CN',
+  c_zh_tw: 'zh_TW',
+  null: ''
 }
 
-export const selectAutoTranslateService: { value: MtServiceName, label: string }[] = [
+export const selectAutoTranslateService: { value: MtServiceName; label: string }[] = [
   { value: 'google', label: 'i18n-setting-google' }
   // { value: 'deepl', label: 'i18n-setting-deepl' } // disabled for rate limit
 ]
 
-export const selectCharVoiceDataSource: { value: CharVoiceUiDataSource, label: string }[] = [
+export const selectCharVoiceDataSource: { value: CharVoiceUiDataSource; label: string }[] = [
   { value: 'nexon', label: 'char-voice-ui-select-source-nexon' },
   { value: 'schaledb', label: 'char-voice-ui-select-source-schaledb' }
 ]
@@ -60,7 +65,10 @@ export const selectCharVoiceCurrTabName: CharVoiceUiTabAvailabilityList = [
   { value: 'Event', label: 'char-voice-ui-select-tab-event', disabled: false }
 ]
 
-export const selectCharVoiceEventDisplayMode: { value: NexonCharVoiceEventTranscriptionType, label: string }[] = [
+export const selectCharVoiceEventDisplayMode: {
+  value: NexonCharVoiceEventTranscriptionType
+  label: string
+}[] = [
   { value: 'FirstTime', label: 'char-voice-ui-checkbox-event-firsttime' },
   { value: 'Rerun', label: 'char-voice-ui-checkbox-event-rerun' },
   { value: 'Immortalized', label: 'char-voice-ui-checkbox-event-immortalized' }
@@ -97,27 +105,27 @@ export const nexonDataLangSelect = [
 ]
 
 export const NexonLangMapReverse = {
-  'en': ['g_en'],
-  'zh_TW': ['g_tw', 'c_zh', 'c_cn_tw'],
-  'zh_CN': ['c_zh', 'g_tw_cn', 'c_cn'],
-  'ja': ['j_ja'],
-  'ko': ['j_ko'],
-  'th': ['g_th']
+  en: ['g_en'],
+  zh_TW: ['g_tw', 'c_zh', 'c_cn_tw'],
+  zh_CN: ['c_zh', 'g_tw_cn', 'c_cn'],
+  ja: ['j_ja'],
+  ko: ['j_ko'],
+  th: ['g_th']
 } as const
 
 export const SchaleDbLangMap: Record<SchaleDbL10nDataLang, string> = {
-  'g_en': 'en',
-  'g_tw': 'zh_TW',
-  'g_ko': 'ko',
-  'g_ja': 'ja',
-  'g_th': 'th',
-  'j_ja': 'ja',
-  'j_ko': 'ko',
-  'c_cn': 'zh_CN',
-  'g_tw_cn': 'zh_CN',
-  'c_cn_tw': 'zh_TW',
-  'c_zh': 'zh_CN',
-  'c_zh_tw': 'zh_TW'
+  g_en: 'en',
+  g_tw: 'zh_TW',
+  g_ko: 'ko',
+  g_ja: 'ja',
+  g_th: 'th',
+  j_ja: 'ja',
+  j_ko: 'ko',
+  c_cn: 'zh_CN',
+  g_tw_cn: 'zh_CN',
+  c_cn_tw: 'zh_TW',
+  c_zh: 'zh_CN',
+  c_zh_tw: 'zh_TW'
 }
 
 export type SiteUiLang = 'zh_CN' | 'zh_TW' | 'en'
@@ -130,9 +138,16 @@ export const siteUiLangSelect: { label: string; value: SiteUiLang }[] = [
 
 export function getNexonI18nDataDefault(text: string = '[NO DATA]'): NexonL10nData {
   const temp: NexonL10nData = {
-    j_ja: text, j_ko: text,
-    g_ja: text, g_ko: text, g_tw: text, g_tw_cn: text, g_th: text, g_en: text,
-    c_cn: text, c_cn_tw: text
+    j_ja: text,
+    j_ko: text,
+    g_ja: text,
+    g_ko: text,
+    g_tw: text,
+    g_tw_cn: text,
+    g_th: text,
+    g_en: text,
+    c_cn: text,
+    c_cn_tw: text
   }
   return temp
 }
@@ -233,7 +248,7 @@ export const allLangcodeOfNexonBySiteUiLang: Record<SiteUiLang, NexonL10nDataLan
 export const defaultLangForNexonL10nLang: Record<SiteUiLang, NexonL10nDataLangOfUi[]> = {
   en: ['j_ja', 'g_ko', 'g_en', 'g_th', 'g_tw'],
   zh_CN: ['j_ja', 'g_ko', 'g_tw_cn', 'g_en', 'g_th'],
-  zh_TW: ['j_ja', 'g_ko', 'g_tw', 'g_en', 'g_th'],
+  zh_TW: ['j_ja', 'g_ko', 'g_tw', 'g_en', 'g_th']
 }
 
 export const CHAR_NPC_IMG_URL: Record<string, string> = {
@@ -242,5 +257,5 @@ export const CHAR_NPC_IMG_URL: Record<string, string> = {
   '9009002': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_momoka.png`, // Momoka
   '9009003': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_rin.png`, // Rin
   '9009004': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0013.png`, // Ayumu
-  '9009005': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0035.png`  // Plana
+  '9009005': `${getStaticCdnBasepath('static')}/ba/01_01_Character/npc_portrait_np0035.png` // Plana
 }

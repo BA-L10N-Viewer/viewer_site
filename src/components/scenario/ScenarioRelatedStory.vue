@@ -42,12 +42,14 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? ref(false)
 </script>
 
 <template>
-  <div style="margin-top: 1em; margin-bottom: 1em; text-align: center;">
+  <div style="margin-top: 1em; margin-bottom: 1em; text-align: center">
     <!-- 故事名称 -->
     <PvFluid class="pv-fluid" v-if="infoPos === 'top'">
-      <div style="width: calc(50%);">
+      <div style="width: calc(50%)">
         <template v-if="prevName">
-          <p><b>{{ prevPosString }}</b></p>
+          <p>
+            <b>{{ prevPosString }}</b>
+          </p>
           <div class="div-for-ul">
             <ul>
               <NexonI18nDataOutput :data="prevName" html-element-name="li" />
@@ -58,7 +60,9 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? ref(false)
       <div class="pv-fluid-spacing"></div>
       <div style="width: calc(50%)">
         <template v-if="nextName">
-          <p><b>{{ nextPosString }}</b></p>
+          <p>
+            <b>{{ nextPosString }}</b>
+          </p>
           <div class="div-for-ul">
             <ul>
               <NexonI18nDataOutput :data="nextName" html-element-name="li" />
@@ -71,55 +75,76 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? ref(false)
     <!-- 上下页按钮  -->
     <PvFluid>
       <template v-if="String(prevId) === 'null' || isMtInProgress">
-        <PvButton style="width: calc(50% - 4px); text-align: center; margin-right: 4px;"
-                  disabled>
+        <PvButton style="width: calc(50% - 4px); text-align: center; margin-right: 4px" disabled>
           <template v-if="String(prevId) === 'null'">
             <i class="pi pi-chevron-left" style="font-size: 2em"></i>
-            <span><b>{{ $t('comp-scenario-related-btn-prev') }} (null)</b></span>
+            <span
+              ><b>{{ $t('comp-scenario-related-btn-prev') }} (null)</b></span
+            >
           </template>
           <template v-else-if="String(prevId) !== 'null' && isMtInProgress">
             <i class="pi pi-chevron-left" style="font-size: 2em"></i>
-            <span><b>{{ $t('comp-scenario-related-btn-prev') }} ({{ prevId }})</b></span>
+            <span
+              ><b>{{ $t('comp-scenario-related-btn-prev') }} ({{ prevId }})</b></span
+            >
           </template>
         </PvButton>
       </template>
       <template v-else>
-        <PvButton style="width: calc(50% - 4px); text-align: center; margin-right: 4px;"
-                  as="RouterLink" :to="`/scenario/${prevId}`"
-                  :disabled="true">
+        <PvButton
+          style="width: calc(50% - 4px); text-align: center; margin-right: 4px"
+          as="RouterLink"
+          :to="`/scenario/${prevId}`"
+          :disabled="true"
+        >
           <i class="pi pi-chevron-left" style="font-size: 2em"></i>
-          <span><b>{{ $t('comp-scenario-related-btn-prev') }} ({{ prevId }})</b></span>
+          <span
+            ><b>{{ $t('comp-scenario-related-btn-prev') }} ({{ prevId }})</b></span
+          >
         </PvButton>
       </template>
 
       <template v-if="String(nextId) === 'null' || isMtInProgress">
-        <PvButton style="width: calc(50% - 4px); text-align: center; margin-left: 4px;"
-                  :disabled="true">
+        <PvButton
+          style="width: calc(50% - 4px); text-align: center; margin-left: 4px"
+          :disabled="true"
+        >
           <template v-if="String(nextId) === 'null'">
             <i class="pi pi-chevron-right" style="font-size: 2em"></i>
-            <span><b>{{ $t('comp-scenario-related-btn-next') }} (null)</b></span>
+            <span
+              ><b>{{ $t('comp-scenario-related-btn-next') }} (null)</b></span
+            >
           </template>
           <template v-else-if="String(nextId) !== 'null' && isMtInProgress">
             <i class="pi pi-chevron-right" style="font-size: 2em"></i>
-            <span><b>{{ $t('comp-scenario-related-btn-next') }} ({{ nextId }})</b></span>
+            <span
+              ><b>{{ $t('comp-scenario-related-btn-next') }} ({{ nextId }})</b></span
+            >
           </template>
         </PvButton>
       </template>
       <template v-else>
-        <PvButton style="width: calc(50% - 4px); text-align: center; margin-left: 4px;"
-                  as="RouterLink" :to="`/scenario/${nextId}`"
-                  :disabled="true">
+        <PvButton
+          style="width: calc(50% - 4px); text-align: center; margin-left: 4px"
+          as="RouterLink"
+          :to="`/scenario/${nextId}`"
+          :disabled="true"
+        >
           <i class="pi pi-chevron-right" style="font-size: 2em"></i>
-          <span><b>{{ $t('comp-scenario-related-btn-next') }} ({{ nextId }})</b></span>
+          <span
+            ><b>{{ $t('comp-scenario-related-btn-next') }} ({{ nextId }})</b></span
+          >
         </PvButton>
       </template>
     </PvFluid>
 
     <!-- 故事名称 -->
     <PvFluid class="pv-fluid" v-if="infoPos === 'bottom'">
-      <div style="width: calc(50%);">
+      <div style="width: calc(50%)">
         <template v-if="prevName">
-          <p><b>{{ prevPosString }}</b></p>
+          <p>
+            <b>{{ prevPosString }}</b>
+          </p>
           <div class="div-for-ul">
             <ul>
               <NexonI18nDataOutput :data="prevName" html-element-name="li" />
@@ -130,7 +155,9 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? ref(false)
       <div class="pv-fluid-spacing"></div>
       <div style="width: calc(50%)">
         <template v-if="nextName">
-          <p><b>{{ nextPosString }}</b></p>
+          <p>
+            <b>{{ nextPosString }}</b>
+          </p>
           <div class="div-for-ul">
             <ul>
               <NexonI18nDataOutput :data="nextName" html-element-name="li" />
@@ -143,21 +170,21 @@ const isMtInProgress = inject(symbolForMtProgressBool) ?? ref(false)
 </template>
 
 <style scoped>
-.div-for-ul{
+.div-for-ul {
   width: 60%;
   text-align: left;
   margin-left: 20%;
   margin-right: 20%;
 }
 @media screen and (max-width: 1200px) {
-  .div-for-ul{
+  .div-for-ul {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
   }
 }
 @media screen and (max-width: 800px) {
-  .div-for-ul{
+  .div-for-ul {
     width: 100%;
     margin: revert;
   }

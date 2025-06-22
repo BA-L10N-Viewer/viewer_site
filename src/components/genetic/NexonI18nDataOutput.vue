@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { computed, defineProps, type PropType } from 'vue'
-import { i18nLangAll, i18nToUiLangAll, listOfPosOfSelectedLangForMobile } from '@/tool/ConstantComputed'
+import {
+  i18nLangAll,
+  i18nToUiLangAll,
+  listOfPosOfSelectedLangForMobile
+} from '@/tool/ConstantComputed'
 import type { NexonL10nData, SchaleDbL10nData } from '@/types/OutsourcedData'
 import { NexonLangMap } from '@/tool/Constant'
 import DialogueTranslated from '@/components/DialogueTranslated.vue'
@@ -16,8 +20,18 @@ const props = defineProps({
   dataMt: {
     type: {} as PropType<NexonL10nData | SchaleDbL10nData>,
     default: {
-      'j_ja': '', 'j_ko': '', 'g_ja': '', 'g_ko': '', 'g_en': '', 'g_th': '', 'g_tw': '', 'g_tw_cn': '',
-      'c_cn': '', 'c_cn_tw': '', 'c_zh': '', 'c_zh_tw': ''
+      j_ja: '',
+      j_ko: '',
+      g_ja: '',
+      g_ko: '',
+      g_en: '',
+      g_th: '',
+      g_tw: '',
+      g_tw_cn: '',
+      c_cn: '',
+      c_cn_tw: '',
+      c_zh: '',
+      c_zh_tw: ''
     }
   },
   dataLang: {
@@ -43,8 +57,7 @@ const dataLangProcessed = computed(() => {
   const allDataKeys = Object.keys(props.data)
 
   for (const lang of props.dataLang) {
-    if (allDataKeys.includes(lang))
-      result.push(lang)
+    if (allDataKeys.includes(lang)) result.push(lang)
   }
 
   return result
@@ -57,14 +70,14 @@ const dataLangProcessed = computed(() => {
       <!-- 不指定语言时 -->
       <template v-if="!dataLang">
         <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
-          <template v-if="i18nLangAll[langIdx] as string !== 'null'">
-            <span :lang="i18nToUiLangAll[langIdx]"
-                  :class="{'clamped-text': enableTextLineClamp}">
+          <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
+            <span :lang="i18nToUiLangAll[langIdx]" :class="{ 'clamped-text': enableTextLineClamp }">
               <DialogueTranslated
                 display-mode="square_basket"
                 :content-original="data[i18nLangAll[langIdx]]"
                 :content-original-lang="i18nToUiLangAll[langIdx]"
-                :content-translated="dataMt[i18nLangAll[langIdx]]" />
+                :content-translated="dataMt[i18nLangAll[langIdx]]"
+              />
             </span>
             <span v-if="idx + 1 < listOfPosOfSelectedLangForMobile.length">&nbsp;/&nbsp;</span>
           </template>
@@ -73,14 +86,14 @@ const dataLangProcessed = computed(() => {
       <!-- 指定语言时 -->
       <template v-else>
         <template v-for="(lang, idx) in dataLangProcessed" :key="idx">
-          <span :lang="NexonLangMap[lang]"
-                :class="{'clamped-text': enableTextLineClamp}">
+          <span :lang="NexonLangMap[lang]" :class="{ 'clamped-text': enableTextLineClamp }">
             <!-- 不知道该怎么写了，any启动！ -->
             <DialogueTranslated
               display-mode="square_basket"
               :content-original="(data as any)[lang]"
               :content-original-lang="NexonLangMap[lang]"
-              :content-translated="(dataMt as any)[lang]" />
+              :content-translated="(dataMt as any)[lang]"
+            />
           </span>
           <span v-if="idx + 1 < dataLangProcessed.length">&nbsp;/&nbsp;</span>
         </template>
@@ -91,17 +104,25 @@ const dataLangProcessed = computed(() => {
       <!-- 不指定语言时 -->
       <template v-if="!dataLang">
         <template v-for="(langIdx, idx) in listOfPosOfSelectedLangForMobile" :key="idx">
-          <template v-if="i18nLangAll[langIdx] as string !== 'null'">
+          <template v-if="(i18nLangAll[langIdx] as string) !== 'null'">
             <li :lang="i18nToUiLangAll[langIdx]">
               <span>
                 <DialogueTranslated
                   display-mode="square_basket"
                   :content-original="data[i18nLangAll[langIdx]]"
                   :content-original-lang="i18nToUiLangAll[langIdx]"
-                  :content-translated="setting.auto_i18n_showauto ? dataMt[i18nLangAll[langIdx]] : ''" />
+                  :content-translated="
+                    setting.auto_i18n_showauto ? dataMt[i18nLangAll[langIdx]] : ''
+                  "
+                />
               </span>
-              <ul v-show="dataMt[i18nLangAll[langIdx]] !== '' && !setting.auto_i18n_showauto" class="datasheet-data-ul">
-                <li :lang="setting.auto_i18n_lang"><span v-html="dataMt[i18nLangAll[langIdx]]" /></li>
+              <ul
+                v-show="dataMt[i18nLangAll[langIdx]] !== '' && !setting.auto_i18n_showauto"
+                class="datasheet-data-ul"
+              >
+                <li :lang="setting.auto_i18n_lang">
+                  <span v-html="dataMt[i18nLangAll[langIdx]]" />
+                </li>
               </ul>
             </li>
           </template>
@@ -117,9 +138,13 @@ const dataLangProcessed = computed(() => {
                   display-mode="square_basket"
                   :content-original="data[i18nLangAll[idx]]"
                   :content-original-lang="i18nToUiLangAll[idx]"
-                  :content-translated="!setting.auto_i18n_showauto ? dataMt[i18nLangAll[idx]] : ''" />
+                  :content-translated="!setting.auto_i18n_showauto ? dataMt[i18nLangAll[idx]] : ''"
+                />
               </span>
-              <ul v-show="dataMt[i18nLangAll[idx]] !== '' && !setting.auto_i18n_showauto" class="datasheet-data-ul">
+              <ul
+                v-show="dataMt[i18nLangAll[idx]] !== '' && !setting.auto_i18n_showauto"
+                class="datasheet-data-ul"
+              >
                 <li :lang="setting.auto_i18n_lang"><span v-html="dataMt[i18nLangAll[idx]]" /></li>
               </ul>
             </span>

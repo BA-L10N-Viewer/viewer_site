@@ -17,11 +17,11 @@ import { getTranslation, type MtServiceName } from '@/tool/translate/MtDispatche
 import { NexonLangMap } from '@/tool/Constant'
 
 export type NexonCharVoiceNormalEntryMtData = {
-  Id: string;
+  Id: string
   Transcription: Record<NexonL10nDataLangOfUi, string[]>
 }
 export type NexonCharVoiceBattleEntryMtData = {
-  Id: string;
+  Id: string
   Transcription: NexonL10nDataOfUi
 }
 /*
@@ -31,8 +31,8 @@ export type NexonCharVoiceEventTranscriptionEntryMtData = {
 }
 */
 export type NexonCharVoiceEventVoiceEntryMtData = {
-  Id: string;
-  Transcription: { [key in NexonCharVoiceEventTranscriptionType]: NexonL10nDataOfUi };
+  Id: string
+  Transcription: { [key in NexonCharVoiceEventTranscriptionType]: NexonL10nDataOfUi }
 }
 export type SchaleDbStuVoicelineEntryMtData = {
   Group: string
@@ -50,11 +50,14 @@ export type NexonCharVoiceMtData = {
   Battle: NexonCharVoiceBattleMtData
   Event: NexonCharVoiceEventMtData
 }
-export type SchaleDbStuVoicelineMtData = Record<SchaleDbStuInfoFullVoicelineCategory, SchaleDbVoicelineCategoryMtData>
+export type SchaleDbStuVoicelineMtData = Record<
+  SchaleDbStuInfoFullVoicelineCategory,
+  SchaleDbVoicelineCategoryMtData
+>
 
 /* ----------------------------------------
-*  MACHINE TRANSLATION - INIT
-*  ---------------------------------------- */
+ *  MACHINE TRANSLATION - INIT
+ *  ---------------------------------------- */
 
 export function initNexonCharVoiceNormalMtData(baseVoiceData: NexonCharVoiceNormal) {
   const result: NexonCharVoiceNormalMtData = {}
@@ -74,11 +77,10 @@ export function initNexonCharVoiceNormalMtData(baseVoiceData: NexonCharVoiceNorm
         null: []
       }
       for (const lang of NexonL10nDataLangOfUi) {
-        for (let i = 0; i < entry.Transcription.j_ja.length; i++)
-          temp[lang]!.push('')
+        for (let i = 0; i < entry.Transcription.j_ja.length; i++) temp[lang]!.push('')
       }
 
-      result[entry.Id] = ({ Id: entry.Id, Transcription: temp })
+      result[entry.Id] = { Id: entry.Id, Transcription: temp }
     }
   }
 
@@ -167,7 +169,9 @@ export function initNexonCharVoiceEventMtData(baseVoiceData: NexonCharVoiceEvent
   return result
 }
 
-export function initSchaleDbVoiceCategoryMtData(baseVoiceData: SchaleDbStuInfoFullVoicelineEntry[]) {
+export function initSchaleDbVoiceCategoryMtData(
+  baseVoiceData: SchaleDbStuInfoFullVoicelineEntry[]
+) {
   const result: SchaleDbVoicelineCategoryMtData = {}
   for (const entry of baseVoiceData)
     result[entry.Group] = {
@@ -190,97 +194,109 @@ export function initSchaleDbVoiceCategoryMtData(baseVoiceData: SchaleDbStuInfoFu
 }
 
 /* ----------------------------------------
-*  MACHINE TRANSLATION - CLEAR
-*  ---------------------------------------- */
+ *  MACHINE TRANSLATION - CLEAR
+ *  ---------------------------------------- */
 
-export function clearNexonCharVoiceNormalMtData(baseMtData: NexonCharVoiceNormalMtData, lang: NexonL10nDataLangOfUi) {
+export function clearNexonCharVoiceNormalMtData(
+  baseMtData: NexonCharVoiceNormalMtData,
+  lang: NexonL10nDataLangOfUi
+) {
   for (const value of Object.values(baseMtData)) {
     const temp = []
-    for (let i = 0; i < value.Transcription[lang].length; i++)
-      temp.push('')
+    for (let i = 0; i < value.Transcription[lang].length; i++) temp.push('')
     value.Transcription[lang] = temp
   }
 }
 
-export function clearNexonCharVoiceBattleMtData(baseMtData: NexonCharVoiceBattleMtData, lang: NexonL10nDataLangOfUi) {
-  for (const value of Object.values(baseMtData))
-    value.Transcription[lang] = ''
+export function clearNexonCharVoiceBattleMtData(
+  baseMtData: NexonCharVoiceBattleMtData,
+  lang: NexonL10nDataLangOfUi
+) {
+  for (const value of Object.values(baseMtData)) value.Transcription[lang] = ''
 }
 
-export function clearNexonCharVoiceEventMtData(baseMtData: NexonCharVoiceEventMtData, lang: NexonL10nDataLangOfUi) {
+export function clearNexonCharVoiceEventMtData(
+  baseMtData: NexonCharVoiceEventMtData,
+  lang: NexonL10nDataLangOfUi
+) {
   for (const value of Object.values(baseMtData)) {
-    for (const transcription of Object.values(value.Transcription))
-      transcription[lang] = ''
+    for (const transcription of Object.values(value.Transcription)) transcription[lang] = ''
   }
 }
 
-export function clearSchaleDbVoiceCategoryMtData(baseMtData: SchaleDbVoicelineCategoryMtData, lang: NexonL10nDataLangOfUi) {
-  for (const value of Object.values(baseMtData))
-    value.Transcription[lang] = ''
+export function clearSchaleDbVoiceCategoryMtData(
+  baseMtData: SchaleDbVoicelineCategoryMtData,
+  lang: NexonL10nDataLangOfUi
+) {
+  for (const value of Object.values(baseMtData)) value.Transcription[lang] = ''
 }
 
 /* ----------------------------------------
-*  MACHINE TRANSLATION - UPDATE TRANSLATION
-*  ---------------------------------------- */
+ *  MACHINE TRANSLATION - UPDATE TRANSLATION
+ *  ---------------------------------------- */
 
-export function updateNexonCharVoiceNormalMtData(baseVoiceData: NexonCharVoiceNormal,
-                                                 baseMtData: NexonCharVoiceNormalMtData,
-                                                 lang: NexonL10nDataLangOfUi,
-                                                 mtService: MtServiceName,
-                                                 targetLang: string,
-                                                 asyncPool: AsyncTaskPool) {
-  if (lang === 'null')
-    return
+export function updateNexonCharVoiceNormalMtData(
+  baseVoiceData: NexonCharVoiceNormal,
+  baseMtData: NexonCharVoiceNormalMtData,
+  lang: NexonL10nDataLangOfUi,
+  mtService: MtServiceName,
+  targetLang: string,
+  asyncPool: AsyncTaskPool
+) {
+  if (lang === 'null') return
 
   for (const group of baseVoiceData) {
     for (const entry of group.Data) {
       const texts = getNexonL10nData(entry.Transcription, lang as NexonL10nDataLang)
-      const actualTexts = texts.map(i => i.join('<br />'))
+      const actualTexts = texts.map((i) => i.join('<br />'))
       for (const [idx, text] of actualTexts.entries()) {
-        asyncPool.addTask(
-          async function() {
-            baseMtData[entry.Id].Transcription[lang][idx] = await getTranslation(
-              mtService,
-              text,
-              targetLang,
-              NexonLangMap[lang]
-            )
-          }
-        )
+        asyncPool.addTask(async function () {
+          baseMtData[entry.Id].Transcription[lang][idx] = await getTranslation(
+            mtService,
+            text,
+            targetLang,
+            NexonLangMap[lang]
+          )
+        })
       }
     }
   }
 }
 
-export function updateNexonCharVoiceBattleMtData(baseVoiceData: NexonCharVoiceBattle,
-                                                 baseMtData: NexonCharVoiceBattleMtData,
-                                                 lang: NexonL10nDataLangOfUi,
-                                                 mtService: MtServiceName,
-                                                 targetLang: string,
-                                                 asyncPool: AsyncTaskPool) {
-  if (lang === 'null')
-    return
+export function updateNexonCharVoiceBattleMtData(
+  baseVoiceData: NexonCharVoiceBattle,
+  baseMtData: NexonCharVoiceBattleMtData,
+  lang: NexonL10nDataLangOfUi,
+  mtService: MtServiceName,
+  targetLang: string,
+  asyncPool: AsyncTaskPool
+) {
+  if (lang === 'null') return
 
   for (const group of baseVoiceData) {
     for (const entry of group.Data) {
       const currText = getNexonL10nData(entry.Transcription, lang as NexonL10nDataLang)
-      asyncPool.addTask(async function() {
+      asyncPool.addTask(async function () {
         baseMtData[entry.Id].Transcription[lang] = await getTranslation(
-          mtService, currText, targetLang, NexonLangMap[lang]
+          mtService,
+          currText,
+          targetLang,
+          NexonLangMap[lang]
         )
       })
     }
   }
 }
 
-export function updateNexonCharVoiceEventMtData(baseVoiceData: NexonCharVoiceEvent,
-                                                 baseMtData: NexonCharVoiceEventMtData,
-                                                 lang: NexonL10nDataLangOfUi,
-                                                 mtService: MtServiceName,
-                                                 targetLang: string,
-                                                 asyncPool: AsyncTaskPool) {
-  if (lang === 'null')
-    return
+export function updateNexonCharVoiceEventMtData(
+  baseVoiceData: NexonCharVoiceEvent,
+  baseMtData: NexonCharVoiceEventMtData,
+  lang: NexonL10nDataLangOfUi,
+  mtService: MtServiceName,
+  targetLang: string,
+  asyncPool: AsyncTaskPool
+) {
+  if (lang === 'null') return
 
   for (const event of baseVoiceData) {
     for (const group of event.Data) {
@@ -290,9 +306,8 @@ export function updateNexonCharVoiceEventMtData(baseVoiceData: NexonCharVoiceEve
           const currText = transcription.Data[lang].join('<br />')
 
           asyncPool.addTask(async function () {
-            baseMtData[`${event.EventId}_${voiceEntry.Id}`].Transcription[currType][lang] = await getTranslation(
-              mtService, currText, targetLang, NexonLangMap[lang]
-            )
+            baseMtData[`${event.EventId}_${voiceEntry.Id}`].Transcription[currType][lang] =
+              await getTranslation(mtService, currText, targetLang, NexonLangMap[lang])
           })
         }
       }
@@ -300,20 +315,24 @@ export function updateNexonCharVoiceEventMtData(baseVoiceData: NexonCharVoiceEve
   }
 }
 
-export function updateSchaleDbVoiceCategoryMtData(baseVoiceData: SchaleDbStuInfoFullVoicelineEntry[],
-                                                  baseMtData: SchaleDbVoicelineCategoryMtData,
-                                                  lang: NexonL10nDataLangOfUi,
-                                                  mtService: MtServiceName,
-                                                  targetLang: string,
-                                                  asyncPool: AsyncTaskPool) {
-  if (lang === 'null')
-    return
+export function updateSchaleDbVoiceCategoryMtData(
+  baseVoiceData: SchaleDbStuInfoFullVoicelineEntry[],
+  baseMtData: SchaleDbVoicelineCategoryMtData,
+  lang: NexonL10nDataLangOfUi,
+  mtService: MtServiceName,
+  targetLang: string,
+  asyncPool: AsyncTaskPool
+) {
+  if (lang === 'null') return
 
   for (const entry of baseVoiceData) {
     const currText = entry.Transcription[lang]
     asyncPool.addTask(async function () {
       baseMtData[entry.Group].Transcription[lang] = await getTranslation(
-        mtService, currText, targetLang, NexonLangMap[lang]
+        mtService,
+        currText,
+        targetLang,
+        NexonLangMap[lang]
       )
     })
   }

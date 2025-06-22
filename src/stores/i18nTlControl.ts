@@ -4,12 +4,12 @@ import type { MlProgessInfo } from '@/types/MachineTranslation'
 export const useI18nTlControl = defineStore('I18nTlControl', {
   state: () => {
     return {
-      'i18n_l1': 'init',
-      'i18n_l2': 'init',
-      'i18n_l3': 'init',
-      'i18n_l4': 'init',
-      'i18n_l5': 'init',
-      'progress': {completed: -1, total: -1} as MlProgessInfo
+      i18n_l1: 'init',
+      i18n_l2: 'init',
+      i18n_l3: 'init',
+      i18n_l4: 'init',
+      i18n_l5: 'init',
+      progress: { completed: -1, total: -1 } as MlProgessInfo
     }
   },
   actions: {
@@ -27,16 +27,11 @@ export const useI18nTlControl = defineStore('I18nTlControl', {
       this._setStatus(id, status)
     },
     _setStatus(id: string, status: string) {
-      if (id === 'i18n_l1')
-        this.i18n_l1 = status
-      else if (id === 'i18n_l2')
-        this.i18n_l2 = status
-      else if (id === 'i18n_l3')
-        this.i18n_l3 = status
-      else if (id === 'i18n_l4')
-        this.i18n_l4 = status
-      else if (id === 'i18n_l5')
-        this.i18n_l5 = status
+      if (id === 'i18n_l1') this.i18n_l1 = status
+      else if (id === 'i18n_l2') this.i18n_l2 = status
+      else if (id === 'i18n_l3') this.i18n_l3 = status
+      else if (id === 'i18n_l4') this.i18n_l4 = status
+      else if (id === 'i18n_l5') this.i18n_l5 = status
       else throw new Error('Invalid variable id')
     },
     initAll() {

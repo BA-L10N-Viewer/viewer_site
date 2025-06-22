@@ -2,9 +2,15 @@
 import { computed, onMounted, type PropType, ref } from 'vue'
 import type { SchaleDbVoicelineCategoryMtData } from '@/tool/CharVoiceMt'
 import { useI18n } from 'vue-i18n'
-import { convertSchaleDbVoiceCategoryForTable, type SchaleDbVoiceEntryForTable } from '@/tool/CharVoiceForTable'
+import {
+  convertSchaleDbVoiceCategoryForTable,
+  type SchaleDbVoiceEntryForTable
+} from '@/tool/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
-import type { NexonL10nDataLangOfUi, SchaleDbStuInfoFullVoicelineEntry } from '@/types/OutsourcedData'
+import type {
+  NexonL10nDataLangOfUi,
+  SchaleDbStuInfoFullVoicelineEntry
+} from '@/types/OutsourcedData'
 
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'
@@ -34,8 +40,8 @@ const isMobile = computed(() => {
 const isLoading = ref(true)
 const dataCharI18n = DirectoryDataCommonSchaleFileLocalization.value['VoiceClip']
 
-const dataForTable = computed(
-  () => convertSchaleDbVoiceCategoryForTable(props.dataVoice, i18nLangAll.value)
+const dataForTable = computed(() =>
+  convertSchaleDbVoiceCategoryForTable(props.dataVoice, i18nLangAll.value)
 )
 
 function getProperGroupId(entry: SchaleDbVoiceEntryForTable) {
@@ -57,7 +63,10 @@ function getProperGroupDisplayHtml(entry: SchaleDbVoiceEntryForTable) {
       return entryGroupI18n
     }
   } else {
-    return entryGroupI18n[NexonLangMapReverse[setting.ui_lang][0]].replaceAll('{0}', String(entry.Id).slice(-1))
+    return entryGroupI18n[NexonLangMapReverse[setting.ui_lang][0]].replaceAll(
+      '{0}',
+      String(entry.Id).slice(-1)
+    )
   }
 }
 
@@ -74,17 +83,31 @@ onMounted(async () => {
     <template v-for="(voiceEntry, idx) in dataForTable" :key="idx">
       <h3><span v-html="getProperGroupDisplayHtml(voiceEntry[0])"></span></h3>
       <PvDataTable :value="voiceEntry">
-        <PvColumn field="TranscriptionLang" :header="i18n.t('comp-char-voice-lang-code')"
-                  style="width: 6em;"
-                  v-if="!isMobile" />
-        <PvColumn field="Transcription" :header="i18n.t('comp-char-voice-dialog-text')"
-                  style="width: calc(100%)">
+        <PvColumn
+          field="TranscriptionLang"
+          :header="i18n.t('comp-char-voice-lang-code')"
+          style="width: 6em"
+          v-if="!isMobile"
+        />
+        <PvColumn
+          field="Transcription"
+          :header="i18n.t('comp-char-voice-dialog-text')"
+          style="width: calc(100%)"
+        >
           <template #body="slotProps">
-            <PvTag severity="info" value="Info" v-if="isMobile">{{ slotProps.data.TranscriptionLang }}</PvTag>&nbsp;
+            <PvTag severity="info" value="Info" v-if="isMobile">{{
+              slotProps.data.TranscriptionLang
+            }}</PvTag
+            >&nbsp;
             <DialogueTranslated
               :content-original-lang="NexonLangMap[slotProps.data.TranscriptionLang]"
-              :content-translated="dataVoiceMt[slotProps.data.Id]?.Transcription[slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi] || ''"
-              :content-original="slotProps.data.Transcription || 'null'" />
+              :content-translated="
+                dataVoiceMt[slotProps.data.Id]?.Transcription[
+                  slotProps.data.TranscriptionLang as NexonL10nDataLangOfUi
+                ] || ''
+              "
+              :content-original="slotProps.data.Transcription || 'null'"
+            />
           </template>
         </PvColumn>
       </PvDataTable>
@@ -92,6 +115,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

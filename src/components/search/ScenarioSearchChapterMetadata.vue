@@ -22,7 +22,9 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
 <template>
   <table class="datasheet" v-if="!isMobile">
     <tr>
-      <td class="datasheet-title-desktop datasheet-title">{{ $t('comp-search-scenario-datasheet-item-1') }}</td>
+      <td class="datasheet-title-desktop datasheet-title">
+        {{ $t('comp-search-scenario-datasheet-item-1') }}
+      </td>
       <td>
         <ul class="datasheet-data-ul">
           <NexonI18nDataOutput :data="data.name" :data-mt="dataMt.name" html-element-name="li" />
@@ -30,7 +32,9 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
       </td>
     </tr>
     <tr>
-      <td class="datasheet-title-desktop datasheet-title">{{ $t('comp-search-scenario-datasheet-item-2') }}</td>
+      <td class="datasheet-title-desktop datasheet-title">
+        {{ $t('comp-search-scenario-datasheet-item-2') }}
+      </td>
       <td>
         <ul class="datasheet-data-ul">
           <NexonI18nDataOutput :data="data.desc" :data-mt="dataMt.desc" html-element-name="li" />
@@ -64,7 +68,7 @@ const isMobile = computed(() => useWindowSize().width.value <= MOBILE_WIDTH)
 
 <style scoped>
 .datasheet-title-desktop {
-  width: 4em
+  width: 4em;
 }
 
 .datasheet-data-ul {

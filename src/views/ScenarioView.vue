@@ -7,7 +7,6 @@ import { useI18nTlControl } from '@/stores/i18nTlControl'
 import PvButton from 'primevue/button'
 import PvDialog from 'primevue/dialog'
 
-
 const props = defineProps({
   storyId: Number
 })
@@ -15,7 +14,6 @@ const props = defineProps({
 const showI18nSettingDialog = ref(false)
 
 const isLoading = ref(true)
-
 
 onMounted(async () => {
   isLoading.value = false
@@ -33,16 +31,21 @@ ML_pinia.initAll()
   </div>
   <div v-if="!isLoading">
     <Teleport to="body">
-      <div style="position: fixed; right: 5%; bottom: 10%;">
+      <div style="position: fixed; right: 5%; bottom: 10%">
         <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
           <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
           <span>L10N</span>
         </PvButton>
       </div>
 
-      <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
-                :draggable="false" :dismissableMask="true"
-                style="width: 90%">
+      <PvDialog
+        v-model:visible="showI18nSettingDialog"
+        modal
+        :closable="true"
+        :draggable="false"
+        :dismissableMask="true"
+        style="width: 90%"
+      >
         <StoryI18nSetting />
       </PvDialog>
     </Teleport>
@@ -52,6 +55,4 @@ ML_pinia.initAll()
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -44,23 +44,36 @@ const props = defineProps({
 const scenarioDisplayMode = inject(symbolForScenarioUiDataDisplayType)!
 </script>
 
-
 <template>
   <td class="story-dialogue-option scenario-dialogue" colspan="2" :lang="dialogueLang">
     <template v-if="dialogueSoundFilename !== '' && scenarioDisplayMode === 0">
-      <DialogueCmdEntry :data-entry="{ActualPos: -1, AbsolutePos: dialogueAbsolutePos, DataType: 'cmd', Payload: {Type: 'sound', Id: dialogueSoundFilename}}" />
+      <DialogueCmdEntry
+        :data-entry="{
+          ActualPos: -1,
+          AbsolutePos: dialogueAbsolutePos,
+          DataType: 'cmd',
+          Payload: { Type: 'sound', Id: dialogueSoundFilename }
+        }"
+      />
     </template>
-    <ScenarioTranslatedDialogue class="story-dialogue-option-content" :content-original="dialogueContent" :content-original-lang="dialogueLang"
-                                :content-translated="dialogueContentTranslated" :style="{'color': dialogueTextColor}" />
-    <DialogueInfo :dialogue-selection-to-group="dialogueSelectionToGroup"
-                  :dialogue-selection-group="dialogueSelectionGroup"
-                  :dialogue-absolute-pos="dialogueAbsolutePos"/>
+    <ScenarioTranslatedDialogue
+      class="story-dialogue-option-content"
+      :content-original="dialogueContent"
+      :content-original-lang="dialogueLang"
+      :content-translated="dialogueContentTranslated"
+      :style="{ color: dialogueTextColor }"
+    />
+    <DialogueInfo
+      :dialogue-selection-to-group="dialogueSelectionToGroup"
+      :dialogue-selection-group="dialogueSelectionGroup"
+      :dialogue-absolute-pos="dialogueAbsolutePos"
+    />
   </td>
 </template>
 
 <style>
 .story-dialogue-option {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   text-align: right;
 }
 

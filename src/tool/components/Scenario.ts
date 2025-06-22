@@ -2,94 +2,84 @@ import type { NexonL10nData } from '@/types/OutsourcedData'
 import type { InjectionKey, Ref } from 'vue'
 
 export type ScenarioDataStatusType = 'released' | 'unreleased' | 'unknown'
-export const symbolForScenarioUiDataDisplayType = Symbol('scenario_ui_display_type') as InjectionKey<Ref<number>>
+export const symbolForScenarioUiDataDisplayType = Symbol(
+  'scenario_ui_display_type'
+) as InjectionKey<Ref<number>>
 
 /* PARENT DATA */
 export type ScenarioParentDataEvent = {
-  Type: 'event';
+  Type: 'event'
   Data: {
-    EventId: number | string;
-    EventName: NexonL10nData;
+    EventId: number | string
+    EventName: NexonL10nData
   }
 }
 export type ScenarioParentDataBond = {
-  Type: 'bond';
+  Type: 'bond'
   Data: {
-    CharId: number | string;
-    CharName: NexonL10nData;
+    CharId: number | string
+    CharName: NexonL10nData
   }
 }
 export type ScenarioParentDataMain = {
-  Type: 'main';
+  Type: 'main'
   Data: {
-    Category: 'main' | 'side' | 'short' | 'other';
-    VolumeName?: NexonL10nData;
-    ChapterName: NexonL10nData;
+    Category: 'main' | 'side' | 'short' | 'other'
+    VolumeName?: NexonL10nData
+    ChapterName: NexonL10nData
   }
 }
-export type ScenarioParentData = ScenarioParentDataMain | ScenarioParentDataBond | ScenarioParentDataEvent
+export type ScenarioParentData =
+  | ScenarioParentDataMain
+  | ScenarioParentDataBond
+  | ScenarioParentDataEvent
 export type ScenarioParentDataType = ScenarioParentData['Type']
 export type ScenarioParentDataMainCategory = ScenarioParentDataMain['Data']['Category']
 
 /* RELATED SCENARIO DATA */
 export type ScenarioRelatedStoryData = {
   Prev: {
-    Id: number | null;
-    Name: NexonL10nData | null;
-    PosString: string | null;
-  },
+    Id: number | null
+    Name: NexonL10nData | null
+    PosString: string | null
+  }
   Next: {
-    Id: number | null;
-    Name: NexonL10nData | null;
-    PosString: string | null;
+    Id: number | null
+    Name: NexonL10nData | null
+    PosString: string | null
   }
 }
-
 
 export function inferScenarioTypeById(scenarioId: number | string): ScenarioParentDataType {
   const temp = String(scenarioId)
   if (temp.length === 8 || temp.length === 11) {
-    if (temp.startsWith('900'))
-      return 'main'
-    else if (temp.length === 8 && temp.startsWith('700'))
-      return 'main'
-    else
-      return 'event'
-  } else if (temp.length === 7)
-    return 'bond'
-  else
-    return 'main'
+    if (temp.startsWith('900')) return 'main'
+    else if (temp.length === 8 && temp.startsWith('700')) return 'main'
+    else return 'event'
+  } else if (temp.length === 7) return 'bond'
+  else return 'main'
 }
 
-export function inferScenarioMainCategoryById(scenarioId: number | string): ScenarioParentDataMainCategory {
+export function inferScenarioMainCategoryById(
+  scenarioId: number | string
+): ScenarioParentDataMainCategory {
   const temp = String(scenarioId)
-  if (temp.length === 3)
-    return 'other'
-  else if (temp.length === 4)
-    return 'side'
-  else if (temp.length === 8)
-    return 'short'
-  else
-    return 'main'
+  if (temp.length === 3) return 'other'
+  else if (temp.length === 4) return 'side'
+  else if (temp.length === 8) return 'short'
+  else return 'main'
 }
 
 export function getScenarioDataStatus(data: NexonL10nData): ScenarioDataStatusType[] {
   const result: ScenarioDataStatusType[] = []
-  if (data.j_ja && (data.j_ja !== '' && data.j_ja !== 'LocalizeError'))
-    result.push('released')
-  else
-    result.push('unreleased')
-  if (data.g_en && (data.g_en !== '' && data.g_en !== 'LocalizeError'))
-    result.push('released')
-  else
-    result.push('unreleased')
-  if (data.c_cn && (data.c_cn !== '' && data.c_cn !== 'LocalizeError')) {
-    if (data.c_cn!.indexOf('not found') !== -1)
-      result.push('released')
-    else
-      result.push('unknown')
-  } else
-    result.push('unreleased')
+  if (data.j_ja && data.j_ja !== '' && data.j_ja !== 'LocalizeError') result.push('released')
+  else result.push('unreleased')
+  if (data.g_en && data.g_en !== '' && data.g_en !== 'LocalizeError') result.push('released')
+  else result.push('unreleased')
+  if (data.c_cn && data.c_cn !== '' && data.c_cn !== 'LocalizeError') {
+    if (data.c_cn!.indexOf('not found') !== -1) result.push('released')
+    else result.push('unknown')
+  } else result.push('unreleased')
 
   return result
 }

@@ -20,31 +20,38 @@ const charId = String(route.params.charId)
 const showI18nSettingDialog = ref(false)
 const charData = DirectoryDataCommonFileIndexStu.value
 
-onMounted(
-  () => {
-    watch(
-      () => setting.ui_lang,
-      newValue => {
-        changeAppPageTitle(i18n.t(AppPageCategoryToI18nCode['profile']), charData[charId].Name as SchaleDbL10nData, allLangcodeOfSchaleDbBySiteUiLang[newValue])
-      },
-      { immediate: true }
-    )
-  }
-)
+onMounted(() => {
+  watch(
+    () => setting.ui_lang,
+    (newValue) => {
+      changeAppPageTitle(
+        i18n.t(AppPageCategoryToI18nCode['profile']),
+        charData[charId].Name as SchaleDbL10nData,
+        allLangcodeOfSchaleDbBySiteUiLang[newValue]
+      )
+    },
+    { immediate: true }
+  )
+})
 </script>
 
 <template>
   <Teleport to="body">
-    <div style="position: fixed; right: 5%; bottom: 10%;">
+    <div style="position: fixed; right: 5%; bottom: 10%">
       <PvButton severity="secondary" rounded @click="showI18nSettingDialog = true">
         <span class="pi pi-globe" style="color: var(--color-ba-logo)" />
         <span>L10N</span>
       </PvButton>
     </div>
 
-    <PvDialog v-model:visible="showI18nSettingDialog" modal :closable="true"
-              :draggable="false" :dismissableMask="true"
-              style="width: 90%">
+    <PvDialog
+      v-model:visible="showI18nSettingDialog"
+      modal
+      :closable="true"
+      :draggable="false"
+      :dismissableMask="true"
+      style="width: 90%"
+    >
       <StoryI18nSetting />
     </PvDialog>
   </Teleport>

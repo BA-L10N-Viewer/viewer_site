@@ -19,12 +19,14 @@ export class AsyncTaskPool {
       const task = this.taskQueue.shift()
       if (task) {
         this.currentTasks++
-        task().then(() => {
-          this.completedTasks++
-        }).finally(() => {
-          this.currentTasks--
-          this.runNextTask()
-        })
+        task()
+          .then(() => {
+            this.completedTasks++
+          })
+          .finally(() => {
+            this.currentTasks--
+            this.runNextTask()
+          })
       }
     }
   }

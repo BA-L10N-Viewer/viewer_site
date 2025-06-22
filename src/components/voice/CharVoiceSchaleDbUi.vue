@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted, type PropType, ref } from 'vue'
-import { type SchaleDbStuInfoFullVoiceline, SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
+import {
+  type SchaleDbStuInfoFullVoiceline,
+  SchaleDbStuInfoFullVoicelineCategory
+} from '@/types/OutsourcedData'
 import type { SchaleDbStuVoicelineMtData } from '@/tool/CharVoiceMt'
 import CharVoiceSchaleDbContent from '@/components/voice/CharVoiceSchaleDbContent.vue'
 
@@ -35,7 +38,10 @@ async function loadData() {
     }
   }
 
-  currTab.value = findFirstAvaliableTabName(dataTabAvailability, SchaleDbStuInfoFullVoicelineCategory)
+  currTab.value = findFirstAvaliableTabName(
+    dataTabAvailability,
+    SchaleDbStuInfoFullVoicelineCategory
+  )
 }
 
 onMounted(async () => {
@@ -50,27 +56,34 @@ onMounted(async () => {
     <h2>Loading...</h2>
   </div>
   <div v-if="!isLoading">
-      <PvTabs :value="currTab" scrollable style="border: 1px var(--pv-tabs-tablist-border-color) solid">
-        <PvTabList>
-          <PvTab value="Normal">{{ $t('char-voice-ui-select-tab-normal') }}</PvTab>
-          <PvTab value="Lobby">{{ $t('char-voice-ui-select-tab-lobby') }}</PvTab>
-          <PvTab value="Event" v-if="dataTabAvailability[3]">{{ $t('char-voice-ui-select-tab-event') }}</PvTab>
-        </PvTabList>
-        <PvTabPanels>
-          <PvTabPanel value="Normal">
-            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Normal" :dataVoiceMt="dataVoiceMt.Normal" />
-          </PvTabPanel>
-          <PvTabPanel value="Lobby">
-            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Lobby" :dataVoiceMt="dataVoiceMt.Lobby" />
-          </PvTabPanel>
-          <PvTabPanel value="Event" v-if="dataTabAvailability[3]">
-            <CharVoiceSchaleDbContent :dataVoice="dataVoice.Event" :dataVoiceMt="dataVoiceMt.Event" />
-          </PvTabPanel>
-        </PvTabPanels>
-      </PvTabs>
+    <PvTabs
+      :value="currTab"
+      scrollable
+      style="border: 1px var(--pv-tabs-tablist-border-color) solid"
+    >
+      <PvTabList>
+        <PvTab value="Normal">{{ $t('char-voice-ui-select-tab-normal') }}</PvTab>
+        <PvTab value="Lobby">{{ $t('char-voice-ui-select-tab-lobby') }}</PvTab>
+        <PvTab value="Event" v-if="dataTabAvailability[3]">{{
+          $t('char-voice-ui-select-tab-event')
+        }}</PvTab>
+      </PvTabList>
+      <PvTabPanels>
+        <PvTabPanel value="Normal">
+          <CharVoiceSchaleDbContent
+            :dataVoice="dataVoice.Normal"
+            :dataVoiceMt="dataVoiceMt.Normal"
+          />
+        </PvTabPanel>
+        <PvTabPanel value="Lobby">
+          <CharVoiceSchaleDbContent :dataVoice="dataVoice.Lobby" :dataVoiceMt="dataVoiceMt.Lobby" />
+        </PvTabPanel>
+        <PvTabPanel value="Event" v-if="dataTabAvailability[3]">
+          <CharVoiceSchaleDbContent :dataVoice="dataVoice.Event" :dataVoiceMt="dataVoiceMt.Event" />
+        </PvTabPanel>
+      </PvTabPanels>
+    </PvTabs>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
