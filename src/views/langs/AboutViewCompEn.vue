@@ -16,18 +16,18 @@
   <h1>
     Where <ruby>Localization<rt>L 1 0 N</rt></ruby> Matters
   </h1>
-  <p>It's not a privilage to have good localization, it's a baseline.</p>
+  <p>It's not a privilege to have good localization, it's a baseline.</p>
 
   <h2>Technologies</h2>
   <p>BALV is divided into frontend and backend parts, and the following tools are being used:</p>
-  <ul>
+  <ul class="ul-compact">
     <li><a href="https://vuejs.org/">Vue 3</a> - The Development Framework</li>
     <li><a href="https://vitepress.dev/">VitePress</a> - Static Page Generator</li>
     <li><a href="https://primevue.org/">PrimeVue</a> - UI Components</li>
     <li><a href="https://python.org/">Python</a> - Data Preprocessing</li>
   </ul>
   <p>We also utilized the following services/tools:</p>
-  <ul>
+  <ul class="ul-compact">
     <li><a href="https://pages.github.com/">GitHub Pages</a> - Main Site Content Server</li>
     <li>
       <a href="https://actions.github.com/">GitHub Actions</a> - Automation and CI/CD Workflows

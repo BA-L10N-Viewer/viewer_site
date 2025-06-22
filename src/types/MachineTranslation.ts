@@ -15,7 +15,7 @@ export type MlForScenarioLang = Map<string, NexonL10nDataMlDataEntry>
 export type MlForScenario = Record<NexonL10nDataLang | 'null', MlForScenarioLang>
 export type MlForMomotalk = [NexonL10nDataMlData]
 
-export type MlProgessInfo = {
+export type MlProgressInfo = {
   completed: number
   total: number
 }

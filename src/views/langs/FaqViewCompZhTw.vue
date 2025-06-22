@@ -8,11 +8,11 @@
     問題都會導致資料無法及時同步更新。
   </p>
   <p>當遇到資料更新不及時時，以下均有可能為其原因：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>瀏覽器快取未重新整理（PC端按 Ctrl+F5 可強制重新整理）</li>
     <li>
       CloudFlare（主站）/AWS（加速站）快取未重新整理
-      <ul>
+      <ul class="ul-compact">
         <li>
           如您在使用AWS加速站（ba-l10n<b>-aws</b>.cnfast.top），請先訪問<a
             href="https://ba-l10n.cnfast.top/"
@@ -47,7 +47,7 @@
     >，其實際有文字的內容僅為下一話故事的預告，即僅 作過渡用。
   </p>
   <p>對於其他：有幾種情況均可能導致資料為空：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>日服與國際服之間，部分資料由於進度差異可能僅有日服資料</li>
     <li>指令碼Bug，可能吞掉了部分資料項</li>
   </ul>
@@ -69,7 +69,7 @@
 
   <h2 id="when-update">Q：資料更新時間？</h2>
   <p>A：當前，GitHub Action會在以下時間點檢查資料更新：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>UTC+8 13:00、14:00、15:00、17:00、18:00、20:00</li>
     <li>UTC/GMT 05:00、06:00、07:00、09:00、10:00、12:00</li>
   </ul>
@@ -94,7 +94,7 @@
     A：本站的語言程式碼可分為三部分：<i>[伺服器簡寫]</i><em><i>[語言程式碼縮寫]</i></em
     ><i>[可選，轉換到的目標語言]</i>。
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>伺服器簡稱：<code>j</code>，日服；<code>g</code>，國際服；<code>c</code>，國服</li>
     <li>
       語言程式碼簡寫：<code>ja</code>，日語；<code>ko</code>，韓語；<code>en</code>，英語；<code>th</code>，泰語；<code>tw</code>，繁體中文（臺灣地區）；<code>cn</code>，簡
@@ -113,7 +113,7 @@
     A：所謂的“進入”（Enter）、“閒置”（Idle）與“退出”（Exit）其實來源於BA底層對各個語音的編碼命名規則，代表語音觸發的不同狀態。
   </p>
   <p>以任務選單為例，介面及語音的狀態實際會經歷下列變化：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>（從例如遊戲首頁大廳等）進入時，隨即切換阿羅娜/普拉娜的轉檯，然後播放“進入”語音</li>
     <li>播放結束後，進入<em>閒置</em>轉該，此時“閒置”的語音會自動播放</li>
     <li>當與阿羅娜/普拉娜互動時，先切換到<em>退出</em>狀態，播放“退出”語音</li>
@@ -121,7 +121,7 @@
     <li>播放結束後，進入<em>閒置</em>狀態，此時若繼續互動則會播放“閒置”語音</li>
   </ul>
   <p>而對於一般大廳而言：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>從其他介面進入或返回到首頁大廳時，大廳先切換到<em>進入</em>狀態，播放“進入”語音</li>
     <li>播放結束後，進入<em>閒置</em>狀態，此時若繼續互動則會播放“閒置”語音</li>
     <li>
@@ -179,7 +179,7 @@
 
   <h2 id="be-a-maintainer">Q：我想成為一名資料維護者！</h2>
   <p>A：欲成為一名資料維護者，你應該至少擁有以下經驗：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>基礎Python程式設計能力（能debug最好）</li>
     <li>JSON基礎語法</li>
     <li>至少一種主流程式碼編輯器的基礎使用能力</li>
@@ -196,13 +196,13 @@
     A：請到專案的<a href="https://github.com/orgs/BA-L10N-Viewer/discussions">討論版</a
     >上報告問題。報告時，請提供：
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>何處發生？（完整URL）</li>
     <li>能否復現？復現步驟？</li>
     <li>如何影響體驗？</li>
     <li>
       其他資訊（可選，這將允許我們能夠追蹤到您的訪問session）
-      <ul>
+      <ul class="ul-compact">
         <li>訪問時間</li>
         <li>使用的瀏覽器及其版本</li>
       </ul>

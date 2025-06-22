@@ -22,10 +22,10 @@ import PvMessage from 'primevue/message'
     time.
   </p>
   <p>When encountering untimely data updates, the following may be the reasons:</p>
-  <ul>
+  <ul class="ul-compact">
     <li>Browser cache hasn't expire (for PC, press Ctrl+F5 to force clear the cache)</li>
     <li>The cache of CloudFlare (main site) and/or AWS (accelerated site) hasn't refreshed</li>
-    <ul>
+    <ul class="ul-compact">
       <li>
         If you are using AWS accelerated site (ba-l10n<b>-aws</b>.cnfast.top), please visit the
         <a href="https://ba-l10n.cnfast.top/">main site</a> to confirm the situation first.
@@ -65,7 +65,7 @@ import PvMessage from 'primevue/message'
     Continued" transition.
   </p>
   <p>For others: There are several situations that may cause the data to be empty:</p>
-  <ul>
+  <ul class="ul-compact">
     <li>
       Due to the difference in progress between the JP and Global, some data may only be available
       on the Japanese server
@@ -84,7 +84,7 @@ import PvMessage from 'primevue/message'
 
   <h3 id="when-update">Q: When is the data updated?</h3>
   <p>A: Currently, GitHub Action checks for data updates at the following times:</p>
-  <ul>
+  <ul class="ul-compact">
     <li>UTC+8 13:00, 14:00, 15:00, 17:00, 18:00, 20:00</li>
     <li>UTC/GMT 05:00, 06:00, 07:00, 09:00, 10:00, 12:00</li>
   </ul>
@@ -114,7 +114,7 @@ import PvMessage from 'primevue/message'
     <em><i>[Langcode abbr.]</i></em
     >, <i>[Optional; Target Language of the Conversion]</i>.
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>
       Server abbr.: <code>j</code>, JP server; <code>g</code>, Global server; <code>c</code>, CN
       server
@@ -158,7 +158,7 @@ import PvMessage from 'primevue/message'
     Take the Mission Menu as an example. The state of the interface and voice will undergo the
     following changes:
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>
       When entering (from the game homepage lobby, etc.), the state of Alona/Prana will be randomly
       switched immediately, and the "enter" voice will be played
@@ -181,7 +181,7 @@ import PvMessage from 'primevue/message'
     </li>
   </ul>
   <p>For the main lobby:</p>
-  <ul>
+  <ul class="ul-compact">
     <li>
       When entering or returning to the homepage lobby from other interfaces, the lobby will first
       switch to the <em>enter</em> state and play the "enter" voice
@@ -262,7 +262,7 @@ import PvMessage from 'primevue/message'
   <p>
     A: If you want to become a data maintainer, you should have at least the following experience:
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>Basic Python programming skills (if you can debug then it'd be better)</li>
     <li>Basic JSON syntax knowledge</li>
     <li>Basic knowledge of at least one mainstream code editor</li>
@@ -284,13 +284,13 @@ import PvMessage from 'primevue/message'
     <a href="https://github.com/orgs/BA-L10N-Viewer/discussions">discussion board</a>. When
     reporting, please provide:
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>Where did it happen? (full URL)</li>
     <li>Can it be reproduced? What are the steps to reproduce?</li>
     <li>How does it affect the experience?</li>
     <li>
       Other information (optional, this will allow us to track your session)：
-      <ul>
+      <ul class="ul-compact">
         <li>Time of Access</li>
         <li>Browser version</li>
       </ul>

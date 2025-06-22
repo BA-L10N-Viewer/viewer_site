@@ -10,7 +10,7 @@ import { computed, defineProps, ref, watch } from 'vue'
 import { useWindowSize } from '@vueuse/core'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { useI18n } from 'vue-i18n'
-import type { MlProgessInfo } from '@/types/MachineTranslation'
+import type { MlProgressInfo } from '@/types/MachineTranslation'
 
 import PvFluid from 'primevue/fluid'
 import PvSelect from 'primevue/select'
@@ -47,7 +47,7 @@ function ML_clear(idx: number) {
   ML_pinia.setStatusClear(`i18n_l${idx}`)
 }
 
-const AUTO_TRANSLATE_PROGRESS = ref<MlProgessInfo>(ML_pinia.progress)
+const AUTO_TRANSLATE_PROGRESS = ref<MlProgressInfo>(ML_pinia.progress)
 const AUTO_TRANSLATE_PROGRESS_PERCENTAGE = computed(() => {
   const progress = AUTO_TRANSLATE_PROGRESS.value
   const percentage = (progress.completed / progress.total) * 100

@@ -22,14 +22,14 @@
 
   <h2>使用的技術</h2>
   <p>本站分為前、後端兩個部分，其分別使用了：</p>
-  <ul>
+  <ul class="ul-compact">
     <li><a href="https://vuejs.org/">Vue 3</a>，用作開發框架</li>
     <li><a href="https://vitepress.dev/">VitePress</a>，用於靜態頁面生成</li>
     <li><a href="https://primevue.org/">PrimeVue</a>，提供UI元件庫</li>
     <li><a href="https://python.org/">Python</a>，用於對資料的預處理</li>
   </ul>
   <p>並同時使用了以下工具或服務：</p>
-  <ul>
+  <ul class="ul-compact">
     <li><a href="https://pages.github.com/">GitHub Pages</a>，用于网站内容托管</li>
     <li><a href="https://actions.github.com/">GitHub Actions</a>，用于自动化与CI/CD流程</li>
     <li><a href="https://cloudflare.com/">CloudFlare</a>， 用於主站CDN加速</li>

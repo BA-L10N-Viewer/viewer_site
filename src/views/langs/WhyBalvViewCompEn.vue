@@ -10,7 +10,7 @@ import PvMessage from 'primevue/message'
   </p>
   <p>
     Despite its simple and shabby UI and lacking a lot of functionalities, my original intent that
-    is <em><strong>cross-language comparision</strong></em
+    is <em><strong>cross-language comparison</strong></em
     >, have never changed that much. At its core, BALV is tool dedicated for language learners and
     people who are curious about localization differences across different languages. But now,
     apparently, something more significant is happening, going on right now as I'm writing this

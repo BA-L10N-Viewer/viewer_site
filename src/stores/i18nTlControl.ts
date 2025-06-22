@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { MlProgessInfo } from '@/types/MachineTranslation'
+import type { MlProgressInfo } from '@/types/MachineTranslation'
 
 export const useI18nTlControl = defineStore('I18nTlControl', {
   state: () => {
@@ -9,7 +9,7 @@ export const useI18nTlControl = defineStore('I18nTlControl', {
       i18n_l3: 'init',
       i18n_l4: 'init',
       i18n_l5: 'init',
-      progress: { completed: -1, total: -1 } as MlProgessInfo
+      progress: { completed: -1, total: -1 } as MlProgressInfo
     }
   },
   actions: {

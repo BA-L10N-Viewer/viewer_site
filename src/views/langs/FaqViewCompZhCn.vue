@@ -7,11 +7,11 @@
     及时跟上日服、国际服的更新速度，在更新后一到两小时内即可完成同步。然而，由于本站依赖于<b>第三方数据</b>且使用了<b>CDN缓存</b>，两者其一出现问题都会导致数据无法及时同步更新。
   </p>
   <p>当遇到数据更新不及时时，以下均有可能为其原因：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>浏览器缓存未刷新（PC端按 Ctrl+F5 可强制刷新）</li>
     <li>
       CloudFlare（主站）/AWS（加速站）缓存未刷新
-      <ul>
+      <ul class="ul-compact">
         <li>
           如您在使用AWS加速站（ba-l10n<b>-aws</b>.cnfast.top），请先访问<a
             href="https://ba-l10n.cnfast.top/"
@@ -46,7 +46,7 @@
     >，其实际有文本的内容仅为下一话故事的预告，即仅作过渡用。
   </p>
   <p>对于其他：有几种情况均可能导致数据为空：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>日服与国际服之间，部分数据由于进度差异可能仅有日服数据</li>
     <li>脚本Bug，可能吞掉了部分数据项</li>
   </ul>
@@ -68,7 +68,7 @@
 
   <h2 id="when-update">Q：数据更新时间？</h2>
   <p>A：当前，GitHub Action会在以下时间点检查数据更新：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>UTC+8 13:00、14:00、15:00、17:00、18:00、20:00</li>
     <li>UTC/GMT 05:00、06:00、07:00、09:00、10:00、12:00</li>
   </ul>
@@ -93,7 +93,7 @@
     A：本站的语言代码可分为三部分：<i>[服务器简写]</i><em><i>[语言代码缩写]</i></em
     ><i>[可选，转换到的目标语言]</i>。
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>服务器简称：<code>j</code>，日服；<code>g</code>，国际服；<code>c</code>，国服</li>
     <li>
       语言代码简写：<code>ja</code>，日语；<code>ko</code>，韩语；<code>en</code>，英语；<code>th</code>，泰语；<code>tw</code>，繁体中文（台湾地区）；<code>cn</code>，简体中文（中国大陆）
@@ -111,7 +111,7 @@
     A：所谓的“进入”（Enter）、“闲置”（Idle）与“退出”（Exit）其实来源于BA底层对各个语音的编码命名规则，代表语音触发的不同状态。
   </p>
   <p>以任务菜单为例，界面及语音的状态实际会经历下列变化：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>（从例如游戏首页大厅等）进入时，随即切换阿罗娜/普拉娜的转台，然后播放“进入”语音</li>
     <li>播放结束后，进入<em>闲置</em>转该，此时“闲置”的语音会自动播放</li>
     <li>当与阿罗娜/普拉娜互动时，先切换到<em>退出</em>状态，播放“退出”语音</li>
@@ -119,7 +119,7 @@
     <li>播放结束后，进入<em>闲置</em>状态，此时若继续互动则会播放“闲置”语音</li>
   </ul>
   <p>而对于一般大厅而言：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>从其他界面进入或返回到首页大厅时，大厅先切换到<em>进入</em>状态，播放“进入”语音</li>
     <li>播放结束后，进入<em>闲置</em>状态，此时若继续互动则会播放“闲置”语音</li>
     <li>
@@ -174,7 +174,7 @@
 
   <h2 id="be-a-maintainer">Q：我想成为一名数据维护者！</h2>
   <p>A：欲成为一名数据维护者，你应该至少拥有以下经验：</p>
-  <ul>
+  <ul class="ul-compact">
     <li>基础Python编程能力（能debug最好）</li>
     <li>JSON基础语法</li>
     <li>至少一种主流代码编辑器的基础使用能力</li>
@@ -191,13 +191,13 @@
     A：请到项目的<a href="https://github.com/orgs/BA-L10N-Viewer/discussions">讨论版</a
     >上报告问题。报告时，请提供：
   </p>
-  <ul>
+  <ul class="ul-compact">
     <li>何处发生？（完整URL）</li>
     <li>能否复现？复现步骤？</li>
     <li>如何影响体验？</li>
     <li>
       其他信息（可选，这将允许我们能够追踪到您的访问session）
-      <ul>
+      <ul class="ul-compact">
         <li>访问时间</li>
         <li>使用的浏览器及其版本</li>
       </ul>
