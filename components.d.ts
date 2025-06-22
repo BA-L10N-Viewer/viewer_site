@@ -7,9 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    AboutViewCompEn: typeof import('./src/components/views/AboutViewCompEn.vue')['default']
-    AboutViewCompZhCn: typeof import('./src/components/views/AboutViewCompZhCn.vue')['default']
-    AboutViewCompZhTw: typeof import('./src/components/views/AboutViewCompZhTw.vue')['default']
     CharacterProfileUi: typeof import('./src/components/profile/CharacterProfileUi.vue')['default']
     CharacterSearch: typeof import('./src/components/search/CharacterSearch.vue')['default']
     CharacterSearchEntry: typeof import('./src/components/search/CharacterSearchEntry.vue')['default']
@@ -38,14 +35,8 @@ declare module 'vue' {
     DialogueMobileOption: typeof import('./src/components/scenario/mobile/DialogueMobileOption.vue')['default']
     DialogueMobileOther: typeof import('./src/components/scenario/mobile/DialogueMobileOther.vue')['default']
     DialogueTranslated: typeof import('./src/components/DialogueTranslated.vue')['default']
-    FaqViewCompEn: typeof import('./src/components/views/FaqViewCompEn.vue')['default']
-    FaqViewCompZhCn: typeof import('./src/components/views/FaqViewCompZhCn.vue')['default']
-    FaqViewCompZhTw: typeof import('./src/components/views/FaqViewCompZhTw.vue')['default']
     MessageStudent: typeof import('./src/components/momotalk/MessageStudent.vue')['default']
     MessageStudentMobile: typeof import('./src/components/momotalk/MessageStudentMobile.vue')['default']
-    MisakiiiViewCompEn: typeof import('./src/components/views/MisakiiiViewCompEn.vue')['default']
-    MisakiiiViewCompZhCn: typeof import('./src/components/views/MisakiiiViewCompZhCn.vue')['default']
-    MisakiiiViewCompZhTw: typeof import('./src/components/views/MisakiiiViewCompZhTw.vue')['default']
     MomotalkHeader: typeof import('./src/components/momotalk/MomotalkHeader.vue')['default']
     MomotalkMessageAuto: typeof import('./src/components/momotalk/MomotalkMessageAuto.vue')['default']
     MomotalkUi: typeof import('./src/components/MomotalkUi.vue')['default']
@@ -64,8 +55,5 @@ declare module 'vue' {
     ScenarioUi: typeof import('./src/components/ScenarioUi.vue')['default']
     SettingDialog: typeof import('./src/components/setting/SettingDialog.vue')['default']
     StoryI18nSetting: typeof import('./src/components/setting/StoryI18nSetting.vue')['default']
-    WhyBalvViewCompEn: typeof import('./src/components/views/WhyBalvViewCompEn.vue')['default']
-    WhyBalvViewCompZhCn: typeof import('./src/components/views/WhyBalvViewCompZhCn.vue')['default']
-    WhyBalvViewCompZhTw: typeof import('./src/components/views/WhyBalvViewCompZhTw.vue')['default']
   }
 }
