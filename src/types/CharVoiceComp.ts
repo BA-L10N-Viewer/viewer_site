@@ -8,7 +8,7 @@ import type {
 } from '@/types/OutsourcedDataVoice'
 import { selectCharVoiceCurrTabName } from '@/tool/Constant'
 import type { InjectionKey, Ref, ShallowRef } from 'vue'
-import type { NexonCharVoiceMtData, SchaleDbStuVoicelineMtData } from '@/tool/CharVoiceMt'
+import type { NexonCharVoiceMtData, SchaleDbStuVoicelineMtData } from '@/script/CharVoiceMt'
 
 export type CharVoiceUiTabName = SchaleDbStuInfoFullVoicelineCategory
 export type CharVoiceUiDataSource = 'nexon' | 'schaledb'

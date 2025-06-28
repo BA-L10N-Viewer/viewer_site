@@ -1,6 +1,6 @@
 import { SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
 
-export function findFirstAvaliableTabName(
+export function findFirstAvailableTabName(
   dataVoiceAvailabilityList: boolean[],
   dataVoiceAvailabilityListName: SchaleDbStuInfoFullVoicelineCategory[]
 ) {

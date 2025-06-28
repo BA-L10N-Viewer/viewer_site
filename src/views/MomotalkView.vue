@@ -13,17 +13,10 @@ import type {
   SchaleDbL10nData,
   StudentInfoDataSimple
 } from '@/types/OutsourcedData'
-import { NexonL10nDataLang as NexonL10nDataLangConst } from '@/types/OutsourcedData'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
-import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useSetting } from '@/stores/setting'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import type { MlForMomotalk } from '@/types/MachineTranslation'
-import {
-  getDialogueMtTranslation,
-  getTranslation,
-  type MtServiceName
-} from '@/tool/translate/MtDispatcher'
 import { mtPiniaWatchCallback, symbolForMomotalkMtData } from '@/tool/translate/MtUtils'
 
 import PvButton from 'primevue/button'
@@ -42,15 +35,15 @@ import {
 import { AppPageCategoryToI18nCode, changeAppPageTitle } from '@/tool/AppTitleChanger'
 import { useI18n } from 'vue-i18n'
 import { allLangcodeOfSchaleDbBySiteUiLang } from '@/tool/Constant'
+import { clearMmtMt, initMmtMt, updateMmtMt } from '@/script/MomotalkViewMt'
+import { scrollToDesignatedElement } from '@/tool/UtilsPage'
 
 const showI18nSettingDialog = ref(false)
 const route = useRoute()
 const setting = useSetting()
 const i18n = useI18n()
 
-const props = defineProps({
-  charId: Number
-})
+const charId = Number(String(route.params.charId))
 const titleChanger = ref<() => void>(() => {})
 
 // ---------------------------------------
@@ -69,106 +62,42 @@ async function loadRemoteResource() {
   mmtI18nData = DirectoryDataStoryI18nFileI18nBond.value
   bondL2dData = DirectoryDataCommonFileIndexMomoL2d.value
 
-  charName = charData[String(route.params.charId)]['Name']
+  charName = charData[String(charId)]['Name']
 }
 
 const mmtStatus = ref<number[]>([])
 
 // ------------------ ML SERVICE ---------------------
-const ML_pinia = useI18nTlControl()
-ML_pinia.initAll()
+const mtControl = {
+  inProgress: ref(false),
+  pinia: useI18nTlControl()
+}
+mtControl.pinia.initAll()
 
 // 创建每一个mmt对话的对应表
 const tableMlMmtData: Ref<MlForMomotalk> = ref([] as any)
 const listMlMmtTitle: Ref<{ [mmtId: number]: NexonL10nDataOfUi }> = ref({})
-const ML_in_progress = ref(false)
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
-  for (const [idx, mmtEntry] of mmtData.entries()) {
-    // 初始化每一个mmt title
-    listMlMmtTitle.value[mmtEntry.BondScenarioId][baselang] = ''
-
-    // 初始化每一个mmt entry
-    if (tableMlMmtData.value.length <= idx) {
-      tableMlMmtData.value.push({
-        j_ja: [],
-        j_ko: [],
-        g_tw: [],
-        g_tw_cn: [],
-        g_en: [],
-        g_th: [],
-        g_ja: [],
-        g_ko: [],
-        c_cn: [],
-        c_cn_tw: [],
-        null: []
-      })
-    }
-
-    // 初始化每一个mmt dialogue entry
-    for (let idx2 = 0; idx2 < mmtEntry.Data.length; idx2++) {
-      const blankMlData = { name: '', nickname: '', dialogue: '' }
-
-      if (tableMlMmtData.value[idx][baselang].length <= idx2)
-        tableMlMmtData.value[idx][baselang].push(blankMlData)
-      else tableMlMmtData.value[idx][baselang][idx2] = blankMlData
-    }
-  }
+  clearMmtMt(baselang, mmtData, tableMlMmtData, listMlMmtTitle)
 }
 
 async function updateMlTranslation(baselang: NexonL10nDataLang) {
-  ML_in_progress.value = true
-  clearMlTranslation(baselang)
-
-  const asyncPool = new AsyncTaskPool(8)
-  const actualMlLang = setting.auto_i18n_lang
-  for (const [idx, mmtEntry] of mmtData.entries()) {
-    // 对标题的翻译
-    asyncPool.addTask(async () => {
-      listMlMmtTitle.value[mmtEntry.BondScenarioId][baselang] = await getTranslation(
-        setting.auto_i18n_service,
-        mmtI18nData[mmtEntry.BondScenarioId][0][baselang],
-        actualMlLang
-      )
-    })
-
-    const dialogues = mmtEntry.Data
-    for (const [idx2, dialogueEntry] of dialogues.entries()) {
-      asyncPool.addTask(async () => {
-        tableMlMmtData.value[idx][baselang][idx2] = await getDialogueMtTranslation(
-          setting.auto_i18n_service as MtServiceName,
-          charName[baselang] || '',
-          '',
-          dialogueEntry.Message[baselang],
-          actualMlLang
-        )
-      })
-    }
-  }
-
-  await asyncPool.runAll(ML_pinia.updateProgress)
-  ML_in_progress.value = false
+  await updateMmtMt(
+    baselang,
+    setting.auto_i18n_lang,
+    setting.auto_i18n_service,
+    charId,
+    mmtData,
+    tableMlMmtData,
+    listMlMmtTitle,
+    mtControl.inProgress,
+    mtControl.pinia
+  )
 }
 
 function initMlData() {
-  for (const data of mmtData) {
-    listMlMmtTitle.value[data.BondScenarioId] = {
-      j_ja: '',
-      j_ko: '',
-      g_tw: '',
-      g_tw_cn: '',
-      g_en: '',
-      g_th: '',
-      g_ja: '',
-      g_ko: '',
-      c_cn: '',
-      c_cn_tw: '',
-      null: ''
-    }
-  }
-
-  for (const lang of NexonL10nDataLangConst) clearMlTranslation(lang)
-  clearMlTranslation('null' as NexonL10nDataLang)
+  initMmtMt(mmtData, tableMlMmtData, listMlMmtTitle)
 }
 
 watch(mtI18nLangStats, async (newValue) => {
@@ -176,7 +105,7 @@ watch(mtI18nLangStats, async (newValue) => {
     newValue,
     updateMlTranslation,
     clearMlTranslation,
-    ML_pinia.setStatusToComplete
+    mtControl.pinia.setStatusToComplete
   )
 })
 
@@ -196,20 +125,6 @@ const urlHashStoryId = (() => {
 
   return mmtNo
 })()
-
-function scrollToDesignatedElement(eleId: string) {
-  const targetEle = document.getElementById(eleId)
-  if (targetEle) {
-    const targetHeightOffset = targetEle.getBoundingClientRect().y - 70
-    window.scrollBy({
-      left: 0,
-      top: targetHeightOffset,
-      behavior: 'instant'
-    })
-
-    // console.log(targetHeightOffset)
-  }
-}
 
 async function scrollToMmtByUrlHashtag() {
   if (urlHashStoryId !== -1) mmtStatus.value.push(urlHashStoryId)

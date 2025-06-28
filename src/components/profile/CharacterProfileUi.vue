@@ -13,6 +13,7 @@ import { getTranslation } from '@/tool/translate/MtDispatcher'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 import CharProfileTable from '@/components/profile/CharProfileTable.vue'
+import { clearCharProfileMt, initCharProfileMt, updateCharProfileMt } from '@/script/CharProfileMt'
 
 const props = defineProps({
   charId: {
@@ -22,7 +23,6 @@ const props = defineProps({
 })
 
 const setting = useSetting()
-const i18n = useI18n()
 
 let charData: SchaleDbStuInfoFull = {} as unknown as SchaleDbStuInfoFull
 const sdbL10nData = DirectoryDataCommonSchaleFileLocalization.value
@@ -49,74 +49,23 @@ const mtControl = {
   piniaMt: useI18nTlControl()
 }
 
-const charDataMtKey: (keyof MlForCharProfile)[] = [
-  'FamilyName',
-  'Name',
-  'WeaponName',
-  'WeaponDesc',
-  'School',
-  'Club',
-  'Profile',
-  'CharacterSSRNew',
-  'Hobby',
-  'StatusMessage'
-] as const
-
 function clearMtTranslation(baselang: SchaleDbL10nDataLang | 'null') {
-  if (baselang === 'null') return
-
-  for (const key of charDataMtKey)
-    charDataMt.value[key] = {
-      j_ja: '',
-      j_ko: '',
-      g_ja: '',
-      g_ko: '',
-      g_en: '',
-      g_tw: '',
-      g_tw_cn: '',
-      g_th: '',
-      c_cn: '',
-      c_cn_tw: '',
-      c_zh: '',
-      c_zh_tw: ''
-    }
+  clearCharProfileMt(baselang, charDataMt)
 }
 
 async function updateMtTranslation(baselang: SchaleDbL10nDataLang | 'null') {
-  if (baselang === 'null') return
-
-  mtControl.inProgress.value = true
-  clearMtTranslation(baselang)
-
-  const asyncPool = new AsyncTaskPool(8)
-  for (const key of charDataMtKey) {
-    if (key === 'School' || key === 'Club') {
-      const temp = charData[key]
-      const temp2 = sdbL10nData[key][temp][baselang]
-      asyncPool.addTask(async () => {
-        charDataMt.value[key][baselang] = await getTranslation(
-          setting.auto_i18n_service,
-          temp2,
-          setting.auto_i18n_lang
-        )
-      })
-    } else {
-      asyncPool.addTask(async () => {
-        charDataMt.value[key][baselang] = await getTranslation(
-          setting.auto_i18n_service,
-          charData[key][baselang],
-          setting.auto_i18n_lang
-        )
-      })
-    }
-  }
-
-  await asyncPool.runAll(mtControl.piniaMt.updateProgress)
-  mtControl.inProgress.value = false
+  await updateCharProfileMt(
+    baselang,
+    mtControl,
+    setting.auto_i18n_lang,
+    setting.auto_i18n_service,
+    charData,
+    charDataMt
+  )
 }
 
 function initMtData() {
-  for (const lang of SchaleDbL10nDataLang) clearMtTranslation(lang)
+  initCharProfileMt(charDataMt)
 }
 
 watch(mtI18nLangStats, async (newValue) => {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { NexonCharVoiceBattle } from '@/types/OutsourcedDataVoice'
 import { computed, inject, onMounted, type PropType, ref, defineAsyncComponent } from 'vue'
-import type { NexonCharVoiceBattleMtData } from '@/tool/CharVoiceMt'
+import type { NexonCharVoiceBattleMtData } from '@/script/CharVoiceMt'
 import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
 import { i18nLangAll } from '@/tool/ConstantComputed'
-import { convertNexonCharVoiceBattleCategoryForTable } from '@/tool/CharVoiceForTable'
+import { convertNexonCharVoiceBattleCategoryForTable } from '@/script/CharVoiceForTable'
 
 import PvDataTable from 'primevue/datatable'
 import PvColumn from 'primevue/column'

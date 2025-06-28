@@ -17,7 +17,7 @@ import { ref, shallowRef } from 'vue'
 import { httpGetAsync, httpGetJsonAsync } from './HttpRequest'
 import { AsyncTaskPool } from './AsyncTaskPool'
 import { SiteUiLang } from '@/tool/Constant'
-import { createDictionaryWithDefault } from '@/tool/Tool'
+import { createDictionaryWithDefault } from '@/tool/Utils'
 
 export const isFetching = ref(true)
 

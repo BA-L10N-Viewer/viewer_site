@@ -6,14 +6,14 @@ import CharVoiceNexonBattle from '@/components/voice/CharVoiceNexonBattle.vue'
 import CharVoiceNexonEvent from '@/components/voice/CharVoiceNexonEvent.vue'
 import type { NexonCharVoiceEntry } from '@/types/OutsourcedDataVoice'
 import { SchaleDbStuInfoFullVoicelineCategory } from '@/types/OutsourcedData'
-import type { NexonCharVoiceMtData } from '@/tool/CharVoiceMt'
+import type { NexonCharVoiceMtData } from '@/script/CharVoiceMt'
 
 import PvTabs from 'primevue/tabs'
 import PvTabList from 'primevue/tablist'
 import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
-import { findFirstAvaliableTabName } from '@/tool/CharVoice'
+import { findFirstAvailableTabName } from '@/script/CharVoice'
 
 const props = defineProps({
   dataVoice: {
@@ -43,7 +43,7 @@ async function loadData() {
     }
   }
 
-  currTab.value = findFirstAvaliableTabName(
+  currTab.value = findFirstAvailableTabName(
     dataVoiceAvailability,
     SchaleDbStuInfoFullVoicelineCategory
   )

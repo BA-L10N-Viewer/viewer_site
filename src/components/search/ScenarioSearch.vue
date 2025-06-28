@@ -45,7 +45,7 @@ import ScenarioSearchChapterMetadata from '@/components/search/ScenarioSearchCha
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
-import { createDictionaryWithDefault } from '@/tool/Tool'
+import { createDictionaryWithDefault } from '@/tool/Utils'
 import { getTranslation } from '@/tool/translate/MtDispatcher'
 import PvMessage from 'primevue/message'
 

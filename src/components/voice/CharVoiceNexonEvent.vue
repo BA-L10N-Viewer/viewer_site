@@ -4,10 +4,10 @@ import type {
   NexonCharVoiceEventTranscriptionType
 } from '@/types/OutsourcedDataVoice'
 import { computed, inject, onMounted, type PropType, ref, defineAsyncComponent } from 'vue'
-import type { NexonCharVoiceEventMtData } from '@/tool/CharVoiceMt'
+import type { NexonCharVoiceEventMtData } from '@/script/CharVoiceMt'
 import { useI18n } from 'vue-i18n'
 import { symbolDataCharVoiceI18n } from '@/types/CharVoiceComp'
-import { convertNexonCharVoiceEventCategoryForTable } from '@/tool/CharVoiceForTable'
+import { convertNexonCharVoiceEventCategoryForTable } from '@/script/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 
 import PvDataTable from 'primevue/datatable'

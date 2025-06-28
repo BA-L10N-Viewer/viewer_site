@@ -20,7 +20,6 @@ import {
   type CommonStoryExtBgmData,
   type DirectoryDataCommonI18nFiles,
   type I18nStoryXxhashToL10nData,
-  type IndexScenarioCharacterData,
   type MomotalkStoryData,
   type MomotalkStoryDataEntry,
   type NexonL10nData,
@@ -34,7 +33,6 @@ import {
   symbolForDirectoryDataCommonI18nFileScenarioBgm,
   symbolForDirectoryDataCommonI18nFileScenarioSound
 } from '@/types/OutsourcedData'
-import { AsyncTaskPool } from '@/tool/AsyncTaskPool'
 import { useI18nTlControl } from '@/stores/i18nTlControl'
 import {
   i18nLangAll,
@@ -47,11 +45,6 @@ import {
   type MlForScenario,
   type NexonL10nDataMlDataEntry
 } from '@/types/MachineTranslation'
-import {
-  getDialogueMtTranslation,
-  getTranslation,
-  type MtServiceName
-} from '@/tool/translate/MtDispatcher'
 import {
   mtPiniaWatchCallback,
   symbolForMomotalkMtData,
@@ -78,7 +71,6 @@ import ScenarioRelatedStory from '@/components/scenario/ScenarioRelatedStory.vue
 import {
   DirectoryDataCommonFileIndexRelatedManifestParent,
   DirectoryDataCommonFileIndexRelatedManifestScenario,
-  DirectoryDataCommonFileIndexScenarioChar,
   DirectoryDataCommonFileIndexStu,
   DirectoryDataStoryI18nFileI18nStory
 } from '@/tool/PreFetchedData'
@@ -87,7 +79,13 @@ import { useI18n } from 'vue-i18n'
 import PvInplace from 'primevue/inplace'
 import PvSelectButton from 'primevue/selectbutton'
 import MomotalkUi from '@/components/MomotalkUi.vue'
-import { createDictionaryWithDefault } from '@/tool/Tool'
+import { createDictionaryWithDefault } from '@/tool/Utils'
+import {
+  getScenarioDataEntryCharName,
+  clearScenarioMt,
+  updateScenarioMt,
+  initScenarioMt
+} from '@/script/ScenarioUiMt'
 
 // ------------------------------------------------
 const setting = useSetting()
@@ -99,7 +97,6 @@ const scenarioDisplayMode = ref(setting.scenario_display_mode)
 
 const scenarioDataRaw = ref<CommonStoryData>([] as unknown as CommonStoryData)
 const scenarioDataText = ref<CommonStoryDataDialog[]>([] as unknown as CommonStoryDataDialog[])
-let scenarioChar: IndexScenarioCharacterData = DirectoryDataCommonFileIndexScenarioChar.value
 let scenarioNameDesc = ref<NexonL10nData[]>([] as unknown as NexonL10nData[])
 let bondStuInfo: StudentInfoDataSimple = DirectoryDataCommonFileIndexStu.value
 let scenarioRelatedParentInfo: RelatedScenarioParentInfoData =
@@ -240,19 +237,6 @@ async function getScenarioRelatedStoryData(): Promise<ScenarioRelatedStoryData> 
   }
 }
 
-function getCharName(entry: CommonStoryDataEntry) {
-  if (entry.DataType === 'cmd') return scenarioChar['-1']
-
-  const charId = String(entry.CharacterId)
-  if (charId !== '-1') {
-    const data = scenarioChar[charId]
-    if (data) return data
-    else return scenarioChar['-1']
-  } else {
-    return scenarioChar['-1']
-  }
-}
-
 // --------------------- PAGINATION CONFIG ---------------------
 const pagination_length = ref([0, 0] as [number, number])
 const pagination_length_curr = computed(() =>
@@ -351,120 +335,52 @@ const tableDialogueTranslated: Ref<MlForScenario> = ref(
 const tableMmtTranslated = ref<MlForMomotalk>([] as unknown as MlForMomotalk)
 const scenarioNameDescMt = ref<NexonL10nData[]>([] as unknown as NexonL10nData[])
 
-const ML_in_progress = ref(false)
-const ML_pinia = useI18nTlControl()
+const mtControl = {
+  inProgress: ref(false),
+  pinia: useI18nTlControl()
+}
 
 function clearMlTranslation(baselang: NexonL10nDataLang) {
-  const blankData = { name: '', dialogue: '', nickname: '' }
-
-  scenarioNameDescMt.value[0][baselang] = ''
-  scenarioNameDescMt.value[1][baselang] = ''
-
-  if (mmtCharId.value !== -1 && mmtDataCurrEntry.value) {
-    const mmtEntry = mmtDataCurrEntry.value.Data
-    const mmtMtEntry = tableMmtTranslated.value[mmtDataCurrPos.value]
-    for (let i = 0; i < mmtEntry.length; i++) {
-      if (mmtMtEntry[baselang].length <= i) mmtMtEntry[baselang].push(blankData)
-      else mmtMtEntry[baselang][i] = blankData
-    }
-  }
-
-  const actualTable = tableDialogueTranslated.value
-  for (const key of actualTable[baselang].keys()) {
-    actualTable[baselang].set(key, blankData)
-  }
+  clearScenarioMt(
+    baselang,
+    scenarioNameDescMt,
+    tableMmtTranslated,
+    tableDialogueTranslated,
+    mmtCharId,
+    mmtDataCurrPos,
+    mmtDataCurrEntry
+  )
 }
 
 async function updateMlTranslation(baselang: NexonL10nDataLang) {
-  ML_in_progress.value = true
-  clearMlTranslation(baselang)
-
-  const asyncPool = new AsyncTaskPool(8)
-  const actualMlLang = setting.auto_i18n_lang
-  asyncPool.addTask(async () => {
-    scenarioNameDescMt.value[0][baselang] = await getTranslation(
-      setting.auto_i18n_service,
-      scenarioNameDesc.value[0][baselang],
-      actualMlLang
-    )
-    scenarioNameDescMt.value[1][baselang] = await getTranslation(
-      setting.auto_i18n_service,
-      scenarioNameDesc.value[1][baselang],
-      actualMlLang
-    )
-  })
-  if (mmtCharId.value !== -1 && mmtDataCurrEntry.value) {
-    const mmtEntry = mmtDataCurrEntry.value.Data
-    const mmtMtEntry = tableMmtTranslated.value[mmtDataCurrPos.value]
-    const mmtStu = bondStuInfo[String(mmtCharId.value)]
-
-    for (const [idx, entry] of mmtEntry.entries()) {
-      asyncPool.addTask(async () => {
-        mmtMtEntry[baselang][idx] = await getDialogueMtTranslation(
-          setting.auto_i18n_service,
-          mmtStu.Name[baselang] || '',
-          '',
-          entry.Message[baselang],
-          actualMlLang
-        )
-      })
-    }
-  }
-  for (const entry of scenarioDataText.value) {
-    asyncPool.addTask(async () => {
-      tableDialogueTranslated.value[baselang].set(
-        String(entry.ActualPos),
-        await getDialogueMtTranslation(
-          setting.auto_i18n_service as MtServiceName,
-          getCharName(entry).Name[baselang],
-          getCharName(entry).Nickname[baselang],
-          entry.Message[baselang],
-          actualMlLang
-        )
-      )
-    })
-  }
-
-  await asyncPool.runAll(ML_pinia.updateProgress)
-  ML_in_progress.value = false
+  await updateScenarioMt(
+    baselang,
+    setting.auto_i18n_lang,
+    setting.auto_i18n_service,
+    mtControl.inProgress,
+    mtControl.pinia,
+    scenarioNameDesc,
+    scenarioNameDescMt,
+    scenarioDataText,
+    tableMmtTranslated,
+    tableDialogueTranslated,
+    mmtCharId,
+    mmtDataCurrPos,
+    mmtDataCurrEntry
+  )
 }
 
 function initMlData(initMmt: boolean = false) {
-  tableDialogueTranslated.value = createDictionaryWithDefault(
-    NexonL10nDataLangOfUi,
-    () => new Map<string, NexonL10nDataMlDataEntry>()
+  initScenarioMt(
+    initMmt,
+    mmtData,
+    scenarioNameDescMt,
+    tableMmtTranslated,
+    tableDialogueTranslated,
+    mmtCharId,
+    mmtDataCurrPos,
+    mmtDataCurrEntry
   )
-
-  if (initMmt) {
-    tableMmtTranslated.value = [] as unknown as MlForMomotalk
-    for (let i = 0; i < mmtData.value.length; i++)
-      tableMmtTranslated.value.push({
-        j_ja: [],
-        j_ko: [],
-        g_tw: [],
-        g_tw_cn: [],
-        g_en: [],
-        g_th: [],
-        g_ja: [],
-        g_ko: [],
-        c_cn: [],
-        c_cn_tw: [],
-        null: []
-      })
-  }
-  scenarioNameDescMt.value = [
-    createDictionaryWithDefault(NexonL10nDataLang, () => {
-      return ''
-    }),
-    createDictionaryWithDefault(NexonL10nDataLang, () => {
-      return ''
-    })
-  ]
-
-  for (const lang of NexonL10nDataLang) {
-    clearMlTranslation(lang)
-  }
-  clearMlTranslation('null' as NexonL10nDataLang)
 }
 
 watch(mtI18nLangStats, async (newValue) => {
@@ -474,13 +390,13 @@ watch(mtI18nLangStats, async (newValue) => {
     (lang: NexonL10nDataLangOfUi) => {
       clearMlTranslation(lang as NexonL10nDataLang)
     },
-    ML_pinia.setStatusToComplete
+    mtControl.pinia.setStatusToComplete
   )
 })
 
 provide(symbolForScenarioMtData, tableDialogueTranslated)
 provide(symbolForMomotalkMtData, tableMmtTranslated)
-provide(symbolForMtProgressBool, ML_in_progress)
+provide(symbolForMtProgressBool, mtControl.inProgress)
 // -------------------------------------------------------------
 
 // --------------------- TABLE CSS WIDTH ---------------------
@@ -698,7 +614,7 @@ onBeforeRouteUpdate(async (to, from) => {
       </thead>
       <ScenarioDialogue
         :data_type="entry.DataType"
-        :data_char="getCharName(entry)"
+        :data_char="getScenarioDataEntryCharName(entry)"
         :data_dialog="entry"
         :entry_pos="entry.ActualPos"
         :key="idx"
@@ -714,7 +630,7 @@ onBeforeRouteUpdate(async (to, from) => {
       </thead>
       <ScenarioDialogue
         :data_type="entry.DataType"
-        :data_char="getCharName(entry)"
+        :data_char="getScenarioDataEntryCharName(entry)"
         :data_dialog="entry"
         :entry_pos="entry.ActualPos"
         :key="idx"

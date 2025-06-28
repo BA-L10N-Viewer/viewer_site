@@ -27,7 +27,7 @@ import {
   updateNexonCharVoiceEventMtData,
   updateNexonCharVoiceNormalMtData,
   updateSchaleDbVoiceCategoryMtData
-} from '@/tool/CharVoiceMt'
+} from '@/script/CharVoiceMt'
 import { mtI18nLangStats } from '@/tool/ConstantComputed'
 import { mtPiniaWatchCallback } from '@/tool/translate/MtUtils'
 import { useI18nTlControl } from '@/stores/i18nTlControl'

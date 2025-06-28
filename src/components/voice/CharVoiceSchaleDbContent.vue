@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, type PropType, ref } from 'vue'
-import type { SchaleDbVoicelineCategoryMtData } from '@/tool/CharVoiceMt'
+import type { SchaleDbVoicelineCategoryMtData } from '@/script/CharVoiceMt'
 import { useI18n } from 'vue-i18n'
 import {
   convertSchaleDbVoiceCategoryForTable,
   type SchaleDbVoiceEntryForTable
-} from '@/tool/CharVoiceForTable'
+} from '@/script/CharVoiceForTable'
 import { i18nLangAll } from '@/tool/ConstantComputed'
 import type {
   NexonL10nDataLangOfUi,

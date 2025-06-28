@@ -4,7 +4,7 @@ import {
   type SchaleDbStuInfoFullVoiceline,
   SchaleDbStuInfoFullVoicelineCategory
 } from '@/types/OutsourcedData'
-import type { SchaleDbStuVoicelineMtData } from '@/tool/CharVoiceMt'
+import type { SchaleDbStuVoicelineMtData } from '@/script/CharVoiceMt'
 import CharVoiceSchaleDbContent from '@/components/voice/CharVoiceSchaleDbContent.vue'
 
 import PvTabs from 'primevue/tabs'
@@ -12,7 +12,7 @@ import PvTabList from 'primevue/tablist'
 import PvTab from 'primevue/tab'
 import PvTabPanels from 'primevue/tabpanels'
 import PvTabPanel from 'primevue/tabpanel'
-import { findFirstAvaliableTabName } from '@/tool/CharVoice'
+import { findFirstAvailableTabName } from '@/script/CharVoice'
 
 const props = defineProps({
   dataVoice: {
@@ -38,7 +38,7 @@ async function loadData() {
     }
   }
 
-  currTab.value = findFirstAvaliableTabName(
+  currTab.value = findFirstAvailableTabName(
     dataTabAvailability,
     SchaleDbStuInfoFullVoicelineCategory
   )
